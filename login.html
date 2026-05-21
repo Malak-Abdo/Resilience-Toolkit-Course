@@ -79,75 +79,13 @@
         button:active {
             transform: scale(0.97);
         }
-        .error-box {
-            background: #FFEBEE;
-            color: #B33A3A;
-            padding: 0.7rem;
-            border-radius: 40px;
-            margin-top: 0.9rem;
-            font-size: 0.85rem;
-            display: none;
-            text-align: center;
-        }
-        .success-box {
-            background: #1A6B5A;
-            color: white;
-            padding: 0.7rem;
-            border-radius: 40px;
-            margin-top: 0.9rem;
-            font-size: 0.85rem;
-            display: none;
-            text-align: center;
-        }
-        .warning-box {
-            background: #FFF3E0;
-            color: #E8A735;
-            padding: 0.7rem;
-            border-radius: 40px;
-            margin-top: 0.9rem;
-            font-size: 0.85rem;
-            display: none;
-            text-align: center;
-        }
-        .info-box {
-            background: #E0F2E9;
-            color: #146B5C;
-            padding: 0.7rem;
-            border-radius: 40px;
-            margin-top: 0.9rem;
-            font-size: 0.85rem;
-            display: none;
-            text-align: center;
-        }
-        .footer-note {
-            font-size: 0.7rem;
-            color: #7C8B9A;
-            margin-top: 1rem;
-        }
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1A6B5A;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 60px;
-            z-index: 2000;
-            font-size: 0.9rem;
-            animation: slideUp 0.3s ease;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-        }
+        .error-box { background: #FFEBEE; color: #B33A3A; padding: 0.7rem; border-radius: 40px; margin-top: 0.9rem; font-size: 0.85rem; display: none; text-align: center; }
+        .success-box { background: #1A6B5A; color: white; padding: 0.7rem; border-radius: 40px; margin-top: 0.9rem; font-size: 0.85rem; display: none; text-align: center; }
+        .warning-box { background: #FFF3E0; color: #E8A735; padding: 0.7rem; border-radius: 40px; margin-top: 0.9rem; font-size: 0.85rem; display: none; text-align: center; }
+        .info-box { background: #E0F2E9; color: #146B5C; padding: 0.7rem; border-radius: 40px; margin-top: 0.9rem; font-size: 0.85rem; display: none; text-align: center; }
+        .footer-note { font-size: 0.7rem; color: #7C8B9A; margin-top: 1rem; }
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1A6B5A; color: white; padding: 12px 24px; border-radius: 60px; z-index: 2000; font-size: 0.9rem; animation: slideUp 0.3s ease; box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        @keyframes slideUp { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
     </style>
 </head>
 <body>
@@ -172,31 +110,23 @@
 <script>
     // ========== GOOGLE SCRIPT URL ==========
     const YOUR_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRpYJkNCWMOkFObFizvNjtTJLes_actPUKK2f9R3Udr9GsSK4lD209OthpjRL59R2S8g/exec';
-    
     const BASE_URL = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
 
-    function showToast(msg, isError = false) {
+    function showToast(msg, isError = false) { /* ... */
         let existing = document.querySelector('.toast');
         if (existing) existing.remove();
-        let t = document.createElement('div');
-        t.className = 'toast';
-        t.textContent = msg;
+        let t = document.createElement('div'); t.className = 'toast'; t.textContent = msg;
         if (isError) t.style.background = '#B33A3A';
-        document.body.appendChild(t);
-        setTimeout(() => t.remove(), 4000);
+        document.body.appendChild(t); setTimeout(() => t.remove(), 4000);
     }
 
-    function simpleHash(str) {
+    function simpleHash(str) { /* ... */
         let hash = 0;
-        for (let i = 0; i < str.length; i++) {
-            const char = str.charCodeAt(i);
-            hash = ((hash << 5) - hash) + char;
-            hash = hash & hash;
-        }
+        for (let i = 0; i < str.length; i++) { const char = str.charCodeAt(i); hash = ((hash << 5) - hash) + char; hash = hash & hash; }
         return hash.toString();
     }
 
-    function login() {
+    function login() { /* ... (تظل كما هي، ولكن مع تحديث التوجيه إلى المجلدات) */
         let email = document.getElementById('loginEmail').value.trim();
         let password = document.getElementById('loginPassword').value;
         let errDiv = document.getElementById('loginError');
@@ -204,82 +134,37 @@
         errDiv.style.display = 'none';
         errDiv.className = 'error-box';
 
-        if (!email) {
-            errDiv.innerText = '❌ Please enter your email address.';
-            errDiv.style.display = 'block';
-            return;
-        }
-
-        if (!password) {
-            errDiv.innerText = '❌ Please enter your password.';
-            errDiv.style.display = 'block';
-            return;
-        }
+        if (!email) { errDiv.innerText = '❌ Please enter your email address.'; errDiv.style.display = 'block'; return; }
+        if (!password) { errDiv.innerText = '❌ Please enter your password.'; errDiv.style.display = 'block'; return; }
 
         let users = JSON.parse(localStorage.getItem('users') || '[]');
         let user = users.find(u => u.email === email);
 
-        if (!user) {
-            errDiv.innerText = '❌ No account found. Please create a new account.';
-            errDiv.style.display = 'block';
-            return;
-        }
+        if (!user) { errDiv.innerText = '❌ No account found. Please create a new account.'; errDiv.style.display = 'block'; return; }
 
         if (!user.verified) {
             errDiv.className = 'warning-box';
-            if (user.language === 'ar') {
-                errDiv.innerHTML = '⚠️ الرجاء تفعيل بريدك الإلكتروني أولاً! تحقق من بريدك الوارد.';
-            } else {
-                errDiv.innerHTML = '⚠️ Please verify your email first! Check your inbox.';
-            }
+            errDiv.innerHTML = (user.language === 'ar') ? '⚠️ الرجاء تفعيل بريدك الإلكتروني أولاً! تحقق من بريدك الوارد.' : '⚠️ Please verify your email first! Check your inbox.';
             errDiv.style.display = 'block';
             return;
         }
 
         const hashedInputPassword = simpleHash(password);
-        if (user.password !== hashedInputPassword) {
-            errDiv.innerText = '❌ Incorrect password. Please try again.';
-            errDiv.style.display = 'block';
-            return;
-        }
+        if (user.password !== hashedInputPassword) { errDiv.innerText = '❌ Incorrect password. Please try again.'; errDiv.style.display = 'block'; return; }
 
-        const signInData = {
-            action: 'signin',
-            name: user.name,
-            email: user.email,
-            position: user.position,
-            country: user.country,
-            organization: user.organization,
-            language: user.language,
-            linkedin_social: user.combinedSocial || '',
-            status: 'Signed In',
-            timestamp: new Date().toISOString()
-        };
-        
-        fetch(YOUR_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(signInData)
-        }).catch(err => console.error('Sign in save error:', err));
+        const signInData = { action: 'signin', name: user.name, email: user.email, position: user.position, country: user.country, organization: user.organization, language: user.language, linkedin_social: user.combinedSocial || '', status: 'Signed In', timestamp: new Date().toISOString() };
+        fetch(YOUR_SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(signInData) }).catch(err => console.error('Sign in save error:', err));
 
         localStorage.setItem('currentUser', JSON.stringify(user));
-        errDiv.className = 'success-box';
-        errDiv.innerHTML = `✅ Welcome back ${user.name}! Redirecting...`;
-        errDiv.style.display = 'block';
-        showToast(`Welcome back ${user.name}!`);
+        errDiv.className = 'success-box'; errDiv.innerHTML = `✅ Welcome back ${user.name}! Redirecting...`; errDiv.style.display = 'block'; showToast(`Welcome back ${user.name}!`);
 
         setTimeout(() => {
             const preferredLang = user.language || 'en';
-            if (preferredLang === 'ar') {
-                window.location.href = BASE_URL + 'ar/intro.html';
-            } else {
-                window.location.href = BASE_URL + 'en/intro.html';
-            }
+            window.location.href = (preferredLang === 'ar') ? BASE_URL + 'ar/intro.html' : BASE_URL + 'en/intro.html';
         }, 1500);
     }
 
-    // ========== التحقق من التفعيل ==========
+    // ========== الدالة الجديدة للتحقق من التفعيل ==========
     function checkAndVerify() {
         const urlParams = new URLSearchParams(window.location.search);
         const emailToVerify = urlParams.get('verify');
@@ -295,47 +180,38 @@
                 localStorage.setItem(`verified_${emailToVerify}`, 'true');
                 
                 window.history.replaceState({}, document.title, window.location.pathname);
-                
                 document.getElementById('loginEmail').value = emailToVerify;
                 
                 errDiv.className = 'success-box';
-                errDiv.innerHTML = `✅ تم تفعيل بريدك الإلكتروني (${emailToVerify})! يمكنك الآن تسجيل الدخول.`;
+                errDiv.innerHTML = (user.language === 'ar') ? `✅ تم تفعيل بريدك الإلكتروني (${emailToVerify})! يمكنك الآن تسجيل الدخول.` : `✅ Your email (${emailToVerify}) has been verified! You can now sign in.`;
                 errDiv.style.display = 'block';
-                
-                console.log('✅ تم التفعيل بنجاح:', emailToVerify);
             } else if (user && user.verified) {
                 document.getElementById('loginEmail').value = emailToVerify;
                 errDiv.className = 'info-box';
-                errDiv.innerHTML = `ℹ️ هذا البريد مفعل بالفعل. الرجاء تسجيل الدخول.`;
+                errDiv.innerHTML = (user.language === 'ar') ? `ℹ️ هذا البريد مفعل بالفعل. الرجاء تسجيل الدخول.` : `ℹ️ This email (${emailToVerify}) is already verified. Please sign in.`;
                 errDiv.style.display = 'block';
             } else {
                 errDiv.className = 'error-box';
-                errDiv.innerHTML = `❌ البريد الإلكتروني غير مسجل. الرجاء التسجيل أولاً.`;
+                errDiv.innerHTML = (user?.language === 'ar') ? `❌ البريد الإلكتروني غير مسجل. الرجاء التسجيل أولاً.` : `❌ Email not found. Please register first.`;
                 errDiv.style.display = 'block';
             }
         }
     }
 
-    // تعبئة الإيميل تلقائياً من رابط الصفحة (للحالات الأخرى)
+    // تعبئة الإيميل من ?email= (في حالة استخدامه بدلاً من verify)
     const urlParams = new URLSearchParams(window.location.search);
     const emailParam = urlParams.get('email');
-    if (emailParam) {
-        document.getElementById('loginEmail').value = emailParam;
-    }
+    if (emailParam) { document.getElementById('loginEmail').value = emailParam; }
 
-    // التحقق من التفعيل
+    // استدعاء دالة التحقق الرئيسية
     checkAndVerify();
 
-    // ربط زر تسجيل الدخول
     document.getElementById('loginBtn').onclick = login;
-
-    // الضغط على Enter
     const loginEmail = document.getElementById('loginEmail');
     const loginPass = document.getElementById('loginPassword');
     if (loginEmail) loginEmail.addEventListener('keypress', (e) => { if (e.key === 'Enter') login(); });
     if (loginPass) loginPass.addEventListener('keypress', (e) => { if (e.key === 'Enter') login(); });
-
-    console.log('✅ Login page ready');
+    console.log('✅ Login page ready with verification');
 </script>
 </body>
 </html>
