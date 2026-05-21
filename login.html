@@ -109,6 +109,16 @@
             display: none;
             text-align: center;
         }
+        .info-box {
+            background: #E0F2E9;
+            color: #146B5C;
+            padding: 0.7rem;
+            border-radius: 40px;
+            margin-top: 0.9rem;
+            font-size: 0.85rem;
+            display: none;
+            text-align: center;
+        }
         .footer-note {
             font-size: 0.7rem;
             color: #7C8B9A;
@@ -233,7 +243,6 @@
             return;
         }
 
-        // تسجيل الدخول في Google Sheet
         const signInData = {
             action: 'signin',
             name: user.name,
@@ -270,12 +279,52 @@
         }, 1500);
     }
 
-    // تعبئة الإيميل تلقائياً من رابط الصفحة
+    // ========== التحقق من التفعيل ==========
+    function checkAndVerify() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const emailToVerify = urlParams.get('verify');
+        
+        if (emailToVerify) {
+            let users = JSON.parse(localStorage.getItem('users') || '[]');
+            let user = users.find(u => u.email === emailToVerify);
+            let errDiv = document.getElementById('loginError');
+            
+            if (user && !user.verified) {
+                user.verified = true;
+                localStorage.setItem('users', JSON.stringify(users));
+                localStorage.setItem(`verified_${emailToVerify}`, 'true');
+                
+                window.history.replaceState({}, document.title, window.location.pathname);
+                
+                document.getElementById('loginEmail').value = emailToVerify;
+                
+                errDiv.className = 'success-box';
+                errDiv.innerHTML = `✅ تم تفعيل بريدك الإلكتروني (${emailToVerify})! يمكنك الآن تسجيل الدخول.`;
+                errDiv.style.display = 'block';
+                
+                console.log('✅ تم التفعيل بنجاح:', emailToVerify);
+            } else if (user && user.verified) {
+                document.getElementById('loginEmail').value = emailToVerify;
+                errDiv.className = 'info-box';
+                errDiv.innerHTML = `ℹ️ هذا البريد مفعل بالفعل. الرجاء تسجيل الدخول.`;
+                errDiv.style.display = 'block';
+            } else {
+                errDiv.className = 'error-box';
+                errDiv.innerHTML = `❌ البريد الإلكتروني غير مسجل. الرجاء التسجيل أولاً.`;
+                errDiv.style.display = 'block';
+            }
+        }
+    }
+
+    // تعبئة الإيميل تلقائياً من رابط الصفحة (للحالات الأخرى)
     const urlParams = new URLSearchParams(window.location.search);
     const emailParam = urlParams.get('email');
     if (emailParam) {
         document.getElementById('loginEmail').value = emailParam;
     }
+
+    // التحقق من التفعيل
+    checkAndVerify();
 
     // ربط زر تسجيل الدخول
     document.getElementById('loginBtn').onclick = login;
