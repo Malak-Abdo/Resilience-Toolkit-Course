@@ -86,17 +86,6 @@
     const YOUR_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRpYJkNCWMOkFObFizvNjtTJLes_actPUKK2f9R3Udr9GsSK4lD209OthpjRL59R2S8g/exec';
     const BASE_URL = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
 
-    function showToast(msg, isError = false) {
-        let existing = document.querySelector('.toast');
-        if (existing) existing.remove();
-        let t = document.createElement('div');
-        t.className = 'toast';
-        t.textContent = msg;
-        if (isError) t.style.background = '#B33A3A';
-        document.body.appendChild(t);
-        setTimeout(() => t.remove(), 4000);
-    }
-
     function simpleHash(str) {
         let hash = 0;
         for (let i = 0; i < str.length; i++) {
@@ -178,7 +167,6 @@
         errDiv.className = 'success-box';
         errDiv.innerHTML = `✅ Welcome back ${user.name}! Redirecting...`;
         errDiv.style.display = 'block';
-        showToast(`Welcome back ${user.name}!`);
 
         setTimeout(() => {
             const preferredLang = user.language || 'en';
@@ -190,42 +178,41 @@
         }, 1500);
     }
 
-    // ========== دالة التفعيل التلقائي ==========
+    // ========== تفعيل الحساب من رابط التفعيل ==========
     function autoVerify() {
         const urlParams = new URLSearchParams(window.location.search);
-        const emailToVerify = urlParams.get('verify');
+        const verifyEmail = urlParams.get('verify');
         
-        if (emailToVerify) {
+        if (verifyEmail) {
             let users = JSON.parse(localStorage.getItem('users') || '[]');
-            let user = users.find(u => u.email === emailToVerify);
+            let user = users.find(u => u.email === verifyEmail);
             let errDiv = document.getElementById('loginError');
             
             if (user && !user.verified) {
                 user.verified = true;
                 localStorage.setItem('users', JSON.stringify(users));
-                localStorage.setItem(`verified_${emailToVerify}`, 'true');
+                localStorage.setItem(`verified_${verifyEmail}`, 'true');
                 
-                // تعبئة الإيميل
-                document.getElementById('loginEmail').value = emailToVerify;
-                
-                // إزالة المعامل من الرابط
+                document.getElementById('loginEmail').value = verifyEmail;
                 window.history.replaceState({}, document.title, window.location.pathname);
                 
                 errDiv.className = 'success-box';
                 errDiv.innerHTML = `✅ تم تفعيل بريدك الإلكتروني! الرجاء إدخال كلمة المرور.`;
                 errDiv.style.display = 'block';
-                
-                console.log('✅ تم التفعيل:', emailToVerify);
             } else if (user && user.verified) {
-                document.getElementById('loginEmail').value = emailToVerify;
+                document.getElementById('loginEmail').value = verifyEmail;
                 errDiv.className = 'info-box';
                 errDiv.innerHTML = `ℹ️ هذا البريد مفعل بالفعل. الرجاء إدخال كلمة المرور.`;
+                errDiv.style.display = 'block';
+            } else {
+                errDiv.className = 'error-box';
+                errDiv.innerHTML = `❌ البريد الإلكتروني غير مسجل. الرجاء التسجيل أولاً.`;
                 errDiv.style.display = 'block';
             }
         }
     }
 
-    // تعبئة الإيميل من ?email= (إن وجد)
+    // تعبئة الإيميل من ?email= (للحالات الأخرى)
     const urlParams = new URLSearchParams(window.location.search);
     const emailParam = urlParams.get('email');
     if (emailParam) {
@@ -235,16 +222,14 @@
     // استدعاء دالة التفعيل
     autoVerify();
 
-    // ربط زر تسجيل الدخول
     document.getElementById('loginBtn').onclick = login;
 
-    // الضغط على Enter
     const loginEmail = document.getElementById('loginEmail');
     const loginPass = document.getElementById('loginPassword');
     if (loginEmail) loginEmail.addEventListener('keypress', (e) => { if (e.key === 'Enter') login(); });
     if (loginPass) loginPass.addEventListener('keypress', (e) => { if (e.key === 'Enter') login(); });
 
-    console.log('✅ Login page ready with auto-verify');
+    console.log('✅ Login page ready');
 </script>
 </body>
 </html>
