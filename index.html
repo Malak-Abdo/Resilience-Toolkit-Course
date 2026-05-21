@@ -683,7 +683,7 @@
 
 <script>
     // ========== SINGLE GOOGLE SCRIPT URL ==========
-    const YOUR_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzVD8WJkgtcg51Onjb0Uu5DQZqvHsoXZlLJ35hGczmwXKbV_xsngRlKi_f4RJlFA30XKQ/exec';
+    const YOUR_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzEyXpeKUKEWHGtCngoGs0Jd-6OwH4Bv7Yw1b6QnxvAK7ecipWswT8BF06bQsuqzLMd/exec';
     
     const BASE_URL = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
 
@@ -1082,14 +1082,14 @@
         updateStatus(`Welcome ${user.name}!`);
         showToast(`Welcome back ${user.name}!`);
 
-        setTimeout(() => {
-            const preferredLang = user.language || 'en';
-            if (preferredLang === 'ar') {
-                window.location.href = BASE_URL + 'ar/intro.html';
-            } else {
-                window.location.href = BASE_URL + 'intro.html';
-            }
-        }, 1500);
+      setTimeout(() => {
+    const preferredLang = user.language || 'en';
+    if (preferredLang === 'ar') {
+        window.location.href = BASE_URL + 'ar/intro.html';
+    } else {
+        window.location.href = BASE_URL + 'en/intro.html';
+    }
+}, 1500);  
     }
 
     function checkExistingSession() {
