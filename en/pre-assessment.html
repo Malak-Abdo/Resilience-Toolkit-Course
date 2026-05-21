@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>The Resilience Toolkit · Pre-Course Assessment</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #F4F7FC;
+            color: #1E2F3E;
+            line-height: 1.45;
+            padding: 0 0 2rem 0;
+        }
+        .course-card {
+            max-width: 680px;
+            margin: 1rem auto;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.02);
+            overflow: hidden;
+            padding: 1.8rem 1.5rem 2.2rem;
+        }
+        @media (max-width: 550px) {
+            .course-card { margin: 0.8rem; padding: 1.5rem 1.2rem; border-radius: 28px; }
+        }
+        .header-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #1A6B5A;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #0C2E3B;
+            line-height: 1.2;
+            margin-bottom: 0.25rem;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #4A627A;
+            margin-bottom: 1rem;
+            border-left: 3px solid #E8A735;
+            padding-left: 0.75rem;
+        }
+        .presenter { font-size: 0.85rem; color: #2C5F7A; margin-bottom: 1rem; font-weight: 500; }
+        .duration-badge {
+            display: inline-block;
+            background: #EFF3F8;
+            padding: 0.2rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #1A6B5A;
+            margin-bottom: 1.5rem;
+        }
+        .assessment-header {
+            background: #F0F7F4;
+            border-radius: 24px;
+            padding: 1.2rem 1.2rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #E8A735;
+        }
+        .assessment-header h2 { font-size: 1.3rem; font-weight: 700; color: #0C2E3B; margin-bottom: 0.3rem; }
+        .assessment-header .tagline { font-size: 0.85rem; color: #2C5F7A; font-weight: 500; margin-bottom: 0.5rem; }
+        .assessment-header .description { font-size: 0.85rem; color: #3E5A73; margin-bottom: 0.4rem; }
+        .assessment-header .meta { font-size: 0.7rem; color: #6C86A0; display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.6rem; }
+        .progress-area { background: #F0F4FA; border-radius: 60px; padding: 0.2rem; margin: 1rem 0 1.5rem 0; }
+        .progress-bar-fill { background: #1A6B5A; height: 6px; width: 0%; border-radius: 60px; transition: width 0.2s ease; }
+        .progress-stats { display: flex; justify-content: space-between; font-size: 0.7rem; color: #4F6F8F; margin-top: 0.3rem; }
+        .question-container { margin: 1.8rem 0; }
+        .question {
+            background: #FEFEFE;
+            border: 1px solid #E2E9F2;
+            border-radius: 24px;
+            padding: 1.2rem 1rem;
+            margin-bottom: 1.5rem;
+            transition: 0.1s ease;
+        }
+        .option {
+            display: flex; align-items: center; gap: 0.8rem;
+            padding: 0.6rem; border-radius: 60px;
+            cursor: pointer; transition: 0.1s; border: 1px solid transparent;
+        }
+        .option:hover { background: #F0F7F4; }
+        .option.selected { background: #E9F3F0; border-color: #1A6B5A; }
+        .option-letter {
+            width: 28px; height: 28px; background: #F1F5F9;
+            display: inline-flex; align-items: center; justify-content: center;
+            border-radius: 30px; font-size: 0.8rem; color: #1A6B5A; flex-shrink: 0;
+        }
+        .option.selected .option-letter { background: #1A6B5A; color: white; }
+        .option-text { font-size: 0.9rem; flex: 1; color: #2A4058; }
+        .option-sub { font-size: 0.75rem; color: #6C86A0; margin-top: 0.2rem; }
+        .scale-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+        .scale-item {
+            flex: 1; min-width: 70px; text-align: center;
+            background: #F1F5F9; padding: 0.5rem 0; border-radius: 48px;
+            cursor: pointer; font-weight: 500; font-size: 0.85rem;
+            transition: 0.1s; border: 1px solid transparent;
+        }
+        .scale-item.selected { background: #1A6B5A; color: white; border-color: #1A6B5A; }
+        .scale-label { font-size: 0.65rem; display: block; margin-top: 0.2rem; font-weight: normal; color: #6C86A0; }
+        .scale-item.selected .scale-label { color: #E0F0EA; }
+        .check-option {
+            background: #F1F5F9; padding: 0.5rem 1rem; border-radius: 40px;
+            display: inline-block; margin: 0.3rem; cursor: pointer;
+            transition: 0.1s; border: 1px solid transparent;
+        }
+        .check-option.selected { background: #1A6B5A; color: white; border-color: #1A6B5A; }
+        .nav-buttons {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 1.8rem; flex-wrap: wrap; gap: 0.8rem;
+        }
+        button {
+            background: #1A6B5A; border: none; color: white;
+            font-weight: 600; padding: 0.7rem 1.5rem; border-radius: 60px;
+            font-size: 0.9rem; cursor: pointer; transition: all 0.2s;
+        }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .secondary { background: #E8A735; color: #2E3A2A; }
+        .reset-link { text-align: center; margin-top: 1rem; font-size: 0.7rem; }
+        .reset-link a { color: #8BA0B8; cursor: pointer; text-decoration: underline; }
+        .hidden { display: none; }
+        
+        .results-box {
+            border-radius: 24px;
+            padding: 1.8rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .results-essential {
+            background: linear-gradient(135deg, #1A6B5A, #0e4d40);
+            color: white;
+        }
+        .results-valuable {
+            background: linear-gradient(135deg, #E8A735, #d4951e);
+            color: #2E3A2A;
+        }
+        .results-optional {
+            background: #F0F4F9;
+            color: #4A627A;
+            border: 2px solid #8BA0B8;
+        }
+        .motivation-message {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-top: 1.2rem;
+            padding-top: 1.2rem;
+            border-top: 2px solid rgba(255,255,255,0.3);
+            line-height: 1.6;
+        }
+        .results-optional .motivation-message { border-top-color: #8BA0B8; }
+        .welcome-message {
+            background: #F0F7F4;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .footer-note { font-size: 0.7rem; text-align: center; color: #8BA0B8; margin-top: 1.5rem; }
+        .badge-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+        .action-buttons { display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
+        .btn-module { background: #1A6B5A; color: white; }
+        .btn-intro { background: #6C86A0; color: white; }
+        .btn-reset { background: #B33A3A; color: white; }
+        .btn-reset:hover { background: #8B2A2A; }
+        .toast-notification {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: #1A6B5A; color: white; padding: 12px 24px;
+            border-radius: 60px; font-size: 0.85rem; font-weight: 500;
+            z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            animation: fadeInUp 0.3s ease;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+    </style>
+</head>
+<body>
+<div class="course-card" id="app">
+    <div class="header-tag">THE RESILIENCE TOOLKIT</div>
+    <h1>The Resilience Toolkit<br>for Conflict-Zone Leaders</h1>
+    <div class="subhead">Adaptive Leadership in Fragile Contexts — Frameworks for the 7 AM crisis</div>
+    <div class="presenter">Presented by: Malak Abdo</div>
+    <div class="duration-badge">20-30 minutes • self-paced</div>
+
+    <div class="assessment-header">
+        <h2>Pre-Course Self-Assessment</h2>
+        <div class="tagline">Are You Ready for This Course?</div>
+        <div class="description"><strong>Time to complete:</strong> 3 minutes &nbsp;|&nbsp; <strong>Purpose:</strong> This assessment helps determine if this course is right for you.</div>
+        <div class="description"><strong>Instructions:</strong> Answer each question honestly. There are no wrong answers.</div>
+        <div class="meta"><span>📊 Progress: <span id="headerProgress">0</span>% complete</span></div>
+    </div>
+
+    <div class="progress-area">
+        <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+    </div>
+    <div class="progress-stats">
+        <span id="progressFraction">0/5 questions</span>
+        <span id="progressPercentLabel">0% complete</span>
+    </div>
+
+    <div id="questionsContainer"></div>
+    <div id="resultsArea" class="hidden"></div>
+    <div id="welcomeBlock" class="hidden"></div>
+
+    <div class="nav-buttons" id="navButtons">
+        <button id="prevBtn" class="secondary" disabled>← Back</button>
+        <button id="nextBtn" disabled>Next →</button>
+    </div>
+    
+    <div class="footer-note">Your responses help us personalize your learning experience.</div>
+    <div class="reset-link"><a id="resetDataLink">↺ Reset Assessment</a></div>
+</div>
+
+<script>
+// ============================================
+// GOOGLE SHEETS WEB APP URL
+// ============================================
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwOkndHS0Jhjto-GeWGmgBzGmMsA_HnwrGQLV4LOOCCp0kWpfODdTQrgZGb5zQxhB9DnA/exec';
+
+// ============================================
+// GET REAL USER DATA
+// ============================================
+function getUserData() {
+    let name = '', email = '', position = '';
+    
+    console.log('🔍 Searching for user data...');
+    
+    // 1. Check individual fields first (most reliable)
+    let n = localStorage.getItem('course_user_name');
+    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim() !== '') {
+        name = n.trim();
+        email = (localStorage.getItem('course_user_email') || '').trim();
+        position = (localStorage.getItem('course_user_position') || '').trim();
+        console.log('✅ Found from individual fields:', name);
+    }
+    
+    // 2. Check course_user object
+    if (!name) {
+        let user = localStorage.getItem('course_user');
+        if (user) {
+            try { 
+                let p = JSON.parse(user); 
+                if (p && p.name && p.name !== 'Guest' && p.name.trim() !== '') {
+                    name = p.name.trim();
+                    email = (p.email || '').trim();
+                    position = (p.position || '').trim();
+                    console.log('✅ Found from course_user:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 3. Check resilience_users array
+    if (!name) {
+        let users = localStorage.getItem('resilience_users');
+        if (users) {
+            try { 
+                let p = JSON.parse(users); 
+                if (Array.isArray(p) && p.length > 0) {
+                    for (let i = p.length - 1; i >= 0; i--) {
+                        if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name.trim() !== '') {
+                            name = p[i].name.trim();
+                            email = (p[i].email || '').trim();
+                            position = (p[i].position || '').trim();
+                            console.log('✅ Found from users array:', name);
+                            break;
+                        }
+                    }
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 4. Check session storage
+    if (!name) {
+        let sessionUser = sessionStorage.getItem('current_user');
+        if (sessionUser) {
+            try {
+                let p = JSON.parse(sessionUser);
+                if (p && p.name && p.name.trim() !== '') {
+                    name = p.name.trim();
+                    email = (p.email || '').trim();
+                    position = (p.position || '').trim();
+                    console.log('✅ Found from session:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    const result = { 
+        name: name || 'Guest', 
+        email: email || 'guest@example.com', 
+        position: position || 'Not specified' 
+    };
+    
+    console.log('👤 Final user:', result);
+    return result;
+}
+
+function showToast(message, isError = false) {
+    const existing = document.querySelector('.toast-notification');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.style.background = isError ? '#C0392B' : '#1A6B5A';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => { if (toast) toast.remove(); }, 3000);
+}
+
+// ============================================
+// SEND DATA - FIRE AND FORGET (FAST)
+// ============================================
+function sendPreAssessmentToSheet() {
+    const user = getUserData();
+    
+    const payload = {
+        module: 'Pre-Assessment',
+        action: 'completed',
+        language: 'en',
+        userName: user.name,
+        userEmail: user.email,
+        userPosition: user.position,
+        timestamp: new Date().toISOString(),
+        answers: {
+            score: calculatePreScore(answers),
+            category: getCategory(calculatePreScore(answers)),
+            q1_answer: getQ1(answers[1]),
+            q2_answer: getQ2(answers[2]),
+            q3_answer: getQ3(answers[3]),
+            q4_answer: answers[4] || '',
+            q5_answer: answers[5] ? answers[5].join(', ') : ''
+        }
+    };
+    
+    console.log('📤 SENDING:', JSON.stringify(payload));
+    
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+    xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+    xhr.send(JSON.stringify(payload));
+    
+    showToast('✅ Results saved!');
+}
+
+function getQ1(v) { const m = {A:'Never', B:'Once or twice', C:'Weekly', D:'Daily'}; return m[v]||''; }
+function getQ2(v) { const m = {A:'Wait for instructions from HQ', B:'Try to solve it alone', C:'Gather my team and ask a question', D:'Freeze or feel overwhelmed'}; return m[v]||''; }
+function getQ3(v) { const m = {A:'Never', B:'More than 6 months ago', C:'Within the last month', D:'Within the last week'}; return m[v]||''; }
+
+function calculatePreScore(a) {
+    let s = 0;
+    if (a[1]==='C'||a[1]==='D') s+=2; else if (a[1]==='B') s+=1;
+    if (a[2]!=='C') s+=1;
+    if (a[3]==='A'||a[3]==='B') s+=1;
+    if (a[4]<=2) s+=2; else if (a[4]===3) s+=1;
+    if (a[5]&&a[5].includes('conflict')) s+=2;
+    if (a[5]&&a[5].includes('team')) s+=1;
+    if (a[5]&&a[5].includes('stable')) s-=1;
+    return Math.max(0, Math.min(8, s));
+}
+
+function getCategory(s) { return s>=6?'ESSENTIAL':s>=3?'VALUABLE':'OPTIONAL'; }
+
+const questions = [
+    { 
+        id: 1, 
+        text: "In the last 30 days, how often have you faced a crisis that you did not have SOPs for?", 
+        type: "single", 
+        options: [
+            { value: "A", label: "Never", sub: "I have a protocol for almost everything." },
+            { value: "B", label: "Once or twice", sub: "Most crises are familiar." },
+            { value: "C", label: "Weekly", sub: "New surprises happen regularly." },
+            { value: "D", label: "Daily", sub: "Every morning brings something new." }
+        ] 
+    },
+    { 
+        id: 2, 
+        text: "When a sudden crisis hits, what is your typical first reaction?", 
+        type: "single", 
+        options: [
+            { value: "A", label: "Wait for instructions from HQ", sub: "I need approval before acting." },
+            { value: "B", label: "Try to solve it alone", sub: "I take full responsibility." },
+            { value: "C", label: "Gather my team and ask a question", sub: "e.g., 'What works without fuel?'" },
+            { value: "D", label: "Freeze or feel overwhelmed", sub: "I need time to process." }
+        ] 
+    },
+    { 
+        id: 3, 
+        text: "When was the last time you set a 'learning intention' instead of a performance goal?", 
+        type: "single", 
+        options: [
+            { value: "A", label: "Never", sub: "I only set performance goals." },
+            { value: "B", label: "More than 6 months ago", sub: "I used to, but not recently." },
+            { value: "C", label: "Within the last month", sub: "I try to balance both." },
+            { value: "D", label: "Within the last week", sub: "I regularly use learning intentions." }
+        ] 
+    },
+    { 
+        id: 4, 
+        text: "How confident are you in shifting your mindset in the middle of a crisis?", 
+        type: "scale", 
+        scaleRange: [1,2,3,4,5] 
+    },
+    { 
+        id: 5, 
+        text: "Which of the following best describes your current leadership context? (Select all that apply)", 
+        type: "multi", 
+        options: [
+            { value: "conflict", label: "Active conflict zone" },
+            { value: "team", label: "I manage a team of 3+ people" },
+            { value: "experience", label: "2+ years field experience" },
+            { value: "autonomy", label: "I make decisions without HQ approval" },
+            { value: "stable", label: "Stable environment with reliable resources" }
+        ] 
+    }
+];
+
+let answers = { 1: null, 2: null, 3: null, 4: null, 5: [] };
+let currentIndex = 0;
+let assessmentCompleted = false;
+
+const container = document.getElementById("questionsContainer");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const navButtons = document.getElementById("navButtons");
+const progressFill = document.getElementById("progressFill");
+const progressFractionSpan = document.getElementById("progressFraction");
+const progressPercentSpan = document.getElementById("progressPercentLabel");
+const resultsArea = document.getElementById("resultsArea");
+const welcomeBlock = document.getElementById("welcomeBlock");
+const headerProgressSpan = document.getElementById("headerProgress");
+
+function updateProgressBar() {
+    let c = 0;
+    for (let i=1;i<=5;i++) { if (i===5) { if (answers[5]&&answers[5].length>0) c++; } else { if (answers[i]!==null&&answers[i]!=='') c++; } }
+    const p = Math.round((c/5)*100);
+    progressFill.style.width = p+"%";
+    progressFractionSpan.innerText = c+"/5 questions";
+    progressPercentSpan.innerText = p+"% complete";
+    if (headerProgressSpan) headerProgressSpan.innerText = p;
+    updateNextButtonState();
+}
+
+function updateNextButtonState() {
+    if (assessmentCompleted) { nextBtn.disabled=true; return; }
+    const q = questions[currentIndex];
+    nextBtn.disabled = q.type==='multi' ? !(answers[5]&&answers[5].length>0) : !(answers[q.id]!==null&&answers[q.id]!=='');
+}
+
+function persistAnswers() { localStorage.setItem('pre_assessment_answers',JSON.stringify(answers)); }
+
+function loadStoredAnswers() {
+    const s = localStorage.getItem('pre_assessment_answers');
+    if (s) { try { const p = JSON.parse(s); for (let k in p) { if (answers.hasOwnProperty(k)) answers[k]=p[k]; } } catch(e) {} }
+    updateProgressBar();
+}
+
+function renderCurrentQuestion() {
+    const q = questions[currentIndex];
+    if (!q) return;
+    let html = `<div class="question"><div style="font-weight:700;margin-bottom:0.8rem;">Question ${q.id} of 5</div><div style="margin-bottom:1rem;">${q.text}</div><div class="options">`;
+
+    if (q.type==='single') {
+        q.options.forEach(opt => {
+            const sel = (answers[q.id]===opt.value);
+            html += `<div class="option ${sel?'selected':''}" data-value="${opt.value}">
+                <div class="option-letter">${opt.value}</div>
+                <div><div class="option-text">${opt.label}</div><div class="option-sub">${opt.sub||''}</div></div></div>`;
+        });
+    } else if (q.type==='scale') {
+        const labels = ["1 - Not confident","2 - Slightly confident","3 - Somewhat confident","4 - Confident","5 - Very confident"];
+        html += '<div class="scale-row">';
+        q.scaleRange.forEach((n,i) => { html += `<div class="scale-item ${answers[q.id]===n?'selected':''}" data-scale="${n}">${labels[i]}</div>`; });
+        html += '</div>';
+    } else if (q.type==='multi') {
+        q.options.forEach(opt => {
+            html += `<div class="check-option ${(answers[5]||[]).includes(opt.value)?'selected':''}" data-multi="${opt.value}">${opt.label}</div>`;
+        });
+        html += '<div style="font-size:0.75rem;color:#6C86A0;margin-top:0.6rem;">Select all that apply</div>';
+    }
+    html += '</div></div>';
+    container.innerHTML = html;
+    attachEvents();
+    updateNextButtonState();
+}
+
+function attachEvents() {
+    const q = questions[currentIndex];
+    if (q.type==='single') {
+        document.querySelectorAll('.option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+                opt.classList.add('selected');
+                answers[q.id]=opt.getAttribute('data-value');
+                persistAnswers(); updateProgressBar();
+            });
+        });
+    } else if (q.type==='scale') {
+        document.querySelectorAll('.scale-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.scale-item').forEach(i=>i.classList.remove('selected'));
+                item.classList.add('selected');
+                answers[q.id]=parseInt(item.getAttribute('data-scale'));
+                persistAnswers(); updateProgressBar();
+            });
+        });
+    } else if (q.type==='multi') {
+        document.querySelectorAll('.check-option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                const v = opt.getAttribute('data-multi');
+                const idx = answers[5].indexOf(v);
+                if (idx===-1) { answers[5].push(v); opt.classList.add('selected'); }
+                else { answers[5].splice(idx,1); opt.classList.remove('selected'); }
+                persistAnswers(); updateProgressBar();
+            });
+        });
+    }
+}
+
+function finishAssessment() {
+    const score = calculatePreScore(answers);
+    const category = getCategory(score);
+    
+    localStorage.setItem('pre_assessment_score',score);
+    localStorage.setItem('pre_assessment_category',category);
+    
+    // Send data in background - instant results
+    sendPreAssessmentToSheet();
+    
+    container.innerHTML = '';
+    navButtons.classList.add('hidden');
+    
+    let resultClass, badgeIcon, badgeText, titleText, quoteText, callText;
+    
+    if (category==='ESSENTIAL') {
+        resultClass='results-essential';
+        badgeIcon='🔥';
+        badgeText='ESSENTIAL · This course was written for you';
+        titleText='You are standing in the fire. And that is exactly where leaders are forged.';
+        quoteText='"The most resilient leaders are not those who never break. They are those who know how to rebuild — stronger, faster, and wiser."';
+        callText='Every tool you need is waiting for you in the next modules. Take them. Use them. Transform how you lead.';
+    } else if (category==='VALUABLE') {
+        resultClass='results-valuable';
+        badgeIcon='🌟';
+        badgeText='VALUABLE · Sharpen your adaptive instincts';
+        titleText='You already have the instincts. Now you need the system.';
+        quoteText='"Adaptive leadership is not about being perfect. It is about being able to deal with unpredictable change."';
+        callText='The difference between good and exceptional is not talent. It is the right frameworks applied at the right time.';
+    } else {
+        resultClass='results-optional';
+        badgeIcon='📚';
+        badgeText='OPTIONAL · Growth awaits you';
+        titleText='You are here because you want to grow. That is the most important step.';
+        quoteText='"Comfort is a dangerous place. Growth happens when we step into the unknown."';
+        callText='The best time to build resilience was yesterday. The second best time is now.';
+    }
+    
+    let resultHtml = `<div class="results-box ${resultClass}">
+                        <div class="badge-icon">${badgeIcon}</div>
+                        <div style="margin-bottom:0.8rem;">
+                            <span style="background:rgba(0,0,0,0.2);padding:4px 16px;border-radius:40px;font-weight:700;">${badgeText}</span>
+                        </div>
+                        <p style="font-size:1.1rem;font-weight:600;margin-bottom:1rem;">${titleText}</p>
+                        <div class="motivation-message"><em>${quoteText}</em></div>
+                        <p style="margin-top:1rem;font-size:0.95rem;">${callText}</p>
+                        <p style="margin-top:1rem;font-size:0.85rem;opacity:0.8;">Your Score: ${score}/8</p>
+                      </div>`;
+    
+    resultsArea.innerHTML = resultHtml;
+    resultsArea.classList.remove('hidden');
+    
+    let welcomeHtml = `<div class="welcome-message">
+                        <div style="font-size:2rem;">✨</div>
+                        <strong style="font-size:1.2rem;">You are ready to begin.</strong><br><br>
+                        <div class="action-buttons">
+                            <button id="goToModule1Btn" class="btn-module">📚 Start Module 1 →</button>
+                            <button id="backToIntroBtn" class="btn-intro">🏠 Back to Introduction</button>
+                            <button id="resetBtn" class="btn-reset">↺ Restart Assessment</button>
+                        </div>
+                      </div>`;
+    
+    welcomeBlock.innerHTML = welcomeHtml;
+    welcomeBlock.classList.remove('hidden');
+    
+    document.getElementById('goToModule1Btn').addEventListener('click',()=>{window.location.href='module1.html';});
+    document.getElementById('backToIntroBtn').addEventListener('click',()=>{window.location.href='intro.html';});
+    document.getElementById('resetBtn').addEventListener('click',()=>{resetAssessment();});
+    
+    assessmentCompleted = true;
+    persistAnswers();
+}
+
+function resetAssessment() {
+    answers = {1:null,2:null,3:null,4:null,5:[]};
+    assessmentCompleted = false;
+    currentIndex = 0;
+    localStorage.removeItem('pre_assessment_answers');
+    resultsArea.classList.add('hidden');
+    welcomeBlock.classList.add('hidden');
+    container.classList.remove('hidden');
+    navButtons.classList.remove('hidden');
+    renderCurrentQuestion();
+    updateNavButtons();
+    updateProgressBar();
+}
+
+function handleNext() {
+    const q = questions[currentIndex];
+    const answered = q.type==='multi' ? (answers[5]&&answers[5].length>0) : (answers[q.id]!==null&&answers[q.id]!=='');
+    if (!answered) { showToast("Please answer the question before moving forward.", true); return; }
+    if (currentIndex===questions.length-1) { finishAssessment(); }
+    else { currentIndex++; renderCurrentQuestion(); updateNavButtons(); }
+    updateProgressBar();
+}
+
+function handlePrev() { if (currentIndex>0) { currentIndex--; renderCurrentQuestion(); updateNavButtons(); } }
+
+function updateNavButtons() {
+    prevBtn.disabled = (currentIndex===0);
+    if (!assessmentCompleted) {
+        const q = questions[currentIndex];
+        const answered = q.type==='multi' ? (answers[5]&&answers[5].length>0) : (answers[q.id]!==null&&answers[q.id]!=='');
+        nextBtn.disabled = !answered;
+        nextBtn.innerText = (currentIndex===questions.length-1) ? "See my results →" : "Next →";
+    }
+}
+
+function resetCourse() {
+    if (confirm('Reset all assessment data? This cannot be undone.')) {
+        localStorage.removeItem('pre_assessment_answers');
+        localStorage.removeItem('pre_assessment_score');
+        localStorage.removeItem('pre_assessment_category');
+        location.reload();
+    }
+}
+
+function init() {
+    const user = getUserData();
+    console.log('👤 Detected user:', user);
+    
+    loadStoredAnswers();
+    renderCurrentQuestion();
+    updateNavButtons();
+    updateProgressBar();
+    prevBtn.addEventListener('click',handlePrev);
+    nextBtn.addEventListener('click',handleNext);
+    document.getElementById('resetDataLink').addEventListener('click',resetCourse);
+}
+
+init();
+</script>
+</body>
+</html>

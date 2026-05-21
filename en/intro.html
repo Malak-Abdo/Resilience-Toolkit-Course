@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>The Resilience Toolkit · Course Introduction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #F0F4F2 0%, #E8EFEB 100%);
+            color: #1E2F3E;
+            line-height: 1.65;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
+        .module-card {
+            background: #FFFFFF;
+            border-radius: 2rem;
+            padding: 2.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #1A6B5A;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #0C3E35;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .presenter {
+            color: #E8A735;
+            font-weight: 600;
+            margin: 0.5rem 0 0.25rem;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .duration-badge {
+            display: inline-block;
+            background: #EFF3F8;
+            padding: 0.3rem 1rem;
+            border-radius: 60px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #1A6B5A;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            width: auto;
+            display: table;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .name-prompt {
+            background: linear-gradient(105deg, #F0F7F4 0%, #E8F2EE 100%);
+            border-radius: 1.5rem;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            border: 1px solid #D0E3DC;
+        }
+
+        .name-prompt p {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #0C3E35;
+        }
+
+        .name-prompt span {
+            color: #1A6B5A;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: #0C3E35;
+            margin: 2rem 0 1rem;
+            border-left: 4px solid #E8A735;
+            padding-left: 1rem;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: #1A6B5A;
+            margin: 1.5rem 0 0.75rem;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #2C3F3A;
+        }
+
+        ul {
+            margin: 1rem 0 1.5rem 1.8rem;
+            color: #2C3F3A;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .scenario-card {
+            background: #FDF8F0;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #E8A735;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .highlight-box {
+            background: #EFF7F5;
+            border-radius: 1rem;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            border-left: 3px solid #1A6B5A;
+        }
+
+        .quote-box {
+            background: #FEF9EF;
+            border-radius: 1rem;
+            padding: 1.2rem 1.5rem;
+            margin: 1.2rem 0;
+            border-left: 4px solid #E8A735;
+            font-style: italic;
+            color: #5A4A2A;
+            font-size: 1.05rem;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        button {
+            border: none;
+            font-weight: 600;
+            padding: 0.85rem 1.8rem;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
+        .btn-secondary {
+            background: #E8A735;
+            color: #2E3A2A;
+            box-shadow: 0 2px 6px rgba(232, 167, 53, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: #D3921E;
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: #1A6B5A;
+            color: white;
+            box-shadow: 0 2px 8px rgba(26, 107, 90, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: #0F5446;
+            transform: translateY(-1px);
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #8BA0B8;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #E0EBE6;
+        }
+
+        .progress-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-step {
+            width: 8px;
+            height: 8px;
+            border-radius: 8px;
+            background: #D0E3DC;
+            transition: all 0.3s;
+        }
+
+        .progress-step.active {
+            width: 24px;
+            background: #1A6B5A;
+        }
+
+        .progress-step.completed {
+            background: #E8A735;
+        }
+
+        .toast-notification {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1C2E2A;
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 1000;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .module-card {
+                padding: 1.5rem;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            h2 {
+                font-size: 1.3rem;
+            }
+            .button-group {
+                flex-direction: column;
+            }
+            button {
+                justify-content: center;
+                width: 100%;
+            }
+            ul {
+                margin-left: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="module-card">
+            <!-- Progress Indicator -->
+            <div class="progress-indicator">
+                <div class="progress-step completed"></div>
+                <div class="progress-step active"></div>
+                <div class="progress-step"></div>
+                <div class="progress-step"></div>
+            </div>
+
+            <!-- Header -->
+            <div class="header-tag">THE RESILIENCE TOOLKIT</div>
+            <h1>The Resilience Toolkit<br>for Conflict-Zone Leaders</h1>
+            <div class="presenter">Presented by: Malak Abdo</div>
+            <div class="duration-badge">20-30 minutes • self-paced</div>
+
+            <!-- User Greeting -->
+            <div class="name-prompt">
+                <p>👋 Welcome, <span id="displayName"></span>!</p>
+            </div>
+
+            <!-- Main Content -->
+            <div id="mainContent">
+                <h2>Course Introduction</h2>
+                
+                <p>You may lose your direction while leading inside conflict zones. You may find yourself in the heart of the chaos, yet feel that you are no longer resilient or adaptive as you once were.</p>
+                
+                <p>In this course, we will walk together to discover:</p>
+                <ul>
+                    <li>How to become more effective and productive under unstable conditions?</li>
+                    <li>Why do you feel that your goals are delayed — until this moment?</li>
+                    <li>Why do you sometimes feel that you are putting in double the effort, yet you remain stuck in place while major opportunities pass you by? Perhaps you have seen others making quantum leaps and reaching ambitious goals in record time, while you feel <strong>drained</strong> or worried about your position fading — despite your high competence.</li>
+                </ul>
+
+                <p>Most of the time, we blame ourselves: we accuse ourselves of laziness, or lack of passion when we don't reach our goals. But the truth is much deeper than that; it's not about you as a person, but about how you deal with the situation.</p>
+
+                <p>Everyone goes through crises in affected areas, but there are <strong>two types of leaders</strong>:</p>
+                <ul>
+                    <li><strong>Those who have the ability to "leap the ladders"</strong> and arrive faster than expected.</li>
+                    <li><strong>Those who continue climbing "step by step"</strong> and need a very long time to arrive.</li>
+                </ul>
+
+                <p>Those who arrive faster have discovered the secrets of resilience and adaptation. They know that technical skills are essential, but without flexibility, you cannot leap.</p>
+
+                <!-- Added Quote 1 -->
+                <div class="quote-box">
+                    "Imagine someone trying to leap while being completely rigid... they will arrive with broken parts... For the rigid person, change is terrifying: What if I fall down and break?"
+                </div>
+
+                <p>This is exactly what happens to leaders who are <strong>technically ready but personally rigid</strong>. They are highly skilled, yet they remain stuck and ask: <em>"Why me? Why did others arrive while I am stuck?"</em></p>
+
+                <p>For resilient people, change is just a simple move — because they are <strong>flexible</strong>. For the rigid person, change is terrifying: <em>"What if I fall down and break?"</em></p>
+
+                <h2>The Deeper Reality</h2>
+
+                <!-- Added Quote 2 -->
+                <div class="quote-box">
+                    "In stable environments, people focus on building... In fragile communities, you must rebuild the foundation."
+                </div>
+
+                <p>In stable environments, people focus on building. But in fragile communities, you must first know how to <strong>"rebuild the foundation"</strong> before you can start building again.</p>
+
+                <p>In stressful areas, your brain focuses on only <strong>one thing: staying alive</strong>. Your survival instinct takes over, making you unable to make decisions, causing you to overthink and lose focus. Because your brain is busy protecting you, even a simple decision becomes exhausting.</p>
+
+                <p><strong>The result is a constant state of:</strong></p>
+                <ul>
+                    <li>❌ <strong>Stress and tension</strong></li>
+                    <li>❌ <strong>Overthinking</strong></li>
+                    <li>❌ <strong>Burnout and procrastination</strong></li>
+                    <li>❌ <strong>Severe self-blame and blaming others</strong></li>
+                </ul>
+
+                <p><strong>None of these are personal flaws</strong> in you. They are psychological and physiological responses of a nervous system carrying more than it was ever designed to carry. Because of your fear of failure, you fall into the trap of procrastination, and your brain tries to protect you from pain through the rigid <strong>"expert mindset"</strong>, trapping you in a vicious cycle.</p>
+
+                <p><strong>The challenge is: how do you break this cycle?</strong></p>
+
+                <p>You have probably tried many times, but you always return to the starting point.</p>
+
+                <div class="highlight-box">
+                    <p><strong>The shocking truth is:</strong> You are unconsciously trying to <strong>SURVIVE</strong> more than you are trying to be <strong>PRODUCTIVE</strong>. You have the ability, you just haven't had the <strong>"tool"</strong> yet.</p>
+                </div>
+
+                <h2>The Battle No One Sees</h2>
+                
+                <p>While others are working to move higher, you are still facing the constraints of your mind: <strong>fixed mindset, scarcity mindset, compromise mindset</strong>... all just to survive. Your brain is in <strong>"defense mode"</strong>, and you are in a battle that no one knows about, but you feel it every day.</p>
+
+                <h2>What Will You Learn in This Course?</h2>
+                
+                <p>Together, we will break this cycle through:</p>
+
+                <div class="scenario-card">
+                    <ul>
+                        <li>✅ <strong>The S.A.F.E. Frame</strong> — to move strategically through the chaos.</li>
+                        <li>✅ <strong>The 60-Second Shift:</strong> How to intervene before your nervous system locks into "survival mode".</li>
+                        <li>✅ <strong>Learning Intentions vs. Performance Goals:</strong> When to focus on one and when to choose the other.</li>
+                        <li>✅ <strong>The 7 AM Protocol:</strong> Your personal routine for high-stakes days.</li>
+                        <li>✅ <strong>Habit Loops and Decision Scripts:</strong> To stop overthinking and start taking automatic action.</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <p><strong>By the end of this course, you will finally have the right tools to arrive faster — not because you rush, but because you know how.</strong></p>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-group">
+                <button class="btn-secondary" id="backToLoginBtn">← Back to Login</button>
+                <button class="btn-primary" id="continueToAssessmentBtn">Continue to Assessment →</button>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                The Resilience Toolkit — for leaders in conflict zones.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== CONFIGURATION ==========
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzjxPvVYa8xquvIiaaDBpZMujFabPyYg8nTB_CY-6X8OSIrkWubmg3cwxzN4BfVQISGtw/exec';
+        
+        let pageLoadTime = new Date();
+
+        // ========== USER DATA ==========
+        function getUserData() {
+            try {
+                let currentUser = localStorage.getItem('currentUser');
+                if (currentUser) {
+                    let user = JSON.parse(currentUser);
+                    console.log('✅ Found user from currentUser:', user);
+                    return {
+                        name: user.name || 'Guest',
+                        email: user.email || '',
+                        position: user.position || '',
+                        country: user.country || ''
+                    };
+                }
+            } catch(e) {
+                console.error('Error parsing currentUser:', e);
+            }
+            
+            // Fallback: try users array
+            try {
+                let users = JSON.parse(localStorage.getItem('users') || '[]');
+                if (users.length > 0) {
+                    let lastUser = users[users.length - 1];
+                    console.log('✅ Found user from users array:', lastUser);
+                    return {
+                        name: lastUser.name || 'Guest',
+                        email: lastUser.email || '',
+                        position: lastUser.position || '',
+                        country: lastUser.country || ''
+                    };
+                }
+            } catch(e) {
+                console.error('Error parsing users:', e);
+            }
+            
+            console.log('⚠️ No user found, using Guest');
+            return { name: 'Guest', email: '', position: '', country: '' };
+        }
+
+        // ========== SEND TO GOOGLE SHEET ==========
+        function sendToSheet(eventType, extraData) {
+            const user = getUserData();
+            extraData = extraData || {};
+            
+            const params = new URLSearchParams({
+                userName: user.name,
+                userEmail: user.email,
+                userPosition: user.position,
+                userCountry: user.country,
+                event_type: eventType
+            });
+            
+            for (let key in extraData) {
+                params.append(key, extraData[key]);
+            }
+            
+            const url = GOOGLE_SCRIPT_URL + '?' + params.toString();
+            console.log('📤 Sending to sheet:', eventType, user.email);
+            fetch(url, { mode: 'no-cors' }).catch(function() {});
+        }
+
+        // ========== SHOW TOAST ==========
+        function showToast(message) {
+            let existing = document.querySelector('.toast-notification');
+            if (existing) existing.remove();
+            
+            let toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // ========== DISPLAY USER NAME ==========
+        const user = getUserData();
+        document.getElementById('displayName').innerText = user.name;
+        console.log('👤 Display name set to:', user.name);
+
+        // ========== PAGE LOAD EVENT ==========
+        window.addEventListener('load', function() {
+            sendToSheet('page_load');
+            console.log('📄 page_load sent');
+        });
+
+        // ========== BACK BUTTON ==========
+        document.getElementById('backToLoginBtn').addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+
+        // ========== CONTINUE BUTTON ==========
+        document.getElementById('continueToAssessmentBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Check if already completed
+            if (localStorage.getItem('introduction_completed') === 'true') {
+                window.location.href = 'pre-assessment.html';
+                return;
+            }
+            
+            // Calculate time spent on page
+            const timeSpent = Math.round((new Date() - pageLoadTime) / 1000);
+            console.log('⏱️ Time spent:', timeSpent, 'seconds');
+            
+            // Send completion event to sheet
+            sendToSheet('module_completed', { time_spent_seconds: timeSpent });
+            
+            // Mark as completed
+            localStorage.setItem('introduction_completed', 'true');
+            
+            // Show toast and redirect
+            showToast('✓ Module completed! Redirecting to assessment...');
+            
+            setTimeout(function() {
+                window.location.href = 'pre-assessment.html';
+            }, 500);
+        });
+    </script>
+</body>
+</html>

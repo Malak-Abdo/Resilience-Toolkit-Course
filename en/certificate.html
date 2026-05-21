@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>Congratulations · Resilience Toolkit Completion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(145deg, #EFF7F2 0%, #E0EBE8 100%);
+            color: #1E2F3E;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+        .celebration-card {
+            max-width: 720px;
+            width: 100%;
+            margin: 1rem auto;
+            background: white;
+            border-radius: 48px;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25), 0 2px 6px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            padding: 2rem 2rem 2.2rem;
+            text-align: center;
+            transition: all 0.2s;
+            border: 1px solid rgba(232, 167, 53, 0.3);
+        }
+        @media (max-width: 550px) {
+            .celebration-card {
+                margin: 0.8rem;
+                padding: 1.5rem 1.2rem;
+                border-radius: 36px;
+            }
+        }
+        .badge-icon {
+            font-size: 4.2rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            animation: floatTrophy 1.2s ease-in-out;
+        }
+        @keyframes floatTrophy {
+            0% { transform: scale(0.8) translateY(20px); opacity: 0; }
+            80% { transform: scale(1.05); }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1A6B5A, #E8A735);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin: 0.5rem 0 0.5rem;
+        }
+        .subtitle {
+            font-size: 1.05rem;
+            color: #2C5F7A;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        .divider {
+            width: 80px;
+            height: 4px;
+            background: #E8A735;
+            margin: 1rem auto;
+            border-radius: 4px;
+        }
+        .user-greeting {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: #F0F4F9;
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 60px;
+            color: #0C2E3B;
+            margin: 0.8rem 0;
+            border: 1px solid #E8A735;
+        }
+        .message-box {
+            background: #FDF8F0;
+            border-radius: 28px;
+            padding: 1.3rem;
+            margin: 1rem 0;
+            border-left: 6px solid #E8A735;
+            text-align: left;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .toolkit-badge-container {
+            background: #F9FCFE;
+            border-radius: 24px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border: 1px solid #E2E9F2;
+        }
+        .toolkit-title {
+            font-weight: 700;
+            color: #1A6B5A;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+        .toolkit-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.7rem;
+            margin-top: 0.5rem;
+        }
+        .tool-card {
+            background: #FDF8F0;
+            border-radius: 60px;
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #1A6B5A;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #E8F5E9;
+            transition: all 0.1s;
+        }
+        .tool-card:hover {
+            background: #E8F5E9;
+            transform: translateY(-1px);
+        }
+        
+        .certificate-btn {
+            background: linear-gradient(135deg, #1A6B5A, #146B5C);
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 14px 32px;
+            border-radius: 60px;
+            cursor: pointer;
+            margin: 0.5rem 0 0.8rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 6px 14px rgba(26, 107, 90, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: inherit;
+        }
+        .certificate-btn:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #0e5245, #0f5c4e);
+            box-shadow: 0 10px 20px rgba(26, 107, 90, 0.35);
+        }
+        .certificate-btn:active {
+            transform: translateY(1px);
+        }
+        .certificate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            animation: fadeIn 0.2s ease;
+        }
+        .modal-popup {
+            background: white;
+            max-width: 380px;
+            width: 90%;
+            border-radius: 48px;
+            text-align: center;
+            padding: 2rem 1.8rem;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.25s ease;
+            border: 1px solid rgba(232, 167, 53, 0.6);
+        }
+        .modal-icon {
+            font-size: 3.8rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+        .modal-popup h3 {
+            font-size: 1.6rem;
+            color: #1A6B5A;
+            margin-bottom: 0.8rem;
+            font-weight: 800;
+        }
+        .modal-popup p {
+            color: #2C5F7A;
+            font-size: 1rem;
+            margin: 0.5rem 0;
+            line-height: 1.5;
+        }
+        .modal-close-btn {
+            background: #E8A735;
+            border: none;
+            color: #1E2F3E;
+            font-weight: 700;
+            padding: 10px 28px;
+            border-radius: 40px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background 0.2s;
+            font-family: inherit;
+        }
+        .modal-close-btn:hover {
+            background: #d9971f;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .share-stats {
+            background: #F9F9F9;
+            border-radius: 20px;
+            padding: 0.8rem;
+            font-size: 0.85rem;
+            color: #1A6B5A;
+            margin: 1rem 0;
+        }
+        .footer-note {
+            font-size: 0.7rem;
+            color: #8BA0B8;
+            margin-top: 1.8rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="celebration-card">
+    <div class="badge-icon">
+        🎉🏆✨
+    </div>
+    <h1>Congratulations!</h1>
+    <div class="subtitle">You have successfully completed the Resilience Toolkit</div>
+    <div class="divider"></div>
+    
+    <div class="user-greeting" id="userGreetingSpan">
+        🎓 Loading your achievement...
+    </div>
+    
+    <div class="message-box">
+        <p><strong>💪 You have now mastered the essential tools for crisis management.</strong></p>
+        <p style="margin-top: 0.6rem;">These tools are now yours to make a difference when any challenge arises in your field of work.</p>
+    </div>
+    
+    <div class="toolkit-badge-container">
+        <div class="toolkit-title">📦 Your leadership toolkit now includes:</div>
+        <div class="toolkit-grid">
+            <span class="tool-card">🧠 7 AM Protocol</span>
+            <span class="tool-card">✅ S.A.F.E. Framework</span>
+            <span class="tool-card">📋 60-Second Adaptive Reframing</span>
+            <span class="tool-card">🔄 Learning vs. Performance Goals</span>
+            <span class="tool-card">🔄 Habit Loops</span>
+            <span class="tool-card">🗂️ Decision Pocket Card</span>
+            <span class="tool-card">🌱 Leadership Growth Reflection</span>
+        </div>
+    </div>
+    
+    <div style="background: linear-gradient(105deg, #F8F9FC 0%, #F2F6F5 100%); border-radius: 36px; padding: 1.5rem 1rem; margin: 1rem 0; border: 1px solid #E0EBE6;">
+        <div style="font-size: 2.2rem; margin-bottom: 6px;">🏅✨</div>
+        <p style="font-weight: 600; color: #1A6B5A; margin-bottom: 12px;">Claim your official digital badge</p>
+        <button id="getCertificateBtn" class="certificate-btn">
+            📧 Get Your Badge
+        </button>
+        <p style="font-size: 0.7rem; margin-top: 12px; color: #6B8F82;">Recognition of your adaptive leadership journey</p>
+    </div>
+    
+    <div class="share-stats">
+        🌟 Your achievement has been recorded. The platform is always available for you to review.
+    </div>
+    
+    <div class="footer-note">
+        Resilience Toolkit - Leadership in Emergency Environments | Successfully completed ✅
+    </div>
+</div>
+
+<script>
+    // ============================================
+    // CONFIGURATION - UPDATED WITH CORRECT URL
+    // ============================================
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzBvrEfpXfQ0gxCDQhoQrIfsj5nmOIOx_7kOqqggwehuizOluMqd8euznYsJLAqUF0x/exec';
+    const ASSESSMENT_LINK = 'https://docs.google.com/forms/d/e/1FAIpQLScvfH1X4Z3-xmDuDvozziHj0O1zo_2HWFuWVmUmdQxLsDdTxw/viewform?usp=dialog';
+    
+    const userLanguage = localStorage.getItem('user_language') || 'en';
+    
+    function getUserData() {
+        let name = '', email = '', position = '';
+        
+        let n = localStorage.getItem('course_user_name');
+        if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim() !== '') {
+            name = n.trim();
+            email = (localStorage.getItem('course_user_email') || '').trim();
+            position = (localStorage.getItem('course_user_position') || '').trim();
+        }
+        
+        if (!name) {
+            let user = localStorage.getItem('course_user');
+            if (user) {
+                try { 
+                    let p = JSON.parse(user); 
+                    if (p && p.name && p.name !== 'Guest') {
+                        name = p.name.trim();
+                        email = (p.email || '').trim();
+                        position = (p.position || '').trim();
+                    }
+                } catch(e) {}
+            }
+        }
+        
+        if (!name) {
+            let users = localStorage.getItem('resilience_users');
+            if (users) {
+                try { 
+                    let p = JSON.parse(users); 
+                    if (Array.isArray(p) && p.length > 0) {
+                        for (let i = p.length - 1; i >= 0; i--) {
+                            if (p[i] && p[i].name && p[i].name !== 'Guest') {
+                                name = p[i].name.trim();
+                                email = (p[i].email || '').trim();
+                                position = (p[i].position || '').trim();
+                                break;
+                            }
+                        }
+                    }
+                } catch(e) {}
+            }
+        }
+        
+        const finalName = name && name !== 'متعلم متميز' ? name : 'Leader';
+        const finalEmail = email || (finalName.replace(/\s/g, '.').toLowerCase() + '@resilience-leader.com');
+        
+        return { name: finalName, email: finalEmail, position: position || 'Crisis Leadership Graduate' };
+    }
+    
+    const user = getUserData();
+    const greetingSpan = document.getElementById('userGreetingSpan');
+    if (greetingSpan) {
+        greetingSpan.innerHTML = `🎓 ${user.name} · Achievement unlocked ✅`;
+    }
+    
+    function showEmailBadgePopup() {
+        const existingModal = document.querySelector('.modal-overlay');
+        if (existingModal) existingModal.remove();
+        
+        const modalOverlay = document.createElement('div');
+        modalOverlay.className = 'modal-overlay';
+        
+        const modalPopup = document.createElement('div');
+        modalPopup.className = 'modal-popup';
+        
+        let popupContent = '';
+        if (userLanguage === 'ar') {
+            popupContent = `
+                <div class="modal-icon">📧🏅</div>
+                <h3>تحقق من بريدك الإلكتروني!</h3>
+                <p>📬 <strong>تم إرسال شارتك إلى بريدك الإلكتروني.</strong></p>
+                <button class="modal-close-btn" id="closeModalBtn">حسنًا، تم ✅</button>
+            `;
+        } else {
+            popupContent = `
+                <div class="modal-icon">📧🏅</div>
+                <h3>Check Your Email!</h3>
+                <p>📬 <strong>Your badge has been sent to your email inbox.</strong></p>
+                <button class="modal-close-btn" id="closeModalBtn">OK, Got it ✅</button>
+            `;
+        }
+        
+        modalPopup.innerHTML = popupContent;
+        modalOverlay.appendChild(modalPopup);
+        document.body.appendChild(modalOverlay);
+        
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                modalOverlay.remove();
+            }
+        });
+        
+        const closeBtn = modalPopup.querySelector('#closeModalBtn');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                modalOverlay.remove();
+            });
+        }
+    }
+    
+    function handleGetBadgeClick() {
+        const button = document.getElementById('getCertificateBtn');
+        if (button.disabled) return;
+        
+        button.disabled = true;
+        
+        if (userLanguage === 'ar') {
+            button.innerHTML = '⏳ جاري الإرسال...';
+        } else {
+            button.innerHTML = '⏳ Sending...';
+        }
+        
+        // Show popup immediately
+        showEmailBadgePopup();
+        
+        const payload = {
+            event: 'send_badge_email',
+            email: user.email,
+            name: user.name,
+            assessmentLink: ASSESSMENT_LINK,
+            language: userLanguage
+        };
+        
+        console.log('📤 Sending payload:', payload);
+        console.log('📤 To URL:', GOOGLE_SCRIPT_URL);
+        
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8',
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('✅ Email sent successfully:', data);
+        })
+        .catch(err => {
+            console.log('⚠️ Error sending email:', err);
+        });
+        
+        localStorage.setItem('badge_requested_at', new Date().toISOString());
+        localStorage.setItem('badge_requested_for', user.email);
+        
+        // Reset button quickly
+        setTimeout(() => {
+            button.disabled = false;
+            if (userLanguage === 'ar') {
+                button.innerHTML = '📧 احصل على شارتك';
+            } else {
+                button.innerHTML = '📧 Get Your Badge';
+            }
+        }, 1000);
+    }
+    
+    function finalizeCourseCompletion() {
+        if (!localStorage.getItem('module6_completed')) {
+            localStorage.setItem('module6_completed', 'true');
+        }
+        localStorage.setItem('resilience_course_completed', 'true');
+        localStorage.setItem('completion_date', new Date().toISOString());
+        console.log(`🏁 Course completion recorded for: ${user.name}`);
+    }
+    
+    const badgeButton = document.getElementById('getCertificateBtn');
+    if (badgeButton) {
+        badgeButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            handleGetBadgeClick();
+        });
+    }
+    
+    finalizeCourseCompletion();
+    console.log('Resilience Toolkit Badge Page — Ready!');
+    console.log('User:', user.name, 'Language:', userLanguage);
+    console.log('Email will be sent to:', user.email);
+    console.log('Assessment Link:', ASSESSMENT_LINK);
+</script>
+</body>
+</html>
+
+

@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>مجموعة أدوات المرونة · مقدمة الدورة</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Tahoma', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #F0F4F2 0%, #E8EFEB 100%);
+            color: #1E2F3E;
+            line-height: 1.65;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
+        .module-card {
+            background: #FFFFFF;
+            border-radius: 2rem;
+            padding: 2.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #1A6B5A;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #0C3E35;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .presenter {
+            color: #E8A735;
+            font-weight: 600;
+            margin: 0.5rem 0 0.25rem;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .duration-badge {
+            display: inline-block;
+            background: #EFF3F8;
+            padding: 0.3rem 1rem;
+            border-radius: 60px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #1A6B5A;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            width: auto;
+            display: table;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .name-prompt {
+            background: linear-gradient(105deg, #F0F7F4 0%, #E8F2EE 100%);
+            border-radius: 1.5rem;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            border: 1px solid #D0E3DC;
+        }
+
+        .name-prompt p {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #0C3E35;
+        }
+
+        .name-prompt span {
+            color: #1A6B5A;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: #0C3E35;
+            margin: 2rem 0 1rem;
+            border-right: 4px solid #E8A735;
+            padding-right: 1rem;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: #1A6B5A;
+            margin: 1.5rem 0 0.75rem;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #2C3F3A;
+        }
+
+        ul {
+            margin: 1rem 1.8rem 1.5rem 0;
+            color: #2C3F3A;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .scenario-card {
+            background: #FDF8F0;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-right: 4px solid #E8A735;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .highlight-box {
+            background: #EFF7F5;
+            border-radius: 1rem;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            border-right: 3px solid #1A6B5A;
+        }
+
+        .quote-box {
+            background: #FEF9EF;
+            border-radius: 1rem;
+            padding: 1.2rem 1.5rem;
+            margin: 1.2rem 0;
+            border-right: 4px solid #E8A735;
+            font-style: italic;
+            color: #5A4A2A;
+            font-size: 1.05rem;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        button {
+            border: none;
+            font-weight: 600;
+            padding: 0.85rem 1.8rem;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
+        .btn-secondary {
+            background: #E8A735;
+            color: #2E3A2A;
+            box-shadow: 0 2px 6px rgba(232, 167, 53, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: #D3921E;
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: #1A6B5A;
+            color: white;
+            box-shadow: 0 2px 8px rgba(26, 107, 90, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: #0F5446;
+            transform: translateY(-1px);
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #8BA0B8;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #E0EBE6;
+        }
+
+        .progress-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-step {
+            width: 8px;
+            height: 8px;
+            border-radius: 8px;
+            background: #D0E3DC;
+            transition: all 0.3s;
+        }
+
+        .progress-step.active {
+            width: 24px;
+            background: #1A6B5A;
+        }
+
+        .progress-step.completed {
+            background: #E8A735;
+        }
+
+        .toast-notification {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1C2E2A;
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 1000;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .module-card {
+                padding: 1.5rem;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            h2 {
+                font-size: 1.3rem;
+            }
+            .button-group {
+                flex-direction: column;
+            }
+            button {
+                justify-content: center;
+                width: 100%;
+            }
+            ul {
+                margin-right: 1rem;
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="module-card">
+            <!-- Progress Indicator -->
+            <div class="progress-indicator">
+                <div class="progress-step completed"></div>
+                <div class="progress-step active"></div>
+                <div class="progress-step"></div>
+                <div class="progress-step"></div>
+            </div>
+
+            <!-- Header -->
+            <div class="header-tag">مجموعة أدوات المرونة</div>
+            <h1>مجموعة أدوات المرونة<br>للقادة في مناطق النزاع</h1>
+            <div class="presenter">تقديم: ملاك عبده</div>
+            <div class="duration-badge">٢٠-٣٠ دقيقة • تعلم ذاتي</div>
+
+            <!-- User Greeting -->
+            <div class="name-prompt">
+                <p>👋 مرحباً، <span id="displayName"></span>!</p>
+            </div>
+
+            <!-- Main Content -->
+            <div id="mainContent">
+                <h2>مقدمة الدورة</h2>
+                
+                <p>قد تفقد بوصلتك في زحام القيادة وسط مناطق النزاع. قد تجد نفسك في قلب الأحداث، لكنك تشعر أنك لم تعد تملك المرونة الكافية أو القدرة على التكيف كما كنت سابقاً.</p>
+                
+                <p>في هذه الدورة، سنمضي معاً لنكتشف:</p>
+                <ul>
+                    <li>كيف تصبح أكثر فاعلية وإنتاجية في ظروف غير مستقرة؟</li>
+                    <li>لماذا تشعر أن أهدافك تتأخر عنك — حتى هذه اللحظة؟</li>
+                    <li>لماذا تشعر أحياناً أنك تبذل جهداً مضاعفاً، ومع ذلك تظل عالقاً في مكانك بينما تمر الفرص الكبرى من أمامك؟ ربما رأيت غيرك يحقق قفزات نوعية ويصل لأهداف طموحة في وقت قياسي، بينما تشعر أنت <strong>بالاستنزاف</strong> أو بالقلق من تراجع مكانتك — رغم كفاءتك العالية.</li>
+                </ul>
+
+                <p>في كثير من الأحيان، نلوم أنفسنا: نتهمها بالكسل، أو بنقص الشغف عندما لا نصل لغاياتنا. لكن الحقيقة أعمق من ذلك بكثير؛ الأمر لا يتعلق بك كشخص، بل بكيفية تعاملك مع الموقف.</p>
+
+                <p>الجميع يمر بالأزمات في المناطق المتضررة، لكن هناك <strong>نوعان من القادة</strong>:</p>
+                <ul>
+                    <li><strong>من يمتلك القدرة على "قفز السلالم"</strong> والوصول أسرع مما هو متوقع.</li>
+                    <li><strong>من يستمر في الصعود "خطوة بخطوة"</strong> ويحتاج لزمن طويل جداً للوصول.</li>
+                </ul>
+
+                <p>أولئك الذين يصلون أسرع أدركوا أسرار المرونة والتكيف. هم يعلمون أن المهارات التقنية ضرورية، لكن بدون مرونة، لا يمكنك القفز.</p>
+
+                <!-- Added Quote 1 -->
+                <div class="quote-box">
+                    "تخيل شخصاً يريد القفز وهو متصلب تماماً... سيصل بأجزاء محطمة... للشخص الصلب، التغيير مخيف: ماذا لو سقطت وانكسرت؟"
+                </div>
+
+                <p>وهذا تماماً ما يحدث للقادة <strong>الجاهزين فنياً والمنغلقين نفسياً</strong>. هم ماهرون جداً، ومع ذلك يظلون عالقين ويتساءلون: <em>"لماذا أنا؟ لماذا وصل الآخرون وأنا عالق؟"</em></p>
+
+                <p>بالنسبة للأشخاص المرنين، التغيير مجرد خطوة بسيطة — لأنهم <strong>مرنون</strong>. أما بالنسبة للشخص المتصلب، فالتغيير مخيف: <em>"ماذا لو سقطت وانكسرت؟"</em></p>
+
+                <h2>الواقع العميق</h2>
+
+                <!-- Added Quote 2 -->
+                <div class="quote-box">
+                    "في البيئة الطبيعية، يركز الناس على البناء... في المجتمعات الهشة، عليك ترميم الأساس."
+                </div>
+
+                <p>في البيئات المستقرة، يركز الناس على البناء. أما في المجتمعات الهشة، عليك أولاً أن تعرف كيف <strong>"ترمم الأساس"</strong> قبل أن تبدأ بالبناء مجدداً.</p>
+
+                <p>في مناطق التوتر، يركز دماغك على شيء واحد فقط: <strong>البقاء على قيد الحياة</strong>. غريزة البقاء تسيطر، مما يجعلك غير قادر على اتخاذ القرارات، تفرط في التفكير، وتفقد التركيز. لأن دماغك مشغول بحمايتك، يصبح حتى القرار البسيط مرهقاً للأعصاب.</p>
+
+                <p><strong>والنتيجة هي حالة مستمرة من:</strong></p>
+                <ul>
+                    <li>❌ <strong>التوتر والإجهاد</strong></li>
+                    <li>❌ <strong>التفكير المفرط</strong></li>
+                    <li>❌ <strong>الاحتراق النفسي والتسويف</strong></li>
+                    <li>❌ <strong>لوم الذات الشديد ولوم الآخرين</strong></li>
+                </ul>
+
+                <p><strong>هذه ليست سمات شخصية</strong> فيك. بل هي استجابات فيزيولوجية ونفسية لجهازك العصبي الذي يحمل ثقلاً أكبر مما صُمم لتحمله. ومن خوفك من الفشل، تقع في فخ التسويف، فيحاول دماغك حمايتك من الألم عبر <strong>"عقلية الخبير"</strong> المتصلبة، مما يدخلك في حلقة مفرغة.</p>
+
+                <p><strong>التحدي هو: كيف تخرج من هذه الدائرة؟</strong></p>
+
+                <p>ربما حاولت مراراً، لكنك تعود دائماً لنقطة الصفر.</p>
+
+                <div class="highlight-box">
+                    <p><strong>الحقيقة الصادمة هي:</strong> أنت تحاول <strong>البقاء</strong> (Survive) لا شعورياً أكثر مما تحاول أن تكون <strong>منتجاً</strong> (Productive). أنت تملك القدرة، لكنك فقط لم تكن تملك <strong>"الأداة"</strong> بعد.</p>
+                </div>
+
+                <h2>المعركة التي لا يراها أحد</h2>
+                
+                <p>بينما يعمل الآخرون على الصعود، أنت لا تزال تواجه قيود عقلك: <strong>العقلية الثابتة، عقلية الندرة، عقلية المساومة</strong>... كل ذلك فقط من أجل البقاء. دماغك في <strong>"وضع الدفاع"</strong>، وأنت في معركة لا يعلم عنها أحد، لكنك تشعر بها كل يوم.</p>
+
+                <h2>ماذا ستتعلم في هذه الدورة؟</h2>
+                
+                <p>سنكسر هذه الدائرة معاً من خلال:</p>
+
+                <div class="scenario-card">
+                    <ul>
+                        <li>✅ <strong>نموذج S.A.F.E</strong> — للتحرك استراتيجياً وسط الفوضى.</li>
+                        <li>✅ <strong>التحول في 60 ثانية:</strong> كيف تتدخل قبل أن ينغلق جهازك العصبي في وضع "البقاء".</li>
+                        <li>✅ <strong>نوايا التعلم مقابل أهداف الأداء:</strong> متى تركز على هذا ومتى تختار ذاك؟</li>
+                        <li>✅ <strong>بروتوكول الساعة 7 صباحاً:</strong> روتينك الخاص للأيام عالية المخاطر.</li>
+                        <li>✅ <strong>حلقات العادات ونصوص اتخاذ القرار:</strong> للتوقف عن الإفراط في التفكير والبدء في التنفيذ التلقائي.</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <p><strong>بنهاية هذه الدورة، ستمتلك أخيراً الأدوات الصحيحة لتصل بشكل أسرع — ليس لأنك مسرع، بل لأنك تعرف كيف.</strong></p>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-group">
+                <button class="btn-secondary" id="backToLoginBtn">← العودة لتسجيل الدخول</button>
+                <button class="btn-primary" id="continueToAssessmentBtn">المتابعة إلى التقييم ←</button>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                مجموعة أدوات المرونة — للقادة في مناطق النزاع.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== CONFIGURATION ==========
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzjxPvVYa8xquvIiaaDBpZMujFabPyYg8nTB_CY-6X8OSIrkWubmg3cwxzN4BfVQISGtw/exec';
+        
+        let pageLoadTime = new Date();
+
+        // ========== USER DATA ==========
+        function getUserData() {
+            try {
+                let currentUser = localStorage.getItem('currentUser');
+                if (currentUser) {
+                    let user = JSON.parse(currentUser);
+                    console.log('✅ Found user from currentUser:', user);
+                    return {
+                        name: user.name || 'Guest',
+                        email: user.email || '',
+                        position: user.position || '',
+                        country: user.country || '',
+                        language: user.language || 'ar'
+                    };
+                }
+            } catch(e) {
+                console.error('Error parsing currentUser:', e);
+            }
+            
+            // Fallback: try users array
+            try {
+                let users = JSON.parse(localStorage.getItem('users') || '[]');
+                if (users.length > 0) {
+                    let lastUser = users[users.length - 1];
+                    console.log('✅ Found user from users array:', lastUser);
+                    return {
+                        name: lastUser.name || 'Guest',
+                        email: lastUser.email || '',
+                        position: lastUser.position || '',
+                        country: lastUser.country || '',
+                        language: lastUser.language || 'ar'
+                    };
+                }
+            } catch(e) {
+                console.error('Error parsing users:', e);
+            }
+            
+            console.log('⚠️ No user found, using Guest');
+            return { name: 'ضيف', email: '', position: '', country: '', language: 'ar' };
+        }
+
+        // ========== SEND TO GOOGLE SHEET ==========
+        function sendToSheet(eventType, extraData) {
+            const user = getUserData();
+            extraData = extraData || {};
+            
+            const params = new URLSearchParams({
+                userName: user.name,
+                userEmail: user.email,
+                userPosition: user.position,
+                userCountry: user.country,
+                event_type: eventType,
+                language: 'ar'
+            });
+            
+            for (let key in extraData) {
+                params.append(key, extraData[key]);
+            }
+            
+            const url = GOOGLE_SCRIPT_URL + '?' + params.toString();
+            console.log('📤 Sending to sheet:', eventType, user.email);
+            fetch(url, { mode: 'no-cors' }).catch(function() {});
+        }
+
+        // ========== SHOW TOAST ==========
+        function showToast(message) {
+            let existing = document.querySelector('.toast-notification');
+            if (existing) existing.remove();
+            
+            let toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // ========== DISPLAY USER NAME ==========
+        const user = getUserData();
+        document.getElementById('displayName').innerText = user.name;
+        console.log('👤 Display name set to:', user.name);
+
+        // ========== PAGE LOAD EVENT ==========
+        window.addEventListener('load', function() {
+            sendToSheet('page_load');
+            console.log('📄 page_load sent');
+        });
+
+        // ========== BACK BUTTON ==========
+        document.getElementById('backToLoginBtn').addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+
+        // ========== CONTINUE BUTTON ==========
+        document.getElementById('continueToAssessmentBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Check if already completed
+            if (localStorage.getItem('introduction_completed') === 'true') {
+                window.location.href = 'pre-assessment.html';
+                return;
+            }
+            
+            // Calculate time spent on page
+            const timeSpent = Math.round((new Date() - pageLoadTime) / 1000);
+            console.log('⏱️ Time spent:', timeSpent, 'seconds');
+            
+            // Send completion event to sheet
+            sendToSheet('module_completed', { time_spent_seconds: timeSpent });
+            
+            // Mark as completed
+            localStorage.setItem('introduction_completed', 'true');
+            
+            // Show toast and redirect
+            showToast('✓ تم إكمال الوحدة! جارٍ التوجيه إلى التقييم...');
+            
+            setTimeout(function() {
+                window.location.href = 'pre-assessment.html';
+            }, 500);
+        });
+    </script>
+</body>
+</html>

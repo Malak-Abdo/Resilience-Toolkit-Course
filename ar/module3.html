@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>الوحدة ٣ · حزمة أدوات المرونة: إطار S.A.F.E.</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif;
+            background: #F4F7FC;
+            color: #1E2F3E;
+            line-height: 1.45;
+            padding: 0 0 2rem 0;
+        }
+        .course-card {
+            max-width: 680px;
+            margin: 1rem auto;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.02);
+            overflow: hidden;
+            padding: 1.8rem 1.5rem 2.2rem;
+        }
+        @media (max-width: 550px) {
+            .course-card {
+                margin: 0.8rem;
+                padding: 1.5rem 1.2rem;
+                border-radius: 28px;
+            }
+        }
+        .header-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #1A6B5A;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .user-badge {
+            font-size: 0.7rem;
+            background: #E8F5E9;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            color: #1A6B5A;
+        }
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            border-bottom: 2px solid #E8A735;
+            padding-bottom: 0.5rem;
+            gap: 0.5rem;
+        }
+        .module-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0C2E3B;
+        }
+        .module-time {
+            font-size: 0.8rem;
+            background: #F0F4F9;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            color: #2C5F7A;
+        }
+        h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1A6B5A;
+            margin: 1.5rem 0 0.75rem 0;
+            border-right: 4px solid #E8A735;
+            padding-right: 0.8rem;
+        }
+        .scenario-card {
+            background: #FDF8F0;
+            border-right: 5px solid #E8A735;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 16px;
+        }
+        .framework-box {
+            background: #E8F5E9;
+            border-radius: 20px;
+            padding: 1.2rem;
+            margin: 1.2rem 0;
+            text-align: center;
+        }
+        .step-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .step-card {
+            background: white;
+            border: 2px solid #E2E9F2;
+            border-radius: 20px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .step-card:hover {
+            border-color: #E8A735;
+            transform: translateX(-4px);
+        }
+        .step-card.active {
+            background: #FDF8F0;
+            border-color: #1A6B5A;
+        }
+        .step-title {
+            font-weight: 700;
+            color: #1A6B5A;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .step-detail {
+            display: none;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #E2E9F2;
+            font-size: 0.9rem;
+            color: #2C5F7A;
+        }
+        .step-card.active .step-detail {
+            display: block;
+        }
+        button {
+            background: #1A6B5A;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.7rem 1.5rem;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: 0.15s;
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .secondary {
+            background: #E8A735;
+            color: #2E3A2A;
+        }
+        .module-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .footer-note {
+            font-size: 0.7rem;
+            text-align: center;
+            color: #8BA0B8;
+            margin-top: 1.5rem;
+        }
+        .reset-link {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.7rem;
+        }
+        .reset-link a {
+            color: #8BA0B8;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .sentence-box {
+            background: #E8F5E9;
+            border-right: 5px solid #1A6B5A;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 16px;
+            text-align: center;
+        }
+        .toast-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1A6B5A;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            animation: fadeInUp 0.3s ease;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+        @media (max-width: 480px) {
+            .quiz-options {
+                gap: 0.5rem;
+            }
+            .quiz-option {
+                font-size: 0.75rem;
+                padding: 0.4rem 1rem;
+            }
+        }
+        
+        .quiz-card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #E2E9F2;
+            transition: all 0.2s ease;
+        }
+        .quiz-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            border-color: #E8A735;
+        }
+        .quiz-options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        .quiz-option-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 1rem;
+            background: #F9FCFE;
+            border: 1px solid #E2E9F2;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .quiz-option-item:hover {
+            background: #F0F7F4;
+            border-color: #E8A735;
+            transform: translateX(-4px);
+        }
+        .quiz-option-item.selected {
+            background: #E8F5E9;
+            border-color: #1A6B5A;
+        }
+        .quiz-option-marker {
+            width: 24px;
+            height: 24px;
+            background: #F1F5F9;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #1A6B5A;
+        }
+        .quiz-option-item.selected .quiz-option-marker {
+            background: #1A6B5A;
+            color: white;
+        }
+        .quiz-option-text {
+            flex: 1;
+            font-size: 0.9rem;
+            color: #2A4058;
+        }
+        .progress-badge {
+            display: inline-block;
+            margin-right: 1rem;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            background: #FFF3E0;
+            color: #E8A735;
+        }
+        .progress-complete {
+            background: #E8F5E9;
+            color: #1A6B5A;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        .check-btn {
+            background: #E8A735;
+            color: #2E3A2A;
+            margin-top: 1rem;
+            margin-bottom: 0;
+            width: 100%;
+            font-weight: 700;
+        }
+        .check-btn:hover {
+            background: #d4951e;
+            transform: scale(1.01);
+        }
+        .static-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            background: #E3F2FD;
+            border-right: 4px solid #1A6B5A;
+            display: none;
+        }
+        .static-feedback.correct {
+            background: #E8F5E9;
+            border-right-color: #1A6B5A;
+            color: #1A6B5A;
+        }
+        .static-feedback.incorrect {
+            background: #FFEBEE;
+            border-right-color: #B33A3A;
+            color: #B33A3A;
+        }
+        .static-feedback .hint {
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            font-size: 0.8rem;
+            color: #2C5F7A;
+        }
+    </style>
+</head>
+<body>
+<div class="course-card">
+    <div class="header-tag">
+        <span>حزمة أدوات المرونة</span>
+        <span class="user-badge" id="userBadge">👤 جار التحميل...</span>
+    </div>
+    
+    <div class="module-header">
+        <span class="module-title">⚡ الوحدة ٣: إطار S.A.F.E.</span>
+        <span class="module-time">⏱️ ٣ دقائق • أدوات عملية</span>
+    </div>
+    
+    <p><strong>لقد حددت عقلياتك المحدودة. الآن دعنا نقدم لك أداة عملية لتغييرها.</strong></p>
+    <p>تم تطوير إطار S.A.F.E. خصيصاً للقادة العاملين في السياقات الهشة.</p>
+    
+    <div class="framework-box">
+        <strong>🧭 إطار S.A.F.E.</strong><br><br>
+        <strong>S</strong> — توقف وتنفس (Stop & Breathe)<br>
+        <strong>A</strong> — قيم الواقع (Assess Reality)<br>
+        <strong>F</strong> — ابحث عن أصغر إجراء ممكن (Find the Smallest Feasible Action)<br>
+        <strong>E</strong> — نفذ وقيم (Execute & Evaluate)<br>
+    </div>
+
+    <div class="sentence-box">
+        💡 <strong>ملاحظة:</strong><br>
+        إطار S.A.F.E. ليس عصا سحرية لإيقاف الأزمات. إنه "جهاز تنفس اصطناعي" لعقلك، 
+        يضمن لك اتخاذ القرار الأقل ضرراً عندما ينهار كل شيء حولك.
+    </div>
+    
+    <div class="scenario-card">
+        <strong>📋 سيناريو حقيقي: رفض الوصول في منطقة نائية</strong><br><br>
+        أنت تقود توزيع مساعدات ذا أولوية عالية في منطقة نائية يصعب الوصول إليها. بعد أشهر من التخطيط، تتلقى اتصالاً في الساعة ٦ صباحاً: "تم رفض الوصول بسبب لوائح أمنية جديدة." ٥٠٠ عائلة مستضعفة في طريقها بالفعل إلى الموقع. فريقك في حالة ذعر، والجهة المانحة تطالب بتحديث فوري.<br><br>
+        <strong>دماغك القديم يقول:</strong> "المهمة فشلت. سنخسر ثقة الجهة المانحة. لا شيء سينجح." (عقلية الضحية/الندرة)<br><br>
+        <strong>إطار S.A.F.E. يمنحك مساراً مختلفاً.</strong>
+    </div>
+    
+    <h2>تطبيق خطوات S.A.F.E.</h2>
+    <p><em>انقر على كل خطوة لتوسيعها ومعرفة كيفية تطبيقها على سيناريو رفض الوصول.</em></p>
+    
+    <div class="step-container" id="stepsContainer">
+        <div class="step-card" data-step="1">
+            <div class="step-title"><span>🧘 ١. توقف وتنفس</span></div>
+            <div class="step-detail"><strong>لماذا هو مهم:</strong> اللوزة الدماغية (Amygdala) تختطف القشرة الجبهية (Prefrontal Cortex). توقف لمدة ١٠ ثوانٍ للتنفس يقاطع حلقة الذعر ويعيد الاتصال بمنطقك.<br><br><strong>التطبيق:</strong> "أشعر بالذعر يتصاعد في صدري. قلبي يدق بسرعة. سأتوقف الآن. سآخذ ثلاثة أنفاس عميقة وبطيئة: شهيق... زفير... شهيق... زفير... قبل أن أتحدث أو أقرر أي شيء. فريقي بحاجة إلى قائد هادئ الآن."</div>
+        </div>
+        <div class="step-card" data-step="2">
+            <div class="step-title"><span>🔍 ٢. قيم الواقع (وليس الافتراضات)</span></div>
+            <div class="step-detail"><strong>لماذا هو مهم:</strong> أدمغة الأزمات تضخم التهديدات وتتجاهل الموارد المتاحة. التقييم الواقعي يفصل بين الحقائق والقصص التي يرويها دماغك الخائف.<br><br><strong>التطبيق:</strong> "دعنا نأخذ نفساً آخر ونفرز الأمور: <strong>الحقيقة:</strong> الوصول إلى الموقع الأساسي ممنوع حالياً. <strong>الحقيقة:</strong> ٥٠٠ عائلة في طريقها وقد تصل خلال ساعات. <strong>الحقيقة:</strong> لدينا رقم هاتف شيوخ المنطقة. <strong>الافتراض:</strong> 'كل شيء فشل' – قد لا يكون هذا صحيحاً. ربما هناك طريق بديل، أو موقع توزيع ثانٍ، أو إمكانية للتفاوض. <strong>الأولوية:</strong> إيجاد طرق توزيع بديلة أو التفاوض مع شيوخ المنطقة."</div>
+        </div>
+        <div class="step-card" data-step="3">
+            <div class="step-title"><span>🎯 ٣. ابحث عن أصغر إجراء ممكن</span></div>
+            <div class="step-detail"><strong>لماذا هو مهم:</strong> الفريق في حالة جمود لأنه يرى المشكلة ضخمة جداً. أي نجاح صغير، مهما كان بسيطاً، يخلق زخماً ويكسر دائرة الجمود.<br><br><strong>التطبيق:</strong> "لا يمكننا حل مشكلة الوصول كاملة الآن. هذا أكبر منا. لكن يمكننا فعل شيء واحد صغير الآن. سأتصل بشيوخ المنطقة المحليين لأفهم الوضع وأطلب مشورتهم. أو سأبدأ في تجربة بروتوكول التوزيع عن بُعد مع مجموعة صغيرة من المستفيدين كنموذج تجريبي."</div>
+        </div>
+        <div class="step-card" data-step="4">
+            <div class="step-title"><span>🔄 ٤. نفذ وقيم</span></div>
+            <div class="step-detail"><strong>لماذا هو مهم:</strong> في الأزمة، الكمال عدو الخير. تنفذ خطوات صغيرة، ثم تقيم النتائج، ثم تعدل المسار. هذه الدورة تمنع التجميد.<br><br><strong>التطبيق (على شكل نقاط):</strong><br>• <strong>تواصل:</strong> سأتصل بشيخ المنطقة مباشرة لاستكشاف إمكانية التفاوض للحصول على وصول محدود أو مؤقت للموقع.<br><br>• <strong>تفويض:</strong> سأطلب من مدير البرامج البحث فوراً عن موقع توزيع بديل في المنطقة.<br><br>• <strong>إدارة توقعات المانح:</strong> سأرسل تحديثاً قصيراً وواضحاً للجهة المانحة: "نواجه تحدياً مؤقتاً في الوصول. فريقنا يعمل الآن على حلول بديلة. سنزودكم بتحديث مفصل خلال ساعتين."<br><br>• <strong>تقييم ومراجعة:</strong> بعد ساعتين، سأجتمع مع الفريق للتحقق: هل نجحنا في فتح قناة تواصل مع شيخ المنطقة؟ هل تم تحديد موقع بديل؟ بناءً على الإجابات، سنعدل خطتنا ونتخذ الخطوة التالية."</div>
+        </div>
+    </div>
+    
+    <div class="sentence-box">
+        <strong>💡 الفكرة الأساسية</strong><br>"لا تحتاج إلى خطة مثالية. تحتاج إلى الإجراء الصحيح التالي. أبطئ، قيم، تحرك، ثم كرر."
+    </div>
+    
+    <div class="section-header">
+        <h2 style="margin: 0; border-right: none; padding-right: 0;">📋 اختبر فهمك</h2>
+        <span class="progress-badge" id="quizProgress">٠/٤ تم الإجابة</span>
+    </div>
+    
+    <!-- السؤال 1 -->
+    <div class="quiz-card" id="q1Card">
+        <div class="quiz-question">
+            <strong>❓ السؤال ١: وفقاً لإطار S.A.F.E.، ما الذي يجب أن تفعله أولاً عند وقوع الأزمة؟</strong>
+        </div>
+        <div class="quiz-options-grid" data-q="first">
+            <div class="quiz-option-item" data-val="وضع خطة تعافي مفصلة"><span class="quiz-option-marker">○</span><span class="quiz-option-text">وضع خطة تعافي مفصلة</span></div>
+            <div class="quiz-option-item" data-val="التوقف والتنفس"><span class="quiz-option-marker">○</span><span class="quiz-option-text">التوقف والتنفس</span></div>
+            <div class="quiz-option-item" data-val="الاتصال بالمركز للحصول على توجيه"><span class="quiz-option-marker">○</span><span class="quiz-option-text">الاتصال بالمركز للحصول على توجيه</span></div>
+            <div class="quiz-option-item" data-val="اتخاذ أكبر إجراء فوراً"><span class="quiz-option-marker">○</span><span class="quiz-option-text">اتخاذ أكبر إجراء فوراً</span></div>
+        </div>
+        <div id="fb1" class="static-feedback"></div>
+        <button class="check-btn" data-q="1">✅ تحقق من الإجابة</button>
+    </div>
+    
+    <!-- السؤال 2 -->
+    <div class="quiz-card" id="q2Card">
+        <div class="quiz-question">
+            <strong>❓ السؤال ٢: في سيناريو رفض الوصول، ما هو "أصغر إجراء ممكن" (Find the Smallest Feasible Action) الذي يمكنك اتخاذه؟</strong>
+        </div>
+        <div class="quiz-options-grid" data-q="smallest">
+            <div class="quiz-option-item" data-val="انتظار خطاب رسمي من السلطات"><span class="quiz-option-marker">○</span><span class="quiz-option-text">انتظار خطاب رسمي من السلطات</span></div>
+            <div class="quiz-option-item" data-val="إلغاء جميع العمليات فوراً وإخطار الجهة المانحة بالفشل"><span class="quiz-option-marker">○</span><span class="quiz-option-text">إلغاء جميع العمليات فوراً وإخطار الجهة المانحة بالفشل</span></div>
+            <div class="quiz-option-item" data-val="الاتصال بشيوخ المنطقة المحليين للتفاوض على الوصول أو تحديد موقع بديل"><span class="quiz-option-marker">○</span><span class="quiz-option-text">الاتصال بشيوخ المنطقة المحليين للتفاوض على الوصول أو تحديد موقع بديل</span></div>
+            <div class="quiz-option-item" data-val="إرسال تقرير طويل ومفصل للجهة المانحة يشرح أسباب الفشل"><span class="quiz-option-marker">○</span><span class="quiz-option-text">إرسال تقرير طويل ومفصل للجهة المانحة يشرح أسباب الفشل</span></div>
+        </div>
+        <div id="fb2" class="static-feedback"></div>
+        <button class="check-btn" data-q="2">✅ تحقق من الإجابة</button>
+    </div>
+    
+    <!-- السؤال 3 -->
+    <div class="quiz-card" id="q3Card">
+        <div class="quiz-question">
+            <strong>❓ السؤال ٣: لماذا يؤكد إطار S.A.F.E. على "تقييم الواقع (وليس الافتراضات)" (Assess Reality, not assumptions)؟</strong>
+        </div>
+        <div class="quiz-options-grid" data-q="assess">
+            <div class="quiz-option-item" data-val="لأنه يبطئ عملية اتخاذ القرار وهو أمر جيد دائماً"><span class="quiz-option-marker">○</span><span class="quiz-option-text">لأنه يبطئ عملية اتخاذ القرار وهو أمر جيد دائماً</span></div>
+            <div class="quiz-option-item" data-val="لأن أدمغة الأزمات تضخم التهديدات وتتجاهل الموارد المتاحة، والتقييم يصحح هذا التحريف"><span class="quiz-option-marker">○</span><span class="quiz-option-text">لأن أدمغة الأزمات تضخم التهديدات وتتجاهل الموارد المتاحة، والتقييم يصحح هذا التحريف</span></div>
+            <div class="quiz-option-item" data-val="لأنه يساعد في تحديد من تسبب في الأزمة لتوجيه اللوم المناسب"><span class="quiz-option-marker">○</span><span class="quiz-option-text">لأنه يساعد في تحديد من تسبب في الأزمة لتوجيه اللوم المناسب</span></div>
+            <div class="quiz-option-item" data-val="لأنه يخلق توثيقاً أفضل للجهات المانحة في التقارير النهائية"><span class="quiz-option-marker">○</span><span class="quiz-option-text">لأنه يخلق توثيقاً أفضل للجهات المانحة في التقارير النهائية</span></div>
+        </div>
+        <div id="fb3" class="static-feedback"></div>
+        <button class="check-btn" data-q="3">✅ تحقق من الإجابة</button>
+    </div>
+    
+    <!-- السؤال 4 -->
+    <div class="quiz-card" id="q4Card">
+        <div class="quiz-question">
+            <strong>❓ السؤال ٤: أي من تحولات العقلية التالية يدعمها إطار S.A.F.E. بشكل مباشر ويعززها؟</strong>
+        </div>
+        <div class="quiz-options-grid" data-q="shift">
+            <div class="quiz-option-item" data-val="الضحية ← انتظار المساعدة"><span class="quiz-option-marker">○</span><span class="quiz-option-text">الضحية ← انتظار المساعدة</span></div>
+            <div class="quiz-option-item" data-val="الذعر والجمود ← إجراءات صغيرة ومتعمدة ومنهجية"><span class="quiz-option-marker">○</span><span class="quiz-option-text">الذعر والجمود ← إجراءات صغيرة ومتعمدة ومنهجية</span></div>
+            <div class="quiz-option-item" data-val="الخبير الذي يعرف كل شيء ← تجاهل المعرفة المحلية"><span class="quiz-option-marker">○</span><span class="quiz-option-text">الخبير الذي يعرف كل شيء ← تجاهل المعرفة المحلية</span></div>
+            <div class="quiz-option-item" data-val="الجمود الفكري ← لوم البيئة والعوامل الخارجية"><span class="quiz-option-marker">○</span><span class="quiz-option-text">الجمود الفكري ← لوم البيئة والعوامل الخارجية</span></div>
+        </div>
+        <div id="fb4" class="static-feedback"></div>
+        <button class="check-btn" data-q="4">✅ تحقق من الإجابة</button>
+    </div>
+    
+    <div class="module-nav">
+        <button class="secondary" id="backToModule2Btn">← العودة إلى الوحدة ٢</button>
+        <button id="nextToModule4Btn">التالي: الوحدة ٣.١ →</button>
+    </div>
+    
+    <div class="footer-note">الوحدة ٣ من حزمة أدوات المرونة</div>
+    <div class="reset-link"><a id="resetDataLink">↺ إعادة ضبط بيانات الوحدة ٣</a></div>
+</div>
+
+<script>
+// ============================================
+// GOOGLE SHEETS WEB APP URL
+// ============================================
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
+
+// ============================================
+// GET USER DATA - IMPROVED WITH MORE SEARCH LOCATIONS
+// ============================================
+function getUserData() {
+    let name = '', email = '', position = '';
+    
+    // Try multiple possible storage locations for name
+    const possibleNameKeys = ['course_user_name', 'userName', 'username', 'fullName', 'full_name', 'name', 'user_name'];
+    const possibleEmailKeys = ['course_user_email', 'userEmail', 'email', 'user_email'];
+    const possiblePositionKeys = ['course_user_position', 'userPosition', 'position', 'user_position', 'jobTitle', 'role'];
+    
+    // Check each possible key for name
+    for (const key of possibleNameKeys) {
+        let val = localStorage.getItem(key);
+        if (val && val !== 'null' && val !== 'undefined' && val !== 'Guest' && val !== 'زائر' && val.trim() !== '') {
+            name = val.trim();
+            console.log('✅ Found user name in:', key, name);
+            break;
+        }
+    }
+    
+    // If name found, try to get email and position
+    if (name) {
+        for (const key of possibleEmailKeys) {
+            let val = localStorage.getItem(key);
+            if (val && val !== 'null' && val !== 'undefined') {
+                email = val.trim();
+                break;
+            }
+        }
+        for (const key of possiblePositionKeys) {
+            let val = localStorage.getItem(key);
+            if (val && val !== 'null' && val !== 'undefined') {
+                position = val.trim();
+                break;
+            }
+        }
+    }
+    
+    // Check course_user object
+    if (!name) {
+        let user = localStorage.getItem('course_user');
+        if (user) {
+            try { 
+                let p = JSON.parse(user); 
+                if (p && p.name && p.name !== 'Guest' && p.name !== 'زائر') {
+                    name = p.name.trim();
+                    email = (p.email || '').trim();
+                    position = (p.position || '').trim();
+                    console.log('✅ Found user from course_user:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // Check users array
+    if (!name) {
+        let users = localStorage.getItem('users');
+        if (users) {
+            try { 
+                let p = JSON.parse(users); 
+                if (Array.isArray(p) && p.length > 0) {
+                    for (let i = p.length - 1; i >= 0; i--) {
+                        if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'زائر') {
+                            name = p[i].name.trim();
+                            email = (p[i].email || '').trim();
+                            position = (p[i].position || '').trim();
+                            console.log('✅ Found user from users array:', name);
+                            break;
+                        }
+                    }
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // Check resilience_users
+    if (!name) {
+        let users = localStorage.getItem('resilience_users');
+        if (users) {
+            try { 
+                let p = JSON.parse(users); 
+                if (Array.isArray(p) && p.length > 0) {
+                    for (let i = p.length - 1; i >= 0; i--) {
+                        if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'زائر') {
+                            name = p[i].name.trim();
+                            email = (p[i].email || '').trim();
+                            position = (p[i].position || '').trim();
+                            console.log('✅ Found user from resilience_users:', name);
+                            break;
+                        }
+                    }
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // Check currentUser object
+    if (!name) {
+        let current = localStorage.getItem('currentUser');
+        if (current) {
+            try {
+                let p = JSON.parse(current);
+                if (p && p.name && p.name !== 'Guest' && p.name !== 'زائر') {
+                    name = p.name.trim();
+                    email = (p.email || '').trim();
+                    position = (p.position || '').trim();
+                    console.log('✅ Found user from currentUser:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // Check pre_assessment_answers
+    if (!name) {
+        let preAnswers = localStorage.getItem('pre_assessment_answers');
+        if (preAnswers) {
+            try {
+                let p = JSON.parse(preAnswers);
+                if (p && p.userName && p.userName !== 'Guest' && p.userName !== 'زائر') {
+                    name = p.userName.trim();
+                    email = (p.userEmail || '').trim();
+                    position = (p.userPosition || '').trim();
+                    console.log('✅ Found user from pre_assessment_answers:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // Check module1_answers
+    if (!name) {
+        let m1Answers = localStorage.getItem('module1_answers');
+        if (m1Answers) {
+            try {
+                let p = JSON.parse(m1Answers);
+                if (p && p.userName && p.userName !== 'Guest' && p.userName !== 'زائر') {
+                    name = p.userName.trim();
+                    email = (p.userEmail || '').trim();
+                    position = (p.userPosition || '').trim();
+                    console.log('✅ Found user from module1_answers:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // Check sessionStorage
+    if (!name) {
+        let sessionUser = sessionStorage.getItem('current_user');
+        if (sessionUser) {
+            try {
+                let p = JSON.parse(sessionUser);
+                if (p && p.name && p.name !== 'Guest' && p.name !== 'زائر') {
+                    name = p.name.trim();
+                    email = (p.email || '').trim();
+                    position = (p.position || '').trim();
+                    console.log('✅ Found user from sessionStorage:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // Check URL parameters
+    if (!name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        let urlName = urlParams.get('name');
+        if (urlName && urlName !== 'Guest' && urlName !== 'زائر') {
+            name = urlName.trim();
+            email = urlParams.get('email') || '';
+            position = urlParams.get('position') || '';
+            console.log('✅ Found user from URL params:', name);
+            // Save for future
+            localStorage.setItem('course_user_name', name);
+            if (email) localStorage.setItem('course_user_email', email);
+            if (position) localStorage.setItem('course_user_position', position);
+        }
+    }
+    
+    console.log('📋 Final user data:', { name: name || 'زائر', email: email || 'guest@example.com' });
+    return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
+}
+
+// عرض اسم المستخدم
+const currentUser = getUserData();
+const userBadge = document.getElementById('userBadge');
+if (userBadge) {
+    if (currentUser.name !== 'زائر') {
+        userBadge.innerText = `👤 ${currentUser.name}`;
+    } else {
+        userBadge.innerText = `👤 متعلم`;
+    }
+}
+
+function showToast(message, isError = false) {
+    const existing = document.querySelector('.toast-notification');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.style.background = isError ? '#C0392B' : '#1A6B5A';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => { if (toast) toast.remove(); }, 3000);
+}
+
+// بطاقات الخطوات
+const stepCards = document.querySelectorAll('.step-card');
+stepCards.forEach(card => {
+    card.addEventListener('click', () => {
+        stepCards.forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+    });
+    if (card.getAttribute('data-step') === '1') card.classList.add('active');
+});
+
+// حالة الاختبار
+let answers = { first: null, smallest: null, assess: null, shift: null };
+
+function updateProgress() {
+    let answered = 0;
+    if (answers.first) answered++;
+    if (answers.smallest) answered++;
+    if (answers.assess) answered++;
+    if (answers.shift) answered++;
+    
+    const progressSpan = document.getElementById('quizProgress');
+    if (progressSpan) {
+        progressSpan.textContent = `${answered}/٤ تم الإجابة`;
+        if (answered === 4) {
+            progressSpan.className = 'progress-badge progress-complete';
+        } else {
+            progressSpan.className = 'progress-badge';
+        }
+    }
+    return answered === 4;
+}
+
+// ربط النقر على الخيارات - فقط حفظ الإجابة، بدون تغذية راجعة تلقائية
+function bindOptionClick(selector, key) {
+    const group = document.querySelector(selector);
+    if (!group) return;
+    group.querySelectorAll('.quiz-option-item').forEach(opt => {
+        opt.addEventListener('click', () => {
+            const val = opt.getAttribute('data-val');
+            answers[key] = val;
+            group.querySelectorAll('.quiz-option-item').forEach(o => {
+                o.classList.remove('selected');
+                const marker = o.querySelector('.quiz-option-marker');
+                if (marker) marker.textContent = '○';
+            });
+            opt.classList.add('selected');
+            const marker = opt.querySelector('.quiz-option-marker');
+            if (marker) marker.textContent = '●';
+            
+            localStorage.setItem('module3_answers', JSON.stringify(answers));
+            updateProgress();
+        });
+    });
+}
+
+bindOptionClick('[data-q="first"]', 'first');
+bindOptionClick('[data-q="smallest"]', 'smallest');
+bindOptionClick('[data-q="assess"]', 'assess');
+bindOptionClick('[data-q="shift"]', 'shift');
+
+// عرض تغذية راجعة ثابتة عند النقر على زر التحقق
+function showStaticFeedback(fbId, isCorrect, message, hintText) {
+    const fb = document.getElementById(fbId);
+    if (fb) {
+        fb.className = isCorrect ? 'static-feedback correct' : 'static-feedback incorrect';
+        fb.innerHTML = `
+            <strong>${isCorrect ? '✅ صحيح!' : '⚠️ ليس صحيحاً.'}</strong> ${message}
+            <div class="hint">💡 <strong>تلميح:</strong> ${hintText}</div>
+        `;
+        fb.style.display = 'block';
+    }
+}
+
+// أزرار التحقق من الإجابات
+document.querySelectorAll('.check-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const qNum = btn.getAttribute('data-q');
+        
+        if (qNum === '1') {
+            const selected = document.querySelector('[data-q="first"] .quiz-option-item.selected');
+            const selectedVal = selected ? selected.getAttribute('data-val') : null;
+            if (selectedVal === 'التوقف والتنفس') {
+                showStaticFeedback('fb1', true, 'التوقف والتنفس يقاطع استجابة الذعر ويعيد تنشيط قدرتك على التفكير المنطقي.', 'الخطوة الأولى هي مقاطعة استجابة الذعر. اللوزة الدماغية تختطف منطقك. توقف لمدة ١٠ ثوانٍ للتنفس يعيد الهدوء قبل أن تتصرف.');
+            } else if (selectedVal) {
+                showStaticFeedback('fb1', false, 'الإجابة الصحيحة هي "التوقف والتنفس".', 'الخطوة الأولى هي مقاطعة استجابة الذعر. اللوزة الدماغية تختطف منطقك. توقف لمدة ١٠ ثوانٍ للتنفس يعيد الهدوء قبل أن تتصرف.');
+            } else {
+                showStaticFeedback('fb1', false, 'الرجاء اختيار إجابة أولاً. الإجابة الصحيحة هي "التوقف والتنفس".', 'الخطوة الأولى هي مقاطعة استجابة الذعر. اللوزة الدماغية تختطف منطقك. توقف لمدة ١٠ ثوانٍ للتنفس يعيد الهدوء قبل أن تتصرف.');
+            }
+        }
+        else if (qNum === '2') {
+            const selected = document.querySelector('[data-q="smallest"] .quiz-option-item.selected');
+            const selectedVal = selected ? selected.getAttribute('data-val') : null;
+            if (selectedVal === 'الاتصال بشيوخ المنطقة المحليين للتفاوض على الوصول أو تحديد موقع بديل') {
+                showStaticFeedback('fb2', true, 'الاتصال بشيوخ المنطقة هو أصغر إجراء ممكن يفتح قنوات للتفاوض والحلول البديلة.', 'أصغر إجراء ممكن هو شيء يمكنك فعله الآن، ليس الانتظار أو الاستسلام. ما هي الخطوة الصغيرة التي تدفعك للأمام؟');
+            } else if (selectedVal) {
+                showStaticFeedback('fb2', false, 'الإجابة الصحيحة هي "الاتصال بشيوخ المنطقة المحليين للتفاوض على الوصول أو تحديد موقع بديل".', 'أصغر إجراء ممكن هو شيء يمكنك فعله الآن، ليس الانتظار أو الاستسلام. ما هي الخطوة الصغيرة التي تدفعك للأمام؟');
+            } else {
+                showStaticFeedback('fb2', false, 'الرجاء اختيار إجابة أولاً. الإجابة الصحيحة هي الاتصال بشيوخ المنطقة.', 'أصغر إجراء ممكن هو شيء يمكنك فعله الآن، ليس الانتظار أو الاستسلام. ما هي الخطوة الصغيرة التي تدفعك للأمام؟');
+            }
+        }
+        else if (qNum === '3') {
+            const selected = document.querySelector('[data-q="assess"] .quiz-option-item.selected');
+            const selectedVal = selected ? selected.getAttribute('data-val') : null;
+            if (selectedVal === 'لأن أدمغة الأزمات تضخم التهديدات وتتجاهل الموارد المتاحة، والتقييم يصحح هذا التحريف') {
+                showStaticFeedback('fb3', true, 'أدمغة الأزمات تضخم التهديدات وتتجاهل الموارد المتاحة. التقييم الواقعي يصحح هذا التحريف.', 'في الأزمة، يضخم دماغك التهديدات ويتجاهل الموارد المتاحة تلقائياً. تقييم الواقع يفصل بين الحقائق والافتراضات المخيفة.');
+            } else if (selectedVal) {
+                showStaticFeedback('fb3', false, 'الإجابة الصحيحة هي: "لأن أدمغة الأزمات تضخم التهديدات وتتجاهل الموارد المتاحة، والتقييم يصحح هذا التحريف".', 'في الأزمة، يضخم دماغك التهديدات ويتجاهل الموارد المتاحة تلقائياً. تقييم الواقع يفصل بين الحقائق والافتراضات المخيفة.');
+            } else {
+                showStaticFeedback('fb3', false, 'الرجاء اختيار إجابة أولاً. الإجابة الصحيحة هي عن كيف تضخم أدمغة الأزمات التهديدات.', 'في الأزمة، يضخم دماغك التهديدات ويتجاهل الموارد المتاحة تلقائياً. تقييم الواقع يفصل بين الحقائق والافتراضات المخيفة.');
+            }
+        }
+        else if (qNum === '4') {
+            const selected = document.querySelector('[data-q="shift"] .quiz-option-item.selected');
+            const selectedVal = selected ? selected.getAttribute('data-val') : null;
+            if (selectedVal === 'الذعر والجمود ← إجراءات صغيرة ومتعمدة ومنهجية') {
+                showStaticFeedback('fb4', true, 'إطار S.A.F.E. يحول الذعر والجمود إلى إجراءات صغيرة ومتعمدة، مما يعيد الشعور بالسيطرة.', 'يساعدك إطار S.A.F.E. على الانتقال من الذعر المتجمد إلى العمل المنهجي. يستهدف تحديداً عقلية الذعر والجمود.');
+            } else if (selectedVal) {
+                showStaticFeedback('fb4', false, 'الإجابة الصحيحة هي: "الذعر والجمود ← إجراءات صغيرة ومتعمدة ومنهجية".', 'يساعدك إطار S.A.F.E. على الانتقال من الذعر المتجمد إلى العمل المنهجي. يستهدف تحديداً عقلية الذعر والجمود.');
+            } else {
+                showStaticFeedback('fb4', false, 'الرجاء اختيار إجابة أولاً. الإجابة الصحيحة هي عن تحويل الذعر إلى إجراءات منهجية.', 'يساعدك إطار S.A.F.E. على الانتقال من الذعر المتجمد إلى العمل المنهجي. يستهدف تحديداً عقلية الذعر والجمود.');
+            }
+        }
+    });
+});
+
+// تحميل الإجابات المحفوظة
+const savedAnswers = localStorage.getItem('module3_answers');
+if (savedAnswers) {
+    try {
+        const data = JSON.parse(savedAnswers);
+        answers = data;
+        for (let [key, val] of Object.entries(data)) {
+            if (val) {
+                let selector = '';
+                if (key === 'first') selector = '[data-q="first"]';
+                else if (key === 'smallest') selector = '[data-q="smallest"]';
+                else if (key === 'assess') selector = '[data-q="assess"]';
+                else if (key === 'shift') selector = '[data-q="shift"]';
+                const opt = document.querySelector(`${selector} .quiz-option-item[data-val="${val}"]`);
+                if (opt) {
+                    opt.classList.add('selected');
+                    const marker = opt.querySelector('.quiz-option-marker');
+                    if (marker) marker.textContent = '●';
+                }
+            }
+        }
+        updateProgress();
+    } catch(e) {}
+}
+
+function sendModule3DataToSheet() {
+    const userData = getUserData();
+    
+    const payload = {
+        module: 'Module 3',
+        language: 'ar',
+        userName: userData.name,
+        userEmail: userData.email,
+        userPosition: userData.position,
+        timestamp: new Date().toISOString(),
+        answers: {
+            q1_safe_first_step: answers.first || 'لم يجب',
+            q2_smallest_feasible_action: answers.smallest || 'لم يجب',
+            q3_assess_reality: answers.assess || 'لم يجب',
+            q4_mindset_shift: answers.shift || 'لم يجب'
+        }
+    };
+    
+    console.log('📤 جاري إرسال بيانات الوحدة ٣:', payload);
+    
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+    xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+    xhr.send(JSON.stringify(payload));
+    
+    showToast('✅ تم حفظ بيانات الوحدة ٣!');
+}
+
+function goToNextModule() {
+    const allAnswered = updateProgress();
+    
+    if (!allAnswered) {
+        showToast('⚠️ الرجاء الإجابة على جميع الأسئلة الأربعة قبل الانتقال إلى الوحدة ٣.١.', true);
+        return;
+    }
+    
+    localStorage.setItem('module3_answers', JSON.stringify(answers));
+    localStorage.setItem('module3_completed', 'true');
+    sendModule3DataToSheet();
+    showToast('جاري حفظ تقدمك...');
+    
+    setTimeout(() => {
+        window.location.href = 'module3.1.html';
+    }, 500);
+}
+
+document.getElementById('backToModule2Btn')?.addEventListener('click', () => window.location.href = 'module2.html');
+document.getElementById('nextToModule4Btn')?.addEventListener('click', goToNextModule);
+document.getElementById('resetDataLink')?.addEventListener('click', () => { 
+    if(confirm('هل تريد إعادة ضبط تقدم الوحدة ٣؟')) { 
+        localStorage.removeItem('module3_answers'); 
+        localStorage.removeItem('module3_completed');
+        location.reload(); 
+    } 
+});
+
+updateProgress();
+</script>
+</body>
+</html>

@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>الوحدة ٢ · حزمة أدوات المرونة</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif;
+            background: #F4F7FC;
+            color: #1E2F3E;
+            line-height: 1.45;
+            padding: 0 0 2rem 0;
+        }
+        .course-card {
+            max-width: 680px;
+            margin: 1rem auto;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.02);
+            overflow: hidden;
+            padding: 1.8rem 1.5rem 2.2rem;
+        }
+        @media (max-width: 550px) {
+            .course-card { margin: 0.8rem; padding: 1.5rem 1.2rem; border-radius: 28px; }
+        }
+        .header-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #1A6B5A;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            border-bottom: 2px solid #E8A735;
+            padding-bottom: 0.5rem;
+            gap: 0.5rem;
+        }
+        .module-title { font-size: 1.3rem; font-weight: 700; color: #0C2E3B; }
+        .module-time { font-size: 0.8rem; background: #F0F4F9; padding: 0.2rem 0.8rem; border-radius: 20px; color: #2C5F7A; }
+        h2 {
+            font-size: 1.2rem; font-weight: 600; color: #1A6B5A;
+            margin: 1.5rem 0 0.75rem 0; border-right: 4px solid #E8A735; padding-right: 0.8rem;
+        }
+        .scenario-card {
+            background: #FDF8F0; border-right: 5px solid #E8A735;
+            padding: 1rem; margin: 1rem 0; border-radius: 16px;
+        }
+        .mindset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem; margin: 1.5rem 0;
+        }
+        .mindset-card {
+            background: white; border-radius: 20px; padding: 1rem;
+            border: 2px solid #E2E9F2; cursor: pointer; transition: all 0.2s;
+            text-align: center; min-height: 140px;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+        .mindset-card:hover { transform: translateY(-4px); border-color: #E8A735; }
+        .mindset-card.flipped { background: #E8F5E9; border-color: #1A6B5A; }
+        .hidden-content { display: none; }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { border: 1px solid #E2E9F2; padding: 0.75rem; text-align: right; vertical-align: top; }
+        th { background: #F0F7F4; font-weight: 700; color: #1A6B5A; }
+        button {
+            background: #1A6B5A; border: none; color: white; font-weight: 600;
+            padding: 0.7rem 1.5rem; border-radius: 60px; font-size: 0.9rem;
+            cursor: pointer; margin-top: 0.5rem;
+        }
+        button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .secondary { background: #E8A735; color: #2E3A2A; }
+        .module-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .footer-note { font-size: 0.7rem; text-align: center; color: #8BA0B8; margin-top: 1.5rem; }
+        .reset-link { text-align: center; margin-top: 1rem; font-size: 0.7rem; }
+        .reset-link a { color: #8BA0B8; cursor: pointer; text-decoration: underline; }
+        
+        .quiz-section { margin: 2rem 0; }
+        .quiz-card {
+            background: white; border-radius: 24px; padding: 1.5rem;
+            margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #E2E9F2; transition: all 0.2s ease;
+        }
+        .quiz-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); border-color: #E8A735; }
+        .quiz-question { margin-bottom: 1rem; }
+        .quiz-question strong { font-size: 1.1rem; color: #0C2E3B; display: block; margin-bottom: 0.5rem; }
+        .quiz-options-grid { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
+        .quiz-option {
+            display: flex; align-items: center; gap: 1rem;
+            padding: 0.8rem 1rem; background: #F9FCFE;
+            border: 1px solid #E2E9F2; border-radius: 60px;
+            cursor: pointer; transition: all 0.2s ease;
+        }
+        .quiz-option:hover { background: #F0F7F4; border-color: #E8A735; transform: translateX(-4px); }
+        .quiz-option.selected { background: #E8F5E9; border-color: #1A6B5A; }
+        .quiz-option .option-marker {
+            width: 24px; height: 24px; background: #F1F5F9; border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; font-weight: bold; color: #1A6B5A;
+        }
+        .quiz-option.selected .option-marker { background: #1A6B5A; color: white; }
+        .quiz-option .option-text { flex: 1; font-size: 0.9rem; color: #2A4058; }
+        
+        .sentence-box {
+            background: #E8F5E9; border-right: 5px solid #1A6B5A;
+            padding: 1.2rem; margin: 1.5rem 0; border-radius: 16px;
+            text-align: center; font-size: 1rem; font-weight: 500; color: #1A6B5A;
+        }
+        
+        .extra-resource-link { margin: 1rem 0; text-align: center; }
+        .extra-resource-link a {
+            background: #F0F4F9; padding: 0.7rem 1.5rem; border-radius: 40px;
+            text-decoration: none; font-size: 0.9rem; font-weight: 500;
+            color: #1A6B5A; display: inline-flex; align-items: center; gap: 0.5rem;
+            transition: 0.2s; border: 1px solid #D0DFE8; cursor: pointer;
+        }
+        .extra-resource-link a:hover { background: #E8A735; color: white; border-color: #E8A735; }
+        
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(3px);
+            z-index: 2000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content {
+            background: white; max-width: 450px; width: 90%;
+            border-radius: 28px; padding: 1.8rem; text-align: center;
+            transform: scale(0.9); transition: transform 0.3s ease;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            position: relative; border: 1px solid #E8A735;
+        }
+        .modal-close-btn {
+            background: #1A6B5A; color: white; border: none;
+            padding: 0.7rem 1.8rem; border-radius: 60px; font-size: 0.95rem;
+            font-weight: 600; cursor: pointer; margin-top: 0.5rem; transition: all 0.2s; width: 100%;
+        }
+        .close-icon {
+            background: none; border: none; font-size: 1.5rem; cursor: pointer;
+            color: #1A6B5A; padding: 0; margin: 0; width: auto;
+        }
+        .close-icon:hover { background: none; transform: scale(1.1); color: #E8A735; }
+        .close-beside {
+            background: #E8A735; color: #2E3A2A; border: none;
+            padding: 0.3rem 0.8rem; border-radius: 60px; font-size: 0.7rem;
+            font-weight: 600; cursor: pointer; width: auto; margin: 0;
+        }
+        .close-beside:hover { background: #d4951e; transform: scale(1.02); }
+        
+        .quiz-feedback { margin-top: 1rem; padding: 0.8rem; border-radius: 12px; font-size: 0.85rem; display: none; }
+        .quiz-feedback.correct { background: #E8F5E9; color: #1A6B5A; border-right: 3px solid #1A6B5A; }
+        .quiz-feedback.incorrect { background: #FFEBEE; color: #B33A3A; border-right: 3px solid #B33A3A; }
+        
+        .results-summary {
+            background: #F0F4F9;
+            border-radius: 24px;
+            padding: 1rem 1.5rem;
+            margin-top: 1rem;
+            border: 1px solid #D0DFE8;
+            transition: all 0.2s;
+        }
+        .result-item {
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #E2E9F2;
+            font-size: 0.85rem;
+        }
+        .result-item:last-child { border-bottom: none; }
+        .result-badge {
+            font-weight: 700;
+            min-width: 100px;
+        }
+        .result-status {
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            margin-right: 0.5rem;
+        }
+        .status-correct { background: #1A6B5A20; color: #1A6B5A; }
+        .status-incorrect { background: #B33A3A20; color: #B33A3A; }
+        .check-btn {
+            background: #E8A735;
+            color: #2E3A2A;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            width: 100%;
+            font-weight: 700;
+        }
+        .check-btn:hover { background: #d4951e; transform: scale(1.01); }
+        
+        .toast-notification {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: #1A6B5A; color: white; padding: 12px 24px;
+            border-radius: 60px; font-size: 0.85rem; font-weight: 500;
+            z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            animation: fadeInUp 0.3s ease;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        @media (max-width: 480px) {
+            .mindset-grid { grid-template-columns: 1fr; }
+            .quiz-option { padding: 0.6rem 0.8rem; }
+            .modal-content { padding: 1.2rem; width: 95%; }
+        }
+        .intro-text p { margin-bottom: 1rem; line-height: 1.6; }
+        .intro-text .highlight {
+            background: #F0F7F4; padding: 1rem; border-radius: 12px;
+            margin: 1rem 0; border-right: 3px solid #E8A735;
+        }
+        .progress-badge {
+            display: inline-block;
+            margin-right: 1rem;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            background: #FFF3E0;
+            color: #E8A735;
+        }
+        .progress-complete {
+            background: #E8F5E9;
+            color: #1A6B5A;
+        }
+        .generator-scenario {
+            background: #FFF8E7;
+            border-right: 5px solid #E8A735;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 16px;
+        }
+        .observation-list {
+            background: #F0F7F4;
+            padding: 0.8rem;
+            border-radius: 12px;
+            margin: 0.5rem 0;
+        }
+        .manager-quote {
+            background: #EFF3F8;
+            padding: 0.8rem;
+            border-radius: 12px;
+            font-style: italic;
+            margin: 0.5rem 0;
+        }
+        .outcome-box {
+            background: #FFEBEE;
+            padding: 0.8rem;
+            border-radius: 12px;
+            margin: 0.5rem 0;
+            border-right: 3px solid #D32F2F;
+        }
+    </style>
+</head>
+<body>
+<div class="course-card">
+    <div class="header-tag">حزمة أدوات المرونة</div>
+    
+    <div class="module-header">
+        <span class="module-title">🧠 الوحدة ٢: دماغك في وضع الأزمة</span>
+        <span class="module-time">⏱️ ٥ دقائق • تفاعلي + تقارير</span>
+    </div>
+    
+    <div class="intro-text">
+        <p><strong>لنكن صادقين بشأن شيء تتجاهله معظم دورات القيادة.</strong></p>
+        <p><strong>دماغك يعمل بشكل مختلف في منطقة النزاع.</strong></p>
+        
+        <div class="highlight">
+            <p><strong>في البيئة المستقرة</strong> — إنترنت جيد، وقود موثوق، طرق يمكن التنبؤ بها — يمكن لدماغك التخطيط والتحليل والتنفيذ. تضع أهدافاً. تحققها. تشعر بالكفاءة.</p>
+        </div>
+        
+        <div class="highlight">
+            <p><strong>في بيئة الأزمة</strong> — نفد الوقود، أغلقت نقطة التفتيش، اعتُقل موظف — يتحول دماغك إلى وضع آخر. يركز على شيء واحد: <strong>البقاء</strong>.</p>
+        </div>
+        
+        <p>عندما يكون دماغك في وضع البقاء، لا يفكر بوضوح. يفكر بسرعة. يأخذ اختصارات. يرجع إلى ما نجح من قبل — حتى لو كانت "المرة السابقة" في بيئة مختلفة تماماً.</p>
+        
+        <div class="highlight">
+            <p><strong>في البيئة المستقرة، هذه العقلية هي مكسب. في بيئة متقلبة مثل اليمن، هي خطر.</strong></p>
+        </div>
+    </div>
+    
+    <div class="scenario-card">
+        <strong>مثال كيث: ذكي، ماهر، ومرفوض</strong><br><br>
+        تتذكر كيث من قبل؟ كان لدى كيث ١٢ عاماً من الخبرة التقنية. اجتاز الاختبار التقني بامتياز.<br><br>
+        لكن في المقابلة النهائية لمنصب المدير القطري في اليمن، قال:<br>
+        <em>"إجراءات التشغيل القياسية المستخدمة في نيويورك قابلة للنقل مباشرة إلى اليمن. سأعمل مع الفريق المحلي لإيجاد طريقة لتطبيقها هناك."</em><br><br>
+        <strong>لم يتم اختيار كيث.</strong><br><br>
+        <strong>لأن عقليته كانت ضده.</strong><br><br>
+        لقد افترض "أنا قمت بهذا من قبل. أعرف أنه سوف ينجح هنا أيضاً." – لكن هذه العقلية تشكل خطراً في بيئة متقلبة مثل اليمن.
+    </div>
+    
+    <!-- مثال المولد الكهربائي -->
+    <div class="generator-scenario">
+        <strong>📋 مثال المولد الكهربائي: افتراض الخبير في الواقع</strong><br><br>
+        <strong>أنت قائد العمليات.</strong> مديرك يخطط لمكتب جديد في منطقة نزاع.<br><br>
+        <div class="manager-quote">
+            "لا نحتاج إلى مولد كهرباء للمكتب. سيتم توزيع النقد رقمياً. يحتاج الفريق إلى الاجتماع مرة واحدة فقط إذا لزم الأمر. الميزانية تم إقرارها بالفعل."
+        </div>
+        
+        <strong>أنت تلاحظ:</strong>
+        <div class="observation-list">
+            • لا يوجد إنترنت موثوق<br>
+            • حرارة ٤٥ درجة مئوية<br>
+            • أخبرك الموظفون المحليون أن الإنترنت ينقطع يومياً بين الساعة ١١ صباحاً و٣ مساءً
+        </div>
+        
+        <strong>تثير مخاوفك. يرد المدير:</strong>
+        <div class="manager-quote">
+            "الميزانية انتهت. إذا احتجنا إلى مولد لاحقاً، سنرى. إضافته الآن مكلف للغاية."
+        </div>
+        
+        <strong>بعد ثلاثة أشهر:</strong>
+        <div class="outcome-box">
+            أدرك المدير أن نموذج الرقمية أولاً لا يعمل. لا يستطيع الفريق مزامنة البيانات. يتوقف العمل. المكتب غير صالح للاستخدام بعد الساعة ١١ صباحاً. أصبح المولد الآن ضرورياً بشكل عاجل — وبأسعار الطوارئ.
+        </div>
+        
+        <p style="margin-top: 0.8rem;"><strong>ما هي العقلية التي كان يُظهرها المدير؟</strong> افترض المدير أن ما نجح في مكان آخر سينجح هنا — دون التحقق من الظروف المحلية. هذه هي <strong>عقلية الخبير</strong>.</p>
+    </div>
+    
+    <h2>الخبر السار: العقليات ليست دائمة</h2>
+    <div class="scenario-card">
+        <strong>عقليتك ليست شخصيتك. إنها نمط. والأنماط يمكن تغييرها.</strong><br><br>
+        العقليات الخمس — الضحية، الندرة، الذعر، الجمود، الخبير — ليست تشخيصات. إنها أنماط تظهر تحت الضغط.<br><br>
+        كل قائد لديه هذه العقليات. الفرق هو تعلم كيفية التعرف عليها <strong>وتحويلها</strong>.
+    </div>
+    
+    <h2>انقر على كل بطاقة للانتقال من الحالة المحدودة إلى التكيفية</h2>
+    <div class="mindset-grid" id="mindsetGrid">
+        <div class="mindset-card" data-mindset="victim">
+            <div class="mindset-front"><strong>📉 الضحية</strong><br>"الأسطول معطل. العمل مستحيل."<br><span style="font-size:0.7rem;">👇 اضغط للقلب</span></div>
+            <div class="mindset-back hidden-content"><strong>🌿 الوكيل</strong><br>"ما المهام التي يمكننا تنفيذها سيراً على الأقدام؟"</div>
+        </div>
+        <div class="mindset-card" data-mindset="scarcity">
+            <div class="mindset-front"><strong>📉 الندرة</strong><br>"لدينا مركبة واحدة فقط. لا يمكننا الوصول إلى المجتمعات الثلاث."<br><span style="font-size:0.7rem;">👇 اضغط للقلب</span></div>
+            <div class="mindset-back hidden-content"><strong>🌿 الوفرة</strong><br>"ما هو أصغر إجراء ممكن؟"</div>
+        </div>
+        <div class="mindset-card" data-mindset="panic">
+            <div class="mindset-front"><strong>😰 الذعر</strong><br>"علي أن أفعل كل شيء دفعة واحدة!"<br><span style="font-size:0.7rem;">👇 اضغط للقلب</span></div>
+            <div class="mindset-back hidden-content"><strong>🔍 الفضول</strong><br>"ما هو الشيء ذو الأولوية القصوى؟"</div>
+        </div>
+        <div class="mindset-card" data-mindset="fixed">
+            <div class="mindset-front"><strong>🔒 الجمود</strong><br>"لم أواجه هذا من قبل. لا أعرف ماذا أفعل."<br><span style="font-size:0.7rem;">👇 اضغط للقلب</span></div>
+            <div class="mindset-back hidden-content"><strong>🌱 النمو</strong><br>"من في الفريق لديه خبرة هنا؟"</div>
+        </div>
+        <div class="mindset-card" data-mindset="expert">
+            <div class="mindset-front"><strong>👨‍🔬 الخبير</strong><br>"لقد أدرت هذا من قبل. الإجراء واضح."<br><span style="font-size:0.7rem;">👇 اضغط للقلب</span></div>
+            <div class="mindset-back hidden-content"><strong>🎓 المبتدئ</strong><br>"ما الذي تغير منذ آخر ملاحظة لي؟"</div>
+        </div>
+    </div>
+    
+    <h2>الأطر التكيفية الخمسة</h2>
+    <table class="adaptive-table">
+        <thead>
+            <tr><th>العقلية المحدودة</th><th>العقلية التكيفية</th><th>سؤال إعادة الصياغة</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>الضحية</td><td>الوكيل</td><td>"ما الإجراءات التي لا تزال ممكنة؟"</td></tr>
+            <tr><td>الندرة</td><td>الوفرة</td><td>"ما هو أصغر إجراء ممكن؟"</td></tr>
+            <tr><td>الذعر</td><td>الفضول</td><td>"ما هو الشيء ذو الأولوية القصوى؟"</td></tr>
+            <tr><td>الجمود</td><td>النمو</td><td>"من يمتلك الكفاءة ذات الصلة؟"</td></tr>
+            <tr><td>الخبير</td><td>المبتدئ</td><td>"ما الافتراضات التي تغيرت؟"</td></tr>
+        </tbody>
+    </table>
+    
+    <div class="quiz-section">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+            <h2 style="margin: 0; border-right: none; padding-right: 0;">📋 اختبار الوحدة</h2>
+            <span class="progress-badge" id="quizProgress">٠/٣ تم الإجابة</span>
+        </div>
+        
+        <div class="quiz-card">
+            <div class="quiz-question">
+                <strong>❓ السؤال ١: أي عقلية كان يُظهرها المدير؟</strong>
+            </div>
+            <div class="quiz-options-grid" data-q="manager">
+                <div class="quiz-option" data-val="الضحية"><span class="option-marker">○</span><span class="option-text">الضحية</span></div>
+                <div class="quiz-option" data-val="الندرة"><span class="option-marker">○</span><span class="option-text">الندرة</span></div>
+                <div class="quiz-option" data-val="الذعر"><span class="option-marker">○</span><span class="option-text">الذعر</span></div>
+                <div class="quiz-option" data-val="الجمود"><span class="option-marker">○</span><span class="option-text">الجمود</span></div>
+                <div class="quiz-option" data-val="الخبير"><span class="option-marker">○</span><span class="option-text">الخبير</span></div>
+            </div>
+            <div id="managerFb1" class="quiz-feedback"></div>
+        </div>
+        
+        <div class="quiz-card">
+            <div class="quiz-question">
+                <strong>❓ السؤال ٢: ما هو تحول العقلية الذي يحتاج المدير إلى إجرائه؟</strong>
+            </div>
+            <div class="quiz-options-grid" data-q="shift">
+                <div class="quiz-option" data-val="الضحية ← الوكيل"><span class="option-marker">○</span><span class="option-text">الضحية ← الوكيل</span></div>
+                <div class="quiz-option" data-val="الندرة ← الوفرة"><span class="option-marker">○</span><span class="option-text">الندرة ← الوفرة</span></div>
+                <div class="quiz-option" data-val="الذعر ← الفضول"><span class="option-marker">○</span><span class="option-text">الذعر ← الفضول</span></div>
+                <div class="quiz-option" data-val="الجمود ← النمو"><span class="option-marker">○</span><span class="option-text">الجمود ← النمو</span></div>
+                <div class="quiz-option" data-val="الخبير ← المبتدئ"><span class="option-marker">○</span><span class="option-text">الخبير ← المبتدئ</span></div>
+            </div>
+            <div id="managerFb2" class="quiz-feedback"></div>
+        </div>
+        
+        <div class="quiz-card">
+            <div class="quiz-question">
+                <strong>❓ السؤال ٣: ماذا يجب أن يقول المدير للفريق الآن؟ (المساءلة)</strong>
+            </div>
+            <div class="quiz-options-grid" data-q="account">
+                <div class="quiz-option" data-val="الميزانية كانت محددة سابقاً. لا شيء كان بإمكاني فعله."><span class="option-marker">○</span><span class="option-text">"الميزانية كانت محددة سابقاً. لا شيء كان بإمكاني فعله."</span></div>
+                <div class="quiz-option" data-val="كان على الفريق إخباري."><span class="option-marker">○</span><span class="option-text">"كان على الفريق إخباري."</span></div>
+                <div class="quiz-option" data-val="لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي."><span class="option-marker">○</span><span class="option-text">"لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي."</span></div>
+                <div class="quiz-option" data-val="سنشتري مولداً في الربع القادم."><span class="option-marker">○</span><span class="option-text">"سنشتري مولداً في الربع القادم."</span></div>
+            </div>
+            <div id="accountabilityFeedback" class="quiz-feedback"></div>
+        </div>
+        
+        <button id="checkResultsBtn" class="check-btn">📊 عرض نتيجتي</button>
+        <div id="resultsSummaryContainer" class="results-summary" style="display: none;"></div>
+    </div>
+    
+    <div class="sentence-box">
+        <strong>💡 جملة واحدة لتذكرها</strong><br>
+        "لقد تغيرت البيئة. لكن خبرتك لم تتغير. اسأل ما هو المختلف قبل أن تتصرف."
+    </div>
+    
+    <div class="extra-resource-link">
+        <a id="deepDiveBtn">📖 غوص عميق: المساءلة تحت الضغط →</a>
+    </div>
+    
+    <div id="deepDiveModal" class="modal-overlay">
+        <div class="modal-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h3 style="margin-bottom: 0;">📖 المساءلة تحت الضغط</h3>
+                <button id="closeModalBtnTop" class="close-icon">✕</button>
+            </div>
+            <div class="deep-dive-box">
+                <p><strong>🔑 الحقيقة الأساسية:</strong></p>
+                <p>في البيئات المستقرة، المساءلة تعني تحقيق الأهداف. في بيئات الأزمات، المساءلة تعني <strong>الاعتراف بالخطأ</strong> قبل إيجاد الحل.</p>
+            </div>
+            <div class="deep-dive-box">
+                <p><strong>💡 لماذا هذا مهم؟</strong></p>
+                <p>عندما يقول القائد "لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي"، يحدث ثلاثة أشياء:</p>
+                <ul style="margin-right: 1.5rem; margin-top: 0.5rem;">
+                    <li>✅ تُحفظ الثقة — يشعر الفريق بالأمان</li>
+                    <li>✅ التعلم يحل محل اللوم — تتحرك الطاقة إلى الأمام</li>
+                    <li>✅ تزداد السلامة النفسية — يتحدث الناس بسرعة إذا وجدوا خطأ</li>
+                </ul>
+            </div>
+            <div class="deep-dive-box" style="position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <p><strong>🌟 تطبيق في العالم الحقيقي:</strong></p>
+                    <button id="closeModalBtnBeside" class="close-beside">✕ إغلاق</button>
+                </div>
+                <p>في مناطق النزاع، القادة الذين يعترفون بعدم اليقين يبنون <strong>فرقاً أقوى</strong> من أولئك الذين يدّعون امتلاك جميع الإجابات.</p>
+            </div>
+            <button class="modal-close-btn" id="closeModalBtn">فهمت → إغلاق</button>
+        </div>
+    </div>
+    
+    <div class="module-nav">
+        <button class="secondary" id="backToModule1Btn">← العودة إلى الوحدة ١</button>
+        <button id="continueToModule3Btn" style="background:#1A6B5A;">الانتقال إلى الوحدة ٣ →</button>
+    </div>
+    
+    <div class="footer-note">الوحدة ٢ من حزمة أدوات المرونة</div>
+    <div class="reset-link"><a id="resetDataLink">↺ إعادة ضبط بيانات الوحدة</a></div>
+</div>
+
+<script>
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxweIz6xAlU39r3vH_DUImmGrdKkpc09ogedZYoCXY0AUj8j4PWK-QN9vYNfSqBEhKkLA/exec';
+
+function getUserData() {
+    let name = '', email = '', position = '';
+    let n = localStorage.getItem('course_user_name');
+    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim() !== '') {
+        name = n.trim();
+        email = (localStorage.getItem('course_user_email') || '').trim();
+        position = (localStorage.getItem('course_user_position') || '').trim();
+    }
+    if (!name) {
+        let user = localStorage.getItem('course_user');
+        if (user) {
+            try { let p = JSON.parse(user); if (p && p.name && p.name !== 'Guest') { name = p.name.trim(); email = (p.email || '').trim(); position = (p.position || '').trim(); } } catch(e) {}
+        }
+    }
+    if (!name) {
+        let users = localStorage.getItem('users');
+        if (users) {
+            try { let p = JSON.parse(users); if (Array.isArray(p) && p.length > 0) { for (let i = p.length - 1; i >= 0; i--) { if (p[i] && p[i].name && p[i].name !== 'Guest') { name = p[i].name.trim(); email = (p[i].email || '').trim(); position = (p[i].position || '').trim(); break; } } } } catch(e) {}
+        }
+    }
+    if (!name) {
+        let module1Answers = localStorage.getItem('module1_answers');
+        if (module1Answers) {
+            try {
+                let m1 = JSON.parse(module1Answers);
+                if (m1.userName && m1.userName !== 'Guest') {
+                    name = m1.userName;
+                    email = m1.userEmail || '';
+                    position = m1.userPosition || '';
+                }
+            } catch(e) {}
+        }
+    }
+    if (!name) {
+        name = 'زائر';
+        email = 'guest@example.com';
+        position = 'غير محدد';
+    }
+    return { name: name, email: email, position: position };
+}
+
+function showToast(message, isError = false) {
+    const existing = document.querySelector('.toast-notification');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.style.background = isError ? '#C0392B' : '#1A6B5A';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => { if (toast) toast.remove(); }, 3000);
+}
+
+function updateQuizProgress() {
+    const q1Answered = document.querySelector('[data-q="manager"] .quiz-option.selected') !== null;
+    const q2Answered = document.querySelector('[data-q="shift"] .quiz-option.selected') !== null;
+    const q3Answered = document.querySelector('[data-q="account"] .quiz-option.selected') !== null;
+    
+    let answeredCount = 0;
+    if (q1Answered) answeredCount++;
+    if (q2Answered) answeredCount++;
+    if (q3Answered) answeredCount++;
+    
+    const progressSpan = document.getElementById('quizProgress');
+    if (progressSpan) {
+        progressSpan.textContent = `${answeredCount}/٣ تم الإجابة`;
+        if (answeredCount === 3) {
+            progressSpan.className = 'progress-badge progress-complete';
+        } else {
+            progressSpan.className = 'progress-badge';
+        }
+    }
+    
+    return answeredCount === 3;
+}
+
+function collectAllAnswers() {
+    let managerMindset = '', mindsetShift = '', accountability = '';
+    let flippedCards = [];
+    const selMgr = document.querySelector('[data-q="manager"] .quiz-option.selected');
+    if (selMgr) managerMindset = selMgr.getAttribute('data-val');
+    const selShift = document.querySelector('[data-q="shift"] .quiz-option.selected');
+    if (selShift) mindsetShift = selShift.getAttribute('data-val');
+    const selAcct = document.querySelector('[data-q="account"] .quiz-option.selected');
+    if (selAcct) accountability = selAcct.getAttribute('data-val');
+    document.querySelectorAll('.mindset-card').forEach(card => {
+        if (card.classList.contains('flipped')) flippedCards.push(card.getAttribute('data-mindset') || 'unknown');
+    });
+    return { 
+        manager_mindset: managerMindset || 'لم يجب', 
+        mindset_shift: mindsetShift || 'لم يجب', 
+        accountability: accountability || 'لم يجب', 
+        victim_flipped: flippedCards.includes('victim') ? 'نعم' : 'لا', 
+        scarcity_flipped: flippedCards.includes('scarcity') ? 'نعم' : 'لا', 
+        panic_flipped: flippedCards.includes('panic') ? 'نعم' : 'لا', 
+        fixed_flipped: flippedCards.includes('fixed') ? 'نعم' : 'لا', 
+        expert_flipped: flippedCards.includes('expert') ? 'نعم' : 'لا', 
+        flipped_cards_summary: flippedCards.join(', ') || 'لا شيء' 
+    };
+}
+
+function saveAnswersToLocal() { 
+    localStorage.setItem('module2_answers', JSON.stringify({ ...collectAllAnswers(), lastUpdated: new Date().toISOString() })); 
+}
+
+function sendModule2DataToSheet() {
+    const userData = getUserData();
+    const answers = collectAllAnswers();
+    const payload = { 
+        module: 'Module 2', 
+        action: 'completed',
+        language: 'ar', 
+        userName: userData.name,
+        userEmail: userData.email,
+        userPosition: userData.position,
+        timestamp: new Date().toISOString(), 
+        answers: answers 
+    };
+    console.log('📤 جاري إرسال بيانات الوحدة ٢ للمستخدم:', userData.name);
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+    xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+    xhr.send(JSON.stringify(payload));
+}
+
+function goToModule3() {
+    const q1Answered = document.querySelector('[data-q="manager"] .quiz-option.selected') !== null;
+    const q2Answered = document.querySelector('[data-q="shift"] .quiz-option.selected') !== null;
+    const q3Answered = document.querySelector('[data-q="account"] .quiz-option.selected') !== null;
+    
+    if (!q1Answered || !q2Answered || !q3Answered) {
+        showToast('⚠️ الرجاء الإجابة على جميع الأسئلة الثلاثة قبل الانتقال إلى الوحدة ٣.', true);
+        return;
+    }
+    
+    saveAnswersToLocal();
+    sendModule2DataToSheet();
+    localStorage.setItem('module2_completed', 'true');
+    showToast('جاري حفظ تقدمك...');
+    
+    setTimeout(() => {
+        window.location.href = 'module3.html';
+    }, 500);
+}
+
+function displayResultsSummary() {
+    const q1Selected = document.querySelector('[data-q="manager"] .quiz-option.selected');
+    const q2Selected = document.querySelector('[data-q="shift"] .quiz-option.selected');
+    const q3Selected = document.querySelector('[data-q="account"] .quiz-option.selected');
+    
+    const q1Answer = q1Selected ? q1Selected.getAttribute('data-val') : null;
+    const q2Answer = q2Selected ? q2Selected.getAttribute('data-val') : null;
+    const q3Answer = q3Selected ? q3Selected.getAttribute('data-val') : null;
+    
+    const isQ1Correct = (q1Answer === 'الضحية');
+    const isQ2Correct = (q2Answer === 'الضحية ← الوكيل');
+    const isQ3Correct = (q3Answer === 'لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي.');
+    
+    const totalCorrect = (isQ1Correct ? 1 : 0) + (isQ2Correct ? 1 : 0) + (isQ3Correct ? 1 : 0);
+    
+    const q1Display = q1Answer ? q1Answer : 'لم يجب';
+    const q2Display = q2Answer ? q2Answer : 'لم يجب';
+    const q3Display = q3Answer ? q3Answer : 'لم يجب';
+    
+    const container = document.getElementById('resultsSummaryContainer');
+    container.style.display = 'block';
+    container.innerHTML = `
+        <h4>📋 نتائج اختبارك · ${totalCorrect}/٣ صحيح</h4>
+        <div class="result-item"><span class="result-badge">س١: العقلية</span> <span>${escapeHtml(q1Display)}</span> <span class="result-status ${isQ1Correct ? 'status-correct' : 'status-incorrect'}">${isQ1Correct ? '✓ صحيح' : '✗ خطأ'}</span></div>
+        <div class="result-item"><span class="result-badge">س٢: التحول</span> <span>${escapeHtml(q2Display)}</span> <span class="result-status ${isQ2Correct ? 'status-correct' : 'status-incorrect'}">${isQ2Correct ? '✓ صحيح' : '✗ خطأ'}</span></div>
+        <div class="result-item"><span class="result-badge">س٣: المساءلة</span> <span>${escapeHtml(q3Display)}</span> <span class="result-status ${isQ3Correct ? 'status-correct' : 'status-incorrect'}">${isQ3Correct ? '✓ صحيح' : '✗ خطأ'}</span></div>
+        <div style="margin-top: 12px; font-size:0.75rem; color:#4B6F86;">💡 الإجابات الصحيحة: الضحية | الضحية ← الوكيل | "لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي."</div>
+    `;
+    container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function escapeHtml(str) { 
+    if (!str) return ''; 
+    return str.replace(/[&<>]/g, function(m) { 
+        if (m === '&') return '&amp;'; 
+        if (m === '<') return '&lt;'; 
+        if (m === '>') return '&gt;'; 
+        return m; 
+    }); 
+}
+
+function bindEvents() {
+    document.querySelectorAll('[data-q="manager"] .quiz-option, [data-q="shift"] .quiz-option, [data-q="account"] .quiz-option').forEach(opt => {
+        opt.addEventListener('click', () => {
+            const parent = opt.parentElement;
+            parent.querySelectorAll('.quiz-option').forEach(o => { 
+                o.classList.remove('selected'); 
+                const m = o.querySelector('.option-marker'); 
+                if (m) m.textContent = '○'; 
+            });
+            opt.classList.add('selected'); 
+            const marker = opt.querySelector('.option-marker'); 
+            if (marker) marker.textContent = '●';
+            
+            const qParent = opt.closest('.quiz-card');
+            if (qParent && qParent.querySelector('[data-q="manager"]')) {
+                const selectedVal = opt.getAttribute('data-val');
+                const fbDiv = document.getElementById('managerFb1');
+                const isCorrect = (selectedVal === 'الضحية');
+                fbDiv.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+                fbDiv.innerHTML = isCorrect ? '✅ <strong>صحيح!</strong> كان المدير يُظهر عقلية الضحية — التركيز على ما هو مستحيل.' : '❌ <strong>خطأ.</strong> الإجابة الصحيحة هي "الضحية". العبارة تعكس إطار الضحية.';
+                fbDiv.style.display = 'block';
+            } else if (qParent && qParent.querySelector('[data-q="shift"]')) {
+                const selectedVal = opt.getAttribute('data-val');
+                const fbDiv = document.getElementById('managerFb2');
+                const isCorrect = (selectedVal === 'الضحية ← الوكيل');
+                fbDiv.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+                fbDiv.innerHTML = isCorrect ? '✅ <strong>صحيح!</strong> التحول من الضحية إلى الوكيل — سؤال "ما الإجراءات التي لا تزال ممكنة؟"' : '❌ <strong>خطأ.</strong> التحول الصحيح هو "الضحية ← الوكيل".';
+                fbDiv.style.display = 'block';
+            } else if (qParent && qParent.querySelector('[data-q="account"]')) {
+                const selectedVal = opt.getAttribute('data-val');
+                const correctVal = "لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي.";
+                const fbDiv = document.getElementById('accountabilityFeedback');
+                const isCorrect = (selectedVal === correctVal);
+                fbDiv.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+                fbDiv.innerHTML = isCorrect ? '✅ <strong>صحيح!</strong> المساءلة الحقيقية تعني الاعتراف بالخطأ.' : '❌ <strong>خطأ.</strong> الإجابة الصحيحة هي: "لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي."';
+                fbDiv.style.display = 'block';
+            }
+            
+            saveAnswersToLocal();
+            updateQuizProgress();
+        });
+    });
+    
+    document.querySelectorAll('.mindset-card').forEach(card => {
+        card.addEventListener('click', function() {
+            this.classList.toggle('flipped');
+            const front = this.querySelector('.mindset-front');
+            const back = this.querySelector('.mindset-back');
+            if (this.classList.contains('flipped')) { 
+                if (front) front.classList.add('hidden-content'); 
+                if (back) back.classList.remove('hidden-content'); 
+            } else { 
+                if (front) front.classList.remove('hidden-content'); 
+                if (back) back.classList.add('hidden-content'); 
+            }
+            saveAnswersToLocal();
+        });
+    });
+}
+
+function loadSavedAnswers() {
+    const saved = localStorage.getItem('module2_answers');
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            if (data.manager_mindset && data.manager_mindset !== 'لم يجب') {
+                const opts = document.querySelectorAll('[data-q="manager"] .quiz-option');
+                opts.forEach(opt => { if (opt.getAttribute('data-val') === data.manager_mindset) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
+            }
+            if (data.mindset_shift && data.mindset_shift !== 'لم يجب') {
+                const opts = document.querySelectorAll('[data-q="shift"] .quiz-option');
+                opts.forEach(opt => { if (opt.getAttribute('data-val') === data.mindset_shift) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
+            }
+            if (data.accountability && data.accountability !== 'لم يجب') {
+                const opts = document.querySelectorAll('[data-q="account"] .quiz-option');
+                opts.forEach(opt => { if (opt.getAttribute('data-val') === data.accountability) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
+            }
+        } catch(e) { console.warn(e); }
+    }
+    updateQuizProgress();
+}
+
+function setupModal() {
+    const modal = document.getElementById('deepDiveModal');
+    const openBtn = document.getElementById('deepDiveBtn');
+    const closeBtns = ['closeModalBtn', 'closeModalBtnBeside', 'closeModalBtnTop'];
+    function openModal() { modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function closeModal() { modal.classList.remove('active'); document.body.style.overflow = ''; }
+    if (openBtn) openBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+    closeBtns.forEach(id => { const btn = document.getElementById(id); if (btn) btn.addEventListener('click', closeModal); });
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadSavedAnswers();
+    bindEvents();
+    setupModal();
+    
+    const checkBtn = document.getElementById('checkResultsBtn');
+    if (checkBtn) {
+        checkBtn.addEventListener('click', () => { displayResultsSummary(); });
+    }
+    
+    const continueBtn = document.getElementById('continueToModule3Btn');
+    if (continueBtn) {
+        continueBtn.addEventListener('click', goToModule3);
+    }
+    
+    document.getElementById('backToModule1Btn').addEventListener('click', () => { 
+        window.location.href = 'module1.html'; 
+    });
+    
+    document.getElementById('resetDataLink').addEventListener('click', (e) => { 
+        e.preventDefault(); 
+        if (confirm('هل تريد إعادة ضبط جميع بيانات الوحدة؟ لا يمكن التراجع عن هذا.')) { 
+            localStorage.removeItem('module2_answers'); 
+            localStorage.removeItem('module2_completed'); 
+            location.reload(); 
+        } 
+    });
+});
+</script>
+</body>
+</html>

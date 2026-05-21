@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>The Resilience Toolkit · Module 4: Learning Intentions vs. Performance Goals</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #F4F7FC;
+            color: #1E2F3E;
+            line-height: 1.5;
+            padding: 2rem 1rem;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .card {
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.02);
+            overflow: hidden;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        @media (max-width: 600px) {
+            .card { padding: 1.5rem; }
+        }
+        .header-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #1A6B5A;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .user-badge {
+            font-size: 0.7rem;
+            background: #E8F5E9;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            color: #1A6B5A;
+        }
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            border-bottom: 2px solid #E8A735;
+            padding-bottom: 0.5rem;
+            gap: 0.5rem;
+        }
+        .module-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0C2E3B;
+        }
+        .module-time {
+            font-size: 0.8rem;
+            background: #F0F4F9;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            color: #2C5F7A;
+        }
+        h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0C2E3B;
+            margin: 1.5rem 0 1rem 0;
+            border-left: 4px solid #E8A735;
+            padding-left: 0.8rem;
+        }
+        .presenter {
+            font-size: 0.85rem;
+            color: #2C5F7A;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+        .duration-badge {
+            display: inline-block;
+            background: #EFF3F8;
+            padding: 0.2rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #1A6B5A;
+            margin-bottom: 1.5rem;
+        }
+        .highlight-box {
+            background: #F0F7F4;
+            border-radius: 20px;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            border-left: 4px solid #E8A735;
+        }
+        .warning-box {
+            background: #FDF8F0;
+            border-radius: 20px;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            border-left: 4px solid #E8A735;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #E2E9F2;
+            padding: 0.75rem;
+            text-align: left;
+            vertical-align: top;
+        }
+        .comparison-table th {
+            background: #F0F7F4;
+            font-weight: 700;
+            color: #1A6B5A;
+        }
+        .comparison-table td:first-child {
+            background: #FFFFD7;
+            font-weight: 500;
+        }
+        .learning-bridge-note {
+            background: #E3F2FD;
+            border-radius: 20px;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            border-left: 4px solid #1A6B5A;
+            font-weight: 500;
+            color: #0C2E3B;
+        }
+        .phase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .phase-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.2rem;
+            border: 1px solid #E2E9F2;
+        }
+        .phase-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #E8A735;
+        }
+        .phase-example {
+            font-size: 0.85rem;
+            color: #1A6B5A;
+            margin: 0.5rem 0;
+            background: #F0F7F4;
+            padding: 0.3rem 0.6rem;
+            border-radius: 8px;
+            display: inline-block;
+        }
+        .exercise-box {
+            background: #F9FCFE;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 1px solid #E2E9F2;
+        }
+        .scenario-card {
+            background: #FDF8F0;
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid #1A6B5A;
+        }
+        .scenario-title {
+            font-weight: 700;
+            color: #1A6B5A;
+            margin-bottom: 0.5rem;
+        }
+        .goal-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+            resize: vertical;
+        }
+        .feedback-badge {
+            margin-top: 0.5rem;
+            padding: 0.8rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            display: none;
+        }
+        .feedback-correct {
+            background: #E8F5E9;
+            color: #1A6B5A;
+            border-left: 3px solid #1A6B5A;
+        }
+        .feedback-incorrect {
+            background: #FFEBEE;
+            color: #B33A3A;
+            border-left: 3px solid #B33A3A;
+        }
+        .check-btn {
+            background: #6C86A0;
+            margin-right: 0.5rem;
+        }
+        .check-btn:hover {
+            background: #4a627a;
+        }
+        button {
+            background: #1A6B5A;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.7rem 1.5rem;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+        button:hover {
+            background: #0e4d40;
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .btn-secondary {
+            background: #E8A735;
+            color: #2E3A2A;
+        }
+        .btn-secondary:hover {
+            background: #d4951e;
+        }
+        .golden-rule {
+            background: linear-gradient(135deg, #E8A73520, #1A6B5A20);
+            border-radius: 20px;
+            padding: 1.2rem;
+            text-align: center;
+            margin: 1.5rem 0;
+            border: 1px solid #E8A735;
+        }
+        .badge-earned {
+            background: linear-gradient(135deg, #E8A735, #1A6B5A);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            border-radius: 60px;
+            margin-top: 1.5rem;
+            font-weight: 700;
+        }
+        .module-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .footer-note {
+            font-size: 0.7rem;
+            text-align: center;
+            color: #8BA0B8;
+            margin-top: 1.5rem;
+        }
+        .reset-link {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.7rem;
+        }
+        .reset-link a {
+            color: #8BA0B8;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        hr {
+            margin: 1.5rem 0;
+            border: none;
+            border-top: 1px solid #E2E9F2;
+        }
+        .toast-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1A6B5A;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            animation: fadeInUp 0.3s ease;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        .status-badge {
+            display: inline-block;
+            margin-left: 0.5rem;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+        }
+        .status-pending {
+            background: #FFF3E0;
+            color: #E8A735;
+        }
+        .status-completed {
+            background: #E8F5E9;
+            color: #1A6B5A;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="header-tag">
+            <span>THE RESILIENCE TOOLKIT</span>
+            <span class="user-badge" id="userBadge">👤 Loading...</span>
+        </div>
+        
+        <div class="module-header">
+            <span class="module-title">🎯 Module 4: Learning Intentions vs. Performance Goals</span>
+            <span class="module-time">⏱️ 4 minutes • interactive</span>
+        </div>
+        
+        <div class="presenter">Presented by: Malak Abdo</div>
+        <div class="duration-badge">4 minutes • self-paced</div>
+
+        <h2>The Problem with Performance Goals in a Crisis</h2>
+        <div class="warning-box">
+            <p><strong>Performance goals sound like this:</strong></p>
+            <p style="font-size: 1.1rem; font-weight: 600; margin: 0.5rem 0;">"Deliver 10,000 rations by Friday."</p>
+            <p>In a stable environment, this works. The road is open. Fuel is available.</p>
+            <p><strong>In a conflict zone, the road closes. The fuel disappears.</strong></p>
+            <p>The team cannot meet the goal. They feel like failures. They lose confidence.</p>
+            <p><strong>This is not a team problem. This is a goal problem.</strong></p>
+        </div>
+
+        <h2>The Solution: Learning Intentions First</h2>
+        <div class="highlight-box">
+            <p><strong>A learning intention sounds like this:</strong></p>
+            <p style="font-size: 1.1rem; font-weight: 600; margin: 0.5rem 0;">"Learn how to deliver rations when the main road is closed."</p>
+        </div>
+
+        <table class="comparison-table">
+            <thead>
+                <tr><th>Performance Goal</th><th>Learning Intention</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>"Deliver 10,000 rations by Friday"</div></td>
+                    <td>"Learn how to deliver rations without a road"</div></td>
+                </tr>
+                <tr>
+                    <td>"Fix the broken vehicle in 24 hours"</div></td>
+                    <td>"Learn how to borrow a vehicle from the community"</div></td>
+                </tr>
+                <tr>
+                    <td>"Find a new interpreter by the end of the day"</div></td>
+                    <td>"Learn how to communicate without an interpreter"</div></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- NOTE ADDED HERE -->
+        <div class="learning-bridge-note">
+            💡 <strong>Note:</strong> Learning intentions do not mean giving up on performance goals. They are the "bridge" to reach them. In conflict zones, clinging to rigid goals in a changing environment leads to paralysis; focusing on learning gives you the alternative path to achieve those goals. You are not abandoning your goal, you are finding the best way to reach it.
+        </div>
+
+        <div class="golden-rule">
+            <strong>💡 First, learn the terrain. Then, set the target.</strong>
+        </div>
+
+        <h2>📝 Practice: Convert to Learning Intentions</h2>
+        <p><strong>Instructions:</strong> For each scenario, write a learning intention. <span class="status-badge status-pending" id="progressStatus">0/4 completed</span></p>
+        
+        <div class="exercise-box">
+            <!-- Scenario 1 -->
+            <div class="scenario-card" id="scenarioCard1">
+                <div class="scenario-title">📍 Scenario 1 (Flooding, Lebanon)</div>
+                <p>A bridge collapsed. Your team cannot reach the distribution point.</p>
+                <p><em>Performance Goal:</em> "Deliver food supplies by tomorrow."</p>
+                <input type="text" class="goal-input" id="scenario1" placeholder="Write a Learning Intention here...">
+                <button class="check-btn" data-scenario="1">Check Answer</button>
+                <div class="feedback-badge" id="feedback1"></div>
+            </div>
+
+            <!-- Scenario 2 -->
+            <div class="scenario-card" id="scenarioCard2">
+                <div class="scenario-title">📍 Scenario 2 (Internet shutdown, Syria)</div>
+                <p>All communication lines are down. You cannot contact HQ.</p>
+                <p><em>Performance Goal:</em> "Get HQ approval by noon."</p>
+                <input type="text" class="goal-input" id="scenario2" placeholder="Write a Learning Intention here...">
+                <button class="check-btn" data-scenario="2">Check Answer</button>
+                <div class="feedback-badge" id="feedback2"></div>
+            </div>
+
+            <!-- Scenario 3 -->
+            <div class="scenario-card" id="scenarioCard3">
+                <div class="scenario-title">📍 Scenario 3 (Staff arrest, Kyiv)</div>
+                <p>Your interpreter was arrested. You cannot communicate with partners.</p>
+                <p><em>Performance Goal:</em> "Find a new interpreter by the end of the day."</p>
+                <input type="text" class="goal-input" id="scenario3" placeholder="Write a Learning Intention here...">
+                <button class="check-btn" data-scenario="3">Check Answer</button>
+                <div class="feedback-badge" id="feedback3"></div>
+            </div>
+
+            <!-- Scenario 4 -->
+            <div class="scenario-card" id="scenarioCard4">
+                <div class="scenario-title">📍 Scenario 4 (Vehicle breakdown, DRC)</div>
+                <p>Your only vehicle broke down. Team is waiting to go to the field.</p>
+                <p><em>Performance Goal:</em> "Fix the vehicle within 6 hours."</p>
+                <input type="text" class="goal-input" id="scenario4" placeholder="Write a Learning Intention here...">
+                <button class="check-btn" data-scenario="4">Check Answer</button>
+                <div class="feedback-badge" id="feedback4"></div>
+            </div>
+        </div>
+
+        <button id="showAnswersBtn" class="btn-secondary">📖 Show Suggested Answers</button>
+        
+        <div id="suggestedAnswers" style="display: none; margin-top: 1rem; background: #F0F7F4; padding: 1rem; border-radius: 16px;">
+            <p><strong>Suggested Learning Intentions:</strong></p>
+            <ul style="margin-left: 1.5rem;">
+                <li><strong>Lebanon (Flooding):</strong> "Learn how to reach beneficiaries using alternative routes or local boats."</li>
+                <li><strong>Syria (Internet shutdown):</strong> "Learn how to make autonomous decisions without HQ approval."</li>
+                <li><strong>Kyiv (Staff arrest):</strong> "Learn how to communicate using gestures, drawings, or community volunteers."</li>
+                <li><strong>DRC (Vehicle breakdown):</strong> "Learn who in the community has a vehicle we can borrow."</li>
+            </ul>
+        </div>
+
+        <hr>
+
+        <div class="golden-rule">
+            <strong>Key Takeaway</strong><br>
+            Performance goals measure success.<br>
+            Learning intentions enable success.<br><br>
+            <strong>In a crisis, start with learning. The performance will follow.</strong>
+        </div>
+
+        <div id="badgeArea" style="display: none;" class="badge-earned">
+            🏅 Badge Earned: Learning Intentions Mastered!
+        </div>
+
+        <div class="module-nav">
+            <button class="btn-secondary" id="backToModule3Btn">← Back to Module 3.1</button>
+            <button id="continueToModule5Btn">Continue to Module 5 →</button>
+        </div>
+
+        <div class="footer-note">Module 4 of The Resilience Toolkit</div>
+        <div class="reset-link"><a id="resetDataLink">↺ Reset Module Data</a></div>
+    </div>
+</div>
+
+<script>
+// ============================================
+// GOOGLE SHEETS WEB APP URL
+// ============================================
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
+
+// ============================================
+// GET USER DATA - EXPANDED VERSION
+// ============================================
+function getUserData() {
+    let name = '', email = '', position = '';
+    
+    console.log('🔍 Searching for user data in localStorage...');
+    console.log('All localStorage keys:', Object.keys(localStorage));
+    
+    // 1. Check individual fields
+    let n = localStorage.getItem('course_user_name');
+    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'Your Name' && n.trim() !== '') {
+        name = n.trim();
+        email = (localStorage.getItem('course_user_email') || '').trim();
+        position = (localStorage.getItem('course_user_position') || '').trim();
+        console.log('✅ Found from individual fields:', name);
+    }
+    
+    // 2. Check course_user object
+    if (!name || name === 'Your Name') {
+        let user = localStorage.getItem('course_user');
+        if (user) {
+            try { 
+                let p = JSON.parse(user); 
+                if (p && p.name && p.name !== 'Guest' && p.name !== 'Your Name' && p.name.trim() !== '') {
+                    name = p.name.trim();
+                    email = (p.email || '').trim();
+                    position = (p.position || '').trim();
+                    console.log('✅ Found from course_user:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 3. Check resilience_users array
+    if (!name || name === 'Your Name') {
+        let users = localStorage.getItem('resilience_users');
+        if (users) {
+            try { 
+                let p = JSON.parse(users); 
+                if (Array.isArray(p) && p.length > 0) {
+                    for (let i = p.length - 1; i >= 0; i--) {
+                        if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'Your Name' && p[i].name.trim() !== '') {
+                            name = p[i].name.trim();
+                            email = (p[i].email || '').trim();
+                            position = (p[i].position || '').trim();
+                            console.log('✅ Found from resilience_users array:', name);
+                            break;
+                        }
+                    }
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 4. Check module1_answers for user data
+    if (!name || name === 'Your Name') {
+        let module1Answers = localStorage.getItem('module1_answers');
+        if (module1Answers) {
+            try {
+                let m1 = JSON.parse(module1Answers);
+                if (m1.userName && m1.userName !== 'Guest' && m1.userName !== 'Your Name') {
+                    name = m1.userName;
+                    email = m1.userEmail || '';
+                    position = m1.userPosition || '';
+                    console.log('✅ Found from module1_answers:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 5. Check module2_answers for user data
+    if (!name || name === 'Your Name') {
+        let module2Answers = localStorage.getItem('module2_answers');
+        if (module2Answers) {
+            try {
+                let m2 = JSON.parse(module2Answers);
+                if (m2.userName && m2.userName !== 'Guest' && m2.userName !== 'Your Name') {
+                    name = m2.userName;
+                    email = m2.userEmail || '';
+                    position = m2.userPosition || '';
+                    console.log('✅ Found from module2_answers:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 6. Check module3_answers for user data
+    if (!name || name === 'Your Name') {
+        let module3Answers = localStorage.getItem('module3_answers');
+        if (module3Answers) {
+            try {
+                let m3 = JSON.parse(module3Answers);
+                if (m3.userName && m3.userName !== 'Guest' && m3.userName !== 'Your Name') {
+                    name = m3.userName;
+                    email = m3.userEmail || '';
+                    position = m3.userPosition || '';
+                    console.log('✅ Found from module3_answers:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 7. Check module3_1_data for user data
+    if (!name || name === 'Your Name') {
+        let module31Data = localStorage.getItem('module3_1_data');
+        if (module31Data) {
+            try {
+                let m31 = JSON.parse(module31Data);
+                if (m31.userName && m31.userName !== 'Guest' && m31.userName !== 'Your Name') {
+                    name = m31.userName;
+                    email = m31.userEmail || '';
+                    position = m31.userPosition || '';
+                    console.log('✅ Found from module3_1_data:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 8. Final fallback - PROMPT USER if still not found
+    if (!name || name === 'Your Name' || name === 'Guest') {
+        console.log('⚠️ No user data found, prompting user...');
+        name = prompt('👤 Please enter your full name:');
+        email = prompt('📧 Please enter your email address:');
+        if (name && name.trim() !== '') {
+            localStorage.setItem('course_user_name', name.trim());
+        }
+        if (email && email.trim() !== '') {
+            localStorage.setItem('course_user_email', email.trim());
+        }
+        name = name || 'Guest';
+        email = email || 'guest@example.com';
+    }
+    
+    const result = { 
+        name: name, 
+        email: email, 
+        position: position || 'Not specified' 
+    };
+    
+    console.log('👤 Final user data:', result);
+    return result;
+}
+
+// Display user name in badge
+const currentUser = getUserData();
+const userBadge = document.getElementById('userBadge');
+if (userBadge) {
+    if (currentUser.name !== 'Guest') {
+        userBadge.innerText = `👤 ${currentUser.name}`;
+    } else {
+        userBadge.innerText = `👤 Learner`;
+    }
+}
+
+function showToast(message, isError = false) {
+    const existing = document.querySelector('.toast-notification');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.style.background = isError ? '#C0392B' : '#1A6B5A';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => { if (toast) toast.remove(); }, 3000);
+}
+
+const sampleAnswers = {
+    1: ["learn how to reach beneficiaries", "learn alternative routes", "learn local boats", "find alternative routes", "use local boats"],
+    2: ["learn how to make decisions without hq", "learn autonomous decisions", "learn to act without approval", "make decisions independently"],
+    3: ["learn how to communicate without interpreter", "learn alternative communication", "learn gestures", "learn community volunteers", "learn to use drawings"],
+    4: ["learn who has a vehicle", "learn to borrow vehicle", "find community vehicles", "borrow a vehicle", "learn alternative transport"]
+};
+
+function checkAnswer(scenarioNum, userAnswer) {
+    const normalized = userAnswer.toLowerCase().trim();
+    const patterns = sampleAnswers[scenarioNum];
+    if (!patterns) return false;
+    for (const pattern of patterns) {
+        if (normalized.includes(pattern.toLowerCase())) return true;
+    }
+    if (normalized.startsWith('learn')) return true;
+    return false;
+}
+
+function showFeedback(scenarioNum, isCorrect) {
+    const feedbackDiv = document.getElementById(`feedback${scenarioNum}`);
+    if (isCorrect) {
+        feedbackDiv.innerHTML = '✅ Good! That is a learning intention focused on discovery.';
+        feedbackDiv.className = 'feedback-badge feedback-correct';
+    } else {
+        feedbackDiv.innerHTML = '❌ Try focusing on "Learn how to..." rather than demanding a specific outcome.';
+        feedbackDiv.className = 'feedback-badge feedback-incorrect';
+    }
+    feedbackDiv.style.display = 'block';
+}
+
+function updateProgressStatus() {
+    const allInputs = ['scenario1', 'scenario2', 'scenario3', 'scenario4'];
+    let completedCount = 0;
+    for (const id of allInputs) {
+        const input = document.getElementById(id);
+        if (input && input.value.trim()) {
+            completedCount++;
+        }
+    }
+    const progressSpan = document.getElementById('progressStatus');
+    if (progressSpan) {
+        progressSpan.textContent = `${completedCount}/4 completed`;
+        if (completedCount === 4) {
+            progressSpan.className = 'status-badge status-completed';
+        } else {
+            progressSpan.className = 'status-badge status-pending';
+        }
+    }
+    return completedCount;
+}
+
+function checkAllCompleted() {
+    const completedCount = updateProgressStatus();
+    if (completedCount === 4) {
+        document.getElementById('badgeArea').style.display = 'block';
+    } else {
+        document.getElementById('badgeArea').style.display = 'none';
+    }
+    return completedCount === 4;
+}
+
+function saveAnswersToLocal() {
+    const answers = {
+        scenario1: document.getElementById('scenario1').value.trim(),
+        scenario2: document.getElementById('scenario2').value.trim(),
+        scenario3: document.getElementById('scenario3').value.trim(),
+        scenario4: document.getElementById('scenario4').value.trim(),
+        lastUpdated: new Date().toISOString()
+    };
+    localStorage.setItem('module4_answers', JSON.stringify(answers));
+    updateProgressStatus();
+}
+
+function loadSavedAnswers() {
+    const saved = localStorage.getItem('module4_answers');
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            if (data.scenario1) document.getElementById('scenario1').value = data.scenario1;
+            if (data.scenario2) document.getElementById('scenario2').value = data.scenario2;
+            if (data.scenario3) document.getElementById('scenario3').value = data.scenario3;
+            if (data.scenario4) document.getElementById('scenario4').value = data.scenario4;
+            checkAllCompleted();
+        } catch(e) {}
+    }
+    updateProgressStatus();
+}
+
+// ============================================
+// SEND DATA TO GOOGLE SHEETS - PROMISE VERSION
+// ============================================
+function sendModule4DataToSheet() {
+    const userData = getUserData();
+    const scenario1 = document.getElementById('scenario1').value.trim();
+    const scenario2 = document.getElementById('scenario2').value.trim();
+    const scenario3 = document.getElementById('scenario3').value.trim();
+    const scenario4 = document.getElementById('scenario4').value.trim();
+    
+    if (!scenario1 || !scenario2 || !scenario3 || !scenario4) {
+        showToast('⚠️ Please complete all 4 scenarios before continuing.', true);
+        return Promise.resolve(false);
+    }
+    
+    const payload = {
+        module: 'Module 4',
+        language: 'en',
+        userName: userData.name,
+        userEmail: userData.email,
+        userPosition: userData.position,
+        timestamp: new Date().toISOString(),
+        answers: {
+            scenario1: scenario1,
+            scenario2: scenario2,
+            scenario3: scenario3,
+            scenario4: scenario4
+        }
+    };
+    
+    console.log('📤 Sending Module 4 data:', payload);
+    
+    return new Promise((resolve) => {
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8',
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('✅ Module 4 data sent successfully:', data);
+            resolve(true);
+        })
+        .catch(error => {
+            console.log('❌ Fetch error:', error);
+            // Fallback to XHR
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+            xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    console.log('✅ Module 4 data sent (XHR fallback)');
+                    resolve(true);
+                } else {
+                    console.log('⚠️ Module 4 response status:', xhr.status);
+                    resolve(false);
+                }
+            };
+            xhr.onerror = function() {
+                console.log('❌ Error sending Module 4 data');
+                resolve(false);
+            };
+            xhr.send(JSON.stringify(payload));
+        });
+        
+        // Timeout fallback
+        setTimeout(() => {
+            console.log('⏰ Timeout - continuing anyway');
+            resolve(true);
+        }, 3000);
+    });
+}
+
+// ============================================
+// GO TO MODULE 5 - UPDATED TO WAIT FOR DATA
+// ============================================
+async function goToModule5() {
+    const scenario1 = document.getElementById('scenario1').value.trim();
+    const scenario2 = document.getElementById('scenario2').value.trim();
+    const scenario3 = document.getElementById('scenario3').value.trim();
+    const scenario4 = document.getElementById('scenario4').value.trim();
+    
+    if (!scenario1 || !scenario2 || !scenario3 || !scenario4) {
+        showToast('⚠️ Please complete all 4 scenarios before moving to Module 5.', true);
+        return;
+    }
+    
+    saveAnswersToLocal();
+    
+    showToast('💾 Saving your answers...');
+    
+    // Wait for data to be sent before redirecting
+    const saved = await sendModule4DataToSheet();
+    
+    if (saved) {
+        localStorage.setItem('module4_completed', 'true');
+        showToast('✅ Progress saved! Redirecting...');
+        
+        setTimeout(() => {
+            window.location.href = 'module5.html';
+        }, 800);
+    } else {
+        localStorage.setItem('module4_completed', 'true');
+        showToast('⚠️ Progress saved locally. Continuing...', true);
+        
+        setTimeout(() => {
+            window.location.href = 'module5.html';
+        }, 800);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadSavedAnswers();
+    
+    document.querySelectorAll('.check-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const scenarioNum = btn.getAttribute('data-scenario');
+            const userAnswer = document.getElementById(`scenario${scenarioNum}`).value;
+            if (!userAnswer.trim()) { 
+                alert('Please write your learning intention first.'); 
+                return; 
+            }
+            const isCorrect = checkAnswer(parseInt(scenarioNum), userAnswer);
+            showFeedback(parseInt(scenarioNum), isCorrect);
+            saveAnswersToLocal();
+        });
+    });
+    
+    ['scenario1', 'scenario2', 'scenario3', 'scenario4'].forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            input.addEventListener('input', () => { 
+                saveAnswersToLocal(); 
+                checkAllCompleted();
+            });
+        }
+    });
+    
+    const showAnswersBtn = document.getElementById('showAnswersBtn');
+    if (showAnswersBtn) {
+        showAnswersBtn.addEventListener('click', () => {
+            const div = document.getElementById('suggestedAnswers');
+            if (div.style.display === 'none') {
+                div.style.display = 'block';
+                showAnswersBtn.textContent = 'Hide Suggested Answers';
+            } else {
+                div.style.display = 'none';
+                showAnswersBtn.textContent = 'Show Suggested Answers';
+            }
+        });
+    }
+    
+    const continueBtn = document.getElementById('continueToModule5Btn');
+    if (continueBtn) {
+        continueBtn.addEventListener('click', goToModule5);
+    }
+    
+    const backBtn = document.getElementById('backToModule3Btn');
+    if (backBtn) {
+        backBtn.addEventListener('click', () => { 
+            window.location.href = 'module3.1.html'; 
+        });
+    }
+    
+    const resetLink = document.getElementById('resetDataLink');
+    if (resetLink) {
+        resetLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (confirm('Reset all module data? This cannot be undone.')) {
+                localStorage.removeItem('module4_answers');
+                localStorage.removeItem('module4_completed');
+                location.reload();
+            }
+        });
+    }
+    
+    updateProgressStatus();
+    checkAllCompleted();
+});
+</script>
+</body>
+</html>

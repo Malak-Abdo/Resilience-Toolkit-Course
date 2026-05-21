@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>The Resilience Toolkit · Module 3.1</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:#F4F7FC;color:#1E2F3E;line-height:1.45;padding:0 0 2rem 0}
+        .course-card{max-width:720px;margin:1rem auto;background:white;border-radius:32px;box-shadow:0 8px 20px rgba(0,0,0,0.05);overflow:hidden;padding:1.8rem 1.5rem 2.2rem}
+        @media (max-width:550px){.course-card{margin:0.8rem;padding:1.5rem 1.2rem;border-radius:28px}}
+        .header-tag{font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:#1A6B5A;font-weight:600;margin-bottom:0.5rem;display:flex;justify-content:space-between;align-items:center}
+        .user-badge{font-size:0.7rem;background:#E8F5E9;padding:0.2rem 0.6rem;border-radius:20px;color:#1A6B5A}
+        .module-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1rem;flex-wrap:wrap;border-bottom:2px solid #E8A735;padding-bottom:0.5rem;gap:0.5rem}
+        .module-title{font-size:1.3rem;font-weight:700;color:#0C2E3B}
+        .module-time{font-size:0.8rem;background:#F0F4F9;padding:0.2rem 0.8rem;border-radius:20px;color:#2C5F7A}
+        h2{font-size:1.2rem;font-weight:600;color:#1A6B5A;margin:1.5rem 0 0.75rem 0;border-left:4px solid #E8A735;padding-left:0.8rem}
+        h3{font-size:1rem;font-weight:600;color:#1A6B5A;margin-bottom:0.75rem}
+        .scenario-card{background:#FDF8F0;border-left:5px solid #E8A735;padding:1rem;margin:1rem 0;border-radius:16px}
+        .mindset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin:1.5rem 0}
+        .mindset-card{background:white;border-radius:20px;padding:1rem;border:2px solid #E2E9F2;cursor:pointer;transition:all 0.2s;text-align:center;min-height:130px;display:flex;flex-direction:column;justify-content:center}
+        .mindset-card:hover{transform:translateY(-4px);border-color:#E8A735}
+        .mindset-card.flipped{background:#E8F5E9;border-color:#1A6B5A}
+        .hidden-content{display:none}
+        .safe-section{background:#F0F7F4;border-radius:24px;padding:1.2rem;margin:1.5rem 0}
+        .safe-step{margin:1rem 0;padding:0.8rem;background:white;border-radius:16px;border-left:4px solid #E8A735}
+        .safe-step label{font-weight:700;color:#1A6B5A;display:block;margin-bottom:0.5rem}
+        textarea,input{width:100%;padding:0.75rem;border:1px solid #E2E9F2;border-radius:12px;font-family:inherit;font-size:0.9rem;resize:vertical}
+        textarea:focus,input:focus{outline:none;border-color:#1A6B5A}
+        .guided-pause{background:#E8F5E9;padding:1rem;border-radius:60px;text-align:center;cursor:pointer;margin:0.5rem 0;transition:0.2s}
+        .guided-pause:hover{background:#1A6B5A;color:white}
+        button{background:#1A6B5A;border:none;color:white;font-weight:600;padding:0.7rem 1.5rem;border-radius:60px;font-size:0.9rem;cursor:pointer;margin-top:0.5rem}
+        .secondary{background:#E8A735;color:#2E3A2A}
+        .module-nav{display:flex;justify-content:space-between;gap:1rem;margin-top:1.5rem;flex-wrap:wrap}
+        .footer-note{font-size:0.7rem;text-align:center;color:#8BA0B8;margin-top:1.5rem}
+        .reset-link{text-align:center;margin-top:1rem;font-size:0.7rem}
+        .reset-link a{color:#8BA0B8;cursor:pointer;text-decoration:underline}
+        .sentence-box{background:#E8F5E9;border-left:5px solid #1A6B5A;padding:1rem;margin:1rem 0;border-radius:16px;text-align:center}
+        .toast-notification{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1A6B5A;color:white;padding:12px 24px;border-radius:60px;font-size:0.85rem;z-index:1000;box-shadow:0 4px 12px rgba(0,0,0,0.15);animation:fadeInUp 0.3s ease}
+        @keyframes fadeInUp{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+        @media (max-width:480px){.mindset-grid{grid-template-columns:1fr}}
+        .progress-badge{display:inline-block;margin-left:1rem;font-size:0.7rem;padding:0.2rem 0.5rem;border-radius:20px;background:#FFF3E0;color:#E8A735}
+        .progress-complete{background:#E8F5E9;color:#1A6B5A}
+        .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.5rem}
+        .tip-note{font-size:0.75rem;color:#E8A735;background:#FFF8E1;padding:0.5rem;border-radius:12px;margin-top:0.5rem;text-align:center}
+        .check-btn{background:#6C86A0;margin-right:0.5rem;margin-top:0.5rem;padding:0.4rem 1rem;font-size:0.8rem}
+        .check-btn:hover{background:#4a627a}
+        .hint-box{background:#FFF8E1;border-left:3px solid #E8A735;padding:0.75rem;margin-top:0.75rem;border-radius:12px;font-size:0.85rem;color:#2C5F7A;display:none}
+        .hint-box strong{color:#E8A735}
+    </style>
+</head>
+<body>
+<div class="course-card">
+    <div class="header-tag">
+        <span>THE RESILIENCE TOOLKIT · MODULE 3.1</span>
+        <span class="user-badge" id="userBadge">Loading...</span>
+    </div>
+    
+    <div class="module-header">
+        <span class="module-title">Reframe Library + S.A.F.E. in Action</span>
+        <span class="module-time">3 minutes</span>
+    </div>
+    
+    <p><strong>Flipping your mindset is a skill — and skills need practice.</strong></p>
+    <p>Below are real crisis scenarios from humanitarian leaders. Click each card to reveal the reframe question that shifts you from a limiting frame to an adaptive one.</p>
+    
+    <div class="section-header">
+        <h2 style="margin:0;border-left:none;padding-left:0;">Reframe Library — Flip Cards</h2>
+        <span class="progress-badge" id="flipProgress">0/4 flipped</span>
+    </div>
+    <div class="mindset-grid" id="reframeGrid">
+        <div class="mindset-card" data-scenario="interpreter">
+            <div class="mindset-front"><strong>Interpreter Crisis</strong><br>"Your only interpreter is leaving. No replacement for 2 weeks."<br><span style="font-size:0.7rem;">Click to reframe</span></div>
+            <div class="mindset-back hidden-content"><strong>Reframe Question</strong><br>"Who on the local team has basic translation skills? What materials can be pre-translated?"</div>
+        </div>
+        <div class="mindset-card" data-scenario="looting">
+            <div class="mindset-front"><strong>Office Looting</strong><br>"Your office was looted overnight. Computers, radios, chairs — gone."<br><span style="font-size:0.7rem;">Click to reframe</span></div>
+            <div class="mindset-back hidden-content"><strong>Reframe Question</strong><br>"What core functions can run from a phone or partner space? What is the smallest restart action?"</div>
+        </div>
+        <div class="mindset-card" data-scenario="airstrike">
+            <div class="mindset-front"><strong>Airstrike</strong><br>"An airstrike hit 200m from your office. Staff are in shock."<br><span style="font-size:0.7rem;">Click to reframe</span></div>
+            <div class="mindset-back hidden-content"><strong>Reframe Question</strong><br>"Who needs immediate psychological first aid? What safety check can we do in 15 minutes?"</div>
+        </div>
+        <div class="mindset-card" data-scenario="deputy">
+            <div class="mindset-front"><strong>Deputy Collapsed</strong><br>"Your deputy fainted. The nearest hospital is 6 hours away."<br><span style="font-size:0.7rem;">Click to reframe</span></div>
+            <div class="mindset-back hidden-content"><strong>Reframe Question</strong><br>"Is there a clinic, medic, or vehicle closer than 6 hours? Who can stabilize en route?"</div>
+        </div>
+    </div>
+
+    <div class="tip-note">
+        Tip: In extreme danger, you can apply S.A.F.E. internally in your mind within seconds, even under pressure; it is a mental state, not just a desk exercise.
+    </div>
+    
+    <h2>Apply S.A.F.E. to the High-Level Meeting Scenario</h2>
+    <div class="scenario-card">
+        <strong>High-Level Coordination Meeting</strong><br><br>
+        You are in a high-level coordination meeting with senior UN officials and donors. A donor points to a significant gap in your last quarterly report: "Why is the beneficiary reach 30% lower than the target?" You weren't prepared for this specific data point, and all eyes are on you.<br><br>
+        <strong>Let's apply the S.A.F.E. Framework to find a better path forward.</strong>
+    </div>
+    
+    <div class="section-header">
+        <h2 style="margin:0;border-left:none;padding-left:0;">Your S.A.F.E. Application</h2>
+        <span class="progress-badge" id="safeProgress">0/4 completed</span>
+    </div>
+    
+    <div class="safe-section">
+        <h3 style="margin-top:0;">Apply S.A.F.E. Framework</h3>
+        
+        <div class="safe-step">
+            <label>S - STOP & BREATHE</label>
+            <div class="guided-pause" id="guidedPauseBtn">Click here for a guided pause (15-second breathing)</div>
+            <div id="pauseFeedback" style="font-size:0.8rem; margin-top:0.5rem; color:#1A6B5A;"></div>
+            <textarea id="stopInput" rows="2" placeholder="After pausing, write how you feel. What happens when you interrupt the panic loop?"></textarea>
+            <button class="check-btn" data-check="stop">Check Answer</button>
+            <div id="stopHint" class="hint-box">
+                <strong>Hint — The Pause:</strong> Instead of jumping to a defensive excuse, you take a 3-second sip of water or a silent breath.<br>
+                <strong>The Goal:</strong> Stop the "Victim" or "Panic" frame from speaking.
+            </div>
+        </div>
+        
+        <div class="safe-step">
+            <label>A - ASSESS REALITY (not assumptions)</label>
+            <textarea id="assessInput" rows="2" placeholder="Separate facts from assumptions. What are the actual facts? What assumptions are you making about the donor's intent?"></textarea>
+            <button class="check-btn" data-check="assess">Check Answer</button>
+            <div id="assessHint" class="hint-box">
+                <strong>Hint — The Fact:</strong> "I do not have the specific data for that 30% gap in my head right now."<br>
+                <strong>The Assumption (Discard this):</strong> "They think I'm incompetent; I'm going to lose the funding."
+            </div>
+        </div>
+        
+        <div class="safe-step">
+            <label>F - FIND THE SMALLEST FEASIBLE ACTION</label>
+            <textarea id="findInput" rows="2" placeholder="Based on the situation, describe ONE action you CAN take right now in this meeting."></textarea>
+            <button class="check-btn" data-check="find">Check Answer</button>
+            <div id="findHint" class="hint-box">
+                <strong>Hint — The Move:</strong> Do not lie or guess. The smallest action is to acknowledge and commit to a timeline.<br>
+                <strong>The Script:</strong> "That is a critical observation. I don't want to give you an estimate; I want to give you the exact technical reason."
+            </div>
+        </div>
+        
+        <div class="safe-step">
+            <label>E - EXECUTE & EVALUATE</label>
+            <textarea id="executeInput" rows="2" placeholder="How will you execute that action? When will you check back to evaluate?"></textarea>
+            <button class="check-btn" data-check="execute">Check Answer</button>
+            <div id="executeHint" class="hint-box">
+                <strong>Hint — The Action:</strong> "I will have my M&E lead pull the specific district breakdown and send a formal clarification to this group by 4:00 PM today."
+            </div>
+        </div>
+    </div>
+    
+    <div class="sentence-box">
+        <strong>One Sentence to Remember</strong><br>
+        "You cannot stop the first reaction. But you can choose the second one."
+    </div>
+    
+    <div class="module-nav">
+        <button class="secondary" id="backToModule3Btn">Back to Module 3</button>
+        <button id="nextToModule4Btn">Next: Module 4</button>
+    </div>
+    
+    <div class="footer-note">Module 3.1 of The Resilience Toolkit</div>
+    <div class="reset-link"><a id="resetDataLink">Reset Module 3.1 Data</a></div>
+</div>
+
+<script>
+// ============================================
+// GOOGLE SHEETS WEB APP URL
+// ============================================
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
+
+// ============================================
+// GET USER DATA - EXPANDED VERSION
+// ============================================
+function getUserData() {
+    let name = '', email = '', position = '';
+    
+    console.log('🔍 Searching for user data in localStorage...');
+    console.log('All localStorage keys:', Object.keys(localStorage));
+    
+    // 1. Check individual fields
+    let n = localStorage.getItem('course_user_name');
+    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'Your Name' && n.trim() !== '') {
+        name = n.trim();
+        email = (localStorage.getItem('course_user_email') || '').trim();
+        position = (localStorage.getItem('course_user_position') || '').trim();
+        console.log('✅ Found from individual fields:', name);
+    }
+    
+    // 2. Check course_user object
+    if (!name || name === 'Your Name') {
+        let user = localStorage.getItem('course_user');
+        if (user) {
+            try { 
+                let p = JSON.parse(user); 
+                if (p && p.name && p.name !== 'Guest' && p.name !== 'Your Name' && p.name.trim() !== '') {
+                    name = p.name.trim();
+                    email = (p.email || '').trim();
+                    position = (p.position || '').trim();
+                    console.log('✅ Found from course_user:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 3. Check resilience_users array
+    if (!name || name === 'Your Name') {
+        let users = localStorage.getItem('resilience_users');
+        if (users) {
+            try { 
+                let p = JSON.parse(users); 
+                if (Array.isArray(p) && p.length > 0) {
+                    for (let i = p.length - 1; i >= 0; i--) {
+                        if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'Your Name' && p[i].name.trim() !== '') {
+                            name = p[i].name.trim();
+                            email = (p[i].email || '').trim();
+                            position = (p[i].position || '').trim();
+                            console.log('✅ Found from resilience_users array:', name);
+                            break;
+                        }
+                    }
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 4. Check module1_answers for user data
+    if (!name || name === 'Your Name') {
+        let module1Answers = localStorage.getItem('module1_answers');
+        if (module1Answers) {
+            try {
+                let m1 = JSON.parse(module1Answers);
+                if (m1.userName && m1.userName !== 'Guest' && m1.userName !== 'Your Name') {
+                    name = m1.userName;
+                    email = m1.userEmail || '';
+                    position = m1.userPosition || '';
+                    console.log('✅ Found from module1_answers:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 5. Check module2_answers for user data
+    if (!name || name === 'Your Name') {
+        let module2Answers = localStorage.getItem('module2_answers');
+        if (module2Answers) {
+            try {
+                let m2 = JSON.parse(module2Answers);
+                if (m2.userName && m2.userName !== 'Guest' && m2.userName !== 'Your Name') {
+                    name = m2.userName;
+                    email = m2.userEmail || '';
+                    position = m2.userPosition || '';
+                    console.log('✅ Found from module2_answers:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 6. Check module3_answers for user data
+    if (!name || name === 'Your Name') {
+        let module3Answers = localStorage.getItem('module3_answers');
+        if (module3Answers) {
+            try {
+                let m3 = JSON.parse(module3Answers);
+                if (m3.userName && m3.userName !== 'Guest' && m3.userName !== 'Your Name') {
+                    name = m3.userName;
+                    email = m3.userEmail || '';
+                    position = m3.userPosition || '';
+                    console.log('✅ Found from module3_answers:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 7. Final fallback - PROMPT USER if still not found
+    if (!name || name === 'Your Name' || name === 'Guest') {
+        console.log('⚠️ No user data found, prompting user...');
+        name = prompt('👤 Please enter your full name:');
+        email = prompt('📧 Please enter your email address:');
+        if (name && name.trim() !== '') {
+            localStorage.setItem('course_user_name', name.trim());
+        }
+        if (email && email.trim() !== '') {
+            localStorage.setItem('course_user_email', email.trim());
+        }
+        name = name || 'Guest';
+        email = email || 'guest@example.com';
+    }
+    
+    const result = { 
+        name: name, 
+        email: email, 
+        position: position || 'Not specified' 
+    };
+    
+    console.log('👤 Final user data:', result);
+    return result;
+}
+
+const currentUser = getUserData();
+const userBadge = document.getElementById('userBadge');
+if (userBadge) {
+    if (currentUser.name !== 'Guest') {
+        userBadge.innerText = currentUser.name;
+    } else {
+        userBadge.innerText = 'Learner';
+    }
+}
+
+function showToast(message, isError) {
+    const existing = document.querySelector('.toast-notification');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.style.background = isError ? '#C0392B' : '#1A6B5A';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(function() { if (toast) toast.remove(); }, 3000);
+}
+
+function updateFlipProgress() {
+    const flipped = document.querySelectorAll('.mindset-card.flipped').length;
+    const progressSpan = document.getElementById('flipProgress');
+    if (progressSpan) {
+        progressSpan.textContent = flipped + '/4 flipped';
+        if (flipped === 4) {
+            progressSpan.className = 'progress-badge progress-complete';
+        } else {
+            progressSpan.className = 'progress-badge';
+        }
+    }
+    return flipped === 4;
+}
+
+const flipCards = document.querySelectorAll('.mindset-card');
+flipCards.forEach(function(card) {
+    card.addEventListener('click', function(e) {
+        e.stopPropagation();
+        this.classList.toggle('flipped');
+        var front = this.querySelector('.mindset-front');
+        var back = this.querySelector('.mindset-back');
+        if (this.classList.contains('flipped')) {
+            if (front) front.classList.add('hidden-content');
+            if (back) back.classList.remove('hidden-content');
+        } else {
+            if (front) front.classList.remove('hidden-content');
+            if (back) back.classList.add('hidden-content');
+        }
+        updateFlipProgress();
+        saveModule31DataToLocal();
+    });
+});
+
+const pauseBtn = document.getElementById('guidedPauseBtn');
+const pauseFeedback = document.getElementById('pauseFeedback');
+let pauseUsed = false;
+
+if (pauseBtn) {
+    pauseBtn.addEventListener('click', function() {
+        pauseUsed = true;
+        pauseBtn.style.background = "#1A6B5A";
+        pauseBtn.style.color = "white";
+        pauseBtn.innerText = "Breathe in... hold... breathe out...";
+        pauseFeedback.innerHTML = "Great. You just activated your parasympathetic nervous system.";
+        setTimeout(function() {
+            pauseBtn.style.background = "#E8F5E9";
+            pauseBtn.style.color = "#1E2F3E";
+            pauseBtn.innerText = "Click here for a guided pause (15-second breathing)";
+            setTimeout(function() {
+                pauseFeedback.innerHTML = "";
+            }, 2000);
+        }, 2000);
+        saveModule31DataToLocal();
+    });
+}
+
+const stopInput = document.getElementById('stopInput');
+const assessInput = document.getElementById('assessInput');
+const findInput = document.getElementById('findInput');
+const executeInput = document.getElementById('executeInput');
+
+const stopHint = document.getElementById('stopHint');
+const assessHint = document.getElementById('assessHint');
+const findHint = document.getElementById('findHint');
+const executeHint = document.getElementById('executeHint');
+
+document.querySelectorAll('.check-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        var checkType = btn.getAttribute('data-check');
+        
+        if (checkType === 'stop') {
+            if (stopInput.value.trim()) {
+                stopHint.style.display = 'block';
+            } else {
+                showToast('Please write your reflection first.', true);
+            }
+        } else if (checkType === 'assess') {
+            if (assessInput.value.trim()) {
+                assessHint.style.display = 'block';
+            } else {
+                showToast('Please write your assessment first.', true);
+            }
+        } else if (checkType === 'find') {
+            if (findInput.value.trim()) {
+                findHint.style.display = 'block';
+            } else {
+                showToast('Please write your action first.', true);
+            }
+        } else if (checkType === 'execute') {
+            if (executeInput.value.trim()) {
+                executeHint.style.display = 'block';
+            } else {
+                showToast('Please write your execution plan first.', true);
+            }
+        }
+        
+        saveModule31DataToLocal();
+    });
+});
+
+function updateSafeProgress() {
+    var completed = 0;
+    if (stopInput && stopInput.value.trim()) completed++;
+    if (assessInput && assessInput.value.trim()) completed++;
+    if (findInput && findInput.value.trim()) completed++;
+    if (executeInput && executeInput.value.trim()) completed++;
+    
+    var progressSpan = document.getElementById('safeProgress');
+    if (progressSpan) {
+        progressSpan.textContent = completed + '/4 completed';
+        if (completed === 4) {
+            progressSpan.className = 'progress-badge progress-complete';
+        } else {
+            progressSpan.className = 'progress-badge';
+        }
+    }
+    return completed === 4;
+}
+
+function getFlippedCardsStatus() {
+    var flipped = [];
+    document.querySelectorAll('.mindset-card.flipped').forEach(function(card) {
+        var scenario = card.getAttribute('data-scenario') || 'unknown';
+        flipped.push(scenario);
+    });
+    return flipped;
+}
+
+function saveModule31DataToLocal() {
+    var data = {
+        stopReflection: stopInput ? stopInput.value : '',
+        assessReflection: assessInput ? assessInput.value : '',
+        findAction: findInput ? findInput.value : '',
+        executePlan: executeInput ? executeInput.value : '',
+        flippedCards: getFlippedCardsStatus(),
+        pauseUsed: pauseUsed,
+        hintsShown: {
+            stop: stopHint ? stopHint.style.display === 'block' : false,
+            assess: assessHint ? assessHint.style.display === 'block' : false,
+            find: findHint ? findHint.style.display === 'block' : false,
+            execute: executeHint ? executeHint.style.display === 'block' : false
+        },
+        lastUpdated: new Date().toISOString()
+    };
+    localStorage.setItem('module3_1_data', JSON.stringify(data));
+    updateSafeProgress();
+    updateFlipProgress();
+}
+
+function loadModule31Data() {
+    var saved = localStorage.getItem('module3_1_data');
+    if (saved) {
+        try {
+            var data = JSON.parse(saved);
+            if (stopInput && data.stopReflection) stopInput.value = data.stopReflection;
+            if (assessInput && data.assessReflection) assessInput.value = data.assessReflection;
+            if (findInput && data.findAction) findInput.value = data.findAction;
+            if (executeInput && data.executePlan) executeInput.value = data.executePlan;
+            if (data.pauseUsed) pauseUsed = true;
+            if (data.hintsShown) {
+                if (data.hintsShown.stop && stopHint) stopHint.style.display = 'block';
+                if (data.hintsShown.assess && assessHint) assessHint.style.display = 'block';
+                if (data.hintsShown.find && findHint) findHint.style.display = 'block';
+                if (data.hintsShown.execute && executeHint) executeHint.style.display = 'block';
+            }
+            if (data.flippedCards && data.flippedCards.length) {
+                document.querySelectorAll('.mindset-card').forEach(function(card) {
+                    var scenario = card.getAttribute('data-scenario');
+                    if (data.flippedCards.includes(scenario)) {
+                        if (!card.classList.contains('flipped')) {
+                            card.classList.add('flipped');
+                            var front = card.querySelector('.mindset-front');
+                            var back = card.querySelector('.mindset-back');
+                            if (front) front.classList.add('hidden-content');
+                            if (back) back.classList.remove('hidden-content');
+                        }
+                    }
+                });
+            }
+            updateSafeProgress();
+            updateFlipProgress();
+        } catch(e) { console.warn(e); }
+    }
+}
+
+if (stopInput) stopInput.addEventListener('input', saveModule31DataToLocal);
+if (assessInput) assessInput.addEventListener('input', saveModule31DataToLocal);
+if (findInput) findInput.addEventListener('input', saveModule31DataToLocal);
+if (executeInput) executeInput.addEventListener('input', saveModule31DataToLocal);
+loadModule31Data();
+
+// ============================================
+// SEND DATA TO GOOGLE SHEETS - PROMISE VERSION
+// ============================================
+function sendModule31DataToSheet() {
+    var userData = getUserData();
+    
+    var payload = {
+        module: 'Module 3.1',
+        language: 'en',
+        userName: userData.name,
+        userEmail: userData.email,
+        userPosition: userData.position,
+        timestamp: new Date().toISOString(),
+        answers: {
+            safe_stop_reflection: stopInput ? stopInput.value : 'Not answered',
+            safe_assess_reflection: assessInput ? assessInput.value : 'Not answered',
+            safe_find_action: findInput ? findInput.value : 'Not answered',
+            safe_execute_plan: executeInput ? executeInput.value : 'Not answered',
+            flipped_cards: getFlippedCardsStatus().join(', ') || 'None',
+            pause_used: pauseUsed ? 'Yes' : 'No'
+        }
+    };
+    
+    console.log('📤 Sending Module 3.1 data for user:', userData.name);
+    
+    return new Promise((resolve) => {
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8',
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('✅ Module 3.1 data sent successfully:', data);
+            resolve(true);
+        })
+        .catch(error => {
+            console.log('❌ Fetch error:', error);
+            // Fallback to XHR
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+            xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    console.log('✅ Module 3.1 data sent (XHR fallback)');
+                    resolve(true);
+                } else {
+                    console.log('⚠️ Module 3.1 response status:', xhr.status);
+                    resolve(false);
+                }
+            };
+            xhr.onerror = function() {
+                console.log('❌ Error sending Module 3.1 data');
+                resolve(false);
+            };
+            xhr.send(JSON.stringify(payload));
+        });
+        
+        // Timeout fallback
+        setTimeout(() => {
+            console.log('⏰ Timeout - continuing anyway');
+            resolve(true);
+        }, 3000);
+    });
+}
+
+// ============================================
+// GO TO NEXT MODULE - UPDATED TO WAIT FOR DATA
+// ============================================
+async function goToNextModule() {
+    var allFlipped = updateFlipProgress();
+    var allSafeCompleted = updateSafeProgress();
+    
+    if (!allFlipped) {
+        showToast('Please flip and review all 4 reframe cards before continuing.', true);
+        return;
+    }
+    
+    if (!allSafeCompleted) {
+        showToast('Please complete all 4 S.A.F.E. reflection questions before continuing.', true);
+        return;
+    }
+    
+    saveModule31DataToLocal();
+    
+    showToast('💾 Saving your answers...');
+    
+    // Wait for data to be sent before redirecting
+    const saved = await sendModule31DataToSheet();
+    
+    if (saved) {
+        localStorage.setItem('module3_1_completed', 'true');
+        showToast('✅ Progress saved! Redirecting...');
+        
+        setTimeout(function() {
+            window.location.href = 'module4.html';
+        }, 800);
+    } else {
+        localStorage.setItem('module3_1_completed', 'true');
+        showToast('⚠️ Progress saved locally. Continuing...', true);
+        
+        setTimeout(function() {
+            window.location.href = 'module4.html';
+        }, 800);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var backBtn = document.getElementById('backToModule3Btn');
+    if (backBtn) {
+        backBtn.addEventListener('click', function() {
+            window.location.href = 'module3.html';
+        });
+    }
+    
+    var nextBtn = document.getElementById('nextToModule4Btn');
+    if (nextBtn) {
+        nextBtn.addEventListener('click', goToNextModule);
+    }
+    
+    var resetLink = document.getElementById('resetDataLink');
+    if (resetLink) {
+        resetLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('Reset all progress in Module 3.1? This cannot be undone.')) {
+                localStorage.removeItem('module3_1_data');
+                localStorage.removeItem('module3_1_completed');
+                location.reload();
+            }
+        });
+    }
+    
+    updateSafeProgress();
+    updateFlipProgress();
+});
+</script>
+</body>
+</html>

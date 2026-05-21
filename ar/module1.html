@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>حزمة أدوات المرونة · الوحدة ١</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #F4F7FC;
+            color: #1E2F3E;
+            line-height: 1.45;
+            padding: 0 0 2rem 0;
+        }
+        .course-card {
+            max-width: 680px;
+            margin: 1rem auto;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.02);
+            overflow: hidden;
+            padding: 1.8rem 1.5rem 2.2rem;
+        }
+        @media (max-width: 550px) {
+            .course-card { margin: 0.8rem; padding: 1.5rem 1.2rem; border-radius: 28px; }
+        }
+        .header-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #1A6B5A;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .user-badge {
+            font-size: 0.7rem;
+            background: #E8F5E9;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            color: #1A6B5A;
+        }
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .module-title { font-size: 1.3rem; font-weight: 700; color: #0C2E3B; }
+        .module-time {
+            font-size: 0.8rem;
+            background: #F0F4F9;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            color: #2C5F7A;
+        }
+        .executive-title { font-size: 1rem; color: #E8A735; font-weight: 600; margin-bottom: 1rem; }
+        .audio-hook {
+            background: #F0F7F4;
+            border-radius: 20px;
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .poll-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 0.6rem;
+            margin: 1rem 0;
+        }
+        @media (max-width: 550px) {
+            .poll-grid { grid-template-columns: 1fr; }
+        }
+        .poll-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #F9FCFE;
+            padding: 0.5rem 0.8rem;
+            border-radius: 40px;
+            border: 1px solid #E3ECF3;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+        .poll-item.selected { background: #E9F3F0; border-color: #1A6B5A; }
+        .quiz-question { margin: 1.2rem 0; padding-bottom: 0.8rem; border-bottom: 1px solid #E2E9F2; }
+        .quiz-options { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.5rem; }
+        @media (max-width: 550px) {
+            .quiz-options { gap: 0.5rem; }
+            .quiz-option { font-size: 0.8rem; padding: 0.3rem 0.8rem; }
+        }
+        .quiz-option {
+            background: #F1F5F9;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            cursor: pointer;
+        }
+        .quiz-option.selected { background: #1A6B5A; color: white; }
+        .feedback {
+            background: #EFF9F5;
+            padding: 0.8rem;
+            border-radius: 16px;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            display: none;
+        }
+        .scenario-card {
+            background: #FDF8F0;
+            border-right: 5px solid #E8A735;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 16px;
+        }
+        .reality-check {
+            background: #FFF8E1;
+            border-right: 5px solid #E8A735;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 16px;
+            font-size: 0.9rem;
+        }
+        button {
+            background: #1A6B5A;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.7rem 1.5rem;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: all 0.2s;
+        }
+        button:active { transform: scale(0.97); }
+        .secondary { background: #E8A735; color: #2E3A2A; }
+        .module-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        @media (max-width: 550px) {
+            .module-nav { flex-direction: column; }
+            .module-nav button { width: 100%; }
+        }
+        .check-btn {
+            background: #6C86A0;
+            margin-top: 0.5rem;
+        }
+        .check-btn:hover {
+            background: #4a627a;
+        }
+        
+        /* Mobile-Friendly Matching Game (Replaces Drag & Drop) */
+        .matching-game {
+            margin: 1.5rem 0;
+        }
+        .matching-item {
+            background: #F9FCFE;
+            border: 1px solid #E2E9F2;
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .matching-action {
+            font-weight: 600;
+            color: #0C2E3B;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px dashed #E8A735;
+        }
+        .matching-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .match-option {
+            background: #F1F5F9;
+            padding: 0.5rem 1rem;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            flex: 1;
+            min-width: 100px;
+        }
+        .match-option:hover {
+            background: #E8A735;
+            color: #2E3A2A;
+        }
+        .match-option.selected {
+            background: #1A6B5A;
+            color: white;
+        }
+        .match-feedback {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 16px;
+            background: #EFF9F5;
+        }
+        .match-result {
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+        .match-result.correct {
+            background: #E8F5E9;
+            color: #1A6B5A;
+        }
+        .match-result.incorrect {
+            background: #FFEBEE;
+            color: #B33A3A;
+        }
+        
+        .hotspot-container {
+            background: #FDF8F0;
+            border-radius: 24px;
+            padding: 1.5rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        .hotspot-image { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin: 1.5rem 0; }
+        @media (max-width: 550px) {
+            .hotspot-image { flex-direction: column; align-items: center; gap: 1rem; }
+            .hotspot-item { width: 100%; max-width: 200px; }
+        }
+        .hotspot-item {
+            text-align: center;
+            cursor: pointer;
+            padding: 1rem;
+            border-radius: 20px;
+            transition: all 0.2s;
+            background: white;
+            border: 2px solid #E2E9F2;
+            min-width: 120px;
+        }
+        .hotspot-item:hover { transform: scale(1.05); border-color: #E8A735; }
+        .hotspot-item.selected { border-color: #1A6B5A; background: #E9F3F0; }
+        .hotspot-emoji { font-size: 3rem; display: block; }
+        .hotspot-feedback { margin-top: 1rem; padding: 0.8rem; border-radius: 16px; background: #EFF9F5; }
+        .branch-choices { display: flex; flex-direction: column; gap: 1rem; margin: 1rem 0; }
+        .branch-choice {
+            background: #F9FCFE;
+            border: 1px solid #E3ECF3;
+            border-radius: 16px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .branch-choice:hover { background: #F0F6FD; border-color: #E8A735; }
+        .branch-choice.selected { background: #E8F5E9; border-color: #1A6B5A; }
+        .branch-outcome { margin-top: 1rem; padding: 1rem; border-radius: 16px; background: #F0F7F4; }
+        .success-outcome { background: #E8F5E9; border-right: 5px solid #1A6B5A; }
+        .failure-outcome { background: #FFEBEE; border-right: 5px solid #D32F2F; }
+        .footer-note { font-size: 0.7rem; text-align: center; color: #8BA0B8; margin-top: 1.5rem; }
+        .reset-link { text-align: center; margin-top: 1rem; font-size: 0.7rem; }
+        .reset-link a { color: #8BA0B8; cursor: pointer; text-decoration: underline; }
+        textarea { font-family: inherit; font-size: 0.85rem; width: 100%; padding: 0.8rem; border-radius: 12px; border: 1px solid #ccc; }
+        .toast-notification {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: #1A6B5A; color: white; padding: 12px 24px;
+            border-radius: 60px; font-size: 0.85rem; font-weight: 500;
+            z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            animation: fadeInUp 0.3s ease;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        .key-message {
+            background: #1A6B5A;
+            color: white;
+            padding: 1rem;
+            border-radius: 16px;
+            text-align: center;
+            margin: 1rem 0;
+            font-weight: bold;
+        }
+        .progress-badge {
+            display: inline-block;
+            margin-right: 1rem;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            background: #FFF3E0;
+            color: #E8A735;
+        }
+        .progress-complete {
+            background: #E8F5E9;
+            color: #1A6B5A;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .model-answer {
+            background: #E3F2FD;
+            padding: 0.8rem;
+            border-radius: 12px;
+            margin-top: 0.8rem;
+            border-right: 3px solid #1A6B5A;
+            font-size: 0.85rem;
+        }
+        .feedback-correct {
+            background: #E8F5E9;
+            color: #1A6B5A;
+            border-right: 3px solid #1A6B5A;
+        }
+        .feedback-incorrect {
+            background: #FFEBEE;
+            color: #B33A3A;
+            border-right: 3px solid #B33A3A;
+        }
+    </style>
+</head>
+<body>
+<div class="course-card">
+    <div class="header-tag">
+        <span>حزمة أدوات المرونة</span>
+        <span class="user-badge" id="userBadge">👤 جار التحميل...</span>
+    </div>
+    
+    <div class="module-header">
+        <span class="module-title">🧠 الوحدة ١: ضرورة القدرة على التكيف</span>
+        <span class="module-time">٥ دقائق</span>
+    </div>
+    
+    <div class="executive-title">📡 إحاطة تنفيذية تمهيدية</div>
+    
+    <div class="audio-hook">
+        <button id="playAudioHookBtn" style="background:#E8A735; color:#2E3A2A;">▶ بدء الإحاطة</button>
+        <p id="audioTranscript" style="margin-top:12px; font-size:0.9rem; font-style:italic; background:#FEF7E6; padding:10px; border-radius:16px;"></p>
+    </div>
+    
+    <div class="key-message">
+        💡 النقطة الأساسية التي يجب تذكرها:<br>
+        "المهارة التقنية توصلك إلى الباب. المهارة التكيفية هي التي تقرر ما إذا كان سيُسمح لك بالقيادة من خلاله."
+    </div>
+    
+    <h2>📊 استطلاع تشخيصي</h2>
+    <p><em>خلال الثلاثين يوماً الماضية، أي من المعوقات التالية أثرت بشكل مباشر على عملية اتخاذ القرار لديك؟ (اختر كل ما ينطبق)</em></p>
+    <div class="poll-grid" id="pollContainer">
+        <div class="poll-item" data-value="fuel">⛽ نقص الوقود (لا توجد مركبات لمدة ٣+ أيام)</div>
+        <div class="poll-item" data-value="vehicle">🚗 تعطل مركبة أثناء العمليات</div>
+        <div class="poll-item" data-value="interpreter">🗣️ اعتقال مترجم أو موظف رئيسي</div>
+        <div class="poll-item" data-value="heat">🔥 حرارة شديدة (العمل مستحيل بعد الساعة ١١ صباحاً)</div>
+        <div class="poll-item" data-value="flood">🌊 فيضان أو انهيار أرضي أو انهيار بنية تحتية</div>
+        <div class="poll-item" data-value="checkpoint">🚧 رفض عند نقطة تفتيش أو منع الوصول</div>
+        <div class="poll-item" data-value="internet">📡 انقطاع الإنترنت (٢٤+ ساعة)</div>
+        <div class="poll-item" data-value="donor">📋 تغير أولويات الجهة المانحة بين عشية وضحاها</div>
+        <div class="poll-item" data-value="looted">🏚️ نهب أو اقتحام المكتب</div>
+        <div class="poll-item" data-value="bank">🏦 إغلاق البنك – تأخر صرف الرواتب</div>
+    </div>
+    <button id="submitPollBtn">تأكيد الاختيارات</button>
+    <div id="pollFeedback" class="feedback"></div>
+    
+    <div class="scenario-card">
+        <strong>📖 سيناريو: "كيث – الخبير التقني الذي لم يستطع التكيف"</strong><br><br>
+        كان لدى كيث ١٢ عاماً من الخبرة التقنية في مجاله. كان ماهراً جداً وتم ترشيحه لمنصب المدير القطري في اليمن لإحدى المنظمات الإنسانية الدولية.<br><br>
+        أثناء الاختبار التقني، أدى كيث أداءً جيداً جداً. لكن في المقابلة النهائية، قال:<br>
+        <em>"إجراءات التشغيل القياسية (SOPs) المستخدمة في نيويورك قابلة للنقل مباشرة إلى اليمن. سأعمل مع الفريق المحلي لإيجاد طريقة لتطبيقها هناك."</em><br><br>
+        عندما سُئل عن المتغيرات الثقافية المحلية، رد بأن البروتوكولات الحالية لا ينبغي تغييرها – فقط تطبيقها. وقال إنه يتوقع من الفريق أن "يجد طريقة" لجعلها تعمل.<br><br>
+        لم يتم اختيار كيث لهذا الدور.
+    </div>
+    
+    <div class="section-header">
+        <h2>📋 اختبار كيث</h2>
+        <span class="progress-badge" id="keithProgress">٠/٥ مكتمل</span>
+    </div>
+    
+    <div id="keithQuiz">
+        <div class="quiz-question" id="q1">
+            <strong>السؤال ١ (اختيار من متعدد)</strong><br>ما هو الخطأ الرئيسي الذي ارتكبه كيث؟
+            <div class="quiz-options" data-q="1">
+                <div class="quiz-option" data-val="A">أ) فشل في الاختبار التقني.</div>
+                <div class="quiz-option" data-val="B">ب) افترض أن إجراءات التشغيل القياسية من سياق مستقر ستعمل دون تغيير في سياق متقلب.</div>
+                <div class="quiz-option" data-val="C">ج) رفض الذهاب إلى اليمن.</div>
+                <div class="quiz-option" data-val="D">د) كان لديه ١٢ عاماً فقط من الخبرة.</div>
+            </div>
+            <div class="feedback" id="fb1"></div>
+        </div>
+        
+        <div class="quiz-question" id="q2">
+            <strong>السؤال ٢ (إجابة قصيرة / تأمل)</strong><br>قال كيث إنه سيطلب من الفريق المحلي "إيجاد طريقة" لتطبيق إجراءات نيويورك في اليمن. لماذا تعتبر هذه العبارة علامة خطر في القيادة الإنسانية؟
+            <textarea id="q2answer" rows="3" placeholder="اكتب إجابتك هنا..."></textarea>
+            <div class="feedback" id="fb2"></div>
+        </div>
+        
+        <div class="quiz-question" id="q3">
+            <strong>السؤال ٣ (قائم على سيناريو)</strong><br>لو كنت مدير التوظيف، ما هو السؤال الوحيد الذي كنت ستطرحه على كيث لاختبار قيادته التكيفية قبل رفضه؟
+            <textarea id="q3answer" rows="2" placeholder="اكتب إجابتك هنا..."></textarea>
+            <div class="feedback" id="fb3"></div>
+        </div>
+        
+        <div class="quiz-question" id="q4">
+            <strong>السؤال ٤ (صواب / خطأ)</strong><br>خبرة كيث التقنية جعلته مناسباً تماماً لمنصب المدير القطري في اليمن.
+            <div class="quiz-options" data-q="4">
+                <div class="quiz-option" data-val="true">صواب</div>
+                <div class="quiz-option" data-val="false">خطأ</div>
+            </div>
+            <div class="feedback" id="fb4"></div>
+        </div>
+        
+        <div class="quiz-question" id="q5">
+            <strong>السؤال ٥ (موضوع نقاش)</strong><br>شارك وقتاً رأيت فيه قائداً (أو نفسك) يفترض أن حلاً من سياق ما سينجح في سياق آخر. ماذا كانت النتيجة؟ ما الذي كان يمكن فعله بشكل مختلف؟
+            <textarea id="q5answer" rows="3" placeholder="اكتب إجابتك هنا..."></textarea>
+            <div class="feedback" id="fb5"></div>
+        </div>
+        
+        <button id="submitKeithQuiz">تأكيد إجاباتي</button>
+    </div>
+    
+    <div id="keithDiagnosis" style="margin-top:1.5rem; display:none; background:#F0F7F4; padding:1rem; border-radius:20px;">
+        <strong>لماذا لم يتم اختيار كيث؟ (التشخيص)</strong><br><br>
+        لم يتم رفض كيث بسبب افتقاره إلى المهارات التقنية - لقد تفوق في الاختبار التقني. تم رفضه لأنه:<br><br>
+        • تجاهل المتغيرات الثقافية والسياقية المحلية في اليمن، وهي بيئة إنسانية متقلبة وعالية المخاطر.<br>
+        • افترض أن إجراءات التشغيل القياسية المصممة في نيويورك (بيئة مستقرة وموفرة للموارد) قابلة للنقل المباشر دون تعديل.<br>
+        • قال إنه سيطلب من الفريق المحلي "إيجاد طريقة" لتطبيق تلك الإجراءات - مما يحول عبء التكيف بأكمله إلى الموظفين المحليين، دون منحهم السلطة أو المرونة أو الموارد.<br><br>
+        هذا النهج سيؤدي إلى إرهاق الموظفين، وانهيار الثقة المحلية، وفقدان كامل للحافز.<br><br>
+        <strong>التشخيص:</strong> كان كيث ممتازاً في الأداء في ظل البيئات التي يسودها الاستقرار، لكنه جامد استراتيجياً في ظل التقلبات. المهارة التقنية توصلك إلى الباب. المهارة التكيفية هي التي تقرر ما إذا كان سيُسمح لك بالقيادة من خلاله.
+    </div>
+    
+    <div class="scenario-card">
+        <strong>📖 سيناريو: "ليلى – الاستراتيجية التكيفية"</strong><br><br>
+        ليلى مديرة قطرية لمنظمة إنسانية في السودان. أثناء حملة إغاثة حرجة، حدث نقص حاد في الوقود لمدة 7 أيام. شلّ هذا النقص أسطول المركبات، ولم يعد الفريق الميداني قادراً على الوصول لمواقع التوزيع أو العيادات. نظر الفريق إلى ليلى.<br><br>
+        <em>ماذا تفعل لو كنت في موقع ليلى؟<br>(هل تلوم فريق الخدمات اللوجستية لعدم وجود وقود احتياطي؟ هل تنتظر موافقة المكتب الرئيسي على شراء وقود من السوق السوداء؟)</em>
+    </div>
+    
+    <div class="section-header">
+        <h2>📋 اختبار ليلى</h2>
+        <span class="progress-badge" id="leylaProgress">٠/٦ مكتمل</span>
+    </div>
+    
+    <div class="quiz-question" id="leylaQ1">
+        <strong>السؤال ١: اختيار من متعدد</strong><br>أي من التالي كان الإجراء الأول الذي اتخذته ليلى فعلاً (والأكثر تكيفاً)؟
+        <div class="quiz-options" data-q="leyla1">
+            <div class="quiz-option" data-val="A">أ) لوم فريق الخدمات اللوجستية لعدم وجود احتياطيات وقود.</div>
+            <div class="quiz-option" data-val="B">ب) انتظار موافقة كتابية من المكتب الرئيسي لشراء وقود من السوق السوداء.</div>
+            <div class="quiz-option" data-val="C">ج) جمع الفريق المحلي (السائقين، اللوجستيين، منسقي المجتمع) وسؤالهم: "ما الذي نجح في حالات نقص الوقود السابقة هنا؟"</div>
+            <div class="quiz-option" data-val="D">د) تعليق جميع العمليات لمدة سبعة أيام للبقاء آمنين.</div>
+        </div>
+        <div class="feedback" id="leylaFb1"></div>
+        <button class="check-btn" data-check="leylaQ1">✅ تحقق من الإجابة</button>
+    </div>
+
+    <div class="quiz-question" id="leylaQ5">
+        <strong>السؤال ٢: تحدي التصفية (Filtering)</strong><br>يقترح الفريق المحلي شراء وقود من تاجر في السوق السوداء. هذا يحل مشكلة النقل لكنه يخالف قواعد المانحين. كيف تقوم بـ"تصفية" هذا الحل؟
+        <textarea id="filterAnswer" rows="3" placeholder="مثال: أتأكد إن كان التاجر مدرجاً على قائمة العقوبات، أو أتفاوض على صفقة جزئية..."></textarea>
+        <div class="feedback" id="filterFb"></div>
+        <button class="check-btn" data-check="filterQuestion">✅ تحقق من الإجابة</button>
+    </div>
+    
+    <!-- Mobile-Friendly Matching Game (Replaces Drag & Drop) -->
+    <div class="quiz-question" id="leylaQ2">
+        <strong>السؤال ٣: طابق كل إجراء بالنتيجة المناسبة</strong><br>
+        <p><em>لكل إجراء أدناه، اختر النتيجة الصحيحة.</em></p>
+        
+        <div class="matching-game" id="matchingGame">
+            <!-- Action 1: Blame logistics team -->
+            <div class="matching-item">
+                <div class="matching-action">📌 الإجراء ١: لوم فريق الخدمات اللوجستية</div>
+                <div class="matching-options" data-action="blame">
+                    <div class="match-option" data-outcome="A">✅ نجاح تكيفي</div>
+                    <div class="match-option" data-outcome="B">🔴 توقف/شلل</div>
+                    <div class="match-option" data-outcome="C">❌ فشل</div>
+                </div>
+                <div id="blameFeedback" class="match-result" style="display:none;"></div>
+            </div>
+            
+            <!-- Action 2: Wait for HQ black market approval -->
+            <div class="matching-item">
+                <div class="matching-action">📌 الإجراء ٢: انتظار موافقة المكتب الرئيسي على شراء وقود السوق السوداء</div>
+                <div class="matching-options" data-action="waitHQ">
+                    <div class="match-option" data-outcome="A">✅ نجاح تكيفي</div>
+                    <div class="match-option" data-outcome="B">🔴 توقف/شلل</div>
+                    <div class="match-option" data-outcome="C">❌ فشل</div>
+                </div>
+                <div id="waitHQFeedback" class="match-result" style="display:none;"></div>
+            </div>
+            
+            <!-- Action 3: Negotiate with motorcycle union leaders -->
+            <div class="matching-item">
+                <div class="matching-action">📌 الإجراء ٣: التفاوض مع قادة اتحاد الدراجات النارية</div>
+                <div class="matching-options" data-action="negotiate">
+                    <div class="match-option" data-outcome="A">✅ نجاح تكيفي</div>
+                    <div class="match-option" data-outcome="B">🔴 توقف/شلل</div>
+                    <div class="match-option" data-outcome="C">❌ فشل</div>
+                </div>
+                <div id="negotiateFeedback" class="match-result" style="display:none;"></div>
+            </div>
+        </div>
+        
+        <div id="matchFeedback" class="match-feedback" style="display:none;"></div>
+        <button id="checkMatchesBtn" style="margin-top:1rem; background:#E8A735; color:#2E3A2A;">التحقق من المطابقات</button>
+    </div>
+    
+    <div class="quiz-question" id="leylaQ3">
+        <strong>🔀 السؤال ٤: سيناريو متفرع</strong><br>أنت في موقع ليلى. يحدث نقص الوقود. تقرر التصرف. ما هو أول ما تفعله؟
+        <div class="branch-choices">
+            <div class="branch-choice" data-choice="A">
+                <strong>أ.</strong> عقد اجتماع طارئ مع فريق الخدمات اللوجستية والمطالبة: "لماذا لم تخزنوا وقوداً احتياطياً؟"
+            </div>
+            <div class="branch-choice" data-choice="B">
+                <strong>ب.</strong> إرسال بريد إلكتروني عاجل إلى المكتب الرئيسي: "نحتاج موافقة على شراء وقود من السوق السوداء. الرجاء الرد خلال ٢٤ ساعة."
+            </div>
+            <div class="branch-choice" data-choice="C">
+                <strong>ج.</strong> عقد اجتماع مع الفريق المحلي، وسؤالهم: "من يعرف كيف حصل الناس على الوقود أثناء النقص السابق؟"
+            </div>
+        </div>
+        <div id="branchOutcome" class="branch-outcome" style="display:none;"></div>
+    </div>
+
+    <div class="quiz-question" id="leylaQ6">
+        <strong>السؤال ٥: المعايير الثلاثة لتعديل البروتوكول</strong><br>متى يكون من المقبول تكييف أو "تعديل" إجراءات التشغيل القياسية (SOP)؟
+        <div class="quiz-options" data-q="criteria">
+            <div class="quiz-option" data-val="A">أ) عندما تكون الإجراءات غير مريحة.</div>
+            <div class="quiz-option" data-val="B">ب) عندما تكون حياة الناس على المحك فوراً، ويمكن تبرير الامتثال لاحقاً.</div>
+            <div class="quiz-option" data-val="C">ج) أبداً. يجب اتباع الإجراءات حرفياً دائماً.</div>
+        </div>
+        <div class="feedback" id="criteriaFb"></div>
+        <button class="check-btn" data-check="criteriaQuestion">✅ تحقق من الإجابة</button>
+    </div>
+    
+    <div class="quiz-question" id="leylaQ4">
+        <strong>السؤال ٦: ماذا ستفعل ليلى؟ - نقطة تفاعلية ساخنة</strong><br>انقر على الشيء الذي كانت ستلجأ إليه ليلى أولاً.
+        <div class="hotspot-container">
+            <div class="hotspot-image">
+                <div class="hotspot-item" data-hotspot="rulebook">
+                    <span class="hotspot-emoji">📖</span>
+                    <span class="hotspot-label">كتيب القواعد (دليل الإجراءات)</span>
+                </div>
+                <div class="hotspot-item" data-hotspot="satphone">
+                    <span class="hotspot-emoji">📡</span>
+                    <span class="hotspot-label">هاتف الأقمار الصناعية (الاتصال بالمكتب الرئيسي)</span>
+                </div>
+                <div class="hotspot-item" data-hotspot="hand">
+                    <span class="hotspot-emoji">🤝</span>
+                    <span class="hotspot-label">يد موظف محلي</span>
+                </div>
+            </div>
+            <div id="hotspotFeedback" class="hotspot-feedback" style="display:none;"></div>
+        </div>
+    </div>
+    
+    <button id="submitLeylaQuiz">تأكيد جميع إجابات اختبار ليلى</button>
+    <div id="leylaQuizFeedback" class="feedback" style="display:none;"></div>
+
+    <div class="reality-check" id="realityCheckDiv" style="display:none;">
+        <strong>⚠️ تنبيه ميداني (Reality Check):</strong><br>
+        ليلى لم تحل الأزمة بضغطة زر. لقد واجهت عراقيل لوجستية ومعضلات أخلاقية. المرونة لا تعني اختفاء المشاكل، بل تعني أن تنجز المهام في وقت أقل، وتحمي معنويات فريقك، وتجد "الفعل الصحيح التالي" بدلاً من الشعور بالتجمد وتوقف العمل.<br><br>
+        <strong>ملاحظة:</strong> المرونة لا تعني "كسر القواعد". بل تعني معرفة متى يتطلب السياق "تكييف" البروتوكول لإنقاذ الأرواح، ومتى يكون الالتزام الصارم هو الطريق الآمن الوحيد.
+    </div>
+    
+    <div class="module-nav">
+        <button class="secondary" id="backToPreAssessmentBtn">← العودة إلى التقييم القبلي</button>
+        <button id="continueToModule2Btn">الانتقال إلى الوحدة ٢ →</button>
+    </div>
+    
+    <div class="footer-note">الوحدة ١ من حزمة أدوات المرونة</div>
+    <div class="reset-link"><a id="resetDataLink">↺ إعادة ضبط بيانات الوحدة</a></div>
+</div>
+
+<script>
+// ============================================
+// GOOGLE SHEETS WEB APP URL - UPDATED TO MATCH PRE-ASSESSMENT
+// ============================================
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
+
+// ============================================
+// GET REAL USER DATA - EXACT SAME STYLE AS PRE-ASSESSMENT
+// ============================================
+function getUserData() {
+    let name = '', email = '', position = '';
+    
+    // First check course_user_name (set by registration page)
+    let n = localStorage.getItem('course_user_name');
+    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim() !== '') {
+        name = n.trim();
+        email = (localStorage.getItem('course_user_email') || '').trim();
+        position = (localStorage.getItem('course_user_position') || '').trim();
+        console.log('✅ Found user from course_user_name:', name);
+    }
+    
+    // Then check course_user object
+    if (!name) {
+        let user = localStorage.getItem('course_user');
+        if (user) {
+            try { 
+                let p = JSON.parse(user); 
+                if (p && p.name && p.name !== 'Guest' && p.name.trim() !== '') {
+                    name = p.name.trim();
+                    email = (p.email || '').trim();
+                    position = (p.position || '').trim();
+                    console.log('✅ Found user from course_user:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // Then check users array
+    if (!name) {
+        let users = localStorage.getItem('users');
+        if (users) {
+            try { 
+                let p = JSON.parse(users); 
+                if (Array.isArray(p) && p.length > 0) {
+                    for (let i = p.length - 1; i >= 0; i--) {
+                        if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name.trim() !== '') {
+                            name = p[i].name.trim();
+                            email = (p[i].email || '').trim();
+                            position = (p[i].position || '').trim();
+                            console.log('✅ Found user from users array:', name);
+                            break;
+                        }
+                    }
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // Then check sessionStorage
+    if (!name) {
+        let sessionUser = sessionStorage.getItem('current_user');
+        if (sessionUser) {
+            try {
+                let p = JSON.parse(sessionUser);
+                if (p && p.name && p.name.trim() !== '') {
+                    name = p.name.trim();
+                    email = (p.email || '').trim();
+                    position = (p.position || '').trim();
+                    console.log('✅ Found user from sessionStorage:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // Also check pre_assessment_answers for user data (if stored there)
+    if (!name) {
+        let preAnswers = localStorage.getItem('pre_assessment_answers');
+        if (preAnswers) {
+            try {
+                let p = JSON.parse(preAnswers);
+                if (p && p.userName) {
+                    name = p.userName.trim();
+                    email = (p.userEmail || '').trim();
+                    position = (p.userPosition || '').trim();
+                    console.log('✅ Found user from pre_assessment_answers:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
+}
+
+// Display user name in badge
+const currentUser = getUserData();
+const userBadge = document.getElementById('userBadge');
+if (userBadge) {
+    if (currentUser.name !== 'زائر') {
+        userBadge.innerText = `👤 ${currentUser.name}`;
+        console.log('✅ User badge updated with:', currentUser.name);
+    } else {
+        userBadge.innerText = `👤 متعلم`;
+        console.log('⚠️ No user name found, showing default');
+    }
+}
+
+function showToast(message, isError = false) {
+    const existing = document.querySelector('.toast-notification');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.style.background = isError ? '#C0392B' : '#1A6B5A';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => { if (toast) toast.remove(); }, 3000);
+}
+
+function isValidText(value) {
+    if (!value || value.length < 5) return false;
+    const gibberishPattern = /^(.)\1{3,}$|asdf|qwerty|zxcv|1234|شسيبلاه|لاغت|تاشب/i;
+    return !gibberishPattern.test(value);
+}
+
+function showModelAnswer(elementId, modelText) {
+    const feedbackDiv = document.getElementById(elementId);
+    let modelDiv = feedbackDiv.querySelector('.model-answer');
+    if (!modelDiv) {
+        modelDiv = document.createElement('div');
+        modelDiv.className = 'model-answer';
+        feedbackDiv.appendChild(modelDiv);
+    }
+    modelDiv.innerHTML = `<strong>📚 الإجابة النموذجية:</strong><br>${modelText}`;
+    modelDiv.style.display = 'block';
+}
+
+// --- Progress & Answer Logic ---
+function updateKeithProgress() {
+    let completed = 0;
+    if (document.querySelector('#q1 .quiz-option.selected')) completed++;
+    if (document.getElementById('q2answer').value.trim().length > 3) completed++;
+    if (document.getElementById('q3answer').value.trim().length > 3) completed++;
+    if (document.querySelector('#q4 .quiz-option.selected')) completed++;
+    if (document.getElementById('q5answer').value.trim().length > 3) completed++;
+    const progressSpan = document.getElementById('keithProgress');
+    if (progressSpan) {
+        progressSpan.innerText = `${completed}/5 مكتمل`;
+        progressSpan.className = completed === 5 ? 'progress-badge progress-complete' : 'progress-badge';
+    }
+    return completed === 5;
+}
+
+function updateLeylaProgress() {
+    let completed = 0;
+    if (document.querySelector('#leylaQ1 .quiz-option.selected')) completed++;
+    if (document.getElementById('filterAnswer').value.trim().length > 3) completed++;
+    
+    const blameSelected = document.querySelector('[data-action="blame"] .match-option.selected');
+    const waitHQSelected = document.querySelector('[data-action="waitHQ"] .match-option.selected');
+    const negotiateSelected = document.querySelector('[data-action="negotiate"] .match-option.selected');
+    if (blameSelected && waitHQSelected && negotiateSelected) completed++;
+    
+    if (document.getElementById('branchOutcome').style.display === 'block') completed++;
+    if (document.querySelector('#leylaQ6 .quiz-option.selected')) completed++;
+    if (document.querySelector('.hotspot-item.selected')) completed++;
+    
+    const progressSpan = document.getElementById('leylaProgress');
+    if (progressSpan) {
+        progressSpan.innerText = `${completed}/6 مكتمل`;
+        progressSpan.className = completed === 6 ? 'progress-badge progress-complete' : 'progress-badge';
+    }
+    return completed === 6;
+}
+
+// Matching game selections storage
+let matchSelections = {
+    blame: null,
+    waitHQ: null,
+    negotiate: null
+};
+
+function saveMatchSelections() {
+    const blameOpt = document.querySelector('[data-action="blame"] .match-option.selected');
+    const waitHQOpt = document.querySelector('[data-action="waitHQ"] .match-option.selected');
+    const negotiateOpt = document.querySelector('[data-action="negotiate"] .match-option.selected');
+    
+    if (blameOpt) matchSelections.blame = blameOpt.getAttribute('data-outcome');
+    if (waitHQOpt) matchSelections.waitHQ = waitHQOpt.getAttribute('data-outcome');
+    if (negotiateOpt) matchSelections.negotiate = negotiateOpt.getAttribute('data-outcome');
+    
+    localStorage.setItem('module1_match_selections', JSON.stringify(matchSelections));
+}
+
+function loadMatchSelections() {
+    const saved = localStorage.getItem('module1_match_selections');
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            matchSelections = data;
+            if (data.blame) {
+                const opt = document.querySelector(`[data-action="blame"] .match-option[data-outcome="${data.blame}"]`);
+                if (opt) opt.classList.add('selected');
+            }
+            if (data.waitHQ) {
+                const opt = document.querySelector(`[data-action="waitHQ"] .match-option[data-outcome="${data.waitHQ}"]`);
+                if (opt) opt.classList.add('selected');
+            }
+            if (data.negotiate) {
+                const opt = document.querySelector(`[data-action="negotiate"] .match-option[data-outcome="${data.negotiate}"]`);
+                if (opt) opt.classList.add('selected');
+            }
+        } catch(e) {}
+    }
+}
+
+function collectAllAnswers() {
+    let selectedConstraints = [];
+    document.querySelectorAll('.poll-item.selected').forEach(item => {
+        selectedConstraints.push(item.getAttribute('data-value'));
+    });
+    
+    return {
+        pollConstraints: selectedConstraints.join(', ') || 'لا شيء',
+        keithQ1: document.querySelector('#q1 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب',
+        keithQ2: document.getElementById('q2answer')?.value.trim() || '',
+        keithQ3: document.getElementById('q3answer')?.value.trim() || '',
+        keithQ4: document.querySelector('#q4 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب',
+        keithQ5: document.getElementById('q5answer')?.value.trim() || '',
+        leylaQ1: document.querySelector('#leylaQ1 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب',
+        filterAnswer: document.getElementById('filterAnswer')?.value.trim() || '',
+        criteriaAnswer: document.querySelector('#leylaQ6 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب',
+        dragBlame: matchSelections.blame ? 'النتيجة ' + matchSelections.blame : 'غير مطابق',
+        dragWaitHQ: matchSelections.waitHQ ? 'النتيجة ' + matchSelections.waitHQ : 'غير مطابق',
+        dragNegotiate: matchSelections.negotiate ? 'النتيجة ' + matchSelections.negotiate : 'غير مطابق',
+        branchChoice: document.getElementById('branchOutcome').style.display === 'block' ? 'تم الاختيار' : 'غير محدد',
+        hotspotChoice: document.querySelector('.hotspot-item.selected')?.getAttribute('data-hotspot') || 'غير محدد'
+    };
+}
+
+function saveAnswersToLocal() {
+    localStorage.setItem('module1_answers', JSON.stringify(collectAllAnswers()));
+    saveMatchSelections();
+}
+
+function loadSavedAnswers() {
+    const saved = localStorage.getItem('module1_answers');
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            if (data.pollConstraints && data.pollConstraints !== 'لا شيء') {
+                const constraints = data.pollConstraints.split(', ');
+                document.querySelectorAll('.poll-item').forEach(item => {
+                    if (constraints.includes(item.getAttribute('data-value'))) {
+                        item.classList.add('selected');
+                    }
+                });
+            }
+            if (data.keithQ1 && data.keithQ1 !== 'لم يجب') {
+                document.querySelectorAll('#q1 .quiz-option').forEach(opt => {
+                    if (opt.getAttribute('data-val') === data.keithQ1) opt.classList.add('selected');
+                });
+            }
+            if (data.keithQ2 && data.keithQ2 !== 'لم يجب') document.getElementById('q2answer').value = data.keithQ2;
+            if (data.keithQ3 && data.keithQ3 !== 'لم يجب') document.getElementById('q3answer').value = data.keithQ3;
+            if (data.keithQ4 && data.keithQ4 !== 'لم يجب') {
+                document.querySelectorAll('#q4 .quiz-option').forEach(opt => {
+                    if (opt.getAttribute('data-val') === data.keithQ4) opt.classList.add('selected');
+                });
+            }
+            if (data.keithQ5 && data.keithQ5 !== 'لم يجب') document.getElementById('q5answer').value = data.keithQ5;
+            if (data.leylaQ1 && data.leylaQ1 !== 'لم يجب') {
+                document.querySelectorAll('#leylaQ1 .quiz-option').forEach(opt => {
+                    if (opt.getAttribute('data-val') === data.leylaQ1) opt.classList.add('selected');
+                });
+            }
+            if (data.filterAnswer) document.getElementById('filterAnswer').value = data.filterAnswer;
+            if (data.criteriaAnswer && data.criteriaAnswer !== 'لم يجب') {
+                document.querySelectorAll('#leylaQ6 .quiz-option').forEach(opt => {
+                    if (opt.getAttribute('data-val') === data.criteriaAnswer) opt.classList.add('selected');
+                });
+            }
+        } catch(e) { console.warn('خطأ في التحميل:', e); }
+    }
+    loadMatchSelections();
+    updateKeithProgress();
+    updateLeylaProgress();
+}
+
+// ============================================
+// SEND DATA - EXACT SAME STYLE AS PRE-ASSESSMENT
+// ============================================
+function sendModule1DataToSheet() {
+    const user = getUserData();
+    const answers = collectAllAnswers();
+    
+    const payload = {
+        module: 'Module 1',
+        action: 'completed',
+        language: 'ar',
+        userName: user.name,
+        userEmail: user.email,
+        userPosition: user.position,
+        timestamp: new Date().toISOString(),
+        answers: answers
+    };
+    
+    console.log('📤 Sending module data to Google Sheet:', payload);
+    
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+    xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                console.log('✅ Module 1 data sent successfully:', xhr.responseText);
+            } else {
+                console.log('📤 Module 1 data sent (no-cors mode, response not available):', xhr.status);
+            }
+        }
+    };
+    xhr.send(JSON.stringify(payload));
+    showToast('✅ تم حفظ نتائج الوحدة الأولى!');
+}
+
+function goToModule2() {
+    if (!updateKeithProgress()) {
+        showToast('⚠️ الرجاء إكمال جميع أسئلة اختبار كيث الخمسة قبل المتابعة.', true);
+        return;
+    }
+    if (!updateLeylaProgress()) {
+        showToast('⚠️ الرجاء إكمال جميع أنشطة اختبار ليلى الستة قبل المتابعة.', true);
+        return;
+    }
+    
+    saveAnswersToLocal();
+    sendModule1DataToSheet();
+    localStorage.setItem('module1_completed', 'true');
+    showToast('✅ جاري حفظ تقدمك...');
+    
+    setTimeout(() => {
+        window.location.href = 'module2.html';
+    }, 500);
+}
+
+// --- Event Listeners ---
+document.getElementById('playAudioHookBtn').addEventListener('click', () => {
+    document.getElementById('audioTranscript').innerHTML = "🎙️ إحاطة: أنت تقود في اليمن، السودان، سوريا، العراق، غزة، أفغانستان، الكونغو، الساحل، أو أوكرانيا. بحلول الساعة ٧:٣٠ صباحاً اليوم، قد تواجه نقصاً في الوقود، أو تعطل مركبة، أو اعتقال مترجم، أو حرارة شديدة، أو فيضاناً مفاجئاً. هذه الإحاطة ليست تحفيزية. إنها استراتيجية.";
+});
+
+document.querySelectorAll('.poll-item').forEach(item => {
+    item.addEventListener('click', function() { this.classList.toggle('selected'); saveAnswersToLocal(); });
+});
+
+document.getElementById('submitPollBtn').addEventListener('click', () => {
+    let count = document.querySelectorAll('.poll-item.selected').length;
+    let fb = document.getElementById('pollFeedback');
+    fb.innerHTML = `لقد اخترت ${count} معوق(ات). شكراً لمشاركتك!`;
+    fb.style.display = 'block';
+    saveAnswersToLocal();
+});
+
+// Keith options
+document.querySelectorAll('#q1 .quiz-option, #q4 .quiz-option').forEach(opt => {
+    opt.addEventListener('click', function() {
+        this.parentElement.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+        this.classList.add('selected');
+        saveAnswersToLocal();
+        updateKeithProgress();
+    });
+});
+
+document.getElementById('submitKeithQuiz').addEventListener('click', () => {
+    let q1Val = document.querySelector('#q1 .quiz-option.selected')?.getAttribute('data-val');
+    let fb1 = document.getElementById('fb1');
+    fb1.style.display = 'block';
+    fb1.innerHTML = q1Val === 'B' ? '✅ إجابة صحيحة. افترض كيث أن إجراءات التشغيل القياسية من سياق مستقر ستعمل دون تغيير.' : '❌ الإجابة الصحيحة هي ب: افترض أن الإجراءات قابلة للنقل دون تعديل.';
+
+    let q4Val = document.querySelector('#q4 .quiz-option.selected')?.getAttribute('data-val');
+    let fb4 = document.getElementById('fb4');
+    fb4.style.display = 'block';
+    fb4.innerHTML = q4Val === 'false' ? '✅ إجابة صحيحة. الخبرة التقنية وحدها لا تكفي.' : '❌ خطأ. المهارة التكيفية هي العامل المميز.';
+    document.getElementById('keithDiagnosis').style.display = 'block';
+
+    let q2txt = document.getElementById('q2answer').value.trim();
+    let fb2 = document.getElementById('fb2');
+    fb2.style.display = 'block';
+    if (!isValidText(q2txt)) fb2.innerHTML = '⚠️ إجابتك قصيرة جداً. ';
+    else fb2.innerHTML = '📝 تم حفظ تأملك. ';
+    showModelAnswer('fb2', '"إيجاد طريقة" هي تهرب من المسؤولية القيادية. القائد التكيفي يسأل: "ما الذي يجب أن نغيره في القواعد لحماية الناس هنا؟"');
+
+    let q3txt = document.getElementById('q3answer').value.trim();
+    let fb3 = document.getElementById('fb3');
+    fb3.style.display = 'block';
+    if (!isValidText(q3txt)) fb3.innerHTML = '⚠️ الرجاء تقديم سؤال محدد. ';
+    else fb3.innerHTML = '✅ سؤال جيد. ';
+    showModelAnswer('fb3', '"لو أخبرك الفريق المحلي أن إجراءات التشغيل القياسية ستعرض حياتهم للخطر، فما هي خطوتك الأولى؟"');
+
+    let q5txt = document.getElementById('q5answer').value.trim();
+    let fb5 = document.getElementById('fb5');
+    fb5.style.display = 'block';
+    fb5.innerHTML = q5txt ? '📘 شكراً لمشاركتك.' : '💡 مشاركة مثال حقيقي تساعد في ترسيخ الدرس.';
+    
+    saveAnswersToLocal();
+    updateKeithProgress();
+});
+
+// Leyla Q1 options
+document.querySelectorAll('#leylaQ1 .quiz-option').forEach(opt => {
+    opt.addEventListener('click', function() {
+        document.querySelectorAll('#leylaQ1 .quiz-option').forEach(o => o.classList.remove('selected'));
+        this.classList.add('selected');
+        saveAnswersToLocal();
+        updateLeylaProgress();
+    });
+});
+
+// Leyla Q6 (Criteria) options
+document.querySelectorAll('#leylaQ6 .quiz-option').forEach(opt => {
+    opt.addEventListener('click', function() {
+        document.querySelectorAll('#leylaQ6 .quiz-option').forEach(o => o.classList.remove('selected'));
+        this.classList.add('selected');
+        saveAnswersToLocal();
+        updateLeylaProgress();
+    });
+});
+
+// Filter input
+document.getElementById('filterAnswer').addEventListener('input', function() {
+    saveAnswersToLocal();
+    updateLeylaProgress();
+});
+
+// Matching game option clicks
+document.querySelectorAll('.match-option').forEach(opt => {
+    opt.addEventListener('click', function() {
+        const parent = this.parentElement;
+        const action = parent.getAttribute('data-action');
+        
+        parent.querySelectorAll('.match-option').forEach(o => o.classList.remove('selected'));
+        this.classList.add('selected');
+        
+        saveMatchSelections();
+        updateLeylaProgress();
+        saveAnswersToLocal();
+    });
+});
+
+// Check Matches Button
+document.getElementById('checkMatchesBtn').addEventListener('click', () => {
+    const blameSelected = document.querySelector('[data-action="blame"] .match-option.selected');
+    const waitHQSelected = document.querySelector('[data-action="waitHQ"] .match-option.selected');
+    const negotiateSelected = document.querySelector('[data-action="negotiate"] .match-option.selected');
+    
+    const blameVal = blameSelected?.getAttribute('data-outcome');
+    const waitHQVal = waitHQSelected?.getAttribute('data-outcome');
+    const negotiateVal = negotiateSelected?.getAttribute('data-outcome');
+    
+    const blameCorrect = (blameVal === 'C');
+    const waitHQCorrect = (waitHQVal === 'B');
+    const negotiateCorrect = (negotiateVal === 'A');
+    
+    document.getElementById('blameFeedback').innerHTML = blameCorrect ? '✅ صحيح! اللوم يؤدي إلى الفشل.' : '❌ اللوم يؤدي إلى الفشل. (النتيجة ج)';
+    document.getElementById('blameFeedback').className = `match-result ${blameCorrect ? 'correct' : 'incorrect'}`;
+    document.getElementById('blameFeedback').style.display = 'block';
+    
+    document.getElementById('waitHQFeedback').innerHTML = waitHQCorrect ? '✅ صحيح! انتظار المكتب الرئيسي يسبب التوقف.' : '❌ انتظار المكتب الرئيسي يسبب التوقف. (النتيجة ب)';
+    document.getElementById('waitHQFeedback').className = `match-result ${waitHQCorrect ? 'correct' : 'incorrect'}`;
+    document.getElementById('waitHQFeedback').style.display = 'block';
+    
+    document.getElementById('negotiateFeedback').innerHTML = negotiateCorrect ? '✅ صحيح! التفاوض هو نجاح تكيفي.' : '❌ التفاوض هو نجاح تكيفي. (النتيجة أ)';
+    document.getElementById('negotiateFeedback').className = `match-result ${negotiateCorrect ? 'correct' : 'incorrect'}`;
+    document.getElementById('negotiateFeedback').style.display = 'block';
+    
+    const matchFeedback = document.getElementById('matchFeedback');
+    matchFeedback.innerHTML = '<strong>✅ اكتمل التحقق من المطابقات!</strong><br>اللوم = فشل. انتظار المكتب الرئيسي = توقف، طالما لم تقم بجمع المعلومات محلياً. التفاوض = نجاح تكيفي.<br><br>💡 اجمع المعرفة المحلية أولاً دائماً!';
+    matchFeedback.style.display = 'block';
+    
+    saveAnswersToLocal();
+    updateLeylaProgress();
+});
+
+// Branching Scenario
+document.querySelectorAll('.branch-choice').forEach(choice => {
+    choice.addEventListener('click', function() {
+        document.querySelectorAll('.branch-choice').forEach(c => c.classList.remove('selected'));
+        this.classList.add('selected');
+        
+        let branchOutcome = document.getElementById('branchOutcome');
+        let choiceVal = this.getAttribute('data-choice');
+        if (choiceVal === 'C') branchOutcome.innerHTML = '<div class="success-outcome" style="padding:1rem;"><strong>✅ نجاح تكيفي:</strong> جمع المعرفة المحلية أولاً. هذا ما فعلته ليلى.</div>';
+        else if (choiceVal === 'B') branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ توقف/شلل:</strong> انتظار المكتب الرئيسي بينما يعاني المستفيدون ليس تكيفياً.</div>';
+        else branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ فشل:</strong> اللوم يوقف التواصل ويخفي المشاكل.</div>';
+        branchOutcome.style.display = 'block';
+        saveAnswersToLocal();
+        updateLeylaProgress();
+    });
+});
+
+// Hotspot
+document.querySelectorAll('.hotspot-item').forEach(item => {
+    item.addEventListener('click', function() {
+        document.querySelectorAll('.hotspot-item').forEach(i => i.classList.remove('selected'));
+        this.classList.add('selected');
+        saveAnswersToLocal();
+        updateLeylaProgress();
+    });
+});
+
+// Check Answer buttons for Leyla questions
+document.querySelectorAll('.check-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const checkId = this.getAttribute('data-check');
+        
+        if (checkId === 'leylaQ1') {
+            let leylaQ1 = document.querySelector('#leylaQ1 .quiz-option.selected')?.getAttribute('data-val');
+            let fb1 = document.getElementById('leylaFb1');
+            fb1.style.display = 'block';
+            if (leylaQ1 === 'C') {
+                fb1.innerHTML = '✅ صحيح! القادة التكيفيون يجمعون المعرفة المحلية أولاً. "المعرفة الضمنية" من السائقين والمنسقين هي الذهب الحقيقي.';
+                fb1.className = 'feedback feedback-correct';
+            } else {
+                fb1.innerHTML = '❌ الإجابة الصحيحة هي ج: اسأل الفريق المحلي عما نجح من قبل. اجمع المعرفة المحلية أولاً. دائماً.';
+                fb1.className = 'feedback feedback-incorrect';
+                showModelAnswer('leylaFb1', 'ليلى ستسأل الفريق المحلي أولاً. موافقة المكتب الرئيسي تأتي بعد أن تحصل على المعلومات الكاملة.');
+            }
+        }
+        
+        else if (checkId === 'filterQuestion') {
+            let filterVal = document.getElementById('filterAnswer').value.trim();
+            let filterFb = document.getElementById('filterFb');
+            filterFb.style.display = 'block';
+            if (!isValidText(filterVal)) {
+                filterFb.innerHTML = '⚠️ التصفية مهمة جداً. ';
+                filterFb.className = 'feedback feedback-incorrect';
+                showModelAnswer('filterFb', 'يجب أن تعرف متى "تكيف" البروتوكول لإنقاذ الأرواح، ومتى يكون الالتزام هو الطريق الصحيح. قم بتقييم المخاطر، وتوثيق هذا الأمر كاستثناء لإنقاذ الحياة، وتوضيحه للمانح لاحقاً.');
+            } else {
+                filterFb.innerHTML = '✅ غريزة تصفية جيدة. ';
+                filterFb.className = 'feedback feedback-correct';
+                showModelAnswer('filterFb', 'يجب أن تعرف متى "تكيف" البروتوكول لإنقاذ الأرواح، ومتى يكون الالتزام هو الطريق الصحيح. قم بتقييم المخاطر، وتوثيق هذا الأمر كاستثناء لإنقاذ الحياة، وتوضيحه للمانح لاحقاً.');
+            }
+        }
+        
+        else if (checkId === 'criteriaQuestion') {
+            let criteriaVal = document.querySelector('#leylaQ6 .quiz-option.selected')?.getAttribute('data-val');
+            let criteriaFb = document.getElementById('criteriaFb');
+            criteriaFb.style.display = 'block';
+            if (criteriaVal === 'B') {
+                criteriaFb.innerHTML = '✅ صحيح. إنقاذ الأرواح + الامتثال القابل للتبرير هو الخط الأخلاقي.';
+                criteriaFb.className = 'feedback feedback-correct';
+            } else {
+                criteriaFb.innerHTML = '❌ الإجابة الصحيحة هي ب: عندما تكون حياة الناس على المحك فوراً، ويمكن تبرير الامتثال لاحقاً.';
+                criteriaFb.className = 'feedback feedback-incorrect';
+                showModelAnswer('criteriaFb', 'الإجابة الصحيحة هي ب: عندما تكون حياة الناس على المحك فوراً، ويمكن تبرير الامتثال لاحقاً.');
+            }
+        }
+        
+        saveAnswersToLocal();
+        updateLeylaProgress();
+    });
+});
+
+// Submit All Leyla Quiz
+document.getElementById('submitLeylaQuiz').addEventListener('click', () => {
+    let selectedHotspot = document.querySelector('.hotspot-item.selected')?.getAttribute('data-hotspot');
+    let hotspotFb = document.getElementById('hotspotFeedback');
+    if (selectedHotspot === 'hand') {
+        hotspotFb.innerHTML = '✅ صحيح! العلاقات هي أقوى عملة. الموظف المحلي يعرف "التاجر الموثوق" الذي لا يستطيع هاتف القمر الصناعي العثور عليه.';
+        hotspotFb.className = 'feedback feedback-correct';
+    } else if (selectedHotspot) {
+        hotspotFb.innerHTML = '❌ ليس صحيحاً. ستلجأ ليلى إلى الموظفين المحليين أولاً. قبل المكتب الرئيسي، قبل الكتيبات.';
+        hotspotFb.className = 'feedback feedback-incorrect';
+    } else {
+        hotspotFb.innerHTML = '⚠️ الرجاء النقر على أحد الخيارات الثلاثة أعلاه.';
+        hotspotFb.className = 'feedback feedback-incorrect';
+    }
+    hotspotFb.style.display = 'block';
+    
+    document.getElementById('realityCheckDiv').style.display = 'block';
+    
+    let finalFeedback = document.getElementById('leylaQuizFeedback');
+    finalFeedback.innerHTML = '📚 عمل رائع! القادة التكيفيون يجمعون المعرفة المحلية أولاً دائماً.';
+    finalFeedback.className = 'feedback feedback-correct';
+    finalFeedback.style.display = 'block';
+    
+    saveAnswersToLocal();
+    updateLeylaProgress();
+});
+
+// Navigation
+document.getElementById('continueToModule2Btn').addEventListener('click', goToModule2);
+document.getElementById('backToPreAssessmentBtn').addEventListener('click', () => {
+    window.location.href = 'pre-assessment.html';
+});
+document.getElementById('resetDataLink').addEventListener('click', () => { 
+    if (confirm('هل تريد إعادة ضبط جميع بيانات الوحدة؟ لا يمكن التراجع عن هذا.')) {
+        localStorage.clear();
+        location.reload();
+    }
+});
+
+// Load saved answers on page load
+loadSavedAnswers();
+
+// Log user data on load for debugging
+console.log('📋 Current user data on load:', currentUser);
+</script>
+</body>
+</html>

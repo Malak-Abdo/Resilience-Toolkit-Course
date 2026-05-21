@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>The Resilience Toolkit · Module 5: Executive Habits</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #F4F7FC;
+            color: #1E2F3E;
+            line-height: 1.45;
+            padding: 0 0 2rem 0;
+        }
+        .course-card {
+            max-width: 680px;
+            margin: 1rem auto;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.02);
+            overflow: hidden;
+            padding: 1.8rem 1.5rem 2.2rem;
+        }
+        @media (max-width: 550px) {
+            .course-card {
+                margin: 0.8rem;
+                padding: 1.5rem 1.2rem;
+                border-radius: 28px;
+            }
+        }
+        .header-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #1A6B5A;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .user-badge {
+            font-size: 0.7rem;
+            background: #E8F5E9;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            color: #1A6B5A;
+        }
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            border-bottom: 2px solid #E8A735;
+            padding-bottom: 0.5rem;
+            gap: 0.5rem;
+        }
+        .module-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0C2E3B;
+        }
+        .module-time {
+            font-size: 0.8rem;
+            background: #F0F4F9;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            color: #2C5F7A;
+        }
+        h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1A6B5A;
+            margin: 1.5rem 0 0.75rem 0;
+            border-left: 4px solid #E8A735;
+            padding-left: 0.8rem;
+        }
+        .scenario-card {
+            background: #FDF8F0;
+            border-left: 5px solid #E8A735;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 16px;
+        }
+        .hint-note {
+            background: #E3F2FD;
+            padding: 0.5rem;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: #1A6B5A;
+            border-left: 2px solid #1A6B5A;
+        }
+        .mindset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .mindset-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1rem;
+            border: 2px solid #E2E9F2;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .mindset-card:hover {
+            transform: translateY(-4px);
+            border-color: #E8A735;
+        }
+        .mindset-card.flipped {
+            background: #E8F5E9;
+            border-color: #1A6B5A;
+        }
+        .mindset-front, .mindset-back {
+            transition: all 0.3s;
+        }
+        .hidden-content {
+            display: none;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        th, td {
+            border: 1px solid #E2E9F2;
+            padding: 0.75rem;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background: #F0F7F4;
+            font-weight: 700;
+            color: #1A6B5A;
+        }
+        button {
+            background: #1A6B5A;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.7rem 1.5rem;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: 0.15s;
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .secondary {
+            background: #E8A735;
+            color: #2E3A2A;
+        }
+        .module-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .reset-link {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.7rem;
+        }
+        .reset-link a {
+            color: #8BA0B8;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #1A6B5A;
+            margin-bottom: 0.3rem;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+        .feedback {
+            background: #EFF9F5;
+            padding: 0.8rem;
+            border-radius: 16px;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        .commitment-box {
+            background: #F0F7F4;
+            border-radius: 20px;
+            padding: 1.2rem;
+            margin: 1rem 0;
+        }
+        .reminder-note {
+            background: #FFF3E0;
+            border-radius: 12px;
+            padding: 0.8rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+        .progress-badge {
+            display: inline-block;
+            margin-left: 1rem;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            background: #FFF3E0;
+            color: #E8A735;
+        }
+        .progress-complete {
+            background: #E8F5E9;
+            color: #1A6B5A;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .pdf-btn {
+            background: #E8A735;
+            color: #2E3A2A;
+            margin-top: 1rem;
+            width: 100%;
+        }
+        @media (max-width: 480px) {
+            .mindset-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .toast-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1A6B5A;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            animation: fadeInUp 0.3s ease;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="course-card">
+    <div class="header-tag">
+        <span>THE RESILIENCE TOOLKIT</span>
+        <span class="user-badge" id="userBadge">👤 Loading...</span>
+    </div>
+    
+    <div class="module-header">
+        <span class="module-title">⚙️ Module 5: Executive Habits</span>
+        <span class="module-time">⏱️ 4 minutes</span>
+    </div>
+    
+    <h2>Why Habits, Not Motivation</h2>
+    <div class="scenario-card">
+        <p><strong>In a conflict zone, motivation comes and goes.</strong></p>
+        <p>One day you feel energetic. The next day, you feel frustrated, can't sleep, and receive bad news like team reductions.</p>
+        <p style="margin-top: 0.8rem;"><strong>Habits are different.</strong> They don't require motivation. They run automatically when triggered.</p>
+        <p style="margin-top: 0.8rem;"><strong>High-performing leaders don't rely on willpower alone.</strong> These leaders design habit loops for their most common crises.</p>
+    </div>
+    
+    <h2>The Habit Loop (Cue → Routine → Reward)</h2>
+    <p><em>From the McKinsey methodology</em></p>
+    <table>
+        <thead>
+            <tr><th>Element</th><th>What it means</th><th>Example</th> </thead>
+        <tbody>
+            <tr>
+                <td><strong>Cue</strong></div>
+                <td>What starts the habit</th>
+                <td>"The thermometer reaches 45°C at 9:00 AM"</th>
+                </tr>
+            <tr>
+                <td><strong>Routine</strong></th>
+                <td>The automatic behavior</th>
+                <td>"I ask: What critical tasks can be done before 11:00 AM?"</th>
+                </tr>
+            <tr>
+                <td><strong>Reward</strong></th>
+                <td>What you feel</th>
+                <td>"Control. My team is safe. Work is still moving."</th>
+                </tr>
+        </tbody>
+    </table>
+    
+    <h2>Example: Completed Habit Loops</h2>
+    <table>
+        <thead>
+            <tr><th>Crisis</th><th>Cue</th><th>Routine</th><th>Reward</th> </thead>
+        <tbody>
+            <tr>
+                <td>Fuel shortage</th>
+                <td>"The fuel gauge hits zero"</th>
+                <td>"I ask: What works without fuel?"</th>
+                <td>"Agency. We are not stuck."</th>
+            </tr>
+            <tr>
+                <td>Staff departure</th>
+                <td>"A key staff member resigns"</th>
+                <td>"I ask: Who can take part of this task?"</th>
+                <td>"Curiosity. Not despair."</th>
+            </tr>
+            <tr>
+                <td>Extreme heat</th>
+                <td>"The thermometer reaches 45°C at 9:00 AM"</th>
+                <td>"I ask: What can we accomplish before 11:00 AM?"</th>
+                <td>"Control. My team is safe."</th>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div class="section-header">
+        <h2 style="margin: 0; border-left: none; padding-left: 0;">📝 Your Turn: Build Your Habit</h2>
+        <span class="progress-badge" id="habitProgress">0/4 completed</span>
+    </div>
+    <div class="scenario-card">
+        <strong>Step 1 - Choose Your Crisis</strong>
+        <select id="crisisSelect" style="width:100%; padding:0.8rem; border-radius:12px; margin:0.5rem 0;">
+            <option value="">— Select a crisis —</option>
+            <option value="Fuel shortage">Fuel shortage - no vehicles for 3+ days</option>
+            <option value="Extreme heat">Extreme heat - staff cannot work after 11 AM</option>
+            <option value="Bank closure">Bank closure - no salaries for 3 weeks</option>
+            <option value="Checkpoint denial">Checkpoint denial - access blocked</option>
+            <option value="Staff departure">Staff departure - key person leaving</option>
+            <option value="Other">Other:</option>
+        </select>
+        <div id="otherCrisisDiv" style="display:none;"><input type="text" id="otherCrisis" placeholder="Describe your crisis..."></div>
+        
+        <strong style="display:block; margin-top:1rem;">Step 2 - Build Your Habit Loop</strong>
+        <div class="form-group"><label>Cue:</label><input type="text" id="cueInput" placeholder="Example: The thermometer reaches 45°C at 9:00 AM"></div>
+        <div class="form-group"><label>Routine:</label><input type="text" id="routineInput" placeholder="Example: I ask my team: What can we accomplish before 11:00 AM?"></div>
+        <div class="form-group"><label>Reward:</label><input type="text" id="rewardInput" placeholder="Example: Control. My team is safe."></div>
+        <div class="hint-note">
+            💡 <strong>Hint:</strong> The reward here is not "happiness" or "big success." In high-pressure environments, the reward is <strong>mental energy preservation</strong> and <strong>stress reduction</strong>. The real reward is that your brain stops screaming and starts working again.
+        </div>
+        <button id="saveHabitBtn">💾 Save My Habit</button>
+        <div id="habitFeedback" class="feedback"></div>
+        <div id="reminderNote" class="reminder-note" style="display:none;">✅ Saved. Reminder set for tomorrow at 7:00 AM.</div>
+    </div>
+    
+    <div class="section-header">
+        <h2 style="margin: 0; border-left: none; padding-left: 0;">🔄 Unlearning Bad Habits - Flip Cards</h2>
+        <span class="progress-badge" id="flipProgress">0/3 flipped</span>
+    </div>
+    <div class="mindset-grid" id="unlearnGrid">
+        <div class="mindset-card" data-unlearn="1">
+            <div class="mindset-front">🔥 Extreme Heat - Pushing staff to work in the afternoon<br>👇 Click to flip</div>
+            <div class="mindset-back hidden-content"><strong>✅ Replace with:</strong><br>"Ask: What can be accomplished before 11:00 AM?"</div>
+        </div>
+        <div class="mindset-card" data-unlearn="2">
+            <div class="mindset-front">🏦 Bank Closure - Panic and team morale collapse<br>👇 Click to flip</div>
+            <div class="mindset-back hidden-content"><strong>✅ Replace with:</strong><br>"Manage team panic. Gather the team, explain facts clearly, and stop rumors."</div>
+        </div>
+        <div class="mindset-card" data-unlearn="3">
+            <div class="mindset-front">📉 Sudden Budget Cut - Immediate across-the-board cuts<br>👇 Click to flip</div>
+            <div class="mindset-back hidden-content"><strong>✅ Replace with:</strong><br>"Ask: Which programs have the highest impact per dollar?"</div>
+        </div>
+    </div>
+    
+    <div class="section-header">
+        <h2 style="margin: 0; border-left: none; padding-left: 0;">📋 Your Unlearning Commitment</h2>
+        <span class="progress-badge" id="commitProgress">0/2 completed</span>
+    </div>
+    <div class="commitment-box">
+        <div class="form-group"><label>"I will begin observing and practicing the alternative over the next 7 days:"</label><textarea id="unlearnHabit" rows="2" placeholder="Example: Pushing staff to work during extreme afternoon heat..."></textarea></div>
+        <div class="form-group"><label>"I will replace it with:"</label><textarea id="newHabit" rows="2" placeholder="Example: Asking what critical tasks can be done before 11:00 AM..."></textarea></div>
+        <div class="hint-note">
+            💡 <strong>Reality Check:</strong> Changing deeply ingrained leadership habits is not easy and doesn't happen overnight. The goal is not perfection, but consistency. Even if you succeed in applying the alternative just once this week, that is real progress. Try again tomorrow.
+        </div>
+        <button id="saveCommitmentBtn">💾 Save My Commitment</button>
+        <div id="commitmentFeedback" class="feedback"></div>
+    </div>
+    
+    <button id="downloadCommitmentsBtn" class="pdf-btn">📥 Download My Commitments (PDF)</button>
+    
+    <div class="module-nav">
+        <button class="secondary" id="backToModule4Btn">← Back to Module 4</button>
+        <button id="nextToModule6Btn">Next: Module 6 →</button>
+    </div>
+    
+    <div class="reset-link"><a id="resetDataLink">↺ Reset Module 5 Data</a></div>
+</div>
+
+<script>
+// ============================================
+// GOOGLE SHEETS WEB APP URL
+// ============================================
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
+
+// ============================================
+// GET USER DATA - EXPANDED VERSION
+// ============================================
+function getUserData() {
+    let name = '', email = '', position = '';
+    
+    console.log('🔍 Searching for user data in localStorage...');
+    console.log('All localStorage keys:', Object.keys(localStorage));
+    
+    // 1. Check individual fields
+    let n = localStorage.getItem('course_user_name');
+    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'Your Name' && n.trim() !== '') {
+        name = n.trim();
+        email = (localStorage.getItem('course_user_email') || '').trim();
+        position = (localStorage.getItem('course_user_position') || '').trim();
+        console.log('✅ Found from individual fields:', name);
+    }
+    
+    // 2. Check course_user object
+    if (!name || name === 'Your Name') {
+        let user = localStorage.getItem('course_user');
+        if (user) {
+            try { 
+                let p = JSON.parse(user); 
+                if (p && p.name && p.name !== 'Guest' && p.name !== 'Your Name' && p.name.trim() !== '') {
+                    name = p.name.trim();
+                    email = (p.email || '').trim();
+                    position = (p.position || '').trim();
+                    console.log('✅ Found from course_user:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 3. Check resilience_users array
+    if (!name || name === 'Your Name') {
+        let users = localStorage.getItem('resilience_users');
+        if (users) {
+            try { 
+                let p = JSON.parse(users); 
+                if (Array.isArray(p) && p.length > 0) {
+                    for (let i = p.length - 1; i >= 0; i--) {
+                        if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'Your Name' && p[i].name.trim() !== '') {
+                            name = p[i].name.trim();
+                            email = (p[i].email || '').trim();
+                            position = (p[i].position || '').trim();
+                            console.log('✅ Found from resilience_users array:', name);
+                            break;
+                        }
+                    }
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 4. Check module1_answers for user data
+    if (!name || name === 'Your Name') {
+        let module1Answers = localStorage.getItem('module1_answers');
+        if (module1Answers) {
+            try {
+                let m1 = JSON.parse(module1Answers);
+                if (m1.userName && m1.userName !== 'Guest' && m1.userName !== 'Your Name') {
+                    name = m1.userName;
+                    email = m1.userEmail || '';
+                    position = m1.userPosition || '';
+                    console.log('✅ Found from module1_answers:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 5. Check module2_answers for user data
+    if (!name || name === 'Your Name') {
+        let module2Answers = localStorage.getItem('module2_answers');
+        if (module2Answers) {
+            try {
+                let m2 = JSON.parse(module2Answers);
+                if (m2.userName && m2.userName !== 'Guest' && m2.userName !== 'Your Name') {
+                    name = m2.userName;
+                    email = m2.userEmail || '';
+                    position = m2.userPosition || '';
+                    console.log('✅ Found from module2_answers:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 6. Check module3_answers for user data
+    if (!name || name === 'Your Name') {
+        let module3Answers = localStorage.getItem('module3_answers');
+        if (module3Answers) {
+            try {
+                let m3 = JSON.parse(module3Answers);
+                if (m3.userName && m3.userName !== 'Guest' && m3.userName !== 'Your Name') {
+                    name = m3.userName;
+                    email = m3.userEmail || '';
+                    position = m3.userPosition || '';
+                    console.log('✅ Found from module3_answers:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 7. Check module3_1_data for user data
+    if (!name || name === 'Your Name') {
+        let module31Data = localStorage.getItem('module3_1_data');
+        if (module31Data) {
+            try {
+                let m31 = JSON.parse(module31Data);
+                if (m31.userName && m31.userName !== 'Guest' && m31.userName !== 'Your Name') {
+                    name = m31.userName;
+                    email = m31.userEmail || '';
+                    position = m31.userPosition || '';
+                    console.log('✅ Found from module3_1_data:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 8. Check module4_answers for user data
+    if (!name || name === 'Your Name') {
+        let module4Answers = localStorage.getItem('module4_answers');
+        if (module4Answers) {
+            try {
+                let m4 = JSON.parse(module4Answers);
+                if (m4.userName && m4.userName !== 'Guest' && m4.userName !== 'Your Name') {
+                    name = m4.userName;
+                    email = m4.userEmail || '';
+                    position = m4.userPosition || '';
+                    console.log('✅ Found from module4_answers:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 9. Final fallback - PROMPT USER if still not found
+    if (!name || name === 'Your Name' || name === 'Guest') {
+        console.log('⚠️ No user data found, prompting user...');
+        name = prompt('👤 Please enter your full name:');
+        email = prompt('📧 Please enter your email address:');
+        if (name && name.trim() !== '') {
+            localStorage.setItem('course_user_name', name.trim());
+        }
+        if (email && email.trim() !== '') {
+            localStorage.setItem('course_user_email', email.trim());
+        }
+        name = name || 'Guest';
+        email = email || 'guest@example.com';
+    }
+    
+    const result = { 
+        name: name, 
+        email: email, 
+        position: position || 'Not specified' 
+    };
+    
+    console.log('👤 Final user data:', result);
+    return result;
+}
+
+// Display user name in badge
+const currentUser = getUserData();
+const userBadge = document.getElementById('userBadge');
+if (userBadge) {
+    if (currentUser.name !== 'Guest') {
+        userBadge.innerText = `👤 ${currentUser.name}`;
+    } else {
+        userBadge.innerText = `👤 Learner`;
+    }
+}
+
+function showToast(message, isError = false) {
+    const existing = document.querySelector('.toast-notification');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.style.background = isError ? '#C0392B' : '#1A6B5A';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => { if (toast) toast.remove(); }, 3000);
+}
+
+// ============================================
+// PROGRESS TRACKING
+// ============================================
+function updateHabitProgress() {
+    const crisisSelect = document.getElementById('crisisSelect');
+    const crisis = crisisSelect.value === 'Other' ? document.getElementById('otherCrisis').value : crisisSelect.value;
+    const cue = document.getElementById('cueInput').value.trim();
+    const routine = document.getElementById('routineInput').value.trim();
+    const reward = document.getElementById('rewardInput').value.trim();
+    
+    let completed = 0;
+    if (crisis && crisis !== '') completed++;
+    if (cue) completed++;
+    if (routine) completed++;
+    if (reward) completed++;
+    
+    const progressSpan = document.getElementById('habitProgress');
+    if (progressSpan) {
+        progressSpan.textContent = `${completed}/4 completed`;
+        if (completed === 4) {
+            progressSpan.className = 'progress-badge progress-complete';
+        } else {
+            progressSpan.className = 'progress-badge';
+        }
+    }
+    return completed === 4;
+}
+
+function updateFlipProgress() {
+    const flipped = document.querySelectorAll('.mindset-card.flipped').length;
+    const progressSpan = document.getElementById('flipProgress');
+    if (progressSpan) {
+        progressSpan.textContent = `${flipped}/3 flipped`;
+        if (flipped === 3) {
+            progressSpan.className = 'progress-badge progress-complete';
+        } else {
+            progressSpan.className = 'progress-badge';
+        }
+    }
+    return flipped === 3;
+}
+
+function updateCommitProgress() {
+    const unlearn = document.getElementById('unlearnHabit').value.trim();
+    const newHabit = document.getElementById('newHabit').value.trim();
+    
+    let completed = 0;
+    if (unlearn) completed++;
+    if (newHabit) completed++;
+    
+    const progressSpan = document.getElementById('commitProgress');
+    if (progressSpan) {
+        progressSpan.textContent = `${completed}/2 completed`;
+        if (completed === 2) {
+            progressSpan.className = 'progress-badge progress-complete';
+        } else {
+            progressSpan.className = 'progress-badge';
+        }
+    }
+    return completed === 2;
+}
+
+// ============================================
+// SEND DATA TO GOOGLE SHEETS - PROMISE VERSION
+// ============================================
+function sendModule5DataToSheet() {
+    const userData = getUserData();
+    const crisisSelect = document.getElementById('crisisSelect');
+    const crisis = crisisSelect.value === 'Other' ? document.getElementById('otherCrisis').value : crisisSelect.value;
+    
+    const payload = {
+        module: 'Module 5',
+        language: 'en',
+        userName: userData.name,
+        userEmail: userData.email,
+        userPosition: userData.position,
+        timestamp: new Date().toISOString(),
+        answers: {
+            crisis: crisis || 'Not selected',
+            cue: document.getElementById('cueInput').value.trim() || 'Not answered',
+            routine: document.getElementById('routineInput').value.trim() || 'Not answered',
+            reward: document.getElementById('rewardInput').value.trim() || 'Not answered',
+            unlearn_habit: document.getElementById('unlearnHabit').value.trim() || 'Not answered',
+            new_habit: document.getElementById('newHabit').value.trim() || 'Not answered',
+            flipped_cards_completed: document.querySelectorAll('.mindset-card.flipped').length
+        }
+    };
+    
+    console.log('📤 Sending Module 5 data for user:', userData.name);
+    
+    return new Promise((resolve) => {
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8',
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('✅ Module 5 data sent successfully:', data);
+            resolve(true);
+        })
+        .catch(error => {
+            console.log('❌ Fetch error:', error);
+            // Fallback to XHR
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+            xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    console.log('✅ Module 5 data sent (XHR fallback)');
+                    resolve(true);
+                } else {
+                    console.log('⚠️ Module 5 response status:', xhr.status);
+                    resolve(false);
+                }
+            };
+            xhr.onerror = function() {
+                console.log('❌ Error sending Module 5 data');
+                resolve(false);
+            };
+            xhr.send(JSON.stringify(payload));
+        });
+        
+        // Timeout fallback
+        setTimeout(() => {
+            console.log('⏰ Timeout - continuing anyway');
+            resolve(true);
+        }, 3000);
+    });
+}
+
+// ============================================
+// GO TO NEXT MODULE - UPDATED TO WAIT FOR DATA
+// ============================================
+async function goToNextModule() {
+    const habitComplete = updateHabitProgress();
+    const flipComplete = updateFlipProgress();
+    const commitComplete = updateCommitProgress();
+    
+    if (!habitComplete) {
+        showToast('⚠️ Please complete your habit loop (crisis, cue, routine, reward) before continuing.', true);
+        return;
+    }
+    
+    if (!flipComplete) {
+        showToast('⚠️ Please flip and review all 3 unlearning cards before continuing.', true);
+        return;
+    }
+    
+    if (!commitComplete) {
+        showToast('⚠️ Please complete your unlearning commitment (both fields) before continuing.', true);
+        return;
+    }
+    
+    const crisisSelect = document.getElementById('crisisSelect');
+    const habitData = {
+        crisis: crisisSelect.value === 'Other' ? document.getElementById('otherCrisis').value : crisisSelect.value,
+        cue: document.getElementById('cueInput').value.trim(),
+        routine: document.getElementById('routineInput').value.trim(),
+        reward: document.getElementById('rewardInput').value.trim()
+    };
+    localStorage.setItem('executive_habit', JSON.stringify(habitData));
+    localStorage.setItem('unlearn_commitment', document.getElementById('unlearnHabit').value.trim());
+    localStorage.setItem('new_habit_commitment', document.getElementById('newHabit').value.trim());
+    
+    showToast('💾 Saving your answers...');
+    
+    // Wait for data to be sent before redirecting
+    const saved = await sendModule5DataToSheet();
+    
+    if (saved) {
+        localStorage.setItem('module5_completed', 'true');
+        showToast('✅ Progress saved! Redirecting...');
+        
+        setTimeout(() => {
+            window.location.href = 'module6.html';
+        }, 800);
+    } else {
+        localStorage.setItem('module5_completed', 'true');
+        showToast('⚠️ Progress saved locally. Continuing...', true);
+        
+        setTimeout(() => {
+            window.location.href = 'module6.html';
+        }, 800);
+    }
+}
+
+// ============================================
+// PDF DOWNLOAD FUNCTION
+// ============================================
+function downloadCommitmentsAsPDF() {
+    const userName = getUserData().name;
+    const unlearnCommitment = document.getElementById('unlearnHabit').value.trim();
+    const newHabitCommitment = document.getElementById('newHabit').value.trim();
+    
+    if (!unlearnCommitment || !newHabitCommitment) {
+        showToast('⚠️ Please save your commitments first.', true);
+        return;
+    }
+    
+    const habitData = JSON.parse(localStorage.getItem('executive_habit') || '{}');
+    const crisis = habitData.crisis || 'Not specified';
+    const cue = habitData.cue || 'Not specified';
+    const routine = habitData.routine || 'Not specified';
+    const reward = habitData.reward || 'Not specified';
+    
+    const today = new Date();
+    const dateStr = today.toLocaleDateString('en-US');
+    
+    const content = `
+        <html>
+        <head>
+            <title>Resilience Leader Commitments</title>
+            <meta charset="UTF-8">
+            <style>
+                body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+                h1 { color: #1A6B5A; border-bottom: 2px solid #E8A735; padding-bottom: 10px; }
+                h2 { color: #E8A735; margin-top: 25px; }
+                .header { text-align: center; margin-bottom: 30px; }
+                .badge { background: #F0F7F4; padding: 15px; border-radius: 12px; margin: 15px 0; }
+                .commitment { background: #FFF8E1; padding: 15px; border-radius: 12px; margin: 15px 0; border-left: 4px solid #E8A735; }
+                .footer { margin-top: 40px; text-align: center; font-size: 12px; color: #888; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>📋 The Resilience Toolkit</h1>
+                <p>My Leadership Commitments - ${userName}</p>
+                <p>Date: ${dateStr}</p>
+            </div>
+            
+            <h2>⚙️ My New Executive Habit</h2>
+            <div class="badge">
+                <p><strong>Target Crisis:</strong> ${crisis}</p>
+                <p><strong>Cue (What starts the habit):</strong> ${cue}</p>
+                <p><strong>Routine (The automatic behavior):</strong> ${routine}</p>
+                <p><strong>Reward (Mental energy preservation & stress reduction):</strong> ${reward}</p>
+            </div>
+            
+            <h2>🔄 My Unlearning Commitment</h2>
+            <div class="commitment">
+                <p><strong>I will begin observing and practicing the alternative over the next 7 days:</strong></p>
+                <p>${unlearnCommitment}</p>
+                <p><strong>I will replace it with:</strong></p>
+                <p>${newHabitCommitment}</p>
+            </div>
+            
+            <div class="footer">
+                <p>These commitments are a roadmap for a resilient leader in conflict zones.</p>
+                <p>Remember: The goal is not perfection, but consistency.</p>
+            </div>
+        </body>
+        </html>
+    `;
+    
+    const blob = new Blob([content], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Resilience_Commitments_${userName}.html`;
+    a.click();
+    URL.revokeObjectURL(url);
+    
+    showToast('📥 Your commitments have been downloaded! You can open and print the file.');
+}
+
+// ============================================
+// ORIGINAL MODULE 5 JAVASCRIPT
+// ============================================
+var crisisSelect = document.getElementById('crisisSelect');
+var otherCrisisDiv = document.getElementById('otherCrisisDiv');
+if (crisisSelect) {
+    crisisSelect.addEventListener('change', function() {
+        otherCrisisDiv.style.display = crisisSelect.value === 'Other' ? 'block' : 'none';
+        updateHabitProgress();
+        saveModule5DataToLocal();
+    });
+}
+
+var unlearnCards = document.querySelectorAll('[data-unlearn]');
+unlearnCards.forEach(function(card) {
+    card.addEventListener('click', function() {
+        this.classList.toggle('flipped');
+        var front = this.querySelector('.mindset-front');
+        var back = this.querySelector('.mindset-back');
+        if (this.classList.contains('flipped')) {
+            if (front) front.classList.add('hidden-content');
+            if (back) back.classList.remove('hidden-content');
+        } else {
+            if (front) front.classList.remove('hidden-content');
+            if (back) back.classList.add('hidden-content');
+        }
+        updateFlipProgress();
+        saveModule5DataToLocal();
+    });
+});
+
+function saveModule5DataToLocal() {
+    const crisisSelect = document.getElementById('crisisSelect');
+    const crisis = crisisSelect.value === 'Other' ? document.getElementById('otherCrisis').value : crisisSelect.value;
+    const data = {
+        crisis: crisis,
+        cue: document.getElementById('cueInput').value,
+        routine: document.getElementById('routineInput').value,
+        reward: document.getElementById('rewardInput').value,
+        unlearn: document.getElementById('unlearnHabit').value,
+        newHabit: document.getElementById('newHabit').value,
+        flippedCards: document.querySelectorAll('.mindset-card.flipped').length,
+        lastUpdated: new Date().toISOString()
+    };
+    localStorage.setItem('module5_data', JSON.stringify(data));
+}
+
+function loadModule5Data() {
+    const saved = localStorage.getItem('module5_data');
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            if (data.crisis) {
+                const optExists = Array.from(crisisSelect.options).some(opt => opt.value === data.crisis);
+                if (optExists) crisisSelect.value = data.crisis;
+                else { crisisSelect.value = 'Other'; document.getElementById('otherCrisis').value = data.crisis; otherCrisisDiv.style.display = 'block'; }
+            }
+            if (data.cue) document.getElementById('cueInput').value = data.cue;
+            if (data.routine) document.getElementById('routineInput').value = data.routine;
+            if (data.reward) document.getElementById('rewardInput').value = data.reward;
+            if (data.unlearn) document.getElementById('unlearnHabit').value = data.unlearn;
+            if (data.newHabit) document.getElementById('newHabit').value = data.newHabit;
+        } catch(e) {}
+    }
+    updateHabitProgress();
+    updateFlipProgress();
+    updateCommitProgress();
+}
+
+document.getElementById('saveHabitBtn').addEventListener('click', function() {
+    var crisis = crisisSelect.value === 'Other' ? document.getElementById('otherCrisis').value : crisisSelect.value;
+    if (!crisis) { alert('Please select a crisis.'); return; }
+    var cue = document.getElementById('cueInput').value.trim();
+    var routine = document.getElementById('routineInput').value.trim();
+    var reward = document.getElementById('rewardInput').value.trim();
+    if (!cue || !routine || !reward) { alert('Please fill in all fields.'); return; }
+    localStorage.setItem('executive_habit', JSON.stringify({crisis, cue, routine, reward}));
+    document.getElementById('habitFeedback').innerHTML = '✅ Habit saved!';
+    document.getElementById('habitFeedback').style.display = 'block';
+    document.getElementById('reminderNote').style.display = 'block';
+    saveModule5DataToLocal();
+    updateHabitProgress();
+    setTimeout(() => {
+        document.getElementById('habitFeedback').style.display = 'none';
+    }, 2000);
+});
+
+document.getElementById('saveCommitmentBtn').addEventListener('click', function() {
+    var unlearn = document.getElementById('unlearnHabit').value.trim();
+    var newHabit = document.getElementById('newHabit').value.trim();
+    if (!unlearn || !newHabit) { alert('Please complete both fields.'); return; }
+    localStorage.setItem('unlearn_commitment', unlearn);
+    localStorage.setItem('new_habit_commitment', newHabit);
+    document.getElementById('commitmentFeedback').innerHTML = '✅ Commitment saved!';
+    document.getElementById('commitmentFeedback').style.display = 'block';
+    saveModule5DataToLocal();
+    updateCommitProgress();
+    setTimeout(() => {
+        document.getElementById('commitmentFeedback').style.display = 'none';
+    }, 2000);
+});
+
+const downloadBtn = document.getElementById('downloadCommitmentsBtn');
+if (downloadBtn) {
+    downloadBtn.addEventListener('click', downloadCommitmentsAsPDF);
+}
+
+if (document.getElementById('cueInput')) {
+    document.getElementById('cueInput').addEventListener('input', function() { updateHabitProgress(); saveModule5DataToLocal(); });
+}
+if (document.getElementById('routineInput')) {
+    document.getElementById('routineInput').addEventListener('input', function() { updateHabitProgress(); saveModule5DataToLocal(); });
+}
+if (document.getElementById('rewardInput')) {
+    document.getElementById('rewardInput').addEventListener('input', function() { updateHabitProgress(); saveModule5DataToLocal(); });
+}
+if (document.getElementById('unlearnHabit')) {
+    document.getElementById('unlearnHabit').addEventListener('input', function() { updateCommitProgress(); saveModule5DataToLocal(); });
+}
+if (document.getElementById('newHabit')) {
+    document.getElementById('newHabit').addEventListener('input', function() { updateCommitProgress(); saveModule5DataToLocal(); });
+}
+if (document.getElementById('otherCrisis')) {
+    document.getElementById('otherCrisis').addEventListener('input', function() { updateHabitProgress(); saveModule5DataToLocal(); });
+}
+
+document.getElementById('backToModule4Btn').addEventListener('click', function() {
+    window.location.href = 'module4.html';
+});
+
+document.getElementById('resetDataLink').addEventListener('click', function() {
+    if (confirm('Reset all Module 5 data? This cannot be undone.')) {
+        localStorage.removeItem('executive_habit');
+        localStorage.removeItem('unlearn_commitment');
+        localStorage.removeItem('new_habit_commitment');
+        localStorage.removeItem('module5_data');
+        localStorage.removeItem('module5_completed');
+        location.reload();
+    }
+});
+
+var nextButton = document.getElementById('nextToModule6Btn');
+if (nextButton) {
+    nextButton.addEventListener('click', goToNextModule);
+}
+
+loadModule5Data();
+</script>
+</body>
+</html>

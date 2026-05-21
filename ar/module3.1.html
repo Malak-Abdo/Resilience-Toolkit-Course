@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>الوحدة ٣.١ · حزمة أدوات المرونة: مكتبة إعادة الصياغة + تطبيق S.A.F.E.</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif;
+            background: #F4F7FC;
+            color: #1E2F3E;
+            line-height: 1.45;
+            padding: 0 0 2rem 0;
+        }
+        .course-card {
+            max-width: 720px;
+            margin: 1rem auto;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.02);
+            overflow: hidden;
+            padding: 1.8rem 1.5rem 2.2rem;
+        }
+        @media (max-width: 550px) {
+            .course-card {
+                margin: 0.8rem;
+                padding: 1.5rem 1.2rem;
+                border-radius: 28px;
+            }
+        }
+        .header-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #1A6B5A;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .user-badge {
+            font-size: 0.7rem;
+            background: #E8F5E9;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            color: #1A6B5A;
+        }
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            border-bottom: 2px solid #E8A735;
+            padding-bottom: 0.5rem;
+            gap: 0.5rem;
+        }
+        .module-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0C2E3B;
+        }
+        .module-time {
+            font-size: 0.8rem;
+            background: #F0F4F9;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            color: #2C5F7A;
+        }
+        h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1A6B5A;
+            margin: 1.5rem 0 0.75rem 0;
+            border-right: 4px solid #E8A735;
+            padding-right: 0.8rem;
+        }
+        h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1A6B5A;
+            margin-bottom: 0.75rem;
+        }
+        .scenario-card {
+            background: #FDF8F0;
+            border-right: 5px solid #E8A735;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 16px;
+        }
+        .mindset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .mindset-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1rem;
+            border: 2px solid #E2E9F2;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            min-height: 130px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .mindset-card:hover {
+            transform: translateY(-4px);
+            border-color: #E8A735;
+        }
+        .mindset-card.flipped {
+            background: #E8F5E9;
+            border-color: #1A6B5A;
+        }
+        .mindset-front, .mindset-back {
+            transition: all 0.3s;
+        }
+        .hidden-content {
+            display: none;
+        }
+        .safe-section {
+            background: #F0F7F4;
+            border-radius: 24px;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+        }
+        .safe-step {
+            margin: 1rem 0;
+            padding: 0.8rem;
+            background: white;
+            border-radius: 16px;
+            border-right: 4px solid #E8A735;
+        }
+        .safe-step label {
+            font-weight: 700;
+            color: #1A6B5A;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        textarea, input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #E2E9F2;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            resize: vertical;
+        }
+        textarea:focus, input:focus {
+            outline: none;
+            border-color: #1A6B5A;
+        }
+        .guided-pause {
+            background: #E8F5E9;
+            padding: 1rem;
+            border-radius: 60px;
+            text-align: center;
+            cursor: pointer;
+            margin: 0.5rem 0;
+            transition: 0.2s;
+        }
+        .guided-pause:hover {
+            background: #1A6B5A;
+            color: white;
+        }
+        button {
+            background: #1A6B5A;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.7rem 1.5rem;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: 0.15s;
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .secondary {
+            background: #E8A735;
+            color: #2E3A2A;
+        }
+        .module-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .footer-note {
+            font-size: 0.7rem;
+            text-align: center;
+            color: #8BA0B8;
+            margin-top: 1.5rem;
+        }
+        .reset-link {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.7rem;
+        }
+        .reset-link a {
+            color: #8BA0B8;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .sentence-box {
+            background: #E8F5E9;
+            border-right: 5px solid #1A6B5A;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 16px;
+            text-align: center;
+        }
+        .toast-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1A6B5A;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            animation: fadeInUp 0.3s ease;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+        @media (max-width: 480px) {
+            .mindset-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .progress-badge {
+            display: inline-block;
+            margin-right: 1rem;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            background: #FFF3E0;
+            color: #E8A735;
+        }
+        .progress-complete {
+            background: #E8F5E9;
+            color: #1A6B5A;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .feedback-message {
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            background: #E3F2FD;
+            color: #1A6B5A;
+            display: none;
+        }
+        .tip-note {
+            font-size: 0.75rem;
+            color: #E8A735;
+            background: #FFF8E1;
+            padding: 0.5rem;
+            border-radius: 12px;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+        .check-btn {
+            background: #6C86A0;
+            margin-left: 0.5rem;
+            margin-top: 0.5rem;
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+        }
+        .check-btn:hover {
+            background: #4a627a;
+        }
+        .hint-box {
+            background: #FFF8E1;
+            border-right: 3px solid #E8A735;
+            padding: 0.75rem;
+            margin-top: 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: #2C5F7A;
+            display: none;
+        }
+        .hint-box strong {
+            color: #E8A735;
+        }
+    </style>
+</head>
+<body>
+<div class="course-card">
+    <div class="header-tag">
+        <span>حزمة أدوات المرونة · الوحدة ٣.١</span>
+        <span class="user-badge" id="userBadge">👤 جار التحميل...</span>
+    </div>
+    
+    <div class="module-header">
+        <span class="module-title">🃏 مكتبة إعادة الصياغة + تطبيق S.A.F.E.</span>
+        <span class="module-time">⏱️ ٣ دقائق</span>
+    </div>
+    
+    <p><strong>تحويل عقليتك مهارة — والمهارة تحتاج إلى تدريب.</strong></p>
+    <p>في الأسفل سيناريوهات أزمات حقيقية من قادة العمل الإنساني. اضغط على كل بطاقة لترى سؤال إعادة الصياغة الذي ينقلك من إطار محدود إلى إطار تكيفي.</p>
+    
+    <!-- ========== بطاقات التقليب ========== -->
+    <div class="section-header">
+        <h2 style="margin: 0; border-right: none; padding-right: 0;">🗣️ مكتبة إعادة الصياغة — بطاقات التفاعل</h2>
+        <span class="progress-badge" id="flipProgress">٠/٤ تم التقليب</span>
+    </div>
+    <div class="mindset-grid" id="reframeGrid">
+        <div class="mindset-card" data-scenario="interpreter">
+            <div class="mindset-front"><strong>🗣️ أزمة المترجم</strong><br>"مترجمك الوحيد سيغادر. لا يوجد بديل لمدة أسبوعين."<br><span style="font-size:0.7rem;">👇 اضغط لإعادة الصياغة</span></div>
+            <div class="mindset-back hidden-content"><strong>🧠 سؤال إعادة الصياغة</strong><br>"من في الفريق المحلي لديه مهارات ترجمة أساسية؟ ما المواد التي يمكن ترجمتها مسبقاً؟"</div>
+        </div>
+        <div class="mindset-card" data-scenario="looting">
+            <div class="mindset-front"><strong>🏚️ نهب المكتب</strong><br>"تم نهب مكتبك ليلاً. أجهزة الكمبيوتر والراديو والكراسي — كلها ذهبت."<br><span style="font-size:0.7rem;">👇 اضغط لإعادة الصياغة</span></div>
+            <div class="mindset-back hidden-content"><strong>🧠 سؤال إعادة الصياغة</strong><br>"ما الوظائف الأساسية التي يمكن تشغيلها من هاتف أو مساحة شريك؟ ما هو أصغر إجراء لإعادة التشغيل؟"</div>
+        </div>
+        <div class="mindset-card" data-scenario="airstrike">
+            <div class="mindset-front"><strong>💥 غارة جوية</strong><br>"غارة جوية ضربت على بعد ٢٠٠ متر من مكتبك. الموظفون في حالة صدمة."<br><span style="font-size:0.7rem;">👇 اضغط لإعادة الصياغة</span></div>
+            <div class="mindset-back hidden-content"><strong>🧠 سؤال إعادة الصياغة</strong><br>"من يحتاج إلى إسعاف نفسي أولي فوري؟ ما فحص السلامة الذي يمكننا القيام به في ١٥ دقيقة؟"</div>
+        </div>
+        <div class="mindset-card" data-scenario="deputy">
+            <div class="mindset-front"><strong>🏥 انهيار نائب المدير</strong><br>"نائبك أُغمي عليه. أقرب مستشفى على بعد ٦ ساعات."<br><span style="font-size:0.7rem;">👇 اضغط لإعادة الصياغة</span></div>
+            <div class="mindset-back hidden-content"><strong>🧠 سؤال إعادة الصياغة</strong><br>"هل هناك عيادة أو مسعف أو مركبة أقرب من ٦ ساعات؟ من يمكنه تقديم الإسعافات الأولية في الطريق؟"</div>
+        </div>
+    </div>
+
+    <!-- نصيحة -->
+    <div class="tip-note">
+        💡 <strong>نصيحة:</strong> في لحظات الخطر القصوى، يمكنك تطبيق S.A.F.E. داخلياً في عقلك خلال ثوانٍ معدودة حتى وأنت تحت الضغط؛ فهي حالة ذهنية وليست مجرد تمرين مكتبي.
+    </div>
+    
+    <!-- ========== سيناريو الاجتماع رفيع المستوى ========== -->
+    <h2>⚡ طبق S.A.F.E. على سيناريو الاجتماع رفيع المستوى</h2>
+    <div class="scenario-card">
+        <strong>📋 اجتماع تنسيقي رفيع المستوى</strong><br><br>
+        أنت في اجتماع تنسيقي رفيع المستوى مع كبار مسؤولي الأمم المتحدة والجهات المانحة. يشير أحد المانحين إلى فجوة كبيرة في تقريرك ربع السنوي الأخير: <em>"لماذا نسبة الوصول إلى المستفيدين أقل بنسبة ٣٠٪ من الهدف؟"</em> لم تكن مستعداً لهذه النقطة المحددة، وكل الأنظار تتجه إليك.<br><br>
+        <strong>دعنا نطبق إطار S.A.F.E. لإيجاد مسار أفضل للأمام.</strong>
+    </div>
+    
+    <div class="section-header">
+        <h2 style="margin: 0; border-right: none; padding-right: 0;">📝 تطبيقك لـ S.A.F.E.</h2>
+        <span class="progress-badge" id="safeProgress">٠/٤ مكتمل</span>
+    </div>
+    
+    <div class="safe-section">
+        <h3 style="margin-top:0;">🧭 طبق إطار S.A.F.E.</h3>
+        
+        <!-- S - توقف وتنفس -->
+        <div class="safe-step">
+            <label>🧘 ت — توقف وتنفس</label>
+            <div class="guided-pause" id="guidedPauseBtn">🌬️ اضغط هنا لتوجيه التنفس (١٥ ثانية)</div>
+            <div id="pauseFeedback" style="font-size:0.8rem; margin-top:0.5rem; color:#1A6B5A;"></div>
+            <textarea id="stopInput" rows="2" placeholder="بعد التوقف، اكتب كيف تشعر. ماذا يحدث عندما تقاطع حلقة الذعر؟"></textarea>
+            <button class="check-btn" data-check="stop">تحقق من الإجابة</button>
+            <div id="stopHint" class="hint-box">
+                <strong>💡 تلميح — التوقف:</strong> بدلاً من القفز إلى عذر دفاعي، تأخذ رشفة ماء لمدة ٣ ثوانٍ أو نفساً صامتاً.<br>
+                <strong>الهدف:</strong> إيقاف صوت عقلية "الضحية" أو "الذعر" من التحدث.
+            </div>
+        </div>
+        
+        <!-- A - قيم الواقع -->
+        <div class="safe-step">
+            <label>🔍 ق — قيم الواقع (وليس الافتراضات)</label>
+            <textarea id="assessInput" rows="2" placeholder="افصل الحقائق عن الافتراضات. ما هي الحقائق الفعلية؟ ما الافتراضات التي تضعها حول نية المانح؟"></textarea>
+            <button class="check-btn" data-check="assess">تحقق من الإجابة</button>
+            <div id="assessHint" class="hint-box">
+                <strong>💡 تلميح — الحقيقة:</strong> "ليس لدي البيانات المحددة لتلك الفجوة البالغة ٣٠٪ في رأسي الآن."<br>
+                <strong>الافتراض (تجاهله):</strong> "يعتقدون أنني غير كفء؛ سأخسر التمويل."
+            </div>
+        </div>
+        
+        <!-- F - ابحث عن أصغر إجراء ممكن -->
+        <div class="safe-step">
+            <label>🎯 ا — ابحث عن أصغر إجراء ممكن</label>
+            <textarea id="findInput" rows="2" placeholder="بناءً على الموقف، صف إجراءً واحداً يمكنك القيام به الآن في هذا الاجتماع."></textarea>
+            <button class="check-btn" data-check="find">تحقق من الإجابة</button>
+            <div id="findHint" class="hint-box">
+                <strong>💡 تلميح — الحركة:</strong> لا تكذب ولا تخمن. أصغر إجراء هو الاعتراف بالثغرة والالتزام بجدول زمني.<br>
+                <strong>النص المقترح:</strong> "هذه ملاحظة مهمة جداً. لا أريد أن أعطيك تقديراً؛ أريد أن أعطيك السبب التقني الدقيق."
+            </div>
+        </div>
+        
+        <!-- E - نفذ وقيم -->
+        <div class="safe-step">
+            <label>🔄 ن — نفذ وقيم</label>
+            <textarea id="executeInput" rows="2" placeholder="كيف ستنفذ هذا الإجراء؟ متى ستعاود التحقق للتقييم؟"></textarea>
+            <button class="check-btn" data-check="execute">تحقق من الإجابة</button>
+            <div id="executeHint" class="hint-box">
+                <strong>💡 تلميح — الإجراء:</strong> "سأطلب من مسؤول الرصد والتقييم (M&E) استخراج تفاصيل المناطق المتأثرة وإرسال توضيح رسمي لهذه المجموعة بحلول الساعة ٤:٠٠ مساء اليوم."
+            </div>
+        </div>
+    </div>
+    
+    <div class="sentence-box">
+        <strong>💡 جملة واحدة لتتذكرها</strong><br>
+        "لا يمكنك إيقاف رد الفعل الأول. ولكن يمكنك اختيار الثاني."
+    </div>
+    
+    <div class="module-nav">
+        <button class="secondary" id="backToModule3Btn">← العودة إلى الوحدة ٣</button>
+        <button id="nextToModule4Btn">التالي: الوحدة ٤ →</button>
+    </div>
+    
+    <div class="footer-note">الوحدة ٣.١ من حزمة أدوات المرونة</div>
+    <div class="reset-link"><a id="resetDataLink">↺ إعادة ضبط بيانات الوحدة ٣.١</a></div>
+</div>
+
+<script>
+// ============================================
+// GOOGLE SHEETS WEB APP URL
+// ============================================
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
+
+// ============================================
+// GET USER DATA - IMPROVED WITH MORE SEARCH LOCATIONS
+// ============================================
+function getUserData() {
+    let name = '', email = '', position = '';
+    
+    // Try multiple possible storage locations for name
+    const possibleNameKeys = ['course_user_name', 'userName', 'username', 'fullName', 'full_name', 'name', 'user_name'];
+    const possibleEmailKeys = ['course_user_email', 'userEmail', 'email', 'user_email'];
+    const possiblePositionKeys = ['course_user_position', 'userPosition', 'position', 'user_position', 'jobTitle', 'role'];
+    
+    // Check each possible key for name
+    for (const key of possibleNameKeys) {
+        let val = localStorage.getItem(key);
+        if (val && val !== 'null' && val !== 'undefined' && val !== 'Guest' && val !== 'زائر' && val.trim() !== '') {
+            name = val.trim();
+            console.log('✅ Found user name in:', key, name);
+            break;
+        }
+    }
+    
+    // If name found, try to get email and position
+    if (name) {
+        for (const key of possibleEmailKeys) {
+            let val = localStorage.getItem(key);
+            if (val && val !== 'null' && val !== 'undefined') {
+                email = val.trim();
+                break;
+            }
+        }
+        for (const key of possiblePositionKeys) {
+            let val = localStorage.getItem(key);
+            if (val && val !== 'null' && val !== 'undefined') {
+                position = val.trim();
+                break;
+            }
+        }
+    }
+    
+    // Check course_user object
+    if (!name) {
+        let user = localStorage.getItem('course_user');
+        if (user) {
+            try { 
+                let p = JSON.parse(user); 
+                if (p && p.name && p.name !== 'Guest' && p.name !== 'زائر') {
+                    name = p.name.trim();
+                    email = (p.email || '').trim();
+                    position = (p.position || '').trim();
+                    console.log('✅ Found user from course_user:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // Check users array
+    if (!name) {
+        let users = localStorage.getItem('users');
+        if (users) {
+            try { 
+                let p = JSON.parse(users); 
+                if (Array.isArray(p) && p.length > 0) {
+                    for (let i = p.length - 1; i >= 0; i--) {
+                        if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'زائر') {
+                            name = p[i].name.trim();
+                            email = (p[i].email || '').trim();
+                            position = (p[i].position || '').trim();
+                            console.log('✅ Found user from users array:', name);
+                            break;
+                        }
+                    }
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // Check resilience_users
+    if (!name) {
+        let users = localStorage.getItem('resilience_users');
+        if (users) {
+            try { 
+                let p = JSON.parse(users); 
+                if (Array.isArray(p) && p.length > 0) {
+                    for (let i = p.length - 1; i >= 0; i--) {
+                        if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'زائر') {
+                            name = p[i].name.trim();
+                            email = (p[i].email || '').trim();
+                            position = (p[i].position || '').trim();
+                            console.log('✅ Found user from resilience_users:', name);
+                            break;
+                        }
+                    }
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // Check currentUser object
+    if (!name) {
+        let current = localStorage.getItem('currentUser');
+        if (current) {
+            try {
+                let p = JSON.parse(current);
+                if (p && p.name && p.name !== 'Guest' && p.name !== 'زائر') {
+                    name = p.name.trim();
+                    email = (p.email || '').trim();
+                    position = (p.position || '').trim();
+                    console.log('✅ Found user from currentUser:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // Check pre_assessment_answers
+    if (!name) {
+        let preAnswers = localStorage.getItem('pre_assessment_answers');
+        if (preAnswers) {
+            try {
+                let p = JSON.parse(preAnswers);
+                if (p && p.userName && p.userName !== 'Guest' && p.userName !== 'زائر') {
+                    name = p.userName.trim();
+                    email = (p.userEmail || '').trim();
+                    position = (p.userPosition || '').trim();
+                    console.log('✅ Found user from pre_assessment_answers:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // Check module1_answers
+    if (!name) {
+        let m1Answers = localStorage.getItem('module1_answers');
+        if (m1Answers) {
+            try {
+                let p = JSON.parse(m1Answers);
+                if (p && p.userName && p.userName !== 'Guest' && p.userName !== 'زائر') {
+                    name = p.userName.trim();
+                    email = (p.userEmail || '').trim();
+                    position = (p.userPosition || '').trim();
+                    console.log('✅ Found user from module1_answers:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // Check module3_answers
+    if (!name) {
+        let m3Answers = localStorage.getItem('module3_answers');
+        if (m3Answers) {
+            try {
+                let p = JSON.parse(m3Answers);
+                if (p && p.userName && p.userName !== 'Guest' && p.userName !== 'زائر') {
+                    name = p.userName.trim();
+                    email = (p.userEmail || '').trim();
+                    position = (p.userPosition || '').trim();
+                    console.log('✅ Found user from module3_answers:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // Check sessionStorage
+    if (!name) {
+        let sessionUser = sessionStorage.getItem('current_user');
+        if (sessionUser) {
+            try {
+                let p = JSON.parse(sessionUser);
+                if (p && p.name && p.name !== 'Guest' && p.name !== 'زائر') {
+                    name = p.name.trim();
+                    email = (p.email || '').trim();
+                    position = (p.position || '').trim();
+                    console.log('✅ Found user from sessionStorage:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // Check URL parameters
+    if (!name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        let urlName = urlParams.get('name');
+        if (urlName && urlName !== 'Guest' && urlName !== 'زائر') {
+            name = urlName.trim();
+            email = urlParams.get('email') || '';
+            position = urlParams.get('position') || '';
+            console.log('✅ Found user from URL params:', name);
+            // Save for future
+            localStorage.setItem('course_user_name', name);
+            if (email) localStorage.setItem('course_user_email', email);
+            if (position) localStorage.setItem('course_user_position', position);
+        }
+    }
+    
+    console.log('📋 Final user data for module 3.1:', { name: name || 'زائر', email: email || 'guest@example.com' });
+    return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
+}
+
+// عرض اسم المستخدم
+const currentUser = getUserData();
+const userBadge = document.getElementById('userBadge');
+if (userBadge) {
+    if (currentUser.name !== 'زائر') {
+        userBadge.innerText = `👤 ${currentUser.name}`;
+    } else {
+        userBadge.innerText = `👤 متعلم`;
+    }
+}
+
+function showToast(message, isError = false) {
+    const existing = document.querySelector('.toast-notification');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.style.background = isError ? '#C0392B' : '#1A6B5A';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => { if (toast) toast.remove(); }, 3000);
+}
+
+// ============================================
+// بطاقات التقليب
+// ============================================
+function updateFlipProgress() {
+    const flipped = document.querySelectorAll('.mindset-card.flipped').length;
+    const progressSpan = document.getElementById('flipProgress');
+    if (progressSpan) {
+        progressSpan.textContent = `${flipped}/٤ تم التقليب`;
+        if (flipped === 4) {
+            progressSpan.className = 'progress-badge progress-complete';
+        } else {
+            progressSpan.className = 'progress-badge';
+        }
+    }
+    return flipped === 4;
+}
+
+const flipCards = document.querySelectorAll('.mindset-card');
+flipCards.forEach(card => {
+    card.addEventListener('click', function(e) {
+        e.stopPropagation();
+        this.classList.toggle('flipped');
+        const front = this.querySelector('.mindset-front');
+        const back = this.querySelector('.mindset-back');
+        if (this.classList.contains('flipped')) {
+            if (front) front.classList.add('hidden-content');
+            if (back) back.classList.remove('hidden-content');
+        } else {
+            if (front) front.classList.remove('hidden-content');
+            if (back) back.classList.add('hidden-content');
+        }
+        updateFlipProgress();
+        saveModule31DataToLocal();
+    });
+});
+
+// ============================================
+// التنفس الموجه
+// ============================================
+const pauseBtn = document.getElementById('guidedPauseBtn');
+const pauseFeedback = document.getElementById('pauseFeedback');
+let pauseUsed = false;
+
+if (pauseBtn) {
+    pauseBtn.addEventListener('click', () => {
+        pauseUsed = true;
+        pauseBtn.style.background = "#1A6B5A";
+        pauseBtn.style.color = "white";
+        pauseBtn.innerText = "🌬️ شهيق... احبس... زفير...";
+        pauseFeedback.innerHTML = "✨ رائع. لقد قمت للتو بتنشيط جهازك العصبي السمبتاوي. ✨";
+        setTimeout(() => {
+            pauseBtn.style.background = "#E8F5E9";
+            pauseBtn.style.color = "#1E2F3E";
+            pauseBtn.innerText = "🌬️ اضغط هنا لتوجيه التنفس (١٥ ثانية)";
+            setTimeout(() => {
+                pauseFeedback.innerHTML = "";
+            }, 2000);
+        }, 2000);
+        saveModule31DataToLocal();
+    });
+}
+
+// ============================================
+// أزرار التحقق والتلميحات
+// ============================================
+const stopInput = document.getElementById('stopInput');
+const assessInput = document.getElementById('assessInput');
+const findInput = document.getElementById('findInput');
+const executeInput = document.getElementById('executeInput');
+
+const stopHint = document.getElementById('stopHint');
+const assessHint = document.getElementById('assessHint');
+const findHint = document.getElementById('findHint');
+const executeHint = document.getElementById('executeHint');
+
+document.querySelectorAll('.check-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const checkType = btn.getAttribute('data-check');
+        
+        if (checkType === 'stop') {
+            if (stopInput.value.trim()) {
+                stopHint.style.display = 'block';
+            } else {
+                showToast('الرجاء كتابة تأملك أولاً.', true);
+            }
+        } else if (checkType === 'assess') {
+            if (assessInput.value.trim()) {
+                assessHint.style.display = 'block';
+            } else {
+                showToast('الرجاء كتابة تقييمك أولاً.', true);
+            }
+        } else if (checkType === 'find') {
+            if (findInput.value.trim()) {
+                findHint.style.display = 'block';
+            } else {
+                showToast('الرجاء كتابة إجراءك أولاً.', true);
+            }
+        } else if (checkType === 'execute') {
+            if (executeInput.value.trim()) {
+                executeHint.style.display = 'block';
+            } else {
+                showToast('الرجاء كتابة خطة تنفيذك أولاً.', true);
+            }
+        }
+        
+        saveModule31DataToLocal();
+    });
+});
+
+// ============================================
+// تتبع التقدم
+// ============================================
+function updateSafeProgress() {
+    let completed = 0;
+    if (stopInput && stopInput.value.trim()) completed++;
+    if (assessInput && assessInput.value.trim()) completed++;
+    if (findInput && findInput.value.trim()) completed++;
+    if (executeInput && executeInput.value.trim()) completed++;
+    
+    const progressSpan = document.getElementById('safeProgress');
+    if (progressSpan) {
+        progressSpan.textContent = `${completed}/٤ مكتمل`;
+        if (completed === 4) {
+            progressSpan.className = 'progress-badge progress-complete';
+        } else {
+            progressSpan.className = 'progress-badge';
+        }
+    }
+    return completed === 4;
+}
+
+function getFlippedCardsStatus() {
+    const flipped = [];
+    document.querySelectorAll('.mindset-card.flipped').forEach(card => {
+        const scenario = card.getAttribute('data-scenario') || 'unknown';
+        flipped.push(scenario);
+    });
+    return flipped;
+}
+
+function saveModule31DataToLocal() {
+    const data = {
+        stopReflection: stopInput ? stopInput.value : '',
+        assessReflection: assessInput ? assessInput.value : '',
+        findAction: findInput ? findInput.value : '',
+        executePlan: executeInput ? executeInput.value : '',
+        flippedCards: getFlippedCardsStatus(),
+        pauseUsed: pauseUsed,
+        hintsShown: {
+            stop: stopHint ? stopHint.style.display === 'block' : false,
+            assess: assessHint ? assessHint.style.display === 'block' : false,
+            find: findHint ? findHint.style.display === 'block' : false,
+            execute: executeHint ? executeHint.style.display === 'block' : false
+        },
+        lastUpdated: new Date().toISOString()
+    };
+    localStorage.setItem('module3_1_data', JSON.stringify(data));
+    updateSafeProgress();
+    updateFlipProgress();
+}
+
+function loadModule31Data() {
+    const saved = localStorage.getItem('module3_1_data');
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            if (stopInput && data.stopReflection) stopInput.value = data.stopReflection;
+            if (assessInput && data.assessReflection) assessInput.value = data.assessReflection;
+            if (findInput && data.findAction) findInput.value = data.findAction;
+            if (executeInput && data.executePlan) executeInput.value = data.executePlan;
+            if (data.pauseUsed) pauseUsed = true;
+            if (data.hintsShown) {
+                if (data.hintsShown.stop && stopHint) stopHint.style.display = 'block';
+                if (data.hintsShown.assess && assessHint) assessHint.style.display = 'block';
+                if (data.hintsShown.find && findHint) findHint.style.display = 'block';
+                if (data.hintsShown.execute && executeHint) executeHint.style.display = 'block';
+            }
+            if (data.flippedCards && data.flippedCards.length) {
+                document.querySelectorAll('.mindset-card').forEach(card => {
+                    const scenario = card.getAttribute('data-scenario');
+                    if (data.flippedCards.includes(scenario)) {
+                        if (!card.classList.contains('flipped')) {
+                            card.classList.add('flipped');
+                            const front = card.querySelector('.mindset-front');
+                            const back = card.querySelector('.mindset-back');
+                            if (front) front.classList.add('hidden-content');
+                            if (back) back.classList.remove('hidden-content');
+                        }
+                    }
+                });
+            }
+            updateSafeProgress();
+            updateFlipProgress();
+        } catch(e) { console.warn(e); }
+    }
+}
+
+if (stopInput) stopInput.addEventListener('input', saveModule31DataToLocal);
+if (assessInput) assessInput.addEventListener('input', saveModule31DataToLocal);
+if (findInput) findInput.addEventListener('input', saveModule31DataToLocal);
+if (executeInput) executeInput.addEventListener('input', saveModule31DataToLocal);
+loadModule31Data();
+
+// ============================================
+// إرسال البيانات إلى Google Sheets
+// ============================================
+function sendModule31DataToSheet() {
+    const userData = getUserData();
+    const payload = {
+        module: 'Module 3.1',
+        language: 'ar',
+        userName: userData.name,
+        userEmail: userData.email,
+        userPosition: userData.position,
+        timestamp: new Date().toISOString(),
+        answers: {
+            safe_stop_reflection: stopInput ? stopInput.value : 'لم يجب',
+            safe_assess_reflection: assessInput ? assessInput.value : 'لم يجب',
+            safe_find_action: findInput ? findInput.value : 'لم يجب',
+            safe_execute_plan: executeInput ? executeInput.value : 'لم يجب',
+            flipped_cards: getFlippedCardsStatus().join(', ') || 'لا شيء',
+            pause_used: pauseUsed ? 'نعم' : 'لا'
+        }
+    };
+    
+    console.log('📤 جاري إرسال بيانات الوحدة ٣.١ للمستخدم:', userData.name);
+    
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+    xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+    xhr.send(JSON.stringify(payload));
+}
+
+function goToNextModule() {
+    const allFlipped = updateFlipProgress();
+    const allSafeCompleted = updateSafeProgress();
+    
+    if (!allFlipped) {
+        showToast('⚠️ الرجاء تقليب جميع البطاقات الأربعة قبل الانتقال إلى الوحدة ٤.', true);
+        return;
+    }
+    
+    if (!allSafeCompleted) {
+        showToast('⚠️ الرجاء إكمال جميع تأملات S.A.F.E. الأربعة قبل الانتقال إلى الوحدة ٤.', true);
+        return;
+    }
+    
+    saveModule31DataToLocal();
+    sendModule31DataToSheet();
+    localStorage.setItem('module3_1_completed', 'true');
+    showToast('جاري حفظ تقدمك...');
+    
+    setTimeout(() => {
+        window.location.href = 'module4.html';
+    }, 500);
+}
+
+// ============================================
+// التنقل
+// ============================================
+document.addEventListener('DOMContentLoaded', () => {
+    const backBtn = document.getElementById('backToModule3Btn');
+    if (backBtn) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = 'module3.html';
+        });
+    }
+    
+    const nextBtn = document.getElementById('nextToModule4Btn');
+    if (nextBtn) {
+        nextBtn.addEventListener('click', goToNextModule);
+    }
+    
+    const resetLink = document.getElementById('resetDataLink');
+    if (resetLink) {
+        resetLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (confirm('هل تريد إعادة ضبط جميع بيانات الوحدة ٣.١؟ لا يمكن التراجع عن هذا.')) {
+                localStorage.removeItem('module3_1_data');
+                localStorage.removeItem('module3_1_completed');
+                location.reload();
+            }
+        });
+    }
+    
+    updateSafeProgress();
+    updateFlipProgress();
+});
+</script>
+</body>
+</html>

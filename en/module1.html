@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>The Resilience Toolkit · Module 1</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #F4F7FC;
+            color: #1E2F3E;
+            line-height: 1.45;
+            padding: 0 0 2rem 0;
+        }
+        .course-card {
+            max-width: 680px;
+            margin: 1rem auto;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.02);
+            overflow: hidden;
+            padding: 1.8rem 1.5rem 2.2rem;
+        }
+        @media (max-width: 550px) {
+            .course-card { margin: 0.8rem; padding: 1.5rem 1.2rem; border-radius: 28px; }
+        }
+        .header-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #1A6B5A;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .user-badge {
+            font-size: 0.7rem;
+            background: #E8F5E9;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            color: #1A6B5A;
+        }
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .module-title { font-size: 1.3rem; font-weight: 700; color: #0C2E3B; }
+        .module-time {
+            font-size: 0.8rem;
+            background: #F0F4F9;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            color: #2C5F7A;
+        }
+        .executive-title { font-size: 1rem; color: #E8A735; font-weight: 600; margin-bottom: 1rem; }
+        .audio-hook {
+            background: #F0F7F4;
+            border-radius: 20px;
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .poll-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 0.6rem;
+            margin: 1rem 0;
+        }
+        @media (max-width: 550px) {
+            .poll-grid { grid-template-columns: 1fr; }
+        }
+        .poll-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #F9FCFE;
+            padding: 0.5rem 0.8rem;
+            border-radius: 40px;
+            border: 1px solid #E3ECF3;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+        .poll-item.selected { background: #E9F3F0; border-color: #1A6B5A; }
+        .quiz-question { margin: 1.2rem 0; padding-bottom: 0.8rem; border-bottom: 1px solid #E2E9F2; }
+        .quiz-options { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.5rem; }
+        @media (max-width: 550px) {
+            .quiz-options { gap: 0.5rem; }
+            .quiz-option { font-size: 0.8rem; padding: 0.3rem 0.8rem; }
+        }
+        .quiz-option {
+            background: #F1F5F9;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            cursor: pointer;
+        }
+        .quiz-option.selected { background: #1A6B5A; color: white; }
+        .feedback {
+            background: #EFF9F5;
+            padding: 0.8rem;
+            border-radius: 16px;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            display: none;
+        }
+        .scenario-card {
+            background: #FDF8F0;
+            border-left: 5px solid #E8A735;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 16px;
+        }
+        .reality-check {
+            background: #FFF8E1;
+            border-left: 5px solid #E8A735;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 16px;
+            font-size: 0.9rem;
+        }
+        button {
+            background: #1A6B5A;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.7rem 1.5rem;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: all 0.2s;
+        }
+        button:active { transform: scale(0.97); }
+        .secondary { background: #E8A735; color: #2E3A2A; }
+        .module-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        @media (max-width: 550px) {
+            .module-nav { flex-direction: column; }
+            .module-nav button { width: 100%; }
+        }
+        .check-btn {
+            background: #6C86A0;
+            margin-top: 0.5rem;
+        }
+        .check-btn:hover {
+            background: #4a627a;
+        }
+        
+        /* Mobile-Friendly Matching Game (Replaces Drag & Drop) */
+        .matching-game {
+            margin: 1.5rem 0;
+        }
+        .matching-item {
+            background: #F9FCFE;
+            border: 1px solid #E2E9F2;
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .matching-action {
+            font-weight: 600;
+            color: #0C2E3B;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px dashed #E8A735;
+        }
+        .matching-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .match-option {
+            background: #F1F5F9;
+            padding: 0.5rem 1rem;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            flex: 1;
+            min-width: 100px;
+        }
+        .match-option:hover {
+            background: #E8A735;
+            color: #2E3A2A;
+        }
+        .match-option.selected {
+            background: #1A6B5A;
+            color: white;
+        }
+        .match-feedback {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 16px;
+            background: #EFF9F5;
+        }
+        .match-result {
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+        .match-result.correct {
+            background: #E8F5E9;
+            color: #1A6B5A;
+        }
+        .match-result.incorrect {
+            background: #FFEBEE;
+            color: #B33A3A;
+        }
+        
+        .hotspot-container {
+            background: #FDF8F0;
+            border-radius: 24px;
+            padding: 1.5rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        .hotspot-image { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin: 1.5rem 0; }
+        @media (max-width: 550px) {
+            .hotspot-image { flex-direction: column; align-items: center; gap: 1rem; }
+            .hotspot-item { width: 100%; max-width: 200px; }
+        }
+        .hotspot-item {
+            text-align: center;
+            cursor: pointer;
+            padding: 1rem;
+            border-radius: 20px;
+            transition: all 0.2s;
+            background: white;
+            border: 2px solid #E2E9F2;
+            min-width: 120px;
+        }
+        .hotspot-item:hover { transform: scale(1.05); border-color: #E8A735; }
+        .hotspot-item.selected { border-color: #1A6B5A; background: #E9F3F0; }
+        .hotspot-emoji { font-size: 3rem; display: block; }
+        .hotspot-feedback { margin-top: 1rem; padding: 0.8rem; border-radius: 16px; background: #EFF9F5; }
+        .branch-choices { display: flex; flex-direction: column; gap: 1rem; margin: 1rem 0; }
+        .branch-choice {
+            background: #F9FCFE;
+            border: 1px solid #E3ECF3;
+            border-radius: 16px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .branch-choice:hover { background: #F0F6FD; border-color: #E8A735; }
+        .branch-choice.selected { background: #E8F5E9; border-color: #1A6B5A; }
+        .branch-outcome { margin-top: 1rem; padding: 1rem; border-radius: 16px; background: #F0F7F4; }
+        .success-outcome { background: #E8F5E9; border-left: 5px solid #1A6B5A; }
+        .failure-outcome { background: #FFEBEE; border-left: 5px solid #D32F2F; }
+        .footer-note { font-size: 0.7rem; text-align: center; color: #8BA0B8; margin-top: 1.5rem; }
+        .reset-link { text-align: center; margin-top: 1rem; font-size: 0.7rem; }
+        .reset-link a { color: #8BA0B8; cursor: pointer; text-decoration: underline; }
+        textarea { font-family: inherit; font-size: 0.85rem; width: 100%; padding: 0.8rem; border-radius: 12px; border: 1px solid #ccc; }
+        .toast-notification {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: #1A6B5A; color: white; padding: 12px 24px;
+            border-radius: 60px; font-size: 0.85rem; font-weight: 500;
+            z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            animation: fadeInUp 0.3s ease;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        .key-message {
+            background: #1A6B5A;
+            color: white;
+            padding: 1rem;
+            border-radius: 16px;
+            text-align: center;
+            margin: 1rem 0;
+            font-weight: bold;
+        }
+        .progress-badge {
+            display: inline-block;
+            margin-left: 1rem;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            background: #FFF3E0;
+            color: #E8A735;
+        }
+        .progress-complete {
+            background: #E8F5E9;
+            color: #1A6B5A;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .model-answer {
+            background: #E3F2FD;
+            padding: 0.8rem;
+            border-radius: 12px;
+            margin-top: 0.8rem;
+            border-left: 3px solid #1A6B5A;
+            font-size: 0.85rem;
+        }
+        .feedback-correct {
+            background: #E8F5E9;
+            color: #1A6B5A;
+            border-left: 3px solid #1A6B5A;
+        }
+        .feedback-incorrect {
+            background: #FFEBEE;
+            color: #B33A3A;
+            border-left: 3px solid #B33A3A;
+        }
+    </style>
+</head>
+<body>
+<div class="course-card">
+    <div class="header-tag">
+        <span>THE RESILIENCE TOOLKIT</span>
+        <span class="user-badge" id="userBadge">👤 Loading...</span>
+    </div>
+    
+    <div class="module-header">
+        <span class="module-title">🧠 Module 1: The Adaptability Imperative</span>
+        <span class="module-time">5 minutes</span>
+    </div>
+    
+    <div class="executive-title">📡 Executive Pre-Brief</div>
+    
+    <div class="audio-hook">
+        <button id="playAudioHookBtn" style="background:#E8A735; color:#2E3A2A;">▶ Start Briefing</button>
+        <p id="audioTranscript" style="margin-top:12px; font-size:0.9rem; font-style:italic; background:#FEF7E6; padding:10px; border-radius:16px;"></p>
+    </div>
+    
+    <div class="key-message">
+        💡 Key Point to Remember:<br>
+        "Technical skill gets you to the door. Adaptive skill decides if you are allowed to lead through it."
+    </div>
+    
+    <h2>📊 Diagnostic Poll</h2>
+    <p><em>In the last 30 days, which of the following constraints have directly impacted your decision-making? (Select all that apply)</em></p>
+    <div class="poll-grid" id="pollContainer">
+        <div class="poll-item" data-value="fuel">⛽ Fuel shortage (no vehicles for 3+ days)</div>
+        <div class="poll-item" data-value="vehicle">🚗 Vehicle breakdown during operations</div>
+        <div class="poll-item" data-value="interpreter">🗣️ Interpreter or key staff arrested</div>
+        <div class="poll-item" data-value="heat">🔥 Extreme heat (work impossible after 11 AM)</div>
+        <div class="poll-item" data-value="flood">🌊 Flood, landslide, or infrastructure collapse</div>
+        <div class="poll-item" data-value="checkpoint">🚧 Checkpoint denial or access blocked</div>
+        <div class="poll-item" data-value="internet">📡 Internet shutdown (24+ hours)</div>
+        <div class="poll-item" data-value="donor">📋 Donor priority change overnight</div>
+        <div class="poll-item" data-value="looted">🏚️ Office looted or burglarized</div>
+        <div class="poll-item" data-value="bank">🏦 Bank closure – salary delay</div>
+    </div>
+    <button id="submitPollBtn">Submit Selections</button>
+    <div id="pollFeedback" class="feedback"></div>
+    
+    <div class="scenario-card">
+        <strong>📖 Scenario: "Keith – The Technical Expert Who Couldn't Adapt"</strong><br><br>
+        Keith had 12 years of technical experience in his field. He was highly skilled and was referred for the position of Country Director in Yemen for a humanitarian INGO.<br><br>
+        During the technical test, Keith performed very well. But in the final interview, he said:<br>
+        <em>"The Standard Operating Procedures (SOPs) used in New York are directly transferable to Yemen. I will work with the local team to find a way to apply them there."</em><br><br>
+        When asked about local cultural variables, he replied that existing protocols should not be changed – only implemented. He said he would expect the team to "find a way" to make them work.<br><br>
+        Keith was not selected for the role.
+    </div>
+    
+    <div class="section-header">
+        <h2>📋 Keith Quiz</h2>
+        <span class="progress-badge" id="keithProgress">0/5 completed</span>
+    </div>
+    
+    <div id="keithQuiz">
+        <div class="quiz-question" id="q1">
+            <strong>Question 1 (Multiple choice)</strong><br>What was Keith's primary mistake?
+            <div class="quiz-options" data-q="1">
+                <div class="quiz-option" data-val="A">A) He failed the technical test.</div>
+                <div class="quiz-option" data-val="B">B) He assumed SOPs from a stable context would work unchanged in a volatile context.</div>
+                <div class="quiz-option" data-val="C">C) He refused to go to Yemen.</div>
+                <div class="quiz-option" data-val="D">D) He had only 12 years of experience.</div>
+            </div>
+            <div class="feedback" id="fb1"></div>
+        </div>
+        
+        <div class="quiz-question" id="q2">
+            <strong>Question 2 (Short answer / Reflection)</strong><br>Keith said he would ask the local team to "find a way" to apply New York SOPs in Yemen. Why is this phrase a red flag in humanitarian leadership?
+            <textarea id="q2answer" rows="3" placeholder="Write your answer here..."></textarea>
+            <div class="feedback" id="fb2"></div>
+        </div>
+        
+        <div class="quiz-question" id="q3">
+            <strong>Question 3 (Scenario-based)</strong><br>If you were the hiring manager, what one question would you have asked Keith to test his adaptive leadership before rejecting him?
+            <textarea id="q3answer" rows="2" placeholder="Write your answer here..."></textarea>
+            <div class="feedback" id="fb3"></div>
+        </div>
+        
+        <div class="quiz-question" id="q4">
+            <strong>Question 4 (True / False)</strong><br>Keith's technical expertise made him well-suited for Country Director in Yemen.
+            <div class="quiz-options" data-q="4">
+                <div class="quiz-option" data-val="true">True</div>
+                <div class="quiz-option" data-val="false">False</div>
+            </div>
+            <div class="feedback" id="fb4"></div>
+        </div>
+        
+        <div class="quiz-question" id="q5">
+            <strong>Question 5 (Discussion forum prompt)</strong><br>Share a time when you saw a leader (or yourself) assume that a solution from one context would work in another. What was the result? What could have been done differently?
+            <textarea id="q5answer" rows="3" placeholder="Write your answer here..."></textarea>
+            <div class="feedback" id="fb5"></div>
+        </div>
+        
+        <button id="submitKeithQuiz">Submit My Answers</button>
+    </div>
+    
+    <div id="keithDiagnosis" style="margin-top:1.5rem; display:none; background:#F0F7F4; padding:1rem; border-radius:20px;">
+        <strong>Why was Keith not selected? (Diagnosis)</strong><br><br>
+        Keith was rejected not because he lacked technical skill - he excelled at the technical test. He was rejected because:<br><br>
+        • He ignored local cultural and contextual variables in Yemen, a volatile, high-risk humanitarian setting.<br>
+        • He assumed that SOPs designed in New York (a stable, resourced, rule-bound environment) were directly transferable without modification.<br>
+        • He said he would demand the local team "find a way" to apply those SOPs - shifting the entire burden of adaptation onto local staff, without giving them authority, flexibility, or resources.<br><br>
+        This approach would lead to staff exhaustion, breakdown of local trust, and total loss of motivation.<br><br>
+        <strong>Diagnosis:</strong> Keith was performance-oriented under stability, but strategically rigid under volatility. Technical skill gets you to the door. Adaptive skill decides if you are allowed to lead through it.
+    </div>
+    
+    <div class="scenario-card">
+        <strong>📖 Scenario: "Leyla – The Adaptive Strategist"</strong><br><br>
+        Leyla served as a Country Director for a humanitarian INGO in a high-intensity conflict zone in Sudan.<br><br>
+        Midway through a critical relief operation, a severe fuel shortage hit the region. The shortage was expected to last seven days. Without fuel, the fleet of vehicles could not operate. Field teams could not travel to distribution sites, health clinics, or assessment areas.<br><br>
+        Work seemed suspended. The team looked to Leyla.<br><br>
+        <em>What do you do if you are in Leyla's position?<br>(Do you blame the logistics team for no spare fuel? Do you wait for HQ to approve black market fuel?)</em>
+    </div>
+    
+    <div class="section-header">
+        <h2>📋 Leyla Quiz</h2>
+        <span class="progress-badge" id="leylaProgress">0/6 completed</span>
+    </div>
+    
+    <div class="quiz-question" id="leylaQ1">
+        <strong>Question 1: Multiple Choice</strong><br>Which of the following is the FIRST action Leyla actually took (and the most adaptive one)?
+        <div class="quiz-options" data-q="leyla1">
+            <div class="quiz-option" data-val="A">A) Blame the logistics team for not having spare fuel reserves.</div>
+            <div class="quiz-option" data-val="B">B) Wait for written approval from HQ to purchase black market fuel.</div>
+            <div class="quiz-option" data-val="C">C) Gather local staff (drivers, logistics, community liaisons) and ask: "What has worked in past fuel shortages here?"</div>
+            <div class="quiz-option" data-val="D">D) Suspend all operations for seven days to stay safe.</div>
+        </div>
+        <div class="feedback" id="leylaFb1"></div>
+        <button class="check-btn" data-check="leylaQ1">✅ Check Answer</button>
+    </div>
+
+    <div class="quiz-question" id="leylaQ5">
+        <strong>Question 2: The Filtering Challenge</strong><br>Local staff suggest buying fuel from a black market dealer. This solves the transport issue but violates donor compliance. How do you FILTER this solution?
+        <textarea id="filterAnswer" rows="3" placeholder="Example: I check if the dealer is on a sanctions list, or negotiate a 'partial' deal..."></textarea>
+        <div class="feedback" id="filterFb"></div>
+        <button class="check-btn" data-check="filterQuestion">✅ Check Answer</button>
+    </div>
+    
+    <!-- MOBILE-FRIENDLY MATCHING GAME (Replaces Drag & Drop) -->
+    <div class="quiz-question" id="leylaQ2">
+        <strong>Question 3: Match Each Action to Its Outcome</strong><br>
+        <p><em>For each action below, select the correct outcome.</em></p>
+        
+        <div class="matching-game" id="matchingGame">
+            <!-- Action 1: Blame logistics team -->
+            <div class="matching-item">
+                <div class="matching-action">📌 Action 1: Blame logistics team</div>
+                <div class="matching-options" data-action="blame">
+                    <div class="match-option" data-outcome="A">✅ Adaptive Success</div>
+                    <div class="match-option" data-outcome="B">🔴 Paralysis</div>
+                    <div class="match-option" data-outcome="C">❌ Failure</div>
+                </div>
+                <div id="blameFeedback" class="match-result" style="display:none;"></div>
+            </div>
+            
+            <!-- Action 2: Wait for HQ black market approval -->
+            <div class="matching-item">
+                <div class="matching-action">📌 Action 2: Wait for HQ black market approval</div>
+                <div class="matching-options" data-action="waitHQ">
+                    <div class="match-option" data-outcome="A">✅ Adaptive Success</div>
+                    <div class="match-option" data-outcome="B">🔴 Paralysis</div>
+                    <div class="match-option" data-outcome="C">❌ Failure</div>
+                </div>
+                <div id="waitHQFeedback" class="match-result" style="display:none;"></div>
+            </div>
+            
+            <!-- Action 3: Negotiate with motorcycle union leaders -->
+            <div class="matching-item">
+                <div class="matching-action">📌 Action 3: Negotiate with motorcycle union leaders</div>
+                <div class="matching-options" data-action="negotiate">
+                    <div class="match-option" data-outcome="A">✅ Adaptive Success</div>
+                    <div class="match-option" data-outcome="B">🔴 Paralysis</div>
+                    <div class="match-option" data-outcome="C">❌ Failure</div>
+                </div>
+                <div id="negotiateFeedback" class="match-result" style="display:none;"></div>
+            </div>
+        </div>
+        
+        <div id="matchFeedback" class="match-feedback" style="display:none;"></div>
+        <button id="checkMatchesBtn" style="margin-top:1rem; background:#E8A735; color:#2E3A2A;">Check My Matches</button>
+    </div>
+    
+    <div class="quiz-question" id="leylaQ3">
+        <strong>🔀 Question 4: Branching Scenario</strong><br>You are in Leyla's position. The fuel shortage hits. You decide to act. What do you do first?
+        <div class="branch-choices">
+            <div class="branch-choice" data-choice="A">
+                <strong>A.</strong> Call an emergency meeting with logistics team and demand: "Why didn't you stock spare fuel?"
+            </div>
+            <div class="branch-choice" data-choice="B">
+                <strong>B.</strong> Send an urgent email to HQ: "We need approval for black market fuel. Please respond within 24 hours."
+            </div>
+            <div class="branch-choice" data-choice="C">
+                <strong>C.</strong> Call a catch-up meeting with the local team, gather any local team members you see, and ask: "Who knows how people got fuel during the last shortage?"
+            </div>
+        </div>
+        <div id="branchOutcome" class="branch-outcome" style="display:none;"></div>
+    </div>
+
+    <div class="quiz-question" id="leylaQ6">
+        <strong>Question 5: The 3 Criteria for Breaking Protocol</strong><br>When is it acceptable to adapt or "bend" a SOP?
+        <div class="quiz-options" data-q="criteria">
+            <div class="quiz-option" data-val="A">A) When the SOP is inconvenient.</div>
+            <div class="quiz-option" data-val="B">B) When immediate life-saving is at stake AND compliance can be justified post-fact.</div>
+            <div class="quiz-option" data-val="C">C) Never. SOPs must always be followed exactly.</div>
+        </div>
+        <div class="feedback" id="criteriaFb"></div>
+        <button class="check-btn" data-check="criteriaQuestion">✅ Check Answer</button>
+    </div>
+    
+    <div class="quiz-question" id="leylaQ4">
+        <strong>Question 6: What Would Leyla Do? - Interactive Hotspot</strong><br>Click on the one Leyla would reach for FIRST.
+        <div class="hotspot-container">
+            <div class="hotspot-image">
+                <div class="hotspot-item" data-hotspot="rulebook">
+                    <span class="hotspot-emoji">📖</span>
+                    <span class="hotspot-label">Rulebook (SOP Manual)</span>
+                </div>
+                <div class="hotspot-item" data-hotspot="satphone">
+                    <span class="hotspot-emoji">📡</span>
+                    <span class="hotspot-label">Satellite Phone (Call HQ)</span>
+                </div>
+                <div class="hotspot-item" data-hotspot="hand">
+                    <span class="hotspot-emoji">🤝</span>
+                    <span class="hotspot-label">Local Staff Member's Hand</span>
+                </div>
+            </div>
+            <div id="hotspotFeedback" class="hotspot-feedback" style="display:none;"></div>
+        </div>
+    </div>
+    
+    <button id="submitLeylaQuiz">Submit All Leyla Quiz Answers</button>
+    <div id="leylaQuizFeedback" class="feedback" style="display:none;"></div>
+
+    <div class="reality-check" id="realityCheckDiv" style="display:none;">
+        <strong>⚠️ FIELD REALITY CHECK:</strong><br>
+        Leyla did NOT solve the crisis with a single question. She faced pushback, logistical nightmares, and ethical dilemmas. Adaptability does NOT mean problems disappear. It means you get tasks done in less time, protect your team's morale, and find the "next right action" instead of freezing.<br><br>
+        <strong>Note:</strong> Adaptability does NOT mean breaking rules. It means knowing when the context requires bending the protocol to save lives, and when strict compliance is the only safe path.
+    </div>
+    
+    <div class="module-nav">
+        <button class="secondary" id="backToPreAssessmentBtn">← Back to Pre-Assessment</button>
+        <button id="continueToModule2Btn">Continue to Module 2 →</button>
+    </div>
+    
+    <div class="footer-note">Module 1 of The Resilience Toolkit</div>
+    <div class="reset-link"><a id="resetDataLink">↺ Reset Module Data</a></div>
+</div>
+
+<script>
+// ============================================
+// GOOGLE SHEETS WEB APP URL
+// ============================================
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
+
+// ============================================
+// GET USER DATA - EXPANDED VERSION
+// ============================================
+function getUserData() {
+    let name = '', email = '', position = '';
+    
+    console.log('🔍 Searching for user data in localStorage...');
+    console.log('All localStorage keys:', Object.keys(localStorage));
+    
+    // 1. Check individual fields
+    let n = localStorage.getItem('course_user_name');
+    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'Your Name' && n.trim() !== '') {
+        name = n.trim();
+        email = (localStorage.getItem('course_user_email') || '').trim();
+        position = (localStorage.getItem('course_user_position') || '').trim();
+        console.log('✅ Found from individual fields:', name);
+    }
+    
+    // 2. Check course_user object
+    if (!name || name === 'Your Name') {
+        let user = localStorage.getItem('course_user');
+        if (user) {
+            try { 
+                let p = JSON.parse(user); 
+                if (p && p.name && p.name !== 'Guest' && p.name !== 'Your Name' && p.name.trim() !== '') {
+                    name = p.name.trim();
+                    email = (p.email || '').trim();
+                    position = (p.position || '').trim();
+                    console.log('✅ Found from course_user:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 3. Check resilience_users array
+    if (!name || name === 'Your Name') {
+        let users = localStorage.getItem('resilience_users');
+        if (users) {
+            try { 
+                let p = JSON.parse(users); 
+                if (Array.isArray(p) && p.length > 0) {
+                    for (let i = p.length - 1; i >= 0; i--) {
+                        if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'Your Name' && p[i].name.trim() !== '') {
+                            name = p[i].name.trim();
+                            email = (p[i].email || '').trim();
+                            position = (p[i].position || '').trim();
+                            console.log('✅ Found from resilience_users array:', name);
+                            break;
+                        }
+                    }
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 4. Check user_data object
+    if (!name || name === 'Your Name') {
+        let userData = localStorage.getItem('user_data');
+        if (userData) {
+            try {
+                let p = JSON.parse(userData);
+                if (p && p.name && p.name !== 'Guest' && p.name !== 'Your Name' && p.name.trim() !== '') {
+                    name = p.name.trim();
+                    email = (p.email || '').trim();
+                    position = (p.position || '').trim();
+                    console.log('✅ Found from user_data:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 5. Check current_user object
+    if (!name || name === 'Your Name') {
+        let currentUser = localStorage.getItem('current_user');
+        if (currentUser) {
+            try {
+                let p = JSON.parse(currentUser);
+                if (p && p.name && p.name !== 'Guest' && p.name !== 'Your Name' && p.name.trim() !== '') {
+                    name = p.name.trim();
+                    email = (p.email || '').trim();
+                    position = (p.position || '').trim();
+                    console.log('✅ Found from current_user:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 6. Check registered_user object
+    if (!name || name === 'Your Name') {
+        let registeredUser = localStorage.getItem('registered_user');
+        if (registeredUser) {
+            try {
+                let p = JSON.parse(registeredUser);
+                if (p && p.name && p.name !== 'Guest' && p.name !== 'Your Name' && p.name.trim() !== '') {
+                    name = p.name.trim();
+                    email = (p.email || '').trim();
+                    position = (p.position || '').trim();
+                    console.log('✅ Found from registered_user:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 7. Check intro_user object
+    if (!name || name === 'Your Name') {
+        let introUser = localStorage.getItem('intro_user');
+        if (introUser) {
+            try {
+                let p = JSON.parse(introUser);
+                if (p && p.name && p.name !== 'Guest' && p.name !== 'Your Name' && p.name.trim() !== '') {
+                    name = p.name.trim();
+                    email = (p.email || '').trim();
+                    position = (p.position || '').trim();
+                    console.log('✅ Found from intro_user:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 8. Final fallback - PROMPT USER if still not found
+    if (!name || name === 'Your Name' || name === 'Guest') {
+        console.log('⚠️ No user data found, prompting user...');
+        name = prompt('👤 Please enter your full name:');
+        email = prompt('📧 Please enter your email address:');
+        if (name && name.trim() !== '') {
+            localStorage.setItem('course_user_name', name.trim());
+        }
+        if (email && email.trim() !== '') {
+            localStorage.setItem('course_user_email', email.trim());
+        }
+        name = name || 'Guest';
+        email = email || 'guest@example.com';
+    }
+    
+    const result = { 
+        name: name, 
+        email: email, 
+        position: position || 'Not specified' 
+    };
+    
+    console.log('👤 Final user data:', result);
+    return result;
+}
+
+// Display user name in badge
+const currentUser = getUserData();
+const userBadge = document.getElementById('userBadge');
+if (userBadge) {
+    if (currentUser.name !== 'Guest') {
+        userBadge.innerText = `👤 ${currentUser.name}`;
+    } else {
+        userBadge.innerText = `👤 Learner`;
+    }
+}
+
+function showToast(message, isError = false) {
+    const existing = document.querySelector('.toast-notification');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.style.background = isError ? '#C0392B' : '#1A6B5A';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => { if (toast) toast.remove(); }, 3000);
+}
+
+function isValidText(value) {
+    if (!value || value.length < 5) return false;
+    const gibberishPattern = /^(.)\1{3,}$|asdf|qwerty|zxcv|1234/i;
+    return !gibberishPattern.test(value);
+}
+
+function showModelAnswer(elementId, modelText) {
+    const feedbackDiv = document.getElementById(elementId);
+    let modelDiv = feedbackDiv.querySelector('.model-answer');
+    if (!modelDiv) {
+        modelDiv = document.createElement('div');
+        modelDiv.className = 'model-answer';
+        feedbackDiv.appendChild(modelDiv);
+    }
+    modelDiv.innerHTML = `<strong>📚 Model Answer:</strong><br>${modelText}`;
+    modelDiv.style.display = 'block';
+}
+
+// --- Progress & Answer Logic ---
+function updateKeithProgress() {
+    let completed = 0;
+    if (document.querySelector('#q1 .quiz-option.selected')) completed++;
+    if (document.getElementById('q2answer').value.trim().length > 3) completed++;
+    if (document.getElementById('q3answer').value.trim().length > 3) completed++;
+    if (document.querySelector('#q4 .quiz-option.selected')) completed++;
+    if (document.getElementById('q5answer').value.trim().length > 3) completed++;
+    document.getElementById('keithProgress').innerText = `${completed}/5 completed`;
+    return completed === 5;
+}
+
+function updateLeylaProgress() {
+    let completed = 0;
+    if (document.querySelector('#leylaQ1 .quiz-option.selected')) completed++;
+    if (document.getElementById('filterAnswer').value.trim().length > 3) completed++;
+    
+    // Check matching game selections
+    const blameSelected = document.querySelector('[data-action="blame"] .match-option.selected');
+    const waitHQSelected = document.querySelector('[data-action="waitHQ"] .match-option.selected');
+    const negotiateSelected = document.querySelector('[data-action="negotiate"] .match-option.selected');
+    if (blameSelected && waitHQSelected && negotiateSelected) completed++;
+    
+    if (document.getElementById('branchOutcome').style.display === 'block') completed++;
+    if (document.querySelector('#leylaQ6 .quiz-option.selected')) completed++;
+    if (document.querySelector('.hotspot-item.selected')) completed++;
+    document.getElementById('leylaProgress').innerText = `${completed}/6 completed`;
+    return completed === 6;
+}
+
+// Matching game selections storage
+let matchSelections = {
+    blame: null,
+    waitHQ: null,
+    negotiate: null
+};
+
+// Save matching selections
+function saveMatchSelections() {
+    const blameOpt = document.querySelector('[data-action="blame"] .match-option.selected');
+    const waitHQOpt = document.querySelector('[data-action="waitHQ"] .match-option.selected');
+    const negotiateOpt = document.querySelector('[data-action="negotiate"] .match-option.selected');
+    
+    if (blameOpt) matchSelections.blame = blameOpt.getAttribute('data-outcome');
+    if (waitHQOpt) matchSelections.waitHQ = waitHQOpt.getAttribute('data-outcome');
+    if (negotiateOpt) matchSelections.negotiate = negotiateOpt.getAttribute('data-outcome');
+    
+    localStorage.setItem('module1_match_selections', JSON.stringify(matchSelections));
+}
+
+function loadMatchSelections() {
+    const saved = localStorage.getItem('module1_match_selections');
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            matchSelections = data;
+            
+            if (data.blame) {
+                const opt = document.querySelector(`[data-action="blame"] .match-option[data-outcome="${data.blame}"]`);
+                if (opt) opt.classList.add('selected');
+            }
+            if (data.waitHQ) {
+                const opt = document.querySelector(`[data-action="waitHQ"] .match-option[data-outcome="${data.waitHQ}"]`);
+                if (opt) opt.classList.add('selected');
+            }
+            if (data.negotiate) {
+                const opt = document.querySelector(`[data-action="negotiate"] .match-option[data-outcome="${data.negotiate}"]`);
+                if (opt) opt.classList.add('selected');
+            }
+        } catch(e) {}
+    }
+}
+
+// ============================================
+// SEND DATA TO GOOGLE SHEETS - SAME AS MODULE 2
+// ============================================
+function sendModule1DataToSheet() {
+    const userData = getUserData();
+    
+    let selectedConstraints = [];
+    document.querySelectorAll('.poll-item.selected').forEach(item => {
+        selectedConstraints.push(item.getAttribute('data-value'));
+    });
+    
+    let keithQ1 = document.querySelector('#q1 .quiz-option.selected')?.getAttribute('data-val') || 'Not answered';
+    let keithQ2 = document.getElementById('q2answer')?.value.trim() || 'Not answered';
+    let keithQ3 = document.getElementById('q3answer')?.value.trim() || 'Not answered';
+    let keithQ4 = document.querySelector('#q4 .quiz-option.selected')?.getAttribute('data-val') || 'Not answered';
+    let keithQ5 = document.getElementById('q5answer')?.value.trim() || 'Not answered';
+    
+    let leylaQ1 = document.querySelector('#leylaQ1 .quiz-option.selected')?.getAttribute('data-val') || 'Not answered';
+    let filterAnswer = document.getElementById('filterAnswer')?.value.trim() || 'Not answered';
+    let criteriaAnswer = document.querySelector('#leylaQ6 .quiz-option.selected')?.getAttribute('data-val') || 'Not answered';
+    
+    let dragBlame = matchSelections.blame ? 'Outcome ' + matchSelections.blame : 'Not matched';
+    let dragWaitHQ = matchSelections.waitHQ ? 'Outcome ' + matchSelections.waitHQ : 'Not matched';
+    let dragNegotiate = matchSelections.negotiate ? 'Outcome ' + matchSelections.negotiate : 'Not matched';
+    
+    let branchChoice = 'Not selected';
+    const branchOutcomeDiv = document.getElementById('branchOutcome');
+    if (branchOutcomeDiv.style.display === 'block') {
+        const branchText = branchOutcomeDiv.innerText;
+        if (branchText.includes('Adaptive Success')) branchChoice = 'C - Adaptive Success';
+        else if (branchText.includes('Paralysis')) branchChoice = 'B - Paralysis';
+        else if (branchText.includes('Failure')) branchChoice = 'A - Failure';
+    }
+    
+    let hotspotChoice = document.querySelector('.hotspot-item.selected')?.getAttribute('data-hotspot') || 'Not selected';
+    
+    const payload = {
+        module: 'Module 1',
+        action: 'completed',
+        language: 'en',
+        userName: userData.name,
+        userEmail: userData.email,
+        userPosition: userData.position,
+        timestamp: new Date().toISOString(),
+        answers: {
+            pollConstraints: selectedConstraints.join(', ') || 'None',
+            keithQ1, keithQ2, keithQ3, keithQ4, keithQ5,
+            leylaQ1, filterAnswer, criteriaAnswer,
+            dragBlame, dragWaitHQ, dragNegotiate,
+            branchChoice, hotspotChoice
+        }
+    };
+    
+    console.log('📤 Sending Module 1 data:', payload);
+    
+    // Return a promise so we can wait for it (same as Module 2)
+    return new Promise((resolve) => {
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8',
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('✅ Module 1 data sent successfully:', data);
+            resolve(true);
+        })
+        .catch(error => {
+            console.log('❌ Fetch error:', error);
+            // Fallback to XHR
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+            xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    console.log('✅ Module 1 data sent (XHR fallback)');
+                    resolve(true);
+                } else {
+                    console.log('⚠️ Module 1 response status:', xhr.status);
+                    resolve(false);
+                }
+            };
+            xhr.onerror = function() {
+                console.log('❌ Error sending Module 1 data');
+                resolve(false);
+            };
+            xhr.send(JSON.stringify(payload));
+        });
+        
+        // Timeout fallback - resolve after 3 seconds anyway
+        setTimeout(() => {
+            console.log('⏰ Timeout - continuing anyway');
+            resolve(true);
+        }, 3000);
+    });
+}
+
+function saveAnswersToLocal() {
+    const answers = {
+        pollConstraints: [],
+        keithQ1: document.querySelector('#q1 .quiz-option.selected')?.getAttribute('data-val') || null,
+        keithQ2: document.getElementById('q2answer').value.trim(),
+        keithQ3: document.getElementById('q3answer').value.trim(),
+        keithQ4: document.querySelector('#q4 .quiz-option.selected')?.getAttribute('data-val') || null,
+        keithQ5: document.getElementById('q5answer').value.trim(),
+        leylaQ1: document.querySelector('#leylaQ1 .quiz-option.selected')?.getAttribute('data-val') || null,
+        filterAnswer: document.getElementById('filterAnswer').value.trim(),
+        criteriaAnswer: document.querySelector('#leylaQ6 .quiz-option.selected')?.getAttribute('data-val') || null,
+        lastUpdated: new Date().toISOString()
+    };
+    document.querySelectorAll('.poll-item.selected').forEach(item => {
+        answers.pollConstraints.push(item.getAttribute('data-value'));
+    });
+    localStorage.setItem('module1_answers', JSON.stringify(answers));
+    saveMatchSelections();
+}
+
+function loadSavedAnswers() {
+    const saved = localStorage.getItem('module1_answers');
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            if (data.pollConstraints && data.pollConstraints.length) {
+                document.querySelectorAll('.poll-item').forEach(item => {
+                    if (data.pollConstraints.includes(item.getAttribute('data-value'))) {
+                        item.classList.add('selected');
+                    }
+                });
+            }
+            if (data.keithQ1) {
+                document.querySelectorAll('#q1 .quiz-option').forEach(opt => {
+                    if (opt.getAttribute('data-val') === data.keithQ1) opt.classList.add('selected');
+                });
+            }
+            if (data.keithQ2) document.getElementById('q2answer').value = data.keithQ2;
+            if (data.keithQ3) document.getElementById('q3answer').value = data.keithQ3;
+            if (data.keithQ4) {
+                document.querySelectorAll('#q4 .quiz-option').forEach(opt => {
+                    if (opt.getAttribute('data-val') === data.keithQ4) opt.classList.add('selected');
+                });
+            }
+            if (data.keithQ5) document.getElementById('q5answer').value = data.keithQ5;
+            if (data.leylaQ1) {
+                document.querySelectorAll('#leylaQ1 .quiz-option').forEach(opt => {
+                    if (opt.getAttribute('data-val') === data.leylaQ1) opt.classList.add('selected');
+                });
+            }
+            if (data.filterAnswer) document.getElementById('filterAnswer').value = data.filterAnswer;
+            if (data.criteriaAnswer) {
+                document.querySelectorAll('#leylaQ6 .quiz-option').forEach(opt => {
+                    if (opt.getAttribute('data-val') === data.criteriaAnswer) opt.classList.add('selected');
+                });
+            }
+        } catch(e) { console.warn('Error loading saved answers:', e); }
+    }
+    loadMatchSelections();
+    updateKeithProgress();
+    updateLeylaProgress();
+}
+
+// ============================================
+// GO TO MODULE 2 - UPDATED TO WAIT FOR DATA
+// ============================================
+async function goToModule2() {
+    if (!updateKeithProgress()) {
+        showToast('Please complete all Keith Quiz questions (5/5).', true);
+        return;
+    }
+    if (!updateLeylaProgress()) {
+        showToast('Please complete all Leyla Quiz activities (6/6).', true);
+        return;
+    }
+    
+    saveAnswersToLocal();
+    
+    // Show saving message
+    showToast('💾 Saving your answers...');
+    
+    // Wait for data to be sent before redirecting
+    const saved = await sendModule1DataToSheet();
+    
+    if (saved) {
+        localStorage.setItem('module1_completed', 'true');
+        showToast('✅ Progress saved! Redirecting...');
+        
+        setTimeout(() => {
+            window.location.href = 'module2.html';
+        }, 800);
+    } else {
+        localStorage.setItem('module1_completed', 'true');
+        showToast('⚠️ Progress saved locally. Continuing...', true);
+        
+        setTimeout(() => {
+            window.location.href = 'module2.html';
+        }, 800);
+    }
+}
+
+// --- Event Listeners ---
+document.getElementById('playAudioHookBtn').addEventListener('click', () => {
+    document.getElementById('audioTranscript').innerHTML = "🎙️ Briefing: You are leading in Yemen, Sudan, Syria, Iraq, Gaza, Afghanistan, DRC, the Sahel, or Ukraine. By 7:30 AM today, you may face a fuel shortage, vehicle breakdown, or interpreter arrest. This briefing is strategic, not motivational.";
+});
+
+document.querySelectorAll('.poll-item').forEach(item => {
+    item.addEventListener('click', function() { this.classList.toggle('selected'); saveAnswersToLocal(); });
+});
+
+document.getElementById('submitPollBtn').addEventListener('click', () => {
+    let count = document.querySelectorAll('.poll-item.selected').length;
+    document.getElementById('pollFeedback').innerHTML = `You selected ${count} constraint(s). Thank you!`;
+    document.getElementById('pollFeedback').style.display = 'block';
+    saveAnswersToLocal();
+});
+
+// Keith Submissions
+document.querySelectorAll('#q1 .quiz-option, #q4 .quiz-option').forEach(opt => {
+    opt.addEventListener('click', function() {
+        this.parentElement.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+        this.classList.add('selected');
+        saveAnswersToLocal();
+        updateKeithProgress();
+    });
+});
+
+document.getElementById('submitKeithQuiz').addEventListener('click', () => {
+    let q1Val = document.querySelector('#q1 .quiz-option.selected')?.getAttribute('data-val');
+    let fb1 = document.getElementById('fb1');
+    fb1.style.display = 'block';
+    if (q1Val === 'B') fb1.innerHTML = '✅ Correct. He assumed stable-context SOPs work in volatile contexts.';
+    else fb1.innerHTML = '❌ Correct answer: B. He assumed SOPs from NY work in Yemen without change.';
+
+    let q2Val = document.getElementById('q2answer').value.trim();
+    let fb2 = document.getElementById('fb2');
+    fb2.style.display = 'block';
+    if (!isValidText(q2Val)) {
+        fb2.innerHTML = '⚠️ Your answer seems too brief. ';
+        showModelAnswer('fb2', '"Find a way" is a leadership abdication. It shifts the burden of impossible adaptation onto an exhausted local team without giving them authority or resources. An adaptive leader asks: "What in the SOP needs to change to protect people here?"');
+    } else {
+        fb2.innerHTML = '📝 Reflection saved. ';
+        showModelAnswer('fb2', 'Compare your thinking: The red flag is "abdication of responsibility." Leaders adapt the process, they don\'t demand magic from the team.');
+    }
+
+    let q3Val = document.getElementById('q3answer').value.trim();
+    let fb3 = document.getElementById('fb3');
+    fb3.style.display = 'block';
+    if (!isValidText(q3Val)) {
+        fb3.innerHTML = '⚠️ Please provide a specific question. ';
+        showModelAnswer('fb3', '"If your local team tells you an SOP will put their lives at risk, what is your first step?" This tests if they value human life over rigid compliance.');
+    } else {
+        fb3.innerHTML = '✅ Good question. ';
+        showModelAnswer('fb3', 'Ideal question: "What do you do if local staff say the SOP is dangerous?"');
+    }
+
+    let q4Val = document.querySelector('#q4 .quiz-option.selected')?.getAttribute('data-val');
+    let fb4 = document.getElementById('fb4');
+    fb4.style.display = 'block';
+    if (q4Val === 'false') fb4.innerHTML = '✅ Correct. Technical skill alone is insufficient.';
+    else fb4.innerHTML = '❌ False. Technical skill is necessary but not sufficient.';
+
+    let q5Val = document.getElementById('q5answer').value.trim();
+    let fb5 = document.getElementById('fb5');
+    fb5.style.display = 'block';
+    fb5.innerHTML = q5Val ? '📘 Thank you for sharing.' : '💡 Sharing a real example helps internalize the lesson.';
+    
+    document.getElementById('keithDiagnosis').style.display = 'block';
+    saveAnswersToLocal();
+    updateKeithProgress();
+});
+
+// Leyla Q1 options
+document.querySelectorAll('#leylaQ1 .quiz-option').forEach(opt => {
+    opt.addEventListener('click', function() {
+        document.querySelectorAll('#leylaQ1 .quiz-option').forEach(o => o.classList.remove('selected'));
+        this.classList.add('selected');
+        saveAnswersToLocal();
+        updateLeylaProgress();
+    });
+});
+
+// Leyla Q6 (Criteria) options
+document.querySelectorAll('#leylaQ6 .quiz-option').forEach(opt => {
+    opt.addEventListener('click', function() {
+        document.querySelectorAll('#leylaQ6 .quiz-option').forEach(o => o.classList.remove('selected'));
+        this.classList.add('selected');
+        saveAnswersToLocal();
+        updateLeylaProgress();
+    });
+});
+
+// Filter input
+document.getElementById('filterAnswer').addEventListener('input', function() {
+    saveAnswersToLocal();
+    updateLeylaProgress();
+});
+
+// Matching game option clicks
+document.querySelectorAll('.match-option').forEach(opt => {
+    opt.addEventListener('click', function() {
+        const parent = this.parentElement;
+        const action = parent.getAttribute('data-action');
+        
+        parent.querySelectorAll('.match-option').forEach(o => o.classList.remove('selected'));
+        this.classList.add('selected');
+        
+        saveMatchSelections();
+        updateLeylaProgress();
+        saveAnswersToLocal();
+    });
+});
+
+// Check Matches Button - UPDATED TEXT
+document.getElementById('checkMatchesBtn').addEventListener('click', () => {
+    const blameSelected = document.querySelector('[data-action="blame"] .match-option.selected');
+    const waitHQSelected = document.querySelector('[data-action="waitHQ"] .match-option.selected');
+    const negotiateSelected = document.querySelector('[data-action="negotiate"] .match-option.selected');
+    
+    const blameVal = blameSelected?.getAttribute('data-outcome');
+    const waitHQVal = waitHQSelected?.getAttribute('data-outcome');
+    const negotiateVal = negotiateSelected?.getAttribute('data-outcome');
+    
+    const blameCorrect = (blameVal === 'C');
+    const waitHQCorrect = (waitHQVal === 'B');
+    const negotiateCorrect = (negotiateVal === 'A');
+    
+    document.getElementById('blameFeedback').innerHTML = blameCorrect ? '✅ Correct! Blaming leads to Failure.' : '❌ Blaming leads to Failure. (Outcome C)';
+    document.getElementById('blameFeedback').className = `match-result ${blameCorrect ? 'correct' : 'incorrect'}`;
+    document.getElementById('blameFeedback').style.display = 'block';
+    
+    document.getElementById('waitHQFeedback').innerHTML = waitHQCorrect ? '✅ Correct! Waiting for HQ causes Paralysis.' : '❌ Waiting for HQ causes Paralysis. (Outcome B)';
+    document.getElementById('waitHQFeedback').className = `match-result ${waitHQCorrect ? 'correct' : 'incorrect'}`;
+    document.getElementById('waitHQFeedback').style.display = 'block';
+    
+    document.getElementById('negotiateFeedback').innerHTML = negotiateCorrect ? '✅ Correct! Negotiating is Adaptive Success.' : '❌ Negotiating is Adaptive Success. (Outcome A)';
+    document.getElementById('negotiateFeedback').className = `match-result ${negotiateCorrect ? 'correct' : 'incorrect'}`;
+    document.getElementById('negotiateFeedback').style.display = 'block';
+    
+    // UPDATED FEEDBACK TEXT
+    const matchFeedback = document.getElementById('matchFeedback');
+    matchFeedback.innerHTML = '<strong>✅ Matching Check Complete!</strong><br>Blame = Failure, Wait HQ = Paralysis, without gather local information, Negotiate = Adaptive Success.<br><br>💡 Always gather local knowledge FIRST!';
+    matchFeedback.style.display = 'block';
+    
+    saveAnswersToLocal();
+    updateLeylaProgress();
+});
+
+// Branching Scenario
+document.querySelectorAll('.branch-choice').forEach(choice => {
+    choice.addEventListener('click', function() {
+        document.querySelectorAll('.branch-choice').forEach(c => c.classList.remove('selected'));
+        this.classList.add('selected');
+        
+        let branchOutcome = document.getElementById('branchOutcome');
+        let choiceVal = this.getAttribute('data-choice');
+        if (choiceVal === 'C') branchOutcome.innerHTML = '<div class="success-outcome" style="padding:1rem;"><strong>✅ Adaptive Success:</strong> Gather local knowledge first. This is what Leyla did.</div>';
+        else if (choiceVal === 'B') branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ Paralysis:</strong> Waiting for HQ while beneficiaries suffer is not adaptive.</div>';
+        else branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ Failure:</strong> Blaming shuts down communication and hides problems.</div>';
+        branchOutcome.style.display = 'block';
+        saveAnswersToLocal();
+        updateLeylaProgress();
+    });
+});
+
+// Hotspot
+document.querySelectorAll('.hotspot-item').forEach(item => {
+    item.addEventListener('click', function() {
+        document.querySelectorAll('.hotspot-item').forEach(i => i.classList.remove('selected'));
+        this.classList.add('selected');
+        saveAnswersToLocal();
+        updateLeylaProgress();
+    });
+});
+
+// Check Answer buttons for Leyla questions - UPDATED TEXT
+document.querySelectorAll('.check-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const checkId = this.getAttribute('data-check');
+        
+        if (checkId === 'leylaQ1') {
+            let leylaQ1 = document.querySelector('#leylaQ1 .quiz-option.selected')?.getAttribute('data-val');
+            let fb1 = document.getElementById('leylaFb1');
+            fb1.style.display = 'block';
+            if (leylaQ1 === 'C') {
+                fb1.innerHTML = '✅ Correct! Adaptive leaders gather local knowledge FIRST. "Tacit knowledge" from drivers and liaisons is the real gold.';
+                fb1.className = 'feedback feedback-correct';
+            } else {
+                fb1.innerHTML = '❌ The correct answer is C: Ask local staff what worked before. Gather local knowledge FIRST. Always.';
+                fb1.className = 'feedback feedback-incorrect';
+                showModelAnswer('leylaFb1', 'Leyla would ask local staff first. HQ approval comes AFTER she has full information.');
+            }
+        }
+        
+        else if (checkId === 'filterQuestion') {
+            let filterVal = document.getElementById('filterAnswer').value.trim();
+            let filterFb = document.getElementById('filterFb');
+            filterFb.style.display = 'block';
+            if (!isValidText(filterVal)) {
+                filterFb.innerHTML = '⚠️ Filtering is critical. ';
+                filterFb.className = 'feedback feedback-incorrect';
+                // UPDATED MODEL ANSWER TEXT
+                showModelAnswer('filterFb', 'You should know how to "adapt" the protocol to save lives, and when compliance is the path to follow. You should assess risk and determine when compliance is justifiable when it comes to saving lives!! You should document this as a life-saving exception and explain it to the donor later.');
+            } else {
+                filterFb.innerHTML = '✅ Strong filtering instinct. ';
+                filterFb.className = 'feedback feedback-correct';
+                // UPDATED MODEL ANSWER TEXT
+                showModelAnswer('filterFb', 'You should know how to "adapt" the protocol to save lives, and when compliance is the path to follow. You should assess risk and determine when compliance is justifiable when it comes to saving lives!! You should document this as a life-saving exception and explain it to the donor later.');
+            }
+        }
+        
+        else if (checkId === 'criteriaQuestion') {
+            let criteriaVal = document.querySelector('#leylaQ6 .quiz-option.selected')?.getAttribute('data-val');
+            let criteriaFb = document.getElementById('criteriaFb');
+            criteriaFb.style.display = 'block';
+            if (criteriaVal === 'B') {
+                criteriaFb.innerHTML = '✅ Correct. Life-saving at stake + Justifiable compliance is the ethical line.';
+                criteriaFb.className = 'feedback feedback-correct';
+            } else {
+                criteriaFb.innerHTML = '❌ The correct answer is B: When immediate life-saving is at stake AND compliance can be justified post-fact.';
+                criteriaFb.className = 'feedback feedback-incorrect';
+                showModelAnswer('criteriaFb', 'The correct answer is B: When immediate life-saving is at stake AND compliance can be justified post-fact.');
+            }
+        }
+        
+        saveAnswersToLocal();
+        updateLeylaProgress();
+    });
+});
+
+// Submit All Leyla Quiz
+document.getElementById('submitLeylaQuiz').addEventListener('click', () => {
+    let selectedHotspot = document.querySelector('.hotspot-item.selected')?.getAttribute('data-hotspot');
+    let hotspotFb = document.getElementById('hotspotFeedback');
+    if (selectedHotspot === 'hand') {
+        hotspotFb.innerHTML = '✅ Correct! Relationships are the strongest currency. The local staff member knows the "trusted trader" the satellite phone cannot find.';
+        hotspotFb.className = 'feedback feedback-correct';
+    } else if (selectedHotspot) {
+        hotspotFb.innerHTML = '❌ Not quite. Leyla reaches for local staff first. Before HQ, before manuals.';
+        hotspotFb.className = 'feedback feedback-incorrect';
+    } else {
+        hotspotFb.innerHTML = '⚠️ Please click on one of the three options above.';
+        hotspotFb.className = 'feedback feedback-incorrect';
+    }
+    hotspotFb.style.display = 'block';
+    
+    document.getElementById('realityCheckDiv').style.display = 'block';
+    
+    let finalFeedback = document.getElementById('leylaQuizFeedback');
+    finalFeedback.innerHTML = '📚 Great work! Adaptive leaders ALWAYS gather local knowledge FIRST.';
+    finalFeedback.className = 'feedback feedback-correct';
+    finalFeedback.style.display = 'block';
+    
+    saveAnswersToLocal();
+    updateLeylaProgress();
+});
+
+// Navigation
+document.getElementById('continueToModule2Btn').addEventListener('click', goToModule2);
+document.getElementById('backToPreAssessmentBtn').addEventListener('click', () => {
+    window.location.href = 'pre-assessment.html';
+});
+document.getElementById('resetDataLink').addEventListener('click', () => { 
+    if(confirm('Reset all module data? This cannot be undone.')) {
+        localStorage.clear();
+        location.reload();
+    }
+});
+
+// Load saved answers on page load
+loadSavedAnswers();
+</script>
+</body>
+</html>

@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>The Resilience Toolkit · Module 6: The 7 AM Protocol</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #F4F7FC;
+            color: #1E2F3E;
+            line-height: 1.45;
+            padding: 0 0 2rem 0;
+        }
+        .course-card {
+            max-width: 680px;
+            margin: 1rem auto;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.02);
+            overflow: hidden;
+            padding: 1.8rem 1.5rem 2.2rem;
+        }
+        @media (max-width: 550px) {
+            .course-card {
+                margin: 0.8rem;
+                padding: 1.5rem 1.2rem;
+                border-radius: 28px;
+            }
+        }
+        .header-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #1A6B5A;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .user-badge {
+            font-size: 0.7rem;
+            background: #E8F5E9;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            color: #1A6B5A;
+        }
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            border-bottom: 2px solid #E8A735;
+            padding-bottom: 0.5rem;
+            gap: 0.5rem;
+        }
+        .module-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0C2E3B;
+        }
+        .module-time {
+            font-size: 0.8rem;
+            background: #F0F4F9;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            color: #2C5F7A;
+        }
+        h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1A6B5A;
+            margin: 1.5rem 0 0.75rem 0;
+            border-left: 4px solid #E8A735;
+            padding-left: 0.8rem;
+        }
+        .scenario-card {
+            background: #FDF8F0;
+            border-left: 5px solid #E8A735;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 16px;
+        }
+        .logistics-card {
+            background: #FDF8F0;
+            border-left: 5px solid #1A6B5A;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 16px;
+        }
+        button {
+            background: #1A6B5A;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.7rem 1.5rem;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: 0.15s;
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .secondary {
+            background: #E8A735;
+            color: #2E3A2A;
+        }
+        .module-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .footer-note {
+            font-size: 0.7rem;
+            text-align: center;
+            color: #8BA0B8;
+            margin-top: 1.5rem;
+        }
+        .reset-link {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.7rem;
+        }
+        .reset-link a {
+            color: #8BA0B8;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .feedback {
+            background: #EFF9F5;
+            padding: 0.8rem;
+            border-radius: 16px;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        .crisis-card {
+            background: #F9FCFE;
+            border-radius: 20px;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            border: 1px solid #E2E9F2;
+        }
+        .crisis-title {
+            font-weight: 700;
+            color: #1A6B5A;
+            margin-bottom: 0.5rem;
+        }
+        .option-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.5rem;
+            margin: 0.3rem 0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+            border: 1px solid #E2E9F2;
+        }
+        .option-row:hover {
+            background: #F0F7F4;
+            border-color: #E8A735;
+        }
+        .option-row.selected {
+            background: #E8F5E9;
+            border-color: #1A6B5A;
+        }
+        .option-radio {
+            margin-top: 0.2rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #1A6B5A;
+            margin-bottom: 0.3rem;
+        }
+        textarea, input[type="text"], input[type="email"] {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 16px;
+            border: 1px solid #ccc;
+            font-family: inherit;
+            margin: 0.5rem 0;
+            resize: vertical;
+            font-size: 0.9rem;
+        }
+        .pocket-card {
+            background: linear-gradient(135deg, #1A6B5A, #0e4d40);
+            color: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        .pocket-card h3 {
+            color: #E8A735;
+            margin-bottom: 0.5rem;
+        }
+        .download-btn {
+            background: #E8A735;
+            color: #2E3A2A;
+            margin-top: 0.5rem;
+        }
+        .growth-reflection {
+            background: linear-gradient(135deg, #1A6B5A, #0e4d40);
+            border-radius: 24px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            color: white;
+        }
+        .growth-reflection h2 {
+            color: #E8A735;
+            border-left-color: #E8A735;
+        }
+        .growth-reflection textarea {
+            background: white;
+            border: none;
+        }
+        .progress-badge {
+            display: inline-block;
+            margin-left: 1rem;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            background: #FFF3E0;
+            color: #E8A735;
+        }
+        .progress-complete {
+            background: #E8F5E9;
+            color: #1A6B5A;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .toast-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1A6B5A;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            animation: fadeInUp 0.3s ease;
+        }
+        .protocol-tip {
+            background: #FFF3E0;
+            border-left: 3px solid #E8A735;
+            padding: 0.5rem;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: #B33A3A;
+            text-align: center;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+        @media (max-width: 480px) {
+            .option-row {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="course-card">
+    <div class="header-tag">
+        <span>THE RESILIENCE TOOLKIT</span>
+        <span class="user-badge" id="userBadge">👤 Loading...</span>
+    </div>
+    
+    <div class="module-header">
+        <span class="module-title">⏰ Module 6: The 7 AM Protocol</span>
+        <span class="module-time">⏱️ 7 minutes</span>
+    </div>
+    
+    <h2>The 7 AM Protocol - Strategic Decision Scripts</h2>
+    <div class="scenario-card">
+        <p><strong>When a shock hits, your staff should not wait for you to wake up or finish a meeting.</strong></p>
+        <p>They should have a <strong>pre-authorized script</strong> to begin the "Adaptive Pivot."</p>
+    </div>
+    
+    <h2>In Case of Logistics Delay (e.g., food shipment arrival)</h2>
+    <div class="logistics-card">
+        <p><strong>📌 Use this when:</strong> Trucks are delayed but beneficiaries are already prepared to move to the distribution site.</p>
+        <p style="margin-top: 0.8rem;"><strong>🔄 The Reframe:</strong> Move from "Wait for the truck" to "Manage the Expectation."</p>
+        <p style="margin-top: 0.8rem;"><strong>⏰ If the supply chain has shifted by 72 hours:</strong></p>
+        <p style="margin-top: 0.5rem; font-style: italic; background: #FFF3E0; padding: 0.8rem; border-radius: 12px;">
+            "Our mission today is not food distribution; our mission today is to deliver information to beneficiaries and notify them. Start contacting community leaders now."
+        </p>
+    </div>
+    
+    <div class="section-header">
+        <h2 style="margin: 0; border-left: none; padding-left: 0;">📋 The 7 AM Protocol - Pocket Card</h2>
+        <span class="progress-badge" id="crisisProgress">0/4 answered</span>
+    </div>
+    <p>You receive four messages in rapid succession. For each, select the correct 7 AM script.</p>
+    
+    <!-- Crisis 1 -->
+    <div class="crisis-card" id="crisis1">
+        <div class="crisis-title">⚠️ Crisis 1 of 4 - Flash Flood</div>
+        <p><em>"Flash flood. The office is under 1 meter of water. Paper records destroyed."</em></p>
+        <div class="option-group">
+            <div class="option-row" data-crisis="1" data-option="A">
+                <div class="option-radio">○</div>
+                <div class="option-text">"Close the office indefinitely. Everyone go home."</div>
+            </div>
+            <div class="option-row" data-crisis="1" data-option="B">
+                <div class="option-radio">○</div>
+                <div class="option-text">"Records are gone. People are here. What records exist elsewhere?"</div>
+            </div>
+            <div class="option-row" data-crisis="1" data-option="C">
+                <div class="option-radio">○</div>
+                <div class="option-text">"Blame the maintenance team. Demand an investigation."</div>
+            </div>
+        </div>
+        <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <!-- Crisis 2 -->
+    <div class="crisis-card" id="crisis2">
+        <div class="crisis-title">📋 Crisis 2 of 4 - Audit Threat</div>
+        <p><em>"Preliminary audit found discrepancies. Not your fault. You have 48 hours to respond."</em></p>
+        <div class="option-group">
+            <div class="option-row" data-crisis="2" data-option="A">
+                <div class="option-radio">○</div>
+                <div class="option-text">"Panic. Call a lawyer. Call HQ. Call everyone."</div>
+            </div>
+            <div class="option-row" data-crisis="2" data-option="B">
+                <div class="option-radio">○</div>
+                <div class="option-text">"Blame is useless. Evidence is useful. Everyone bring facts in 2 hours."</div>
+            </div>
+            <div class="option-row" data-crisis="2" data-option="C">
+                <div class="option-radio">○</div>
+                <div class="option-text">"Ignore it. Hope it goes away."</div>
+            </div>
+        </div>
+        <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <!-- Crisis 3 -->
+    <div class="crisis-card" id="crisis3">
+        <div class="crisis-title">⚠️ Crisis 3 of 4 - Kidnapping Risk</div>
+        <p><em>"Intelligence suggests two of your national staff are on a kidnapping list. You cannot tell them why they are being reassigned."</em></p>
+        <div class="option-group">
+            <div class="option-row" data-crisis="3" data-option="A">
+                <div class="option-radio">○</div>
+                <div class="option-text">"Tell them the truth and risk panic and abandonment."</div>
+            </div>
+            <div class="option-row" data-crisis="3" data-option="B">
+                <div class="option-radio">○</div>
+                <div class="option-text">"Reassign them for 'operational reasons.' Protect without panic."</div>
+            </div>
+            <div class="option-row" data-crisis="3" data-option="C">
+                <div class="option-radio">○</div>
+                <div class="option-text">"Do nothing. Hope the intelligence is wrong."</div>
+            </div>
+        </div>
+        <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <!-- Crisis 4 -->
+    <div class="crisis-card" id="crisis4">
+        <div class="crisis-title">📡 Crisis 4 of 4 - Communication Blackout</div>
+        <p><em>"No phone, no internet, no radio for 48 hours. No contact with HQ, security, or other teams."</em></p>
+        <div class="option-group">
+            <div class="option-row" data-crisis="4" data-option="A">
+                <div class="option-radio">○</div>
+                <div class="option-text">"Wait for communication to return. Do nothing."</div>
+            </div>
+            <div class="option-row" data-crisis="4" data-option="B">
+                <div class="option-radio">○</div>
+                <div class="option-text">"No contact with outside. We make decisions together. What is the most urgent problem?"</div>
+            </div>
+            <div class="option-row" data-crisis="4" data-option="C">
+                <div class="option-radio">○</div>
+                <div class="option-text">"Send a runner on a dangerous road."</div>
+            </div>
+        </div>
+        <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <div class="section-header">
+        <h2 style="margin: 0; border-left: none; padding-left: 0;">📝 Create Your Own Protocol</h2>
+        <span class="progress-badge" id="protocolProgress">0/3 completed</span>
+    </div>
+    <div class="scenario-card">
+        <div class="form-group">
+            <label>Step 1: The Shock</label>
+            <input type="text" id="shockInput" placeholder="Describe the crisis...">
+        </div>
+        <div class="form-group">
+            <label>Step 2: The Limiting Frame to Avoid</label>
+            <input type="text" id="limitingFrameInput" placeholder="Describe the limiting frame...">
+        </div>
+        <div class="form-group">
+            <label>Step 3: Your 7 AM Protocol Script</label>
+            <textarea id="protocolScript" rows="4" placeholder="Write your protocol script..."></textarea>
+        </div>
+        <div class="protocol-tip">
+            ✨ Tip: Keep your protocol very short — one sentence that the driver and field staff can understand immediately.
+        </div>
+        <button id="saveProtocolBtn">💾 Save My Protocol</button>
+        <div id="protocolFeedback" class="feedback"></div>
+    </div>
+    
+    <div class="pocket-card" id="pocketCard" style="display: block;">
+        <h3>📋 THE 7 AM PROTOCOL</h3>
+        <hr>
+        <p><strong>🌊 Flash Flood:</strong><br>"Records are gone. People are here. What records exist elsewhere?"</p>
+        <p><strong>📋 Audit Threat:</strong><br>"Blame is useless. Evidence is useful. Everyone bring facts in 2 hours."</p>
+        <p><strong>⚠️ Kidnapping Risk:</strong><br>"Reassign them for operational reasons. Protect without panic."</p>
+        <p><strong>📡 Communication Blackout:</strong><br>"No contact with outside. We make decisions together. What is the most urgent problem?"</p>
+        <hr>
+        <p><strong>📌 My Protocol:</strong><br><span id="myProtocolDisplay"></span></p>
+        <button id="downloadCardBtn" class="download-btn">📥 Download Pocket Card</button>
+    </div>
+    
+    <div class="section-header">
+        <h2 style="margin: 0; border-left: none; padding-left: 0;">🌱 Growth Reflection</h2>
+        <span class="progress-badge" id="reflectionProgress">0/2 completed</span>
+    </div>
+    <div class="growth-reflection" id="growthReflection">
+        <div class="form-group">
+            <label style="color:#E8A735;">"What is the most important thing you learned about yourself as a leader?"</label>
+            <textarea id="leadershipLearning" rows="4" placeholder="Take a moment to reflect..."></textarea>
+        </div>
+        <div class="form-group">
+            <label style="color:#E8A735;">"What will you do differently tomorrow at 7 AM?"</label>
+            <textarea id="tomorrowAction" rows="4" placeholder="Be specific about your first small change..."></textarea>
+        </div>
+        <button id="saveReflectionBtn" style="background:#E8A735; color:#2E3A2A;">💾 Save Reflection</button>
+        <div id="reflectionFeedback" class="feedback"></div>
+    </div>
+    
+    <div class="module-nav">
+        <button class="secondary" id="backToModule5Btn">← Back to Module 5</button>
+        <button id="nextToCertificateBtn">🎓 Certificate →</button>
+    </div>
+    
+    <div class="footer-note">Module 6 of The Resilience Toolkit</div>
+    <div class="reset-link"><a id="resetDataLink">↺ Reset Module 6 Data</a></div>
+</div>
+
+<script>
+// ============================================
+// GOOGLE SHEETS WEB APP URL
+// ============================================
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
+
+// ============================================
+// GET USER DATA - EXPANDED VERSION
+// ============================================
+function getUserData() {
+    let name = '', email = '', position = '';
+    
+    console.log('🔍 Searching for user data in localStorage...');
+    console.log('All localStorage keys:', Object.keys(localStorage));
+    
+    // 1. Check individual fields
+    let n = localStorage.getItem('course_user_name');
+    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'Your Name' && n.trim() !== '') {
+        name = n.trim();
+        email = (localStorage.getItem('course_user_email') || '').trim();
+        position = (localStorage.getItem('course_user_position') || '').trim();
+        console.log('✅ Found from individual fields:', name);
+    }
+    
+    // 2. Check course_user object
+    if (!name || name === 'Your Name') {
+        let user = localStorage.getItem('course_user');
+        if (user) {
+            try { 
+                let p = JSON.parse(user); 
+                if (p && p.name && p.name !== 'Guest' && p.name !== 'Your Name' && p.name.trim() !== '') {
+                    name = p.name.trim();
+                    email = (p.email || '').trim();
+                    position = (p.position || '').trim();
+                    console.log('✅ Found from course_user:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 3. Check resilience_users array
+    if (!name || name === 'Your Name') {
+        let users = localStorage.getItem('resilience_users');
+        if (users) {
+            try { 
+                let p = JSON.parse(users); 
+                if (Array.isArray(p) && p.length > 0) {
+                    for (let i = p.length - 1; i >= 0; i--) {
+                        if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'Your Name' && p[i].name.trim() !== '') {
+                            name = p[i].name.trim();
+                            email = (p[i].email || '').trim();
+                            position = (p[i].position || '').trim();
+                            console.log('✅ Found from resilience_users array:', name);
+                            break;
+                        }
+                    }
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 4. Check module1_answers for user data
+    if (!name || name === 'Your Name') {
+        let module1Answers = localStorage.getItem('module1_answers');
+        if (module1Answers) {
+            try {
+                let m1 = JSON.parse(module1Answers);
+                if (m1.userName && m1.userName !== 'Guest' && m1.userName !== 'Your Name') {
+                    name = m1.userName;
+                    email = m1.userEmail || '';
+                    position = m1.userPosition || '';
+                    console.log('✅ Found from module1_answers:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 5. Check module2_answers for user data
+    if (!name || name === 'Your Name') {
+        let module2Answers = localStorage.getItem('module2_answers');
+        if (module2Answers) {
+            try {
+                let m2 = JSON.parse(module2Answers);
+                if (m2.userName && m2.userName !== 'Guest' && m2.userName !== 'Your Name') {
+                    name = m2.userName;
+                    email = m2.userEmail || '';
+                    position = m2.userPosition || '';
+                    console.log('✅ Found from module2_answers:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 6. Check module3_answers for user data
+    if (!name || name === 'Your Name') {
+        let module3Answers = localStorage.getItem('module3_answers');
+        if (module3Answers) {
+            try {
+                let m3 = JSON.parse(module3Answers);
+                if (m3.userName && m3.userName !== 'Guest' && m3.userName !== 'Your Name') {
+                    name = m3.userName;
+                    email = m3.userEmail || '';
+                    position = m3.userPosition || '';
+                    console.log('✅ Found from module3_answers:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 7. Check module3_1_data for user data
+    if (!name || name === 'Your Name') {
+        let module31Data = localStorage.getItem('module3_1_data');
+        if (module31Data) {
+            try {
+                let m31 = JSON.parse(module31Data);
+                if (m31.userName && m31.userName !== 'Guest' && m31.userName !== 'Your Name') {
+                    name = m31.userName;
+                    email = m31.userEmail || '';
+                    position = m31.userPosition || '';
+                    console.log('✅ Found from module3_1_data:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 8. Check module4_answers for user data
+    if (!name || name === 'Your Name') {
+        let module4Answers = localStorage.getItem('module4_answers');
+        if (module4Answers) {
+            try {
+                let m4 = JSON.parse(module4Answers);
+                if (m4.userName && m4.userName !== 'Guest' && m4.userName !== 'Your Name') {
+                    name = m4.userName;
+                    email = m4.userEmail || '';
+                    position = m4.userPosition || '';
+                    console.log('✅ Found from module4_answers:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 9. Check module5_data for user data
+    if (!name || name === 'Your Name') {
+        let module5Data = localStorage.getItem('module5_data');
+        if (module5Data) {
+            try {
+                let m5 = JSON.parse(module5Data);
+                if (m5.userName && m5.userName !== 'Guest' && m5.userName !== 'Your Name') {
+                    name = m5.userName;
+                    email = m5.userEmail || '';
+                    position = m5.userPosition || '';
+                    console.log('✅ Found from module5_data:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 10. Final fallback - PROMPT USER if still not found
+    if (!name || name === 'Your Name' || name === 'Guest') {
+        console.log('⚠️ No user data found, prompting user...');
+        name = prompt('👤 Please enter your full name:');
+        email = prompt('📧 Please enter your email address:');
+        if (name && name.trim() !== '') {
+            localStorage.setItem('course_user_name', name.trim());
+        }
+        if (email && email.trim() !== '') {
+            localStorage.setItem('course_user_email', email.trim());
+        }
+        name = name || 'Guest';
+        email = email || 'guest@example.com';
+    }
+    
+    const result = { 
+        name: name, 
+        email: email, 
+        position: position || 'Not specified' 
+    };
+    
+    console.log('👤 Final user data:', result);
+    return result;
+}
+
+// Display user name in badge
+const currentUser = getUserData();
+const userBadge = document.getElementById('userBadge');
+if (userBadge) {
+    if (currentUser.name !== 'Guest') {
+        userBadge.innerText = `👤 ${currentUser.name}`;
+    } else {
+        userBadge.innerText = `👤 Learner`;
+    }
+}
+
+function showToast(message, isError = false) {
+    const existing = document.querySelector('.toast-notification');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.style.background = isError ? '#C0392B' : '#1A6B5A';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => { if (toast) toast.remove(); }, 3000);
+}
+
+// ============================================
+// MODULE 6 JAVASCRIPT - WITH PROGRESS TRACKING
+// ============================================
+var correctAnswers = { 1: 'B', 2: 'B', 3: 'B', 4: 'B' };
+var feedbackMessages = {
+    1: '✅ Correct. Records can be recreated. People cannot.',
+    2: '✅ Correct. Blame stops learning. Evidence starts solutions.',
+    3: '✅ Correct. Protection without panic is leadership.',
+    4: '✅ Correct. Isolation is not paralysis. Your team is your resource.'
+};
+var incorrectMessages = {
+    1: '❌ Correct answer: "Records are gone. People are here. What records exist elsewhere?"',
+    2: '❌ Correct answer: "Blame is useless. Evidence is useful. Everyone bring facts in 2 hours."',
+    3: '❌ Correct answer: "Reassign them for operational reasons. Protect without panic."',
+    4: '❌ Correct answer: "No contact with outside. We make decisions together."'
+};
+
+var selectedAnswers = { 1: null, 2: null, 3: null, 4: null };
+var protocolSaved = false;
+var reflectionSaved = false;
+
+// Progress tracking functions
+function updateCrisisProgress() {
+    let answered = 0;
+    for (let i = 1; i <= 4; i++) {
+        if (selectedAnswers[i]) answered++;
+    }
+    const progressSpan = document.getElementById('crisisProgress');
+    if (progressSpan) {
+        progressSpan.textContent = `${answered}/4 answered`;
+        if (answered === 4) {
+            progressSpan.className = 'progress-badge progress-complete';
+        } else {
+            progressSpan.className = 'progress-badge';
+        }
+    }
+    return answered === 4;
+}
+
+function updateProtocolProgress() {
+    const shock = document.getElementById('shockInput')?.value.trim() || '';
+    const limitingFrame = document.getElementById('limitingFrameInput')?.value.trim() || '';
+    const protocolScript = document.getElementById('protocolScript')?.value.trim() || '';
+    
+    let completed = 0;
+    if (shock) completed++;
+    if (limitingFrame) completed++;
+    if (protocolScript) completed++;
+    
+    const progressSpan = document.getElementById('protocolProgress');
+    if (progressSpan) {
+        progressSpan.textContent = `${completed}/3 completed`;
+        if (completed === 3) {
+            progressSpan.className = 'progress-badge progress-complete';
+        } else {
+            progressSpan.className = 'progress-badge';
+        }
+    }
+    return completed === 3;
+}
+
+function updateReflectionProgress() {
+    const leadershipLearning = document.getElementById('leadershipLearning')?.value.trim() || '';
+    const tomorrowAction = document.getElementById('tomorrowAction')?.value.trim() || '';
+    
+    let completed = 0;
+    if (leadershipLearning) completed++;
+    if (tomorrowAction) completed++;
+    
+    const progressSpan = document.getElementById('reflectionProgress');
+    if (progressSpan) {
+        progressSpan.textContent = `${completed}/2 completed`;
+        if (completed === 2) {
+            progressSpan.className = 'progress-badge progress-complete';
+        } else {
+            progressSpan.className = 'progress-badge';
+        }
+    }
+    return completed === 2;
+}
+
+function isAllRequiredCompleted() {
+    const crisisComplete = updateCrisisProgress();
+    const protocolComplete = updateProtocolProgress();
+    const reflectionComplete = updateReflectionProgress();
+    return crisisComplete && protocolComplete && reflectionComplete;
+}
+
+// Crisis selection handlers
+document.querySelectorAll('.option-row').forEach(function(row) {
+    row.addEventListener('click', function() {
+        var crisisId = this.getAttribute('data-crisis');
+        var option = this.getAttribute('data-option');
+        selectedAnswers[crisisId] = option;
+        var parentGroup = this.parentElement;
+        parentGroup.querySelectorAll('.option-row').forEach(function(r) {
+            r.classList.remove('selected');
+            var radio = r.querySelector('.option-radio');
+            if (radio) radio.textContent = '○';
+        });
+        this.classList.add('selected');
+        var radioSpan = this.querySelector('.option-radio');
+        if (radioSpan) radioSpan.textContent = '●';
+        localStorage.setItem('module6_crisis_' + crisisId + '_answer', option);
+        var feedbackDiv = document.getElementById('feedback' + crisisId);
+        var isCorrect = (option === correctAnswers[crisisId]);
+        feedbackDiv.innerHTML = isCorrect ? feedbackMessages[crisisId] : incorrectMessages[crisisId];
+        feedbackDiv.style.color = isCorrect ? '#1A6B5A' : '#B33A3A';
+        feedbackDiv.style.background = isCorrect ? '#E8F5E9' : '#FFEBEE';
+        feedbackDiv.style.display = 'block';
+        saveModule6Data();
+        updateCrisisProgress();
+    });
+});
+
+function saveModule6Data() {
+    var data = {
+        crisis1: selectedAnswers[1],
+        crisis2: selectedAnswers[2],
+        crisis3: selectedAnswers[3],
+        crisis4: selectedAnswers[4],
+        shock: document.getElementById('shockInput')?.value || '',
+        limitingFrame: document.getElementById('limitingFrameInput')?.value || '',
+        protocolScript: document.getElementById('protocolScript')?.value || '',
+        leadershipLearning: document.getElementById('leadershipLearning')?.value || '',
+        tomorrowAction: document.getElementById('tomorrowAction')?.value || '',
+        protocolSaved: protocolSaved,
+        reflectionSaved: reflectionSaved,
+        lastUpdated: new Date().toISOString()
+    };
+    localStorage.setItem('module6_data', JSON.stringify(data));
+}
+
+function loadModule6Data() {
+    var saved = localStorage.getItem('module6_data');
+    if (saved) {
+        try {
+            var data = JSON.parse(saved);
+            if (data.crisis1) selectedAnswers[1] = data.crisis1;
+            if (data.crisis2) selectedAnswers[2] = data.crisis2;
+            if (data.crisis3) selectedAnswers[3] = data.crisis3;
+            if (data.crisis4) selectedAnswers[4] = data.crisis4;
+            if (data.shock) document.getElementById('shockInput').value = data.shock;
+            if (data.limitingFrame) document.getElementById('limitingFrameInput').value = data.limitingFrame;
+            if (data.protocolScript) document.getElementById('protocolScript').value = data.protocolScript;
+            if (data.leadershipLearning) document.getElementById('leadershipLearning').value = data.leadershipLearning;
+            if (data.tomorrowAction) document.getElementById('tomorrowAction').value = data.tomorrowAction;
+            if (data.protocolSaved) protocolSaved = data.protocolSaved;
+            if (data.reflectionSaved) reflectionSaved = data.reflectionSaved;
+            
+            for (var i = 1; i <= 4; i++) {
+                if (selectedAnswers[i]) {
+                    var selectedRow = document.querySelector('.option-row[data-crisis="' + i + '"][data-option="' + selectedAnswers[i] + '"]');
+                    if (selectedRow) {
+                        selectedRow.classList.add('selected');
+                        var radioSpan = selectedRow.querySelector('.option-radio');
+                        if (radioSpan) radioSpan.textContent = '●';
+                    }
+                }
+            }
+        } catch(e) {}
+    }
+    updateCrisisProgress();
+    updateProtocolProgress();
+    updateReflectionProgress();
+}
+
+document.getElementById('saveProtocolBtn').addEventListener('click', function() {
+    var shock = document.getElementById('shockInput').value.trim();
+    var limitingFrame = document.getElementById('limitingFrameInput').value.trim();
+    var protocolScript = document.getElementById('protocolScript').value.trim();
+    if (!shock || !limitingFrame || !protocolScript) { 
+        alert('Please complete all three fields.'); 
+        return; 
+    }
+    protocolSaved = true;
+    saveModule6Data();
+    document.getElementById('myProtocolDisplay').innerHTML = '<strong>' + escapeHtml(shock) + '</strong><br>' + escapeHtml(protocolScript);
+    var feedbackDiv = document.getElementById('protocolFeedback');
+    feedbackDiv.innerHTML = '✅ Protocol saved!';
+    feedbackDiv.style.display = 'block';
+    updateProtocolProgress();
+    setTimeout(function() { feedbackDiv.style.display = 'none'; }, 3000);
+});
+
+// ============================================
+// SAVE REFLECTION BUTTON - NOW SHOWS FEEDBACK
+// ============================================
+document.getElementById('saveReflectionBtn').addEventListener('click', function() {
+    var leadershipLearning = document.getElementById('leadershipLearning').value.trim();
+    var tomorrowAction = document.getElementById('tomorrowAction').value.trim();
+    
+    if (!leadershipLearning || !tomorrowAction) { 
+        alert('Please complete both reflection questions.'); 
+        return; 
+    }
+    
+    reflectionSaved = true;
+    saveModule6Data();
+    
+    var feedbackDiv = document.getElementById('reflectionFeedback');
+    feedbackDiv.innerHTML = '✅ Reflection saved!';
+    feedbackDiv.style.display = 'block';
+    updateReflectionProgress();
+    
+    setTimeout(function() { 
+        feedbackDiv.style.display = 'none'; 
+    }, 3000);
+});
+
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+    });
+}
+
+document.getElementById('downloadCardBtn').addEventListener('click', function() {
+    var content = "THE 7 AM PROTOCOL - Pocket Card\n\n";
+    content += "Flash Flood:\n\"Records are gone. People are here. What records exist elsewhere?\"\n\n";
+    content += "Audit Threat:\n\"Blame is useless. Evidence is useful. Everyone bring facts in 2 hours.\"\n\n";
+    content += "Kidnapping Risk:\n\"Reassign them for operational reasons. Protect without panic.\"\n\n";
+    content += "Communication Blackout:\n\"No contact with outside. We make decisions together. What is the most urgent problem?\"\n\n";
+    var protocolScript = document.getElementById('protocolScript').value.trim();
+    if (protocolScript) content += "My Protocol:\n" + protocolScript + "\n\n";
+    var blob = new Blob([content], { type: 'text/plain' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = '7am_protocol.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+});
+
+// Input listeners for progress updates
+document.getElementById('shockInput').addEventListener('input', function() { updateProtocolProgress(); saveModule6Data(); });
+document.getElementById('limitingFrameInput').addEventListener('input', function() { updateProtocolProgress(); saveModule6Data(); });
+document.getElementById('protocolScript').addEventListener('input', function() { updateProtocolProgress(); saveModule6Data(); });
+document.getElementById('leadershipLearning').addEventListener('input', function() { updateReflectionProgress(); saveModule6Data(); });
+document.getElementById('tomorrowAction').addEventListener('input', function() { updateReflectionProgress(); saveModule6Data(); });
+
+// ============================================
+// SEND DATA TO GOOGLE SHEETS - PROMISE VERSION
+// ============================================
+function sendModule6DataToSheet() {
+    const userData = getUserData();
+    const payload = {
+        module: 'Module 6',
+        language: 'en',
+        userName: userData.name,
+        userEmail: userData.email,
+        userPosition: userData.position,
+        timestamp: new Date().toISOString(),
+        answers: {
+            crisis1: selectedAnswers[1] || 'Not answered',
+            crisis2: selectedAnswers[2] || 'Not answered',
+            crisis3: selectedAnswers[3] || 'Not answered',
+            crisis4: selectedAnswers[4] || 'Not answered',
+            shock: document.getElementById('shockInput')?.value.trim() || 'Not answered',
+            limitingFrame: document.getElementById('limitingFrameInput')?.value.trim() || 'Not answered',
+            protocolScript: document.getElementById('protocolScript')?.value.trim() || 'Not answered',
+            leadershipLearning: document.getElementById('leadershipLearning')?.value.trim() || 'Not answered',
+            tomorrowAction: document.getElementById('tomorrowAction')?.value.trim() || 'Not answered'
+        }
+    };
+    
+    console.log('📤 Sending Module 6 data for user:', userData.name);
+    
+    return new Promise((resolve) => {
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8',
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('✅ Module 6 data sent successfully:', data);
+            resolve(true);
+        })
+        .catch(error => {
+            console.log('❌ Fetch error:', error);
+            // Fallback to XHR
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+            xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    console.log('✅ Module 6 data sent (XHR fallback)');
+                    resolve(true);
+                } else {
+                    console.log('⚠️ Module 6 response status:', xhr.status);
+                    resolve(false);
+                }
+            };
+            xhr.onerror = function() {
+                console.log('❌ Error sending Module 6 data');
+                resolve(false);
+            };
+            xhr.send(JSON.stringify(payload));
+        });
+        
+        // Timeout fallback
+        setTimeout(() => {
+            console.log('⏰ Timeout - continuing anyway');
+            resolve(true);
+        }, 3000);
+    });
+}
+
+// ============================================
+// GO TO CERTIFICATE - UPDATED TO WAIT FOR DATA
+// ============================================
+async function goToCertificate() {
+    // Check if all requirements are met
+    const crisisComplete = updateCrisisProgress();
+    const protocolComplete = updateProtocolProgress();
+    const reflectionComplete = updateReflectionProgress();
+    
+    if (!crisisComplete) {
+        showToast('⚠️ Please answer all 4 crisis scenarios before continuing.', true);
+        return;
+    }
+    
+    if (!protocolComplete) {
+        showToast('⚠️ Please complete your own 7 AM Protocol (all 3 fields) before continuing.', true);
+        return;
+    }
+    
+    if (!reflectionComplete) {
+        showToast('⚠️ Please complete both Growth Reflection questions before continuing.', true);
+        return;
+    }
+    
+    // Save to localStorage
+    saveModule6Data();
+    
+    showToast('💾 Saving your answers...');
+    
+    // Wait for data to be sent before redirecting
+    const saved = await sendModule6DataToSheet();
+    
+    if (saved) {
+        localStorage.setItem('module6_completed', 'true');
+        showToast('✅ Course completed! Redirecting...');
+        
+        setTimeout(() => {
+            window.location.href = 'Certificate.html';
+        }, 800);
+    } else {
+        localStorage.setItem('module6_completed', 'true');
+        showToast('⚠️ Progress saved locally. Continuing...', true);
+        
+        setTimeout(() => {
+            window.location.href = 'Certificate.html';
+        }, 800);
+    }
+}
+
+// Navigation
+document.getElementById('backToModule5Btn')?.addEventListener('click', function() {
+    window.location.href = 'module5.html';
+});
+
+document.getElementById('nextToCertificateBtn')?.addEventListener('click', goToCertificate);
+
+document.getElementById('resetDataLink')?.addEventListener('click', function(e) {
+    e.preventDefault();
+    if (confirm('Reset all Module 6 progress? This cannot be undone.')) {
+        localStorage.removeItem('module6_data');
+        localStorage.removeItem('module6_completed');
+        for (var i = 1; i <= 4; i++) {
+            localStorage.removeItem('module6_crisis_' + i + '_answer');
+        }
+        location.reload();
+    }
+});
+
+// Load saved data on page load
+loadModule6Data();
+</script>
+</body>
+</html>
