@@ -83,7 +83,7 @@
 
 <script>
     // ========== GOOGLE SCRIPT URL ==========
-    const YOUR_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRpYJkNCWMOkFObFizvNjtTJLes_actPUKK2f9R3Udr9GsSK4lD209OthpjRL59R2S8g/exec';
+    const YOUR_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzVD8WJkgtcg51Onjb0Uu5DQZqvHsoXZlLJ35hGczmwXKbV_xsngRlKi_f4RJlFA30XKQ/exec';
     const BASE_URL = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
 
     function simpleHash(str) {
@@ -178,7 +178,7 @@
         }, 1500);
     }
 
-    // ========== تفعيل الحساب من رابط التفعيل ==========
+    // ========== التفعيل التلقائي من رابط الإيميل ==========
     function autoVerify() {
         const urlParams = new URLSearchParams(window.location.search);
         const verifyEmail = urlParams.get('verify');
@@ -197,16 +197,28 @@
                 window.history.replaceState({}, document.title, window.location.pathname);
                 
                 errDiv.className = 'success-box';
-                errDiv.innerHTML = `✅ تم تفعيل بريدك الإلكتروني! الرجاء إدخال كلمة المرور.`;
+                if (user.language === 'ar') {
+                    errDiv.innerHTML = `✅ تم تفعيل بريدك الإلكتروني! الرجاء إدخال كلمة المرور.`;
+                } else {
+                    errDiv.innerHTML = `✅ Your email has been verified! Please enter your password.`;
+                }
                 errDiv.style.display = 'block';
             } else if (user && user.verified) {
                 document.getElementById('loginEmail').value = verifyEmail;
                 errDiv.className = 'info-box';
-                errDiv.innerHTML = `ℹ️ هذا البريد مفعل بالفعل. الرجاء إدخال كلمة المرور.`;
+                if (user.language === 'ar') {
+                    errDiv.innerHTML = `ℹ️ هذا البريد مفعل بالفعل. الرجاء إدخال كلمة المرور.`;
+                } else {
+                    errDiv.innerHTML = `ℹ️ This email is already verified. Please enter your password.`;
+                }
                 errDiv.style.display = 'block';
             } else {
                 errDiv.className = 'error-box';
-                errDiv.innerHTML = `❌ البريد الإلكتروني غير مسجل. الرجاء التسجيل أولاً.`;
+                if (user?.language === 'ar') {
+                    errDiv.innerHTML = `❌ البريد الإلكتروني غير مسجل. الرجاء التسجيل أولاً.`;
+                } else {
+                    errDiv.innerHTML = `❌ Email not found. Please register first.`;
+                }
                 errDiv.style.display = 'block';
             }
         }
@@ -219,7 +231,7 @@
         document.getElementById('loginEmail').value = emailParam;
     }
 
-    // استدعاء دالة التفعيل
+    // استدعاء دالة التفعيل التلقائي
     autoVerify();
 
     document.getElementById('loginBtn').onclick = login;
@@ -229,7 +241,7 @@
     if (loginEmail) loginEmail.addEventListener('keypress', (e) => { if (e.key === 'Enter') login(); });
     if (loginPass) loginPass.addEventListener('keypress', (e) => { if (e.key === 'Enter') login(); });
 
-    console.log('✅ Login page ready');
+    console.log('✅ Login page ready with auto-verify');
 </script>
 </body>
 </html>
