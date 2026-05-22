@@ -58,9 +58,7 @@
         .warning-box { background: #FFF3E0; color: #E8A735; padding: 0.7rem; border-radius: 40px; margin-top: 0.9rem; font-size: 0.85rem; display: none; text-align: center; }
         .info-box { background: #E0F2E9; color: #146B5C; padding: 0.7rem; border-radius: 40px; margin-top: 0.9rem; font-size: 0.85rem; display: none; text-align: center; }
         .footer-note { font-size: 0.7rem; color: #7C8B9A; margin-top: 1rem; }
-        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1A6B5A; color: white; padding: 12px 24px; border-radius: 60px; z-index: 2000; font-size: 0.9rem; animation: slideUp 0.3s ease; box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
         @keyframes slideUp { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
-        .verified-badge { display: inline-block; background: #1A6B5A20; color: #1A6B5A; padding: 4px 12px; border-radius: 60px; font-size: 0.75rem; margin-left: 8px; }
     </style>
 </head>
 <body>
@@ -84,7 +82,7 @@
 
 <script>
     // ========== GOOGLE SCRIPT URL ==========
-    const YOUR_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzW7wR1VIIlu5s76CaWCD4xsVi6nUns6MKNKrfT-eoEA0XTKrpgBx47EXGqrRxcTuDk/exec';
+    const YOUR_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzQsq0QXT88OaomBCR01-DuXl4XfgqMa14clnrk54Om7Dt4r5wkL5is8UYMKR6fuMcy/exec';
     const BASE_URL = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
 
     function simpleHash(str) {
@@ -97,28 +95,13 @@
         return hash.toString();
     }
 
-    // CRITICAL FIX: Load users from localStorage OR initialize from sessionStorage if coming from registration
-    function loadUsers() {
+    // Display users in localStorage for debugging (remove in production)
+    function debugUsers() {
         let users = JSON.parse(localStorage.getItem('users') || '[]');
-        
-        // Check if we have a pending user from registration (stored in sessionStorage)
-        const pendingUser = sessionStorage.getItem('pendingVerifiedUser');
-        if (pendingUser) {
-            try {
-                const pendingUserData = JSON.parse(pendingUser);
-                const existingIndex = users.findIndex(u => u.email === pendingUserData.email);
-                if (existingIndex === -1) {
-                    users.push(pendingUserData);
-                    localStorage.setItem('users', JSON.stringify(users));
-                    console.log('✅ Pending user added to localStorage:', pendingUserData.email);
-                }
-                // Clear pending after adding
-                sessionStorage.removeItem('pendingVerifiedUser');
-            } catch(e) {
-                console.error('Error loading pending user:', e);
-            }
-        }
-        
+        console.log('📋 Current users in localStorage:', users.length);
+        users.forEach(u => {
+            console.log('  -', u.email, '| Verified:', u.verified, '| Language:', u.language);
+        });
         return users;
     }
 
@@ -142,21 +125,27 @@
             return;
         }
 
-        let users = loadUsers(); // Use the enhanced load function
+        // Get users from localStorage
+        let users = JSON.parse(localStorage.getItem('users') || '[]');
+        console.log('🔍 Looking for user:', email);
+        console.log('📊 Total users in storage:', users.length);
+        
         let user = users.find(u => u.email === email);
 
         if (!user) {
-            errDiv.innerText = '❌ No account found. Please create a new account.';
+            errDiv.innerHTML = '❌ No account found with this email. Please complete registration first. <a href="../index.html" style="color:#1A6B5A;">Register here →</a>';
             errDiv.style.display = 'block';
             return;
         }
 
+        console.log('✅ User found:', user.name, '| Verified:', user.verified);
+
         if (!user.verified) {
             errDiv.className = 'warning-box';
             if (user.language === 'ar') {
-                errDiv.innerHTML = '⚠️ الرجاء تفعيل بريدك الإلكتروني أولاً! تحقق من بريدك الوارد.';
+                errDiv.innerHTML = '⚠️ Please verify your email first! Check your inbox for the verification link.';
             } else {
-                errDiv.innerHTML = '⚠️ Please verify your email first! Check your inbox.';
+                errDiv.innerHTML = '⚠️ Please verify your email first! Check your inbox for the verification link.';
             }
             errDiv.style.display = 'block';
             return;
@@ -169,6 +158,7 @@
             return;
         }
 
+        // Record sign in to Google Sheet
         const signInData = {
             action: 'signin',
             name: user.name,
@@ -191,7 +181,12 @@
 
         localStorage.setItem('currentUser', JSON.stringify(user));
         errDiv.className = 'success-box';
-        errDiv.innerHTML = `✅ Welcome back ${user.name}! Redirecting...`;
+        
+        if (user.language === 'ar') {
+            errDiv.innerHTML = `✅ مرحباً بعودتك ${user.name}! جاري التحويل إلى الدورة...`;
+        } else {
+            errDiv.innerHTML = `✅ Welcome back ${user.name}! Redirecting to course...`;
+        }
         errDiv.style.display = 'block';
 
         setTimeout(() => {
@@ -204,17 +199,17 @@
         }, 1500);
     }
 
-    // ========== FIXED: Auto-verify with improved logic ==========
+    // ========== AUTO VERIFY FROM EMAIL LINK ==========
     (function autoVerify() {
-        console.log('🔍 autoVerify running...');
+        console.log('🔍 Auto-verify running...');
         const urlParams = new URLSearchParams(window.location.search);
         const verifyEmail = urlParams.get('verify');
         
-        console.log('📧 verifyEmail from URL:', verifyEmail);
+        console.log('📧 Verify email from URL:', verifyEmail);
         
         if (verifyEmail) {
-            let users = loadUsers(); // Use enhanced load function
-            console.log('👥 Users found:', users.length);
+            let users = JSON.parse(localStorage.getItem('users') || '[]');
+            console.log('👥 Total users found:', users.length);
             
             let user = users.find(u => u.email === verifyEmail);
             let errDiv = document.getElementById('loginError');
@@ -225,14 +220,13 @@
                 if (!user.verified) {
                     user.verified = true;
                     localStorage.setItem('users', JSON.stringify(users));
-                    localStorage.setItem(`verified_${verifyEmail}`, 'true');
                     console.log('✅ Account verified successfully!');
                     
                     // Auto-fill email
                     document.getElementById('loginEmail').value = verifyEmail;
                     document.getElementById('loginPassword').focus();
                     
-                    // Remove verify param from URL for cleaner experience
+                    // Clean URL
                     window.history.replaceState({}, document.title, window.location.pathname);
                     
                     errDiv.className = 'success-box';
@@ -247,55 +241,32 @@
                     document.getElementById('loginEmail').value = verifyEmail;
                     errDiv.className = 'info-box';
                     if (user.language === 'ar') {
-                        errDiv.innerHTML = `ℹ️ هذا البريد مفعل بالفعل. الرجاء إدخال كلمة المرور للمتابعة.`;
+                        errDiv.innerHTML = `ℹ️ This email is already verified. Please enter your password to continue.`;
                     } else {
                         errDiv.innerHTML = `ℹ️ This email is already verified. Please enter your password to continue.`;
                     }
                     errDiv.style.display = 'block';
                 }
             } else {
-                console.log('❌ User not found for email:', verifyEmail);
-                console.log('💡 Tip: Make sure you completed registration first');
-                
-                // Try to check if this is from a pending registration
-                const pendingUser = sessionStorage.getItem('pendingVerifiedUser');
-                if (pendingUser) {
-                    const pendingData = JSON.parse(pendingUser);
-                    if (pendingData.email === verifyEmail) {
-                        console.log('✅ Found pending user in session storage, verifying now...');
-                        pendingData.verified = true;
-                        users.push(pendingData);
-                        localStorage.setItem('users', JSON.stringify(users));
-                        sessionStorage.removeItem('pendingVerifiedUser');
-                        
-                        document.getElementById('loginEmail').value = verifyEmail;
-                        errDiv.className = 'success-box';
-                        errDiv.innerHTML = `✅ Account verified! Please enter your password to continue.`;
-                        errDiv.style.display = 'block';
-                        return;
-                    }
-                }
+                console.log('❌ User NOT found for email:', verifyEmail);
+                console.log('💡 This means the user registered but data was not saved to localStorage');
                 
                 errDiv.className = 'error-box';
-                errDiv.innerHTML = `❌ Email not found. Please complete registration first. <a href="index.html" style="color:#1A6B5A;">Register here →</a>`;
+                errDiv.innerHTML = `❌ Email not found. Please complete registration first. <a href="../index.html" style="color:#1A6B5A;">Register here →</a>`;
                 errDiv.style.display = 'block';
             }
-        } else {
-            console.log('ℹ️ No verify parameter found in URL');
         }
     })();
 
-    // Handle email parameter from registration redirect
+    // Handle email parameter from registration
     const urlParams = new URLSearchParams(window.location.search);
     const emailParam = urlParams.get('email');
     if (emailParam) {
         document.getElementById('loginEmail').value = emailParam;
-        // Show helpful message
-        let errDiv = document.getElementById('loginError');
-        errDiv.className = 'info-box';
-        errDiv.innerHTML = `📧 Registration complete! Please check your email for verification link. A verification email has been sent to ${emailParam}.`;
-        errDiv.style.display = 'block';
     }
+
+    // Debug: Log all users on page load
+    debugUsers();
 
     document.getElementById('loginBtn').onclick = login;
 
