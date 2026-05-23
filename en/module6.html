@@ -303,6 +303,11 @@
                 flex-wrap: wrap;
             }
         }
+        input::placeholder, textarea::placeholder {
+            color: #aaa;
+            font-style: italic;
+            font-size: 0.85rem;
+        }
     </style>
 </head>
 <body>
@@ -429,16 +434,16 @@
     </div>
     <div class="scenario-card">
         <div class="form-group">
-            <label>Step 1: The Shock</label>
-            <input type="text" id="shockInput" placeholder="Describe the crisis...">
+            <label>Step 1: The Shock (What crisis happens?)</label>
+            <input type="text" id="shockInput" placeholder="Example: 'Sudden checkpoint closure. No vehicles can pass for 3 days.'">
         </div>
         <div class="form-group">
-            <label>Step 2: The Limiting Frame to Avoid</label>
-            <input type="text" id="limitingFrameInput" placeholder="Describe the limiting frame...">
+            <label>Step 2: The Limiting Frame to Avoid (What NOT to do)</label>
+            <input type="text" id="limitingFrameInput" placeholder="Example: 'Do NOT panic and cancel all distributions. Do NOT wait for HQ approval that may never come.'">
         </div>
         <div class="form-group">
-            <label>Step 3: Your 7 AM Protocol Script</label>
-            <textarea id="protocolScript" rows="4" placeholder="Write your protocol script..."></textarea>
+            <label>Step 3: Your 7 AM Protocol Script (What TO do instead)</label>
+            <textarea id="protocolScript" rows="4" placeholder="Example: 'Stop. Breathe. Gather the logistics team. Ask: What communities can we reach on foot or by motorcycle? Start with the closest 3 villages today.'"></textarea>
         </div>
         <div class="protocol-tip">
             ✨ Tip: Keep your protocol very short — one sentence that the driver and field staff can understand immediately.
@@ -629,13 +634,6 @@ function updateReflectionProgress() {
     return completed === 2;
 }
 
-function isAllRequiredCompleted() {
-    const crisisComplete = updateCrisisProgress();
-    const protocolComplete = updateProtocolProgress();
-    const reflectionComplete = updateReflectionProgress();
-    return crisisComplete && protocolComplete && reflectionComplete;
-}
-
 // Crisis selection handlers
 document.querySelectorAll('.option-row').forEach(function(row) {
     row.addEventListener('click', function() {
@@ -733,9 +731,6 @@ document.getElementById('saveProtocolBtn').addEventListener('click', function() 
     setTimeout(function() { feedbackDiv.style.display = 'none'; }, 3000);
 });
 
-// ============================================
-// SAVE REFLECTION BUTTON - NOW SHOWS FEEDBACK
-// ============================================
 document.getElementById('saveReflectionBtn').addEventListener('click', function() {
     var leadershipLearning = document.getElementById('leadershipLearning').value.trim();
     var tomorrowAction = document.getElementById('tomorrowAction').value.trim();
@@ -793,7 +788,7 @@ document.getElementById('leadershipLearning').addEventListener('input', function
 document.getElementById('tomorrowAction').addEventListener('input', function() { updateReflectionProgress(); saveModule6Data(); });
 
 // ============================================
-// SEND DATA TO GOOGLE SHEETS - PROMISE VERSION
+// SEND DATA TO GOOGLE SHEETS
 // ============================================
 function sendModule6DataToSheet() {
     const userData = getUserData();
@@ -839,10 +834,9 @@ function sendModule6DataToSheet() {
 }
 
 // ============================================
-// GO TO CERTIFICATE - UPDATED TO WAIT FOR DATA
+// GO TO CERTIFICATE
 // ============================================
 async function goToCertificate() {
-    // Check if all requirements are met
     const crisisComplete = updateCrisisProgress();
     const protocolComplete = updateProtocolProgress();
     const reflectionComplete = updateReflectionProgress();
@@ -862,12 +856,10 @@ async function goToCertificate() {
         return;
     }
     
-    // Save to localStorage
     saveModule6Data();
     
     showToast('💾 Saving your answers...');
     
-    // Wait for data to be sent before redirecting
     const saved = await sendModule6DataToSheet();
     
     if (saved) {
