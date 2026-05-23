@@ -384,13 +384,13 @@
             <tr><th>Limiting Frame</th><th>Adaptive Frame</th><th>Reframe Question</th></tr>
         </thead>
         <tbody>
-            <tr><td>Victim</td><td>Agent</td><td>"What actions remain possible?"</td></tr>
-            <tr><td>Scarcity</td><td>Abundance</td><td>"What is the smallest feasible action?"</td></tr>
-            <tr><td>Panic</td><td>Curious</td><td>"What is the highest-priority threat?"</td></tr>
-            <tr><td>Fixed</td><td>Growth</td><td>"Who possesses relevant competence?"</td></tr>
-            <tr><td>Expert</td><td>Beginner</td><td>"What assumptions have changed?"</td></tr>
+            <tr><td style="text-align:right;">Victim</div></td><td style="text-align:right;">Agent</div></td><td style="text-align:right;">"What actions remain possible?"</div></td>
+            <tr><td style="text-align:right;">Scarcity</div></td><td style="text-align:right;">Abundance</div></td><td style="text-align:right;">"What is the smallest feasible action?"</div></td>
+            <tr><td style="text-align:right;">Panic</div></td><td style="text-align:right;">Curious</div></td><td style="text-align:right;">"What is the highest-priority threat?"</div></td>
+            <tr><td style="text-align:right;">Fixed</div></td><td style="text-align:right;">Growth</div></td><td style="text-align:right;">"Who possesses relevant competence?"</div></td>
+            <tr><td style="text-align:right;">Expert</div></td><td style="text-align:right;">Beginner</div></td><td style="text-align:right;">"What assumptions have changed?"</div></td>
         </tbody>
-    </table>
+     </table>
     
     <div class="quiz-section">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
@@ -505,94 +505,46 @@ function getUserData() {
     let email = 'guest@example.com';
     let position = 'Not specified';
     
-    console.log('🔍 Searching for user data in localStorage...');
-    
     // 1. Check currentUser first (from intro.html login)
     try {
         let currentUser = localStorage.getItem('currentUser');
         if (currentUser) {
             let user = JSON.parse(currentUser);
             if (user && user.name && user.name !== 'Guest' && user.name.trim() !== '') {
-                name = user.name.trim();
-                email = (user.email || '').trim() || 'guest@example.com';
-                position = (user.position || '').trim() || 'Not specified';
-                console.log('✅ Found from currentUser:', name);
-                return { name, email, position };
-            }
-        }
-    } catch(e) { console.error('Error parsing currentUser:', e); }
-    
-    // 2. Check users array
-    try {
-        let users = JSON.parse(localStorage.getItem('users') || '[]');
-        if (Array.isArray(users) && users.length > 0) {
-            let lastUser = users[users.length - 1];
-            if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name.trim() !== '') {
-                name = lastUser.name.trim();
-                email = (lastUser.email || '').trim() || 'guest@example.com';
-                position = (lastUser.position || '').trim() || 'Not specified';
-                console.log('✅ Found from users array:', name);
-                return { name, email, position };
-            }
-        }
-    } catch(e) { console.error('Error parsing users:', e); }
-    
-    // 3. Check individual fields
-    let n = localStorage.getItem('course_user_name');
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'Your Name' && n.trim() !== '') {
-        name = n.trim();
-        email = (localStorage.getItem('course_user_email') || 'guest@example.com').trim();
-        position = (localStorage.getItem('course_user_position') || 'Not specified').trim();
-        console.log('✅ Found from individual fields:', name);
-        return { name, email, position };
-    }
-    
-    // 4. Check course_user object
-    let user = localStorage.getItem('course_user');
-    if (user) {
-        try { 
-            let p = JSON.parse(user); 
-            if (p && p.name && p.name !== 'Guest' && p.name !== 'Your Name' && p.name.trim() !== '') {
-                name = p.name.trim();
-                email = (p.email || 'guest@example.com').trim();
-                position = (p.position || 'Not specified').trim();
-                console.log('✅ Found from course_user:', name);
-                return { name, email, position };
-            }
-        } catch(e) {}
-    }
-    
-    // 5. Check sessionStorage
-    try {
-        let sessionUser = sessionStorage.getItem('current_user');
-        if (sessionUser) {
-            let p = JSON.parse(sessionUser);
-            if (p && p.name && p.name !== 'Guest' && p.name.trim() !== '') {
-                name = p.name.trim();
-                email = (p.email || 'guest@example.com').trim();
-                position = (p.position || 'Not specified').trim();
-                console.log('✅ Found from sessionStorage:', name);
-                return { name, email, position };
+                return { 
+                    name: user.name.trim(), 
+                    email: (user.email || 'guest@example.com').trim(), 
+                    position: (user.position || 'Not specified').trim() 
+                };
             }
         }
     } catch(e) {}
     
-    // 6. NO PROMPT - just use Guest
-    console.log('⚠️ No user data found, using Guest');
+    // 2. Check users array
+    try {
+        let users = JSON.parse(localStorage.getItem('users') || '[]');
+        if (users.length > 0) {
+            let lastUser = users[users.length - 1];
+            if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name.trim() !== '') {
+                return { 
+                    name: lastUser.name.trim(), 
+                    email: (lastUser.email || 'guest@example.com').trim(), 
+                    position: (lastUser.position || 'Not specified').trim() 
+                };
+            }
+        }
+    } catch(e) {}
+    
+    // 3. Return Guest - NO PROMPT
     return { name: 'Guest', email: 'guest@example.com', position: 'Not specified' };
 }
 
-// Display user name in badge
+// Display user name in badge (silently)
 const currentUser = getUserData();
 const userBadge = document.getElementById('userBadge');
 if (userBadge) {
-    if (currentUser.name !== 'Guest') {
-        userBadge.innerText = `👤 ${currentUser.name}`;
-    } else {
-        userBadge.innerText = `👤 Learner`;
-    }
+    userBadge.innerText = currentUser.name !== 'Guest' ? `👤 ${currentUser.name}` : '👤 Learner';
 }
-console.log('👤 User loaded for Module 2:', currentUser.name);
 
 function showToast(message, isError = false) {
     const existing = document.querySelector('.toast-notification');
@@ -610,40 +562,30 @@ function updateQuizProgress() {
     const q2Answered = document.querySelector('[data-q="shift"] .quiz-option.selected') !== null;
     const q3Answered = document.querySelector('[data-q="account"] .quiz-option.selected') !== null;
     
-    let answeredCount = 0;
-    if (q1Answered) answeredCount++;
-    if (q2Answered) answeredCount++;
-    if (q3Answered) answeredCount++;
+    let answeredCount = (q1Answered ? 1 : 0) + (q2Answered ? 1 : 0) + (q3Answered ? 1 : 0);
     
     const progressSpan = document.getElementById('quizProgress');
     if (progressSpan) {
         progressSpan.textContent = `${answeredCount}/3 answered`;
-        if (answeredCount === 3) {
-            progressSpan.className = 'progress-badge progress-complete';
-        } else {
-            progressSpan.className = 'progress-badge';
-        }
+        progressSpan.className = answeredCount === 3 ? 'progress-badge progress-complete' : 'progress-badge';
     }
-    
     return answeredCount === 3;
 }
 
 function collectAllAnswers() {
-    let managerMindset = '', mindsetShift = '', accountability = '';
-    let flippedCards = [];
     const selMgr = document.querySelector('[data-q="manager"] .quiz-option.selected');
-    if (selMgr) managerMindset = selMgr.getAttribute('data-val');
     const selShift = document.querySelector('[data-q="shift"] .quiz-option.selected');
-    if (selShift) mindsetShift = selShift.getAttribute('data-val');
     const selAcct = document.querySelector('[data-q="account"] .quiz-option.selected');
-    if (selAcct) accountability = selAcct.getAttribute('data-val');
-    document.querySelectorAll('.mindset-card').forEach(card => {
-        if (card.classList.contains('flipped')) flippedCards.push(card.getAttribute('data-mindset') || 'unknown');
+    
+    let flippedCards = [];
+    document.querySelectorAll('.mindset-card.flipped').forEach(card => {
+        flippedCards.push(card.getAttribute('data-mindset') || 'unknown');
     });
+    
     return { 
-        manager_mindset: managerMindset || 'Not answered', 
-        mindset_shift: mindsetShift || 'Not answered', 
-        accountability: accountability || 'Not answered', 
+        manager_mindset: selMgr?.getAttribute('data-val') || 'Not answered', 
+        mindset_shift: selShift?.getAttribute('data-val') || 'Not answered', 
+        accountability: selAcct?.getAttribute('data-val') || 'Not answered', 
         victim_flipped: flippedCards.includes('victim') ? 'Yes' : 'No', 
         scarcity_flipped: flippedCards.includes('scarcity') ? 'Yes' : 'No', 
         panic_flipped: flippedCards.includes('panic') ? 'Yes' : 'No', 
@@ -659,8 +601,6 @@ function saveAnswersToLocal() {
 
 function sendModule2DataToSheet() {
     const userData = getUserData();
-    const answers = collectAllAnswers();
-    
     const payload = { 
         module: 'Module 2', 
         action: 'completed',
@@ -669,129 +609,89 @@ function sendModule2DataToSheet() {
         userEmail: userData.email,
         userPosition: userData.position,
         timestamp: new Date().toISOString(), 
-        answers: answers 
+        answers: collectAllAnswers() 
     };
     
-    console.log('📤 Sending Module 2 data:', payload);
-    
-    return new Promise((resolve) => {
-        fetch(GOOGLE_SCRIPT_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(payload)
-        })
-        .then(() => { console.log('✅ Module 2 data sent'); resolve(true); })
-        .catch(() => {
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', GOOGLE_SCRIPT_URL, true);
-            xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
-            xhr.onload = () => resolve(true);
-            xhr.onerror = () => resolve(false);
-            xhr.send(JSON.stringify(payload));
-        });
-        setTimeout(() => resolve(true), 3000);
+    return fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+    }).catch(() => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+        xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+        xhr.send(JSON.stringify(payload));
     });
 }
 
 async function goToModule3() {
-    const q1Answered = document.querySelector('[data-q="manager"] .quiz-option.selected') !== null;
-    const q2Answered = document.querySelector('[data-q="shift"] .quiz-option.selected') !== null;
-    const q3Answered = document.querySelector('[data-q="account"] .quiz-option.selected') !== null;
-    
-    if (!q1Answered || !q2Answered || !q3Answered) {
+    if (!updateQuizProgress()) {
         showToast('⚠️ Please answer all 3 questions before continuing to Module 3.', true);
         return;
     }
     
     saveAnswersToLocal();
     showToast('💾 Saving your answers...');
-    
     await sendModule2DataToSheet();
     localStorage.setItem('module2_completed', 'true');
     showToast('✅ Progress saved! Redirecting...');
-    
     setTimeout(() => { window.location.href = 'module3.html'; }, 800);
 }
 
 function displayResultsSummary() {
-    const q1Selected = document.querySelector('[data-q="manager"] .quiz-option.selected');
-    const q2Selected = document.querySelector('[data-q="shift"] .quiz-option.selected');
-    const q3Selected = document.querySelector('[data-q="account"] .quiz-option.selected');
-    
-    const q1Answer = q1Selected ? q1Selected.getAttribute('data-val') : null;
-    const q2Answer = q2Selected ? q2Selected.getAttribute('data-val') : null;
-    const q3Answer = q3Selected ? q3Selected.getAttribute('data-val') : null;
+    const q1Answer = document.querySelector('[data-q="manager"] .quiz-option.selected')?.getAttribute('data-val');
+    const q2Answer = document.querySelector('[data-q="shift"] .quiz-option.selected')?.getAttribute('data-val');
+    const q3Answer = document.querySelector('[data-q="account"] .quiz-option.selected')?.getAttribute('data-val');
     
     const isQ1Correct = (q1Answer === 'Victim');
     const isQ2Correct = (q2Answer === 'Victim → Agent');
     const isQ3Correct = (q3Answer === 'I made an assumption. I was wrong. That is on me.');
-    
     const totalCorrect = (isQ1Correct ? 1 : 0) + (isQ2Correct ? 1 : 0) + (isQ3Correct ? 1 : 0);
-    
-    const q1Display = q1Answer ? q1Answer : 'Not answered';
-    const q2Display = q2Answer ? q2Answer : 'Not answered';
-    const q3Display = q3Answer ? q3Answer : 'Not answered';
     
     const container = document.getElementById('resultsSummaryContainer');
     container.style.display = 'block';
     container.innerHTML = `
         <h4>📋 Your Quiz Results · ${totalCorrect}/3 correct</h4>
-        <div class="result-item"><span class="result-badge">Q1: Mindset</span> <span>${escapeHtml(q1Display)}</span> <span class="result-status ${isQ1Correct ? 'status-correct' : 'status-incorrect'}">${isQ1Correct ? '✓ Correct' : '✗ Incorrect'}</span></div>
-        <div class="result-item"><span class="result-badge">Q2: Shift</span> <span>${escapeHtml(q2Display)}</span> <span class="result-status ${isQ2Correct ? 'status-correct' : 'status-incorrect'}">${isQ2Correct ? '✓ Correct' : '✗ Incorrect'}</span></div>
-        <div class="result-item"><span class="result-badge">Q3: Accountability</span> <span>${escapeHtml(q3Display)}</span> <span class="result-status ${isQ3Correct ? 'status-correct' : 'status-incorrect'}">${isQ3Correct ? '✓ Correct' : '✗ Incorrect'}</span></div>
-        <div style="margin-top: 12px; font-size:0.75rem; color:#4B6F86;">💡 Correct answers: Victim | Victim → Agent | "I made an assumption. I was wrong. That is on me."</div>
+        <div class="result-item"><span class="result-badge">Q1:</span> ${q1Answer || 'Not answered'} <span class="result-status ${isQ1Correct ? 'status-correct' : 'status-incorrect'}">${isQ1Correct ? '✓' : '✗'}</span></div>
+        <div class="result-item"><span class="result-badge">Q2:</span> ${q2Answer || 'Not answered'} <span class="result-status ${isQ2Correct ? 'status-correct' : 'status-incorrect'}">${isQ2Correct ? '✓' : '✗'}</span></div>
+        <div class="result-item"><span class="result-badge">Q3:</span> ${q3Answer || 'Not answered'} <span class="result-status ${isQ3Correct ? 'status-correct' : 'status-incorrect'}">${isQ3Correct ? '✓' : '✗'}</span></div>
+        <div style="margin-top: 12px; font-size:0.75rem;">💡 Correct: Victim | Victim → Agent | "I made an assumption. I was wrong. That is on me."</div>
     `;
-    container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-
-function escapeHtml(str) { 
-    if (!str) return ''; 
-    return str.replace(/[&<>]/g, function(m) { 
-        if (m === '&') return '&amp;'; 
-        if (m === '<') return '&lt;'; 
-        if (m === '>') return '&gt;'; 
-        return m; 
-    }); 
 }
 
 function bindEvents() {
-    document.querySelectorAll('[data-q="manager"] .quiz-option, [data-q="shift"] .quiz-option, [data-q="account"] .quiz-option').forEach(opt => {
+    document.querySelectorAll('.quiz-option').forEach(opt => {
         opt.addEventListener('click', () => {
             const parent = opt.parentElement;
             parent.querySelectorAll('.quiz-option').forEach(o => { 
                 o.classList.remove('selected'); 
-                const m = o.querySelector('.option-marker'); 
-                if (m) m.textContent = '○'; 
+                const m = o.querySelector('.option-marker');
+                if (m) m.textContent = '○';
             });
-            opt.classList.add('selected'); 
-            const marker = opt.querySelector('.option-marker'); 
+            opt.classList.add('selected');
+            const marker = opt.querySelector('.option-marker');
             if (marker) marker.textContent = '●';
             
             const qParent = opt.closest('.quiz-card');
-            if (qParent && qParent.querySelector('[data-q="manager"]')) {
-                const selectedVal = opt.getAttribute('data-val');
-                const fbDiv = document.getElementById('managerFb1');
-                const isCorrect = (selectedVal === 'Victim');
-                fbDiv.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
-                fbDiv.innerHTML = isCorrect ? '✅ <strong>Correct!</strong> The manager is exhibiting the Victim mindset — focusing on what\'s impossible.' : '❌ <strong>Incorrect.</strong> The correct answer is "Victim". The statement reflects a victim frame.';
-                fbDiv.style.display = 'block';
-            } else if (qParent && qParent.querySelector('[data-q="shift"]')) {
-                const selectedVal = opt.getAttribute('data-val');
-                const fbDiv = document.getElementById('managerFb2');
-                const isCorrect = (selectedVal === 'Victim → Agent');
-                fbDiv.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
-                fbDiv.innerHTML = isCorrect ? '✅ <strong>Correct!</strong> Shift from Victim to Agent — asking "What actions remain possible?"' : '❌ <strong>Incorrect.</strong> The correct shift is "Victim → Agent".';
-                fbDiv.style.display = 'block';
-            } else if (qParent && qParent.querySelector('[data-q="account"]')) {
-                const selectedVal = opt.getAttribute('data-val');
-                const correctVal = "I made an assumption. I was wrong. That is on me.";
-                const fbDiv = document.getElementById('accountabilityFeedback');
-                const isCorrect = (selectedVal === correctVal);
-                fbDiv.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
-                fbDiv.innerHTML = isCorrect ? '✅ <strong>Correct!</strong> True accountability means owning the mistake.' : '❌ <strong>Incorrect.</strong> The correct answer is: "I made an assumption. I was wrong. That is on me."';
-                fbDiv.style.display = 'block';
+            if (qParent?.querySelector('[data-q="manager"]')) {
+                const fb = document.getElementById('managerFb1');
+                const isCorrect = opt.getAttribute('data-val') === 'Victim';
+                fb.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+                fb.innerHTML = isCorrect ? '✅ Correct! The manager is exhibiting the Victim mindset.' : '❌ Incorrect. The correct answer is "Victim".';
+                fb.style.display = 'block';
+            } else if (qParent?.querySelector('[data-q="shift"]')) {
+                const fb = document.getElementById('managerFb2');
+                const isCorrect = opt.getAttribute('data-val') === 'Victim → Agent';
+                fb.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+                fb.innerHTML = isCorrect ? '✅ Correct! Shift from Victim to Agent.' : '❌ Incorrect. The correct shift is "Victim → Agent".';
+                fb.style.display = 'block';
+            } else if (qParent?.querySelector('[data-q="account"]')) {
+                const fb = document.getElementById('accountabilityFeedback');
+                const isCorrect = opt.getAttribute('data-val') === 'I made an assumption. I was wrong. That is on me.';
+                fb.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+                fb.innerHTML = isCorrect ? '✅ Correct! True accountability means owning the mistake.' : '❌ Incorrect. The leader must own the mistake.';
+                fb.style.display = 'block';
             }
-            
             saveAnswersToLocal();
             updateQuizProgress();
         });
@@ -802,12 +702,12 @@ function bindEvents() {
             this.classList.toggle('flipped');
             const front = this.querySelector('.mindset-front');
             const back = this.querySelector('.mindset-back');
-            if (this.classList.contains('flipped')) { 
-                if (front) front.classList.add('hidden-content'); 
-                if (back) back.classList.remove('hidden-content'); 
-            } else { 
-                if (front) front.classList.remove('hidden-content'); 
-                if (back) back.classList.add('hidden-content'); 
+            if (this.classList.contains('flipped')) {
+                front?.classList.add('hidden-content');
+                back?.classList.remove('hidden-content');
+            } else {
+                front?.classList.remove('hidden-content');
+                back?.classList.add('hidden-content');
             }
             saveAnswersToLocal();
         });
@@ -820,18 +720,18 @@ function loadSavedAnswers() {
         try {
             const data = JSON.parse(saved);
             if (data.manager_mindset && data.manager_mindset !== 'Not answered') {
-                const opts = document.querySelectorAll('[data-q="manager"] .quiz-option');
-                opts.forEach(opt => { if (opt.getAttribute('data-val') === data.manager_mindset) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
+                const opt = document.querySelector(`[data-q="manager"] .quiz-option[data-val="${data.manager_mindset}"]`);
+                if (opt) { opt.click(); }
             }
             if (data.mindset_shift && data.mindset_shift !== 'Not answered') {
-                const opts = document.querySelectorAll('[data-q="shift"] .quiz-option');
-                opts.forEach(opt => { if (opt.getAttribute('data-val') === data.mindset_shift) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
+                const opt = document.querySelector(`[data-q="shift"] .quiz-option[data-val="${data.mindset_shift}"]`);
+                if (opt) { opt.click(); }
             }
             if (data.accountability && data.accountability !== 'Not answered') {
-                const opts = document.querySelectorAll('[data-q="account"] .quiz-option');
-                opts.forEach(opt => { if (opt.getAttribute('data-val') === data.accountability) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
+                const opt = document.querySelector(`[data-q="account"] .quiz-option[data-val="${data.accountability}"]`);
+                if (opt) { opt.click(); }
             }
-        } catch(e) { console.warn(e); }
+        } catch(e) {}
     }
     updateQuizProgress();
 }
@@ -840,41 +740,24 @@ function setupModal() {
     const modal = document.getElementById('deepDiveModal');
     const openBtn = document.getElementById('deepDiveBtn');
     const closeBtns = ['closeModalBtn', 'closeModalBtnBeside', 'closeModalBtnTop'];
-    function openModal() { modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
-    function closeModal() { modal.classList.remove('active'); document.body.style.overflow = ''; }
-    if (openBtn) openBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
-    closeBtns.forEach(id => { const btn = document.getElementById(id); if (btn) btn.addEventListener('click', closeModal); });
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
+    if (openBtn) openBtn.onclick = (e) => { e.preventDefault(); modal.classList.add('active'); document.body.style.overflow = 'hidden'; };
+    closeBtns.forEach(id => { const btn = document.getElementById(id); if (btn) btn.onclick = () => { modal.classList.remove('active'); document.body.style.overflow = ''; }; });
+    modal.onclick = (e) => { if (e.target === modal) { modal.classList.remove('active'); document.body.style.overflow = ''; } };
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    loadSavedAnswers();
-    bindEvents();
-    setupModal();
-    
-    const checkBtn = document.getElementById('checkResultsBtn');
-    if (checkBtn) {
-        checkBtn.addEventListener('click', () => { displayResultsSummary(); });
+// Initialize
+loadSavedAnswers();
+bindEvents();
+setupModal();
+document.getElementById('checkResultsBtn')?.addEventListener('click', displayResultsSummary);
+document.getElementById('continueToModule3Btn')?.addEventListener('click', goToModule3);
+document.getElementById('backToModule1Btn')?.addEventListener('click', () => window.location.href = 'module1.html');
+document.getElementById('resetDataLink')?.addEventListener('click', () => {
+    if (confirm('Reset all module data? This cannot be undone.')) {
+        localStorage.removeItem('module2_answers');
+        localStorage.removeItem('module2_completed');
+        location.reload();
     }
-    
-    const continueBtn = document.getElementById('continueToModule3Btn');
-    if (continueBtn) {
-        continueBtn.addEventListener('click', goToModule3);
-    }
-    
-    document.getElementById('backToModule1Btn').addEventListener('click', () => { 
-        window.location.href = 'module1.html'; 
-    });
-    
-    document.getElementById('resetDataLink').addEventListener('click', (e) => { 
-        e.preventDefault(); 
-        if (confirm('Reset all module data? This cannot be undone.')) { 
-            localStorage.removeItem('module2_answers'); 
-            localStorage.removeItem('module2_completed'); 
-            location.reload(); 
-        } 
-    });
 });
 </script>
 </body>
