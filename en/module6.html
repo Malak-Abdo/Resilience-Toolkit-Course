@@ -834,7 +834,7 @@ function sendModule6DataToSheet() {
 }
 
 // ============================================
-// GO TO CERTIFICATE
+// GO TO CERTIFICATE - FIXED: lowercase 'c'
 // ============================================
 async function goToCertificate() {
     const crisisComplete = updateCrisisProgress();
@@ -867,14 +867,14 @@ async function goToCertificate() {
         showToast('✅ Course completed! Redirecting...');
         
         setTimeout(() => {
-            window.location.href = 'Certificate.html';
+            window.location.href = 'certificate.html';
         }, 800);
     } else {
         localStorage.setItem('module6_completed', 'true');
         showToast('⚠️ Progress saved locally. Continuing...', true);
         
         setTimeout(() => {
-            window.location.href = 'Certificate.html';
+            window.location.href = 'certificate.html';
         }, 800);
     }
 }
