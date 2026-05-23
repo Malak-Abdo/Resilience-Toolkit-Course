@@ -43,6 +43,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
         .user-badge {
             font-size: 0.7rem;
@@ -134,6 +136,8 @@
             width: 100%;
             border-collapse: collapse;
             margin: 1rem 0;
+            display: block;
+            overflow-x: auto;
         }
         th, td {
             border: 1px solid #E2E9F2;
@@ -157,6 +161,8 @@
             cursor: pointer;
             margin-top: 0.5rem;
             transition: 0.15s;
+            width: 100%;
+            max-width: 300px;
         }
         button:disabled {
             opacity: 0.6;
@@ -172,6 +178,11 @@
             gap: 1rem;
             margin-top: 1.5rem;
             flex-wrap: wrap;
+        }
+        .module-nav button {
+            width: auto;
+            flex: 1;
+            min-width: 120px;
         }
         .reset-link {
             text-align: center;
@@ -192,7 +203,7 @@
             color: #1A6B5A;
             margin-bottom: 0.3rem;
         }
-        .form-group input, .form-group textarea {
+        .form-group input, .form-group textarea, select {
             width: 100%;
             padding: 0.8rem;
             border: 1px solid #ccc;
@@ -252,6 +263,16 @@
             .mindset-grid {
                 grid-template-columns: 1fr;
             }
+            .module-nav {
+                flex-direction: column;
+            }
+            .module-nav button {
+                width: 100%;
+            }
+            th, td {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
         }
         .toast-notification {
             position: fixed;
@@ -306,49 +327,21 @@
         <thead>
             <tr><th>Element</th><th>What it means</th><th>Example</th> </thead>
         <tbody>
-            <tr>
-                <td><strong>Cue</strong></div>
-                <td>What starts the habit</th>
-                <td>"The thermometer reaches 45°C at 9:00 AM"</th>
-                </tr>
-            <tr>
-                <td><strong>Routine</strong></th>
-                <td>The automatic behavior</th>
-                <td>"I ask: What critical tasks can be done before 11:00 AM?"</th>
-                </tr>
-            <tr>
-                <td><strong>Reward</strong></th>
-                <td>What you feel</th>
-                <td>"Control. My team is safe. Work is still moving."</th>
-                </tr>
+            <tr><td><strong>Cue</strong></td><td>What starts the habit</td><td>"The thermometer reaches 45°C at 9:00 AM"</td></tr>
+            <tr><td><strong>Routine</strong></td><td>The automatic behavior</td><td>"I ask: What critical tasks can be done before 11:00 AM?"</td></tr>
+            <tr><td><strong>Reward</strong></td><td>What you feel</td><td>"Control. My team is safe. Work is still moving."</td></tr>
         </tbody>
-    </table>
+     </table>
     
     <h2>Example: Completed Habit Loops</h2>
     <table>
-        <thead>
-            <tr><th>Crisis</th><th>Cue</th><th>Routine</th><th>Reward</th> </thead>
+        <thead><tr><th>Crisis</th><th>Cue</th><th>Routine</th><th>Reward</th></tr></thead>
         <tbody>
-            <tr>
-                <td>Fuel shortage</th>
-                <td>"The fuel gauge hits zero"</th>
-                <td>"I ask: What works without fuel?"</th>
-                <td>"Agency. We are not stuck."</th>
-            </tr>
-            <tr>
-                <td>Staff departure</th>
-                <td>"A key staff member resigns"</th>
-                <td>"I ask: Who can take part of this task?"</th>
-                <td>"Curiosity. Not despair."</th>
-            </tr>
-            <tr>
-                <td>Extreme heat</th>
-                <td>"The thermometer reaches 45°C at 9:00 AM"</th>
-                <td>"I ask: What can we accomplish before 11:00 AM?"</th>
-                <td>"Control. My team is safe."</th>
-            </tr>
+            <tr><td>Fuel shortage</td><td>"The fuel gauge hits zero"</td><td>"I ask: What works without fuel?"</td><td>"Agency. We are not stuck."</td></tr>
+            <tr><td>Staff departure</td><td>"A key staff member resigns"</td><td>"I ask: Who can take part of this task?"</td><td>"Curiosity. Not despair."</td></tr>
+            <tr><td>Extreme heat</td><td>"The thermometer reaches 45°C at 9:00 AM"</td><td>"I ask: What can we accomplish before 11:00 AM?"</td><td>"Control. My team is safe."</td></tr>
         </tbody>
-    </table>
+     </table>
     
     <div class="section-header">
         <h2 style="margin: 0; border-left: none; padding-left: 0;">📝 Your Turn: Build Your Habit</h2>
@@ -429,175 +422,50 @@
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
 
 // ============================================
-// GET USER DATA - EXPANDED VERSION
+// GET USER DATA - SILENT VERSION (NO PROMPTS EVER)
 // ============================================
 function getUserData() {
-    let name = '', email = '', position = '';
-    
-    console.log('🔍 Searching for user data in localStorage...');
-    console.log('All localStorage keys:', Object.keys(localStorage));
-    
-    // 1. Check individual fields
-    let n = localStorage.getItem('course_user_name');
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'Your Name' && n.trim() !== '') {
-        name = n.trim();
-        email = (localStorage.getItem('course_user_email') || '').trim();
-        position = (localStorage.getItem('course_user_position') || '').trim();
-        console.log('✅ Found from individual fields:', name);
-    }
-    
-    // 2. Check course_user object
-    if (!name || name === 'Your Name') {
-        let user = localStorage.getItem('course_user');
-        if (user) {
-            try { 
-                let p = JSON.parse(user); 
-                if (p && p.name && p.name !== 'Guest' && p.name !== 'Your Name' && p.name.trim() !== '') {
-                    name = p.name.trim();
-                    email = (p.email || '').trim();
-                    position = (p.position || '').trim();
-                    console.log('✅ Found from course_user:', name);
-                }
-            } catch(e) {}
+    // 1. Check currentUser first (from intro.html login)
+    try {
+        let currentUser = localStorage.getItem('currentUser');
+        if (currentUser) {
+            let user = JSON.parse(currentUser);
+            if (user && user.name && user.name !== 'Guest' && user.name.trim() !== '') {
+                return { 
+                    name: user.name.trim(), 
+                    email: (user.email || 'guest@example.com').trim(), 
+                    position: (user.position || 'Not specified').trim() 
+                };
+            }
         }
-    }
+    } catch(e) {}
     
-    // 3. Check resilience_users array
-    if (!name || name === 'Your Name') {
-        let users = localStorage.getItem('resilience_users');
-        if (users) {
-            try { 
-                let p = JSON.parse(users); 
-                if (Array.isArray(p) && p.length > 0) {
-                    for (let i = p.length - 1; i >= 0; i--) {
-                        if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'Your Name' && p[i].name.trim() !== '') {
-                            name = p[i].name.trim();
-                            email = (p[i].email || '').trim();
-                            position = (p[i].position || '').trim();
-                            console.log('✅ Found from resilience_users array:', name);
-                            break;
-                        }
-                    }
-                }
-            } catch(e) {}
+    // 2. Check users array
+    try {
+        let users = JSON.parse(localStorage.getItem('users') || '[]');
+        if (users.length > 0) {
+            let lastUser = users[users.length - 1];
+            if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name.trim() !== '') {
+                return { 
+                    name: lastUser.name.trim(), 
+                    email: (lastUser.email || 'guest@example.com').trim(), 
+                    position: (lastUser.position || 'Not specified').trim() 
+                };
+            }
         }
-    }
+    } catch(e) {}
     
-    // 4. Check module1_answers for user data
-    if (!name || name === 'Your Name') {
-        let module1Answers = localStorage.getItem('module1_answers');
-        if (module1Answers) {
-            try {
-                let m1 = JSON.parse(module1Answers);
-                if (m1.userName && m1.userName !== 'Guest' && m1.userName !== 'Your Name') {
-                    name = m1.userName;
-                    email = m1.userEmail || '';
-                    position = m1.userPosition || '';
-                    console.log('✅ Found from module1_answers:', name);
-                }
-            } catch(e) {}
-        }
-    }
-    
-    // 5. Check module2_answers for user data
-    if (!name || name === 'Your Name') {
-        let module2Answers = localStorage.getItem('module2_answers');
-        if (module2Answers) {
-            try {
-                let m2 = JSON.parse(module2Answers);
-                if (m2.userName && m2.userName !== 'Guest' && m2.userName !== 'Your Name') {
-                    name = m2.userName;
-                    email = m2.userEmail || '';
-                    position = m2.userPosition || '';
-                    console.log('✅ Found from module2_answers:', name);
-                }
-            } catch(e) {}
-        }
-    }
-    
-    // 6. Check module3_answers for user data
-    if (!name || name === 'Your Name') {
-        let module3Answers = localStorage.getItem('module3_answers');
-        if (module3Answers) {
-            try {
-                let m3 = JSON.parse(module3Answers);
-                if (m3.userName && m3.userName !== 'Guest' && m3.userName !== 'Your Name') {
-                    name = m3.userName;
-                    email = m3.userEmail || '';
-                    position = m3.userPosition || '';
-                    console.log('✅ Found from module3_answers:', name);
-                }
-            } catch(e) {}
-        }
-    }
-    
-    // 7. Check module3_1_data for user data
-    if (!name || name === 'Your Name') {
-        let module31Data = localStorage.getItem('module3_1_data');
-        if (module31Data) {
-            try {
-                let m31 = JSON.parse(module31Data);
-                if (m31.userName && m31.userName !== 'Guest' && m31.userName !== 'Your Name') {
-                    name = m31.userName;
-                    email = m31.userEmail || '';
-                    position = m31.userPosition || '';
-                    console.log('✅ Found from module3_1_data:', name);
-                }
-            } catch(e) {}
-        }
-    }
-    
-    // 8. Check module4_answers for user data
-    if (!name || name === 'Your Name') {
-        let module4Answers = localStorage.getItem('module4_answers');
-        if (module4Answers) {
-            try {
-                let m4 = JSON.parse(module4Answers);
-                if (m4.userName && m4.userName !== 'Guest' && m4.userName !== 'Your Name') {
-                    name = m4.userName;
-                    email = m4.userEmail || '';
-                    position = m4.userPosition || '';
-                    console.log('✅ Found from module4_answers:', name);
-                }
-            } catch(e) {}
-        }
-    }
-    
-    // 9. Final fallback - PROMPT USER if still not found
-    if (!name || name === 'Your Name' || name === 'Guest') {
-        console.log('⚠️ No user data found, prompting user...');
-        name = prompt('👤 Please enter your full name:');
-        email = prompt('📧 Please enter your email address:');
-        if (name && name.trim() !== '') {
-            localStorage.setItem('course_user_name', name.trim());
-        }
-        if (email && email.trim() !== '') {
-            localStorage.setItem('course_user_email', email.trim());
-        }
-        name = name || 'Guest';
-        email = email || 'guest@example.com';
-    }
-    
-    const result = { 
-        name: name, 
-        email: email, 
-        position: position || 'Not specified' 
-    };
-    
-    console.log('👤 Final user data:', result);
-    return result;
+    // 3. Return Guest - NO PROMPT
+    return { name: 'Guest', email: 'guest@example.com', position: 'Not specified' };
 }
 
-// Display user name in badge
+// Display user name in badge (silently)
 const currentUser = getUserData();
 const userBadge = document.getElementById('userBadge');
 if (userBadge) {
-    if (currentUser.name !== 'Guest') {
-        userBadge.innerText = `👤 ${currentUser.name}`;
-    } else {
-        userBadge.innerText = `👤 Learner`;
-    }
+    userBadge.innerText = currentUser.name !== 'Guest' ? `👤 ${currentUser.name}` : '👤 Learner';
 }
+console.log('👤 User loaded for Module 5:', currentUser.name);
 
 function showToast(message, isError = false) {
     const existing = document.querySelector('.toast-notification');
@@ -673,7 +541,7 @@ function updateCommitProgress() {
 }
 
 // ============================================
-// SEND DATA TO GOOGLE SHEETS - PROMISE VERSION
+// SEND DATA TO GOOGLE SHEETS
 // ============================================
 function sendModule5DataToSheet() {
     const userData = getUserData();
@@ -703,48 +571,24 @@ function sendModule5DataToSheet() {
     return new Promise((resolve) => {
         fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'text/plain;charset=utf-8',
-            },
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(payload)
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log('✅ Module 5 data sent successfully:', data);
-            resolve(true);
-        })
-        .catch(error => {
-            console.log('❌ Fetch error:', error);
-            // Fallback to XHR
+        .then(() => { console.log('✅ Module 5 data sent'); resolve(true); })
+        .catch(() => {
             const xhr = new XMLHttpRequest();
             xhr.open('POST', GOOGLE_SCRIPT_URL, true);
             xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    console.log('✅ Module 5 data sent (XHR fallback)');
-                    resolve(true);
-                } else {
-                    console.log('⚠️ Module 5 response status:', xhr.status);
-                    resolve(false);
-                }
-            };
-            xhr.onerror = function() {
-                console.log('❌ Error sending Module 5 data');
-                resolve(false);
-            };
+            xhr.onload = () => resolve(true);
+            xhr.onerror = () => resolve(false);
             xhr.send(JSON.stringify(payload));
         });
-        
-        // Timeout fallback
-        setTimeout(() => {
-            console.log('⏰ Timeout - continuing anyway');
-            resolve(true);
-        }, 3000);
+        setTimeout(() => resolve(true), 3000);
     });
 }
 
 // ============================================
-// GO TO NEXT MODULE - UPDATED TO WAIT FOR DATA
+// GO TO NEXT MODULE
 // ============================================
 async function goToNextModule() {
     const habitComplete = updateHabitProgress();
@@ -779,7 +623,6 @@ async function goToNextModule() {
     
     showToast('💾 Saving your answers...');
     
-    // Wait for data to be sent before redirecting
     const saved = await sendModule5DataToSheet();
     
     if (saved) {
