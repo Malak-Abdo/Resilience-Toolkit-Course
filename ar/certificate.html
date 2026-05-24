@@ -133,7 +133,8 @@
             transform: translateY(-1px);
         }
         
-        .print-btn {
+        /* Button Styles */
+        .certificate-btn {
             background: linear-gradient(135deg, #1A6B5A, #146B5C);
             border: none;
             color: white;
@@ -150,13 +151,85 @@
             gap: 10px;
             font-family: inherit;
         }
-        .print-btn:hover {
+        .certificate-btn:hover {
             transform: translateY(-2px);
             background: linear-gradient(135deg, #0e5245, #0f5c4e);
             box-shadow: 0 10px 20px rgba(26, 107, 90, 0.35);
         }
-        .print-btn:active {
+        .certificate-btn:active {
             transform: translateY(1px);
+        }
+        .certificate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        /* Popup Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            animation: fadeIn 0.2s ease;
+        }
+        .modal-popup {
+            background: white;
+            max-width: 380px;
+            width: 90%;
+            border-radius: 48px;
+            text-align: center;
+            padding: 2rem 1.8rem;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.25s ease;
+            border: 1px solid rgba(232, 167, 53, 0.6);
+        }
+        .modal-icon {
+            font-size: 3.8rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+        .modal-popup h3 {
+            font-size: 1.6rem;
+            color: #1A6B5A;
+            margin-bottom: 0.8rem;
+            font-weight: 800;
+        }
+        .modal-popup p {
+            color: #2C5F7A;
+            font-size: 1rem;
+            margin: 0.5rem 0;
+            line-height: 1.5;
+        }
+        .modal-close-btn {
+            background: #E8A735;
+            border: none;
+            color: #1E2F3E;
+            font-weight: 700;
+            padding: 10px 28px;
+            border-radius: 40px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background 0.2s;
+            font-family: inherit;
+        }
+        .modal-close-btn:hover {
+            background: #d9971f;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
         
         .share-stats {
@@ -172,20 +245,6 @@
             color: #8BA0B8;
             margin-top: 1.8rem;
             text-align: center;
-        }
-        .back-btn {
-            background: #E8A735;
-            color: #2E3A2A;
-            margin-left: 1rem;
-        }
-        .back-btn:hover {
-            background: #d4951e;
-        }
-        .button-group {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
         }
     </style>
 </head>
@@ -204,33 +263,34 @@
     
     <div class="message-box">
         <p><strong>💪 لقد أتقنت الآن الأدوات الأساسية لإدارة الأزمات.</strong></p>
-        <p style="margin-top: 0.6rem;">هذه الأدوات أصبحت ملكك لتصنع الفرق عندما يواجهك أي تحد في مجال عملك.</p>
+        <p style="margin-top: 0.6rem;">هذه الأدوات هي الآن ملك لك لإحداث فرق عند ظهور أي تحدي في مجال عملك.</p>
     </div>
     
     <div class="toolkit-badge-container">
         <div class="toolkit-title">📦 حزمة أدواتك القيادية تتضمن الآن:</div>
         <div class="toolkit-grid">
-            <span class="tool-card">🧠 بروتوكول ٧ صباحاً</span>
+            <span class="tool-card">🧠 بروتوكول 7 صباحاً</span>
             <span class="tool-card">✅ إطار S.A.F.E.</span>
-            <span class="tool-card">📋 إعادة الصياغة التكيفية</span>
-            <span class="tool-card">🔄 نوايا التعلم</span>
-            <span class="tool-card">🔄 حلقات العادات</span>
-            <span class="tool-card">🗂️ بطاقة القرارات الجيبية</span>
+            <span class="tool-card">📋 إعادة التأطير التكيفي في 60 ثانية</span>
+            <span class="tool-card">🔄 التعلم مقابل أهداف الأداء</span>
+            <span class="tool-card">🔄 حلقات العادة</span>
+            <span class="tool-card">🗂️ بطاقة القرار الجيبية</span>
             <span class="tool-card">🌱 تأمل النمو القيادي</span>
         </div>
     </div>
     
-    <div class="share-stats">
-        🌟 تم تسجيل إنجازك. يمكنك طباعة هذه الشهادة كوثيقة تقدير.
+    <!-- Certificate Button Section -->
+    <div style="background: linear-gradient(105deg, #F8F9FC 0%, #F2F6F5 100%); border-radius: 36px; padding: 1.5rem 1rem; margin: 1rem 0; border: 1px solid #E0EBE6;">
+        <div style="font-size: 2.2rem; margin-bottom: 6px;">🏅✨</div>
+        <p style="font-weight: 600; color: #1A6B5A; margin-bottom: 12px;">احصل على شارتك الرقمية الرسمية</p>
+        <button id="getCertificateBtn" class="certificate-btn">
+            📧 احصل على شارتك
+        </button>
+        <p style="font-size: 0.7rem; margin-top: 12px; color: #6B8F82;">تقدير لرحلتك القيادية التكيفية</p>
     </div>
     
-    <div class="button-group">
-        <button id="printCertificateBtn" class="print-btn">
-            🖨️ طباعة الشهادة
-        </button>
-        <button id="backToStartBtn" class="print-btn back-btn">
-            🏠 العودة إلى البداية
-        </button>
+    <div class="share-stats">
+        🌟 تم تسجيل إنجازك. المنصة متاحة لك دائماً للمراجعة.
     </div>
     
     <div class="footer-note">
@@ -239,119 +299,178 @@
 </div>
 
 <script>
-// ============================================
-// GOOGLE SHEETS WEB APP URL
-// ============================================
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
-
-// ============================================
-// GET USER DATA - SILENT VERSION (NO PROMPTS)
-// ============================================
-function getUserData() {
-    let name = '', email = '', position = '';
+    // ============================================
+    // CONFIGURATION - YOUR GOOGLE APPS SCRIPT URL
+    // ============================================
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzBvrEfpXfQ0gxCDQhoQrIfsj5nmOIOx_7kOqqggwehuizOluMqd8euznYsJLAqUF0x/exec';
+    const HUMANITARIAN_VALLEY_FORM = 'https://docs.google.com/forms/d/e/1FAIpQLScvfH1X4Z3-xmDuDvozziHj0O1zo_2HWFuWVmUmdQxLsDdTxw/viewform?usp=dialog';
     
-    // 1. Check currentUser FIRST (from intro.html login)
-    try {
-        let currentUser = localStorage.getItem('currentUser');
-        if (currentUser) {
-            let user = JSON.parse(currentUser);
-            if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر' && user.name.trim() !== '') {
-                name = user.name.trim();
-                email = (user.email || '').trim();
-                position = (user.position || '').trim();
-                console.log('✅ Found from currentUser:', name);
-                return { name, email, position };
+    const userLanguage = 'ar';
+    
+    // ============================================
+    // GET USER DATA - SILENT VERSION (NO PROMPTS)
+    // ============================================
+    function getUserData() {
+        let name = '', email = '', position = '';
+        
+        // 1. Check currentUser FIRST (from intro.html login)
+        try {
+            let currentUser = localStorage.getItem('currentUser');
+            if (currentUser) {
+                let user = JSON.parse(currentUser);
+                if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر' && user.name.trim() !== '') {
+                    name = user.name.trim();
+                    email = (user.email || '').trim();
+                    position = (user.position || '').trim();
+                    console.log('✅ Found from currentUser:', name);
+                    return { name, email, position };
+                }
             }
-        }
-    } catch(e) {}
-    
-    // 2. Check users array
-    try {
-        let users = JSON.parse(localStorage.getItem('users') || '[]');
-        if (users.length > 0) {
-            let lastUser = users[users.length - 1];
-            if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name !== 'زائر' && lastUser.name.trim() !== '') {
-                name = lastUser.name.trim();
-                email = (lastUser.email || '').trim();
-                position = (lastUser.position || '').trim();
-                console.log('✅ Found from users array:', name);
-                return { name, email, position };
+        } catch(e) {}
+        
+        // 2. Check users array
+        try {
+            let users = JSON.parse(localStorage.getItem('users') || '[]');
+            if (users.length > 0) {
+                let lastUser = users[users.length - 1];
+                if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name !== 'زائر' && lastUser.name.trim() !== '') {
+                    name = lastUser.name.trim();
+                    email = (lastUser.email || '').trim();
+                    position = (lastUser.position || '').trim();
+                    console.log('✅ Found from users array:', name);
+                    return { name, email, position };
+                }
             }
+        } catch(e) {}
+        
+        // 3. Check course_user_name
+        let n = localStorage.getItem('course_user_name');
+        if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
+            name = n.trim();
+            email = (localStorage.getItem('course_user_email') || '').trim();
+            position = (localStorage.getItem('course_user_position') || '').trim();
+            console.log('✅ Found from course_user_name:', name);
+            return { name, email, position };
         }
-    } catch(e) {}
-    
-    // 3. Check course_user_name
-    let n = localStorage.getItem('course_user_name');
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
-        name = n.trim();
-        email = (localStorage.getItem('course_user_email') || '').trim();
-        position = (localStorage.getItem('course_user_position') || '').trim();
-        console.log('✅ Found from course_user_name:', name);
-        return { name, email, position };
+        
+        // 4. Return default - NO PROMPT
+        return { name: 'متعلم متميز', email: 'guest@example.com', position: 'غير محدد' };
     }
     
-    // 4. Return default - NO PROMPT
-    return { name: 'متعلم متميز', email: 'guest@example.com', position: 'غير محدد' };
-}
-
-const user = getUserData();
-const greetingSpan = document.getElementById('userGreetingSpan');
-if (greetingSpan) {
-    greetingSpan.innerHTML = `🎓 ${user.name} · تم تحقيق الإنجاز ✅`;
-}
-
-// Send completion data to Google Sheets (silent, no popup)
-function sendCompletionData() {
-    const payload = {
-        module: 'Certificate',
-        action: 'completed',
-        language: 'ar',
-        userName: user.name,
-        userEmail: user.email,
-        userPosition: user.position,
-        timestamp: new Date().toISOString(),
-        completion_date: new Date().toLocaleDateString('ar-EG')
-    };
-    
-    console.log('📤 Sending completion data for:', user.name);
-    
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', GOOGLE_SCRIPT_URL, true);
-    xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
-    xhr.send(JSON.stringify(payload));
-}
-
-// Print certificate
-function printCertificate() {
-    window.print();
-}
-
-// Back to start (intro page)
-function backToStart() {
-    window.location.href = 'intro.html';
-}
-
-// Initialize
-function init() {
-    sendCompletionData();
-    
-    const printBtn = document.getElementById('printCertificateBtn');
-    if (printBtn) {
-        printBtn.addEventListener('click', printCertificate);
+    // Initialize user data and display name
+    const user = getUserData();
+    const greetingSpan = document.getElementById('userGreetingSpan');
+    if (greetingSpan) {
+        greetingSpan.innerHTML = `🎓 ${user.name} · تم فتح الإنجاز ✅`;
     }
     
-    const backBtn = document.getElementById('backToStartBtn');
-    if (backBtn) {
-        backBtn.addEventListener('click', backToStart);
+    // ============================================
+    // POPUP FUNCTION - Arabic
+    // ============================================
+    function showEmailBadgePopup() {
+        const existingModal = document.querySelector('.modal-overlay');
+        if (existingModal) existingModal.remove();
+        
+        const modalOverlay = document.createElement('div');
+        modalOverlay.className = 'modal-overlay';
+        
+        const modalPopup = document.createElement('div');
+        modalPopup.className = 'modal-popup';
+        
+        modalPopup.innerHTML = `
+            <div class="modal-icon">📧🏅</div>
+            <h3>تحقق من بريدك الإلكتروني!</h3>
+            <p>📬 <strong>تم إرسال شارتك إلى بريدك الإلكتروني.</strong></p>
+            <button class="modal-close-btn" id="closeModalBtn">حسنًا، تم ✅</button>
+        `;
+        
+        modalOverlay.appendChild(modalPopup);
+        document.body.appendChild(modalOverlay);
+        
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                modalOverlay.remove();
+            }
+        });
+        
+        const closeBtn = modalPopup.querySelector('#closeModalBtn');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                modalOverlay.remove();
+            });
+        }
     }
     
-    // Mark course as completed
-    localStorage.setItem('course_completed', 'true');
-    localStorage.setItem('completion_date', new Date().toISOString());
-}
-
-init();
-console.log('Certificate page ready for user:', user.name);
+    // ============================================
+    // HANDLE BADGE BUTTON CLICK
+    // ============================================
+    function handleGetBadgeClick() {
+        const button = document.getElementById('getCertificateBtn');
+        if (button.disabled) return;
+        
+        button.disabled = true;
+        button.innerHTML = '⏳ جاري الإرسال...';
+        
+        // Show popup immediately
+        showEmailBadgePopup();
+        
+        // Call the Apps Script to send email
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8',
+            },
+            body: JSON.stringify({
+                event: 'send_badge_email',
+                email: user.email,
+                name: user.name,
+                assessmentLink: HUMANITARIAN_VALLEY_FORM,
+                language: 'ar'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('✅ تم إرسال البريد الإلكتروني بنجاح:', data);
+        })
+        .catch(err => {
+            console.log('⚠️ خطأ في إرسال البريد الإلكتروني:', err);
+        });
+        
+        localStorage.setItem('badge_requested_at', new Date().toISOString());
+        localStorage.setItem('badge_requested_for', user.email);
+        
+        setTimeout(() => {
+            button.disabled = false;
+            button.innerHTML = '📧 احصل على شارتك';
+        }, 1000);
+    }
+    
+    // ============================================
+    // Finalize course completion
+    // ============================================
+    function finalizeCourseCompletion() {
+        if (!localStorage.getItem('module6_completed')) {
+            localStorage.setItem('module6_completed', 'true');
+        }
+        localStorage.setItem('resilience_course_completed', 'true');
+        localStorage.setItem('completion_date', new Date().toISOString());
+        console.log(`🏁 تم تسجيل إتمام الدورة لـ: ${user.name}`);
+    }
+    
+    // Attach event listener to the button
+    const badgeButton = document.getElementById('getCertificateBtn');
+    if (badgeButton) {
+        badgeButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            handleGetBadgeClick();
+        });
+    }
+    
+    finalizeCourseCompletion();
+    
+    console.log('صفحة شارة حزمة أدوات المرونة - جاهزة!');
+    console.log('المستخدم:', user.name);
+    console.log('البريد الإلكتروني:', user.email);
 </script>
 </body>
 </html>
