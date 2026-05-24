@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -134,7 +133,6 @@
             transform: translateY(-1px);
         }
         
-        /* Button Styles */
         .certificate-btn {
             background: linear-gradient(135deg, #1A6B5A, #146B5C);
             border: none;
@@ -165,7 +163,6 @@
             cursor: not-allowed;
         }
         
-        /* Popup Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -264,30 +261,29 @@
     
     <div class="message-box">
         <p><strong>💪 لقد أتقنت الآن الأدوات الأساسية لإدارة الأزمات.</strong></p>
-        <p style="margin-top: 0.6rem;">هذه الأدوات هي الآن ملك لك لإحداث فرق عند ظهور أي تحدي في مجال عملك.</p>
+        <p style="margin-top: 0.6rem;">هذه الأدوات أصبحت ملكك لتصنع الفرق عندما يواجهك أي تحد في مجال عملك.</p>
     </div>
     
     <div class="toolkit-badge-container">
         <div class="toolkit-title">📦 حزمة أدواتك القيادية تتضمن الآن:</div>
         <div class="toolkit-grid">
-            <span class="tool-card">🧠 بروتوكول 7 صباحاً</span>
+            <span class="tool-card">🧠 بروتوكول ٧ صباحاً</span>
             <span class="tool-card">✅ إطار S.A.F.E.</span>
-            <span class="tool-card">📋 إعادة التأطير التكيفي في 60 ثانية</span>
-            <span class="tool-card">🔄 التعلم مقابل أهداف الأداء</span>
-            <span class="tool-card">🔄 حلقات العادة</span>
-            <span class="tool-card">🗂️ بطاقة القرار الجيبية</span>
+            <span class="tool-card">📋 إعادة الصياغة التكيفية</span>
+            <span class="tool-card">🔄 نوايا التعلم</span>
+            <span class="tool-card">🔄 حلقات العادات</span>
+            <span class="tool-card">🗂️ بطاقة القرارات الجيبية</span>
             <span class="tool-card">🌱 تأمل النمو القيادي</span>
         </div>
     </div>
     
-    <!-- Certificate Button Section -->
     <div style="background: linear-gradient(105deg, #F8F9FC 0%, #F2F6F5 100%); border-radius: 36px; padding: 1.5rem 1rem; margin: 1rem 0; border: 1px solid #E0EBE6;">
         <div style="font-size: 2.2rem; margin-bottom: 6px;">🏅✨</div>
         <p style="font-weight: 600; color: #1A6B5A; margin-bottom: 12px;">احصل على شارتك الرقمية الرسمية</p>
         <button id="getCertificateBtn" class="certificate-btn">
             📧 احصل على شارتك
         </button>
-        <p style="font-size: 0.7rem; margin-top: 12px; color: #6B8F82;">تقدير لرحلتك القيادية التكيفية</p>
+        <p style="font-size: 0.7rem; margin-top: 12px; color: #6B8F82;">تقدير لرحلتك في القيادة التكيفية</p>
     </div>
     
     <div class="share-stats">
@@ -300,207 +296,168 @@
 </div>
 
 <script>
-    // ============================================
-    // CONFIGURATION - YOUR GOOGLE APPS SCRIPT URL
-    // ============================================
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzBvrEfpXfQ0gxCDQhoQrIfsj5nmOIOx_7kOqqggwehuizOluMqd8euznYsJLAqUF0x/exec';
-    const HUMANITARIAN_VALLEY_FORM = 'https://docs.google.com/forms/d/e/1FAIpQLScvfH1X4Z3-xmDuDvozziHj0O1zo_2HWFuWVmUmdQxLsDdTxw/viewform?usp=dialog';
+// ============================================
+// GOOGLE SHEETS WEB APP URL
+// ============================================
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
+const ASSESSMENT_LINK = 'https://docs.google.com/forms/d/e/1FAIpQLScvfH1X4Z3-xmDuDvozziHj0O1zo_2HWFuWVmUmdQxLsDdTxw/viewform?usp=dialog';
+
+const userLanguage = localStorage.getItem('user_language') || 'ar';
+
+// ============================================
+// GET USER DATA - SILENT VERSION (NO PROMPTS)
+// ============================================
+function getUserData() {
+    let name = '', email = '', position = '';
     
-    // Get user language from localStorage (set during registration)
-    const userLanguage = 'ar'; // Arabic version
-    
-    // ============================================
-    // GET USER DATA from localStorage WITH PROMPT
-    // ============================================
-    function getUserData() {
-        let name = '', email = '', position = '';
-        
-        let n = localStorage.getItem('course_user_name');
-        if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim() !== '') {
-            name = n.trim();
-            email = (localStorage.getItem('course_user_email') || '').trim();
-            position = (localStorage.getItem('course_user_position') || '').trim();
-        }
-        
-        if (!name) {
-            let user = localStorage.getItem('course_user');
-            if (user) {
-                try { 
-                    let p = JSON.parse(user); 
-                    if (p && p.name && p.name !== 'Guest') {
-                        name = p.name.trim();
-                        email = (p.email || '').trim();
-                        position = (p.position || '').trim();
-                    }
-                } catch(e) {}
+    // 1. Check currentUser FIRST (from intro.html login)
+    try {
+        let currentUser = localStorage.getItem('currentUser');
+        if (currentUser) {
+            let user = JSON.parse(currentUser);
+            if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر' && user.name.trim() !== '') {
+                name = user.name.trim();
+                email = (user.email || '').trim();
+                position = (user.position || '').trim();
+                console.log('✅ Found from currentUser:', name);
+                return { name, email, position };
             }
         }
-        
-        if (!name) {
-            let users = localStorage.getItem('resilience_users');
-            if (users) {
-                try { 
-                    let p = JSON.parse(users); 
-                    if (Array.isArray(p) && p.length > 0) {
-                        for (let i = p.length - 1; i >= 0; i--) {
-                            if (p[i] && p[i].name && p[i].name !== 'Guest') {
-                                name = p[i].name.trim();
-                                email = (p[i].email || '').trim();
-                                position = (p[i].position || '').trim();
-                                break;
-                            }
-                        }
-                    }
-                } catch(e) {}
+    } catch(e) {}
+    
+    // 2. Check users array
+    try {
+        let users = JSON.parse(localStorage.getItem('users') || '[]');
+        if (users.length > 0) {
+            let lastUser = users[users.length - 1];
+            if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name !== 'زائر' && lastUser.name.trim() !== '') {
+                name = lastUser.name.trim();
+                email = (lastUser.email || '').trim();
+                position = (lastUser.position || '').trim();
+                console.log('✅ Found from users array:', name);
+                return { name, email, position };
             }
         }
-        
-        // Final fallback - PROMPT USER FOR EMAIL IF MISSING
-        let finalName = name && name !== 'متعلم متميز' && name !== 'Guest' ? name : '';
-        let finalEmail = email || '';
-        
-        // Check if email is missing or is a fake/default email
-        if (!finalEmail || finalEmail === 'guest@example.com' || finalEmail.includes('@resilience-leader.com') || finalEmail === '') {
-            finalEmail = prompt('📧 الرجاء إدخال بريدك الإلكتروني للحصول على الشارة:\n\nPlease enter your email to get your badge:');
-            if (finalEmail && finalEmail !== 'null' && finalEmail.trim() !== '') {
-                localStorage.setItem('course_user_email', finalEmail.trim());
-            } else {
-                finalEmail = 'no-email-provided@example.com';
-            }
+    } catch(e) {}
+    
+    // 3. Check course_user_name
+    let n = localStorage.getItem('course_user_name');
+    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
+        name = n.trim();
+        email = (localStorage.getItem('course_user_email') || '').trim();
+        position = (localStorage.getItem('course_user_position') || '').trim();
+        console.log('✅ Found from course_user_name:', name);
+        return { name, email, position };
+    }
+    
+    // 4. Return default - NO PROMPT
+    return { name: 'متعلم متميز', email: 'guest@example.com', position: 'غير محدد' };
+}
+
+const user = getUserData();
+const greetingSpan = document.getElementById('userGreetingSpan');
+if (greetingSpan) {
+    greetingSpan.innerHTML = `🎓 ${user.name} · تم تحقيق الإنجاز ✅`;
+}
+
+function showEmailBadgePopup() {
+    const existingModal = document.querySelector('.modal-overlay');
+    if (existingModal) existingModal.remove();
+    
+    const modalOverlay = document.createElement('div');
+    modalOverlay.className = 'modal-overlay';
+    
+    const modalPopup = document.createElement('div');
+    modalPopup.className = 'modal-popup';
+    
+    let popupContent = `
+        <div class="modal-icon">📧🏅</div>
+        <h3>تحقق من بريدك الإلكتروني!</h3>
+        <p>📬 <strong>تم إرسال شارتك إلى بريدك الإلكتروني.</strong></p>
+        <button class="modal-close-btn" id="closeModalBtn">حسنًا، تم ✅</button>
+    `;
+    
+    modalPopup.innerHTML = popupContent;
+    modalOverlay.appendChild(modalPopup);
+    document.body.appendChild(modalOverlay);
+    
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) {
+            modalOverlay.remove();
         }
-        
-        // Check if name is missing
-        if (!finalName || finalName === '') {
-            finalName = prompt('👤 الرجاء إدخال اسمك:\n\nPlease enter your name:') || 'مستخدم';
-            if (finalName && finalName !== 'مستخدم') {
-                localStorage.setItem('course_user_name', finalName);
-            }
-        }
-        
-        return { 
-            name: finalName, 
-            email: finalEmail, 
-            position: position || 'خريج القيادة في الأزمات' 
-        };
-    }
+    });
     
-    // Initialize user data and display name
-    const user = getUserData();
-    const greetingSpan = document.getElementById('userGreetingSpan');
-    if (greetingSpan) {
-        greetingSpan.innerHTML = `🎓 ${user.name} · تم فتح الإنجاز ✅`;
-    }
-    
-    // ============================================
-    // POPUP FUNCTION - Arabic
-    // ============================================
-    function showEmailBadgePopup() {
-        const existingModal = document.querySelector('.modal-overlay');
-        if (existingModal) existingModal.remove();
-        
-        const modalOverlay = document.createElement('div');
-        modalOverlay.className = 'modal-overlay';
-        
-        const modalPopup = document.createElement('div');
-        modalPopup.className = 'modal-popup';
-        
-        modalPopup.innerHTML = `
-            <div class="modal-icon">📧🏅</div>
-            <h3>تحقق من بريدك الإلكتروني!</h3>
-            <p>📬 <strong>تم إرسال شارتك إلى بريدك الإلكتروني.</strong></p>
-            <button class="modal-close-btn" id="closeModalBtn">حسنًا، تم ✅</button>
-        `;
-        
-        modalOverlay.appendChild(modalPopup);
-        document.body.appendChild(modalOverlay);
-        
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) {
-                modalOverlay.remove();
-            }
-        });
-        
-        const closeBtn = modalPopup.querySelector('#closeModalBtn');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => {
-                modalOverlay.remove();
-            });
-        }
-    }
-    
-    // ============================================
-    // HANDLE BADGE BUTTON CLICK - FIXED VERSION
-    // ============================================
-    function handleGetBadgeClick() {
-        const button = document.getElementById('getCertificateBtn');
-        if (button.disabled) return;
-        
-        button.disabled = true;
-        button.innerHTML = '⏳ جاري الإرسال...';
-        
-        // Show popup immediately
-        showEmailBadgePopup();
-        
-        // Call the Apps Script to send email
-        fetch(GOOGLE_SCRIPT_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'text/plain;charset=utf-8',
-            },
-            body: JSON.stringify({
-                event: 'send_badge_email',
-                email: user.email,
-                name: user.name,
-                assessmentLink: HUMANITARIAN_VALLEY_FORM,
-                language: 'ar'
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('✅ تم إرسال البريد الإلكتروني بنجاح:', data);
-        })
-        .catch(err => {
-            console.log('⚠️ خطأ في إرسال البريد الإلكتروني:', err);
-        });
-        
-        // Store that user requested the badge
-        localStorage.setItem('badge_requested_at', new Date().toISOString());
-        localStorage.setItem('badge_requested_for', user.email);
-        
-        // Reset button quickly
-        setTimeout(() => {
-            button.disabled = false;
-            button.innerHTML = '📧 احصل على شارتك';
-        }, 1000);
-    }
-    
-    // ============================================
-    // Finalize course completion
-    // ============================================
-    function finalizeCourseCompletion() {
-        if (!localStorage.getItem('module6_completed')) {
-            localStorage.setItem('module6_completed', 'true');
-        }
-        localStorage.setItem('resilience_course_completed', 'true');
-        localStorage.setItem('completion_date', new Date().toISOString());
-        console.log(`🏁 تم تسجيل إتمام الدورة لـ: ${user.name}`);
-    }
-    
-    // Attach event listener to the button
-    const badgeButton = document.getElementById('getCertificateBtn');
-    if (badgeButton) {
-        badgeButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            handleGetBadgeClick();
+    const closeBtn = modalPopup.querySelector('#closeModalBtn');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            modalOverlay.remove();
         });
     }
+}
+
+function handleGetBadgeClick() {
+    const button = document.getElementById('getCertificateBtn');
+    if (button.disabled) return;
     
-    finalizeCourseCompletion();
+    button.disabled = true;
+    button.innerHTML = '⏳ جاري الإرسال...';
     
-    console.log('صفحة شارة حزمة أدوات المرونة - جاهزة لإرسال البريد الإلكتروني تلقائياً!');
-    console.log('لغة المستخدم: العربية');
-    console.log('سيتم إرسال البريد الإلكتروني إلى:', user.email);
-    console.log('نموذج وادي العمل الإنساني:', HUMANITARIAN_VALLEY_FORM);
+    showEmailBadgePopup();
+    
+    const payload = {
+        event: 'send_badge_email',
+        email: user.email,
+        name: user.name,
+        assessmentLink: ASSESSMENT_LINK,
+        language: userLanguage
+    };
+    
+    console.log('📤 Sending payload:', payload);
+    
+    fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'text/plain;charset=utf-8',
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(() => {
+        console.log('✅ Email request sent');
+    })
+    .catch(err => {
+        console.log('⚠️ Error sending email:', err);
+    });
+    
+    localStorage.setItem('badge_requested_at', new Date().toISOString());
+    localStorage.setItem('badge_requested_for', user.email);
+    
+    setTimeout(() => {
+        button.disabled = false;
+        button.innerHTML = '📧 احصل على شارتك';
+    }, 1000);
+}
+
+function finalizeCourseCompletion() {
+    if (!localStorage.getItem('module6_completed')) {
+        localStorage.setItem('module6_completed', 'true');
+    }
+    localStorage.setItem('resilience_course_completed', 'true');
+    localStorage.setItem('completion_date', new Date().toISOString());
+    console.log(`🏁 Course completion recorded for: ${user.name}`);
+}
+
+const badgeButton = document.getElementById('getCertificateBtn');
+if (badgeButton) {
+    badgeButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        handleGetBadgeClick();
+    });
+}
+
+finalizeCourseCompletion();
+console.log('Resilience Toolkit Badge Page — Ready!');
+console.log('User:', user.name);
+console.log('Email will be sent to:', user.email);
 </script>
 </body>
 </html>
