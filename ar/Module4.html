@@ -35,6 +35,18 @@
             color: #1A6B5A;
             font-weight: 600;
             margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .user-badge {
+            font-size: 0.7rem;
+            background: #E8F5E9;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            color: #1A6B5A;
         }
         .module-header {
             display: flex;
@@ -101,6 +113,8 @@
             border-collapse: collapse;
             margin: 1rem 0;
             font-size: 0.9rem;
+            display: block;
+            overflow-x: auto;
         }
         .comparison-table th, .comparison-table td {
             border: 1px solid #E2E9F2;
@@ -126,33 +140,13 @@
             font-weight: 500;
             color: #0C2E3B;
         }
-        .phase-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-        .phase-card {
-            background: white;
+        .golden-rule {
+            background: linear-gradient(135deg, #E8A73520, #1A6B5A20);
             border-radius: 20px;
             padding: 1.2rem;
-            border: 1px solid #E2E9F2;
-        }
-        .phase-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #E8A735;
-        }
-        .phase-example {
-            font-size: 0.85rem;
-            color: #1A6B5A;
-            margin: 0.5rem 0;
-            background: #F0F7F4;
-            padding: 0.3rem 0.6rem;
-            border-radius: 8px;
-            display: inline-block;
+            text-align: center;
+            margin: 1.5rem 0;
+            border: 1px solid #E8A735;
         }
         .exercise-box {
             background: #F9FCFE;
@@ -232,29 +226,21 @@
         .btn-secondary:hover {
             background: #d4951e;
         }
-        .golden-rule {
-            background: linear-gradient(135deg, #E8A73520, #1A6B5A20);
-            border-radius: 20px;
-            padding: 1.2rem;
-            text-align: center;
-            margin: 1.5rem 0;
-            border: 1px solid #E8A735;
-        }
-        .badge-earned {
-            background: linear-gradient(135deg, #E8A735, #1A6B5A);
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            border-radius: 60px;
-            margin-top: 1.5rem;
-            font-weight: 700;
-        }
         .module-nav {
             display: flex;
             justify-content: space-between;
             gap: 1rem;
             margin-top: 1.5rem;
             flex-wrap: wrap;
+        }
+        .module-nav button {
+            flex: 1;
+            min-width: 120px;
+        }
+        @media (max-width: 550px) {
+            .module-nav button {
+                width: 100%;
+            }
         }
         .footer-note {
             font-size: 0.7rem;
@@ -311,12 +297,24 @@
             background: #E8F5E9;
             color: #1A6B5A;
         }
+        .badge-earned {
+            background: linear-gradient(135deg, #E8A735, #1A6B5A);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            border-radius: 60px;
+            margin-top: 1.5rem;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="card">
-        <div class="header-tag">حزمة أدوات المرونة</div>
+        <div class="header-tag">
+            <span>حزمة أدوات المرونة</span>
+            <span class="user-badge" id="userBadge">👤 جار التحميل...</span>
+        </div>
         
         <div class="module-header">
             <span class="module-title">🎯 الوحدة ٤: نوايا التعلم مقابل أهداف الأداء</span>
@@ -326,13 +324,13 @@
         <div class="presenter">تقديم: ملاك عبده</div>
         <div class="duration-badge">٤ دقائق • وفق وتيرتك الخاصة</div>
 
-        <h2>مشكلة أهداف الأداء في زمن الأزمة</h2>
+        <h2>مشكلة أهداف الأداء في الأزمات</h2>
         <div class="warning-box">
             <p><strong>أهداف الأداء تبدو هكذا:</strong></p>
             <p style="font-size: 1.1rem; font-weight: 600; margin: 0.5rem 0;">"توصيل ١٠,٠٠٠ حصة غذائية بحلول يوم الجمعة."</p>
-            <p>في البيئة المستقرة، هذا ينجح. الطريق مفتوح. الوقود متوفر.</p>
-            <p><strong>في منطقة النزاع، يُغلق الطريق. يختفي الوقود.</strong></p>
-            <p>لا يستطيع الفريق تحقيق الهدف. يشعرون بالفشل. يفقدون الثقة.</p>
+            <p>في بيئة مستقرة، هذا ينجح. الطريق مفتوح. الوقود متوفر.</p>
+            <p><strong>في منطقة النزاع، الطريق يغلق. الوقود يختفي.</strong></p>
+            <p>لا يمكن للفريق تحقيق الهدف. يشعرون بالفشل. يفقدون الثقة.</p>
             <p><strong>هذه ليست مشكلة فريق. هذه مشكلة هدف.</strong></p>
         </div>
 
@@ -348,67 +346,56 @@
                 </tr>
             </thead>
             <tbody>
-                <tr><td style="text-align:right;">"توصيل ١٠,٠٠٠ حصة غذائية بحلول يوم الجمعة"</td>
-                    <td style="text-align:right;">"تعلم كيفية توصيل الحصص الغذائية بدون طريق"</td>
-                </tr>
-                <tr><td style="text-align:right;">"إصلاح المركبة المعطلة خلال ٢٤ ساعة"</td>
-                    <td style="text-align:right;">"تعلم كيفية استعارة مركبة من المجتمع"</td>
-                </tr>
-                <tr><td style="text-align:right;">"إيجاد مترجم جديد بنهاية اليوم"</td>
-                    <td style="text-align:right;">"تعلم كيفية التواصل بدون مترجم"</td>
-                </tr>
+                <tr><td>"توصيل ١٠,٠٠٠ حصة غذائية بحلول يوم الجمعة"</td><td>"تعلم كيفية توصيل الحصص الغذائية بدون طريق"</td></tr>
+                <tr><td>"إصلاح المركبة المعطلة في ٢٤ ساعة"</td><td>"تعلم كيفية استعارة مركبة من المجتمع"</td></tr>
+                <tr><td>"إيجاد مترجم جديد بنهاية اليوم"</td><td>"تعلم كيفية التواصل بدون مترجم"</td></tr>
             </tbody>
         </table>
 
-        <!-- NEW NOTE ADDED HERE -->
         <div class="learning-bridge-note">
-            💡 <strong>ملاحظة:</strong> إن نيات التعلم لا تعني التخلي عن أهداف الأداء، بل هي بمثابة "الجسر" الموصل إليها. في بيئات النزاع، يؤدي التمسك بأهداف جامدة أمام واقع متغير إلى العجز عن التنفيذ؛ أما التركيز على التعلم، فهو يمنحك المسار البديل لتحقيق تلك الأهداف. أنت لا تتنازل عن هدفك، بل تبتكر الوسيلة الأنسب للوصول إليها.
+            💡 <strong>ملاحظة:</strong> نوايا التعلم لا تعني التخلي عن أهداف الأداء. إنها "الجسر" للوصول إليها. في مناطق النزاع، التمسك بأهداف جامدة في بيئة متغيرة يؤدي إلى الشلل؛ التركيز على التعلم يمنحك المسار البديل لتحقيق تلك الأهداف.
         </div>
 
         <div class="golden-rule">
             <strong>💡 أولاً، تعلم التضاريس. ثم، حدد الهدف.</strong>
         </div>
 
-        <h2>📝 تطبيق عملي: تحويل إلى نوايا تعلم</h2>
+        <h2>📝 تدريب: تحويل إلى نوايا تعلم</h2>
         <p><strong>التعليمات:</strong> لكل سيناريو، اكتب نية تعلم. <span class="status-badge status-pending" id="progressStatus">٠/٤ مكتمل</span></p>
         
         <div class="exercise-box">
-            <!-- السيناريو 1 -->
             <div class="scenario-card" id="scenarioCard1">
                 <div class="scenario-title">📍 السيناريو ١ (فيضان، لبنان)</div>
-                <p>انهار جسر. لا يستطيع فريقك الوصول إلى نقطة التوزيع.</p>
-                <p><em>هدف الأداء:</em> "توصيل الإمدادات الغذائية بحلول الغد."</p>
-                <input type="text" class="goal-input" id="scenario1" placeholder="اكتب نية التعلم هنا...">
+                <p>جسر انهار. فريقك لا يستطيع الوصول إلى نقطة التوزيع.</p>
+                <p><em>هدف الأداء:</em> "توصيل المواد الغذائية بحلول الغد."</p>
+                <input type="text" class="goal-input" id="scenario1" placeholder="اكتب نية تعلم هنا...">
                 <button class="check-btn" data-scenario="1">تحقق من الإجابة</button>
                 <div class="feedback-badge" id="feedback1"></div>
             </div>
 
-            <!-- السيناريو 2 -->
             <div class="scenario-card" id="scenarioCard2">
                 <div class="scenario-title">📍 السيناريو ٢ (انقطاع الإنترنت، سوريا)</div>
-                <p>جميع خطوط الاتصال معطلة. لا يمكنك الاتصال بالمركز.</p>
-                <p><em>هدف الأداء:</em> "الحصول على موافقة المركز بحلول الظهر."</p>
-                <input type="text" class="goal-input" id="scenario2" placeholder="اكتب نية التعلم هنا...">
+                <p>جميع خطوط الاتصال معطلة. لا يمكنك الاتصال بالمكتب الرئيسي.</p>
+                <p><em>هدف الأداء:</em> "الحصول على موافقة المكتب الرئيسي بحلول الظهر."</p>
+                <input type="text" class="goal-input" id="scenario2" placeholder="اكتب نية تعلم هنا...">
                 <button class="check-btn" data-scenario="2">تحقق من الإجابة</button>
                 <div class="feedback-badge" id="feedback2"></div>
             </div>
 
-            <!-- السيناريو 3 -->
             <div class="scenario-card" id="scenarioCard3">
                 <div class="scenario-title">📍 السيناريو ٣ (اعتقال موظف، كييف)</div>
                 <p>تم اعتقال مترجمك. لا يمكنك التواصل مع الشركاء.</p>
-                <p><em>هدف الأداء:</em> "العثور على مترجم جديد بنهاية اليوم."</p>
-                <input type="text" class="goal-input" id="scenario3" placeholder="اكتب نية التعلم هنا...">
+                <p><em>هدف الأداء:</em> "إيجاد مترجم جديد بنهاية اليوم."</p>
+                <input type="text" class="goal-input" id="scenario3" placeholder="اكتب نية تعلم هنا...">
                 <button class="check-btn" data-scenario="3">تحقق من الإجابة</button>
                 <div class="feedback-badge" id="feedback3"></div>
             </div>
 
-            <!-- السيناريو 4 -->
             <div class="scenario-card" id="scenarioCard4">
                 <div class="scenario-title">📍 السيناريو ٤ (تعطل مركبة، الكونغو)</div>
                 <p>تعطلت مركبتك الوحيدة. الفريق ينتظر للذهاب إلى الميدان.</p>
-                <p><em>هدف الأداء:</em> "إصلاح المركبة خلال ٦ ساعات."</p>
-                <input type="text" class="goal-input" id="scenario4" placeholder="اكتب نية التعلم هنا...">
+                <p><em>هدف الأداء:</em> "إصلاح المركبة في غضون ٦ ساعات."</p>
+                <input type="text" class="goal-input" id="scenario4" placeholder="اكتب نية تعلم هنا...">
                 <button class="check-btn" data-scenario="4">تحقق من الإجابة</button>
                 <div class="feedback-badge" id="feedback4"></div>
             </div>
@@ -420,9 +407,9 @@
             <p><strong>نوايا التعلم المقترحة:</strong></p>
             <ul style="margin-right: 1.5rem;">
                 <li><strong>لبنان (فيضان):</strong> "تعلم كيفية الوصول إلى المستفيدين باستخدام طرق بديلة أو قوارب محلية."</li>
-                <li><strong>سوريا (انقطاع الإنترنت):</strong> "تعلم كيفية اتخاذ قرارات مستقلة دون موافقة المركز."</li>
+                <li><strong>سوريا (انقطاع الإنترنت):</strong> "تعلم كيفية اتخاذ قرارات مستقلة دون موافقة المكتب الرئيسي."</li>
                 <li><strong>كييف (اعتقال موظف):</strong> "تعلم كيفية التواصل باستخدام الإيماءات أو الرسومات أو متطوعين من المجتمع."</li>
-                <li><strong>الكونغو (تعطل مركبة):</strong> "تعرف على من في المجتمع لديه مركبة يمكننا استعارتها."</li>
+                <li><strong>الكونغو (تعطل مركبة):</strong> "تعلم من في المجتمع لديه مركبة يمكننا استعارتها."</li>
             </ul>
         </div>
 
@@ -431,16 +418,16 @@
         <div class="golden-rule">
             <strong>الخلاصة الرئيسية</strong><br>
             أهداف الأداء تقيس النجاح.<br>
-            نوايا التعلم تمكّن النجاح.<br><br>
+            نوايا التعلم تمكن النجاح.<br><br>
             <strong>في الأزمة، ابدأ بالتعلم. الأداء سيتبع.</strong>
         </div>
 
         <div id="badgeArea" style="display: none;" class="badge-earned">
-            🏅 وسام مُكتسب: إتقان نوايا التعلم!
+            🏅 تم الحصول على الشارة: إتقان نوايا التعلم!
         </div>
 
         <div class="module-nav">
-            <button class="btn-secondary" id="backToModule3Btn">← العودة إلى الوحدة ٣</button>
+            <button class="btn-secondary" id="backToModule3Btn">← العودة إلى الوحدة ٣.١</button>
             <button id="continueToModule5Btn">الانتقال إلى الوحدة ٥ →</button>
         </div>
 
@@ -454,25 +441,45 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLk
 
 function getUserData() {
     let name = '', email = '', position = '';
+    
+    // Check currentUser
+    try {
+        let currentUser = localStorage.getItem('currentUser');
+        if (currentUser) {
+            let user = JSON.parse(currentUser);
+            if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر') {
+                return { name: user.name.trim(), email: (user.email || '').trim(), position: (user.position || '').trim() };
+            }
+        }
+    } catch(e) {}
+    
+    // Check users array
+    try {
+        let users = JSON.parse(localStorage.getItem('users') || '[]');
+        if (users.length > 0) {
+            let lastUser = users[users.length - 1];
+            if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name !== 'زائر') {
+                return { name: lastUser.name.trim(), email: (lastUser.email || '').trim(), position: (lastUser.position || '').trim() };
+            }
+        }
+    } catch(e) {}
+    
+    // Check course_user_name
     let n = localStorage.getItem('course_user_name');
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim() !== '') {
+    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر') {
         name = n.trim();
-        email = (localStorage.getItem('course_user_email') || '').trim();
-        position = (localStorage.getItem('course_user_position') || '').trim();
+        email = localStorage.getItem('course_user_email') || '';
+        position = localStorage.getItem('course_user_position') || '';
+        return { name, email, position };
     }
-    if (!name) {
-        let user = localStorage.getItem('course_user');
-        if (user) {
-            try { let p = JSON.parse(user); if (p && p.name && p.name !== 'Guest') { name = p.name.trim(); email = (p.email || '').trim(); position = (p.position || '').trim(); } } catch(e) {}
-        }
-    }
-    if (!name) {
-        let users = localStorage.getItem('users');
-        if (users) {
-            try { let p = JSON.parse(users); if (Array.isArray(p) && p.length > 0) { for (let i = p.length - 1; i >= 0; i--) { if (p[i] && p[i].name && p[i].name !== 'Guest') { name = p[i].name.trim(); email = (p[i].email || '').trim(); position = (p[i].position || '').trim(); break; } } } } catch(e) {}
-        }
-    }
-    return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
+    
+    return { name: 'زائر', email: 'guest@example.com', position: 'غير محدد' };
+}
+
+const currentUser = getUserData();
+const userBadge = document.getElementById('userBadge');
+if (userBadge) {
+    userBadge.innerText = currentUser.name !== 'زائر' ? `👤 ${currentUser.name}` : '👤 متعلم';
 }
 
 function showToast(message, isError = false) {
@@ -487,10 +494,10 @@ function showToast(message, isError = false) {
 }
 
 const sampleAnswers = {
-    1: ["تعلم كيفية الوصول إلى المستفيدين", "تعلم طرق بديلة", "تعلم استخدام القوارب المحلية", "إيجاد طرق بديلة"],
-    2: ["تعلم كيفية اتخاذ قرارات بدون المركز", "تعلم القرارات المستقلة", "تعلم التصرف بدون موافقة", "اتخاذ قرارات مستقلة"],
-    3: ["تعلم كيفية التواصل بدون مترجم", "تعلم طرق بديلة للتواصل", "تعلم الإيماءات", "تعلم استخدام متطوعين من المجتمع", "تعلم استخدام الرسومات"],
-    4: ["تعلم من لديه مركبة", "تعلم استعارة مركبة", "إيجاد مركبات في المجتمع", "استعارة مركبة", "تعلم وسائل نقل بديلة"]
+    1: ["تعلم كيفية الوصول إلى المستفيدين", "تعلم طرق بديلة", "تعلم القوارب المحلية"],
+    2: ["تعلم كيفية اتخاذ قرارات بدون المكتب الرئيسي", "تعلم القرارات المستقلة", "اتخاذ قرارات بدون موافقة"],
+    3: ["تعلم كيفية التواصل بدون مترجم", "تعلم تواصل بديل", "تعلم الإيماءات", "متطوعين من المجتمع"],
+    4: ["تعلم من لديه مركبة", "تعلم استعارة مركبة", "مركبة من المجتمع", "استعارة مركبة"]
 };
 
 function checkAnswer(scenarioNum, userAnswer) {
@@ -576,16 +583,6 @@ function loadSavedAnswers() {
 
 function sendModule4DataToSheet() {
     const userData = getUserData();
-    const scenario1 = document.getElementById('scenario1').value.trim();
-    const scenario2 = document.getElementById('scenario2').value.trim();
-    const scenario3 = document.getElementById('scenario3').value.trim();
-    const scenario4 = document.getElementById('scenario4').value.trim();
-    
-    if (!scenario1 || !scenario2 || !scenario3 || !scenario4) {
-        showToast('⚠️ الرجاء إكمال جميع السيناريوهات الأربعة قبل المتابعة.', true);
-        return false;
-    }
-    
     const payload = {
         module: 'Module 4',
         language: 'ar',
@@ -594,30 +591,16 @@ function sendModule4DataToSheet() {
         userPosition: userData.position,
         timestamp: new Date().toISOString(),
         answers: {
-            scenario1: scenario1,
-            scenario2: scenario2,
-            scenario3: scenario3,
-            scenario4: scenario4
+            scenario1: document.getElementById('scenario1').value.trim() || 'لم يجب',
+            scenario2: document.getElementById('scenario2').value.trim() || 'لم يجب',
+            scenario3: document.getElementById('scenario3').value.trim() || 'لم يجب',
+            scenario4: document.getElementById('scenario4').value.trim() || 'لم يجب'
         }
     };
-    
-    console.log('📤 جاري إرسال بيانات الوحدة ٤:', payload);
-    
     const xhr = new XMLHttpRequest();
     xhr.open('POST', GOOGLE_SCRIPT_URL, true);
     xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                console.log('✅ تم إرسال البيانات بنجاح');
-            } else {
-                console.log('⚠️ قد لا تكون البيانات قد حفظت، لكننا نستمر');
-            }
-        }
-    };
     xhr.send(JSON.stringify(payload));
-    
-    return true;
 }
 
 function goToModule5() {
@@ -690,7 +673,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const backBtn = document.getElementById('backToModule3Btn');
     if (backBtn) {
         backBtn.addEventListener('click', () => { 
-            window.location.href = 'module3.html'; 
+            window.location.href = 'module3.1.html'; 
         });
     }
     
