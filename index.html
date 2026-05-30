@@ -7,7 +7,7 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
             background: linear-gradient(145deg, #146B5C 0%, #0E4F44 100%);
             min-height: 100vh;
             display: flex;
@@ -66,311 +66,502 @@
         .success-box { background: #1A6B5A; color: white; }
         .info-box { background: #E0F2E9; color: #146B5C; }
         .footer-note { font-size: 0.7rem; color: #7C8B9A; margin-top: 1.5rem; text-align: center; }
-        .login-link { text-align: center; margin-top: 1rem; font-size: 0.85rem; }
-        .login-link a { color: #1A6B5A; text-decoration: none; font-weight: 600; }
-        .login-link a:hover { text-decoration: underline; }
+        
+        .section { transition: all 0.3s ease; }
+        .hidden { display: none !important; }
+        
+        .resend-link { text-align: center; margin-top: 0.8rem; font-size: 0.8rem; }
+        .resend-link a { color: #1A6B5A; text-decoration: none; cursor: pointer; font-weight: 600; }
+        .resend-link a:hover { text-decoration: underline; }
+        .back-link { text-align: center; margin-top: 1rem; }
+        .back-link a { color: #7C8B9A; text-decoration: none; font-size: 0.8rem; cursor: pointer; }
+        .language-switch { text-align: right; margin-bottom: 1rem; }
+        .lang-btn {
+            background: none;
+            border: 1px solid #E2E9F2;
+            color: #1A4E44;
+            font-size: 0.75rem;
+            padding: 0.3rem 0.8rem;
+            margin: 0;
+            width: auto;
+            display: inline-block;
+        }
+        .lang-btn:hover { background: #E0F2E9; transform: none; }
+        
+        /* Style for Other input field */
+        .other-input {
+            margin-top: 0.5rem;
+            display: none;
+        }
+        .other-input.show {
+            display: block;
+        }
+        .required-star {
+            color: #e74c3c;
+            margin-left: 3px;
+        }
     </style>
 </head>
 <body>
 <div class="card">
-    <div style="text-align: center; font-size: 2.5rem;">🏔️</div>
-    <h1>The Resilience Toolkit</h1>
-    <h2>Create your account to begin</h2>
-
-    <div class="input-group">
-        <label>👤 Full Name</label>
-        <input type="text" id="fullName" placeholder="e.g., Ahmed Al-Mansouri" autocomplete="name">
+    <div class="language-switch">
+        <button class="lang-btn" id="langEnBtn">🇬🇧 English</button>
+        <button class="lang-btn" id="langArBtn">🇸🇦 العربية</button>
     </div>
+    <div style="text-align: center; font-size: 2.5rem;">🏔️</div>
+    <h1 id="title">The Resilience Toolkit</h1>
+    <h2 id="subtitle">Create your account to begin</h2>
 
-    <div class="row-2">
+    <!-- SECTION 1: REGISTRATION FORM -->
+    <div id="registrationSection" class="section">
         <div class="input-group">
-            <label>📧 Email</label>
+            <label id="nameLabel">👤 Full Name <span class="required-star">*</span></label>
+            <input type="text" id="fullName" placeholder="e.g., Ahmed Al-Mansouri" autocomplete="name">
+        </div>
+        <div class="input-group">
+            <label id="emailLabel">📧 Email <span class="required-star">*</span></label>
             <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
         </div>
-        <div class="input-group">
-            <label>🔒 Password</label>
-            <input type="password" id="password" placeholder="At least 6 characters">
+        <div class="row-2">
+            <div class="input-group">
+                <label id="positionLabel">💼 Position / Title <span class="required-star">*</span></label>
+                <select id="position">
+                    <option value="">-- Select Position --</option>
+                    <option value="Executive Director">Executive Director</option>
+                    <option value="Program Manager">Program Manager</option>
+                    <option value="Project Coordinator">Project Coordinator</option>
+                    <option value="Humanitarian Advisor">Humanitarian Advisor</option>
+                    <option value="Country Director">Country Director</option>
+                    <option value="Operations Manager">Operations Manager</option>
+                    <option value="Field Coordinator">Field Coordinator</option>
+                    <option value="Monitoring & Evaluation Officer">Monitoring & Evaluation Officer</option>
+                    <option value="Logistics Coordinator">Logistics Coordinator</option>
+                    <option value="Finance Manager">Finance Manager</option>
+                    <option value="HR Manager">HR Manager</option>
+                    <option value="Communications Officer">Communications Officer</option>
+                    <option value="Advocacy Specialist">Advocacy Specialist</option>
+                    <option value="Protection Officer">Protection Officer</option>
+                    <option value="Emergency Response Coordinator">Emergency Response Coordinator</option>
+                    <option value="Community Engagement Lead">Community Engagement Lead</option>
+                    <option value="Consultant">Consultant</option>
+                    <option value="Other">Other</option>
+                </select>
+                <div id="positionOtherGroup" class="other-input">
+                    <input type="text" id="positionOther" placeholder="Please specify your position">
+                </div>
+            </div>
+            <div class="input-group">
+                <label id="countryLabel">🌍 Country <span class="required-star">*</span></label>
+                <select id="country">
+                    <option value="">-- Select Country --</option>
+                    <option value="Afghanistan">Afghanistan</option>
+                    <option value="Algeria">Algeria</option>
+                    <option value="Bahrain">Bahrain</option>
+                    <option value="Chad">Chad</option>
+                    <option value="Comoros">Comoros</option>
+                    <option value="Djibouti">Djibouti</option>
+                    <option value="Egypt">Egypt</option>
+                    <option value="Eritrea">Eritrea</option>
+                    <option value="Ethiopia">Ethiopia</option>
+                    <option value="Iran">Iran</option>
+                    <option value="Iraq">Iraq</option>
+                    <option value="Jordan">Jordan</option>
+                    <option value="Kuwait">Kuwait</option>
+                    <option value="Lebanon">Lebanon</option>
+                    <option value="Libya">Libya</option>
+                    <option value="Mauritania">Mauritania</option>
+                    <option value="Morocco">Morocco</option>
+                    <option value="Oman">Oman</option>
+                    <option value="Pakistan">Pakistan</option>
+                    <option value="Palestine">Palestine</option>
+                    <option value="Qatar">Qatar</option>
+                    <option value="Saudi Arabia">Saudi Arabia</option>
+                    <option value="Somalia">Somalia</option>
+                    <option value="Sudan">Sudan</option>
+                    <option value="Syria">Syria</option>
+                    <option value="Tunisia">Tunisia</option>
+                    <option value="Turkey">Turkey</option>
+                    <option value="United Arab Emirates">United Arab Emirates</option>
+                    <option value="Yemen">Yemen</option>
+                    <option value="Other">Other</option>
+                </select>
+                <div id="countryOtherGroup" class="other-input">
+                    <input type="text" id="countryOther" placeholder="Please specify your country">
+                </div>
+            </div>
         </div>
+        <div class="row-2">
+            <div class="input-group">
+                <label id="orgLabel">🏢 Organization <span class="required-star">*</span></label>
+                <input type="text" id="organization" placeholder="Organization name">
+            </div>
+            <div class="input-group">
+                <label id="langLabel">🌐 Language <span class="required-star">*</span></label>
+                <select id="language">
+                    <option value="en">English</option>
+                    <option value="ar">العربية</option>
+                </select>
+            </div>
+        </div>
+        <div class="input-group">
+            <label id="linkedinLabel">🔗 LinkedIn Profile (optional)</label>
+            <input type="url" id="linkedin" placeholder="https://linkedin.com/in/yourprofile">
+        </div>
+        <button id="sendCodeBtn">📨 Send Verification Code</button>
+        <div id="registerMessage" class="error-box"></div>
     </div>
 
-    <div class="row-2">
+    <!-- SECTION 2: OTP VERIFICATION -->
+    <div id="otpSection" class="section hidden">
         <div class="input-group">
-            <label>💼 Position / Title</label>
-            <input type="text" id="position" placeholder="e.g., Program Manager">
+            <label id="otpLabel">🔐 Verification Code <span class="required-star">*</span></label>
+            <input type="text" id="otpCode" placeholder="Enter 6-digit code" maxlength="6" autocomplete="off">
         </div>
-        <div class="input-group">
-            <label>🌍 Country</label>
-            <input type="text" id="country" placeholder="e.g., Yemen, Syria, Sudan">
+        <button id="verifyBtn">✓ Verify & Start Course</button>
+        <div class="resend-link">
+            <a id="resendLink">⟳ Didn't receive code? Resend</a>
         </div>
+        <div class="back-link">
+            <a id="backLink">← Back to registration</a>
+        </div>
+        <div id="otpMessage" class="error-box"></div>
     </div>
 
-    <div class="row-2">
-        <div class="input-group">
-            <label>🏢 Organization</label>
-            <input type="text" id="organization" placeholder="Organization name">
-        </div>
-        <div class="input-group">
-            <label>🌐 Language</label>
-            <select id="language">
-                <option value="en">English</option>
-                <option value="ar">العربية</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="input-group">
-        <label>🔗 LinkedIn Profile (optional)</label>
-        <input type="url" id="linkedin" placeholder="https://linkedin.com/in/yourprofile">
-    </div>
-
-    <button id="registerBtn">🚀 Start Your Journey</button>
-    <div id="registerMessage" class="error-box"></div>
-    
-    <div class="login-link">
-        Already have an account? <a href="login.html">Sign in →</a>
-    </div>
-    <div class="footer-note">⚡ Free access for humanitarian leaders</div>
+    <div class="footer-note" id="footerNote">⚡ Free access for humanitarian leaders</div>
 </div>
 
 <script>
     // ========== CONFIGURATION ==========
-    const YOUR_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzVD8WJkgtcg51Onjb0Uu5DQZqvHsoXZlLJ35hGczmwXKbV_xsngRlKi_f4RJlFA30XKQ/exec';
-    const BASE_URL = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
-
-    // Simple hash function (must match login page)
-    function simpleHash(str) {
-        let hash = 0;
-        for (let i = 0; i < str.length; i++) {
-            const char = str.charCodeAt(i);
-            hash = ((hash << 5) - hash) + char;
-            hash = hash & hash;
+    const YOUR_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhva-Nkejwwng49V33hdNhOwdSx-uiFZTQ3Uuwtjnl6F84U8CbEeOSu3rpEfI37H6X/exec';
+    
+    // State variables
+    let tempUserData = null;
+    let generatedCode = null;
+    let codeExpiry = null;
+    let currentLang = 'en';
+    
+    // Translations for UI
+    const translations = {
+        en: {
+            title: 'The Resilience Toolkit',
+            subtitle: 'Create your account to begin',
+            nameLabel: '👤 Full Name',
+            emailLabel: '📧 Email',
+            positionLabel: '💼 Position / Title',
+            countryLabel: '🌍 Country',
+            orgLabel: '🏢 Organization',
+            langLabel: '🌐 Language',
+            linkedinLabel: '🔗 LinkedIn Profile (optional)',
+            sendBtn: '📨 Send Verification Code',
+            verifyBtn: '✓ Verify & Start Course',
+            otpLabel: '🔐 Verification Code',
+            resendLink: '⟳ Didn\'t receive code? Resend',
+            backLink: '← Back to registration',
+            footerNote: '⚡ Free access for humanitarian leaders',
+            enterName: '❌ Please enter your full name.',
+            enterEmail: '❌ Please enter your email address.',
+            validEmail: '❌ Please enter a valid email address.',
+            enterPosition: '❌ Please select or specify your position.',
+            enterCountry: '❌ Please select or specify your country.',
+            enterOrganization: '❌ Please enter your organization name.',
+            sendingCode: '📨 Sending verification code to your email...',
+            codeSent: '✅ Verification code sent to ',
+            codeSentEnd: '. Please check your inbox (including spam folder).',
+            sendError: '⚠️ Failed to send email. Please try again.',
+            enterCode: '❌ Please enter the verification code.',
+            codeExpired: '⏰ Code expired. Please request a new code.',
+            wrongCode: '❌ Incorrect code. Please try again.',
+            verifying: '✓ Verifying and registering you...',
+            success: '🎉 Registration successful! Redirecting to course...',
+            saveError: '⚠️ Failed to save data. Please contact support.',
+            resending: '📨 Resending verification code...',
+            codeResent: '✅ New code sent to '
+        },
+        ar: {
+            title: 'منصة المرونة',
+            subtitle: 'سجل حسابك لتبدأ الرحلة',
+            nameLabel: '👤 الاسم الكامل',
+            emailLabel: '📧 البريد الإلكتروني',
+            positionLabel: '💼 المسمى الوظيفي',
+            countryLabel: '🌍 الدولة',
+            orgLabel: '🏢 المنظمة',
+            langLabel: '🌐 اللغة',
+            linkedinLabel: '🔗 رابط لينكد إن (اختياري)',
+            sendBtn: '📨 إرسال كود التفعيل',
+            verifyBtn: '✓ تأكيد وبدء الكورس',
+            otpLabel: '🔐 كود التفعيل',
+            resendLink: '⟳ لم يصلني الكود؟ إعادة إرسال',
+            backLink: '← العودة للتسجيل',
+            footerNote: '⚡ دخول مجاني للقادة الإنسانيين',
+            enterName: '❌ الرجاء إدخال الاسم الكامل',
+            enterEmail: '❌ الرجاء إدخال البريد الإلكتروني',
+            validEmail: '❌ الرجاء إدخال بريد إلكتروني صحيح',
+            enterPosition: '❌ الرجاء اختيار أو كتابة المسمى الوظيفي',
+            enterCountry: '❌ الرجاء اختيار أو كتابة الدولة',
+            enterOrganization: '❌ الرجاء إدخال اسم المنظمة',
+            sendingCode: '📨 جاري إرسال كود التفعيل إلى بريدك...',
+            codeSent: '✅ تم إرسال كود التفعيل إلى ',
+            codeSentEnd: '. الرجاء التحقق من بريدك الوارد',
+            sendError: '⚠️ فشل إرسال البريد. الرجاء المحاولة مرة أخرى',
+            enterCode: '❌ الرجاء إدخال كود التفعيل',
+            codeExpired: '⏰ انتهت صلاحية الكود. الرجاء طلب كود جديد',
+            wrongCode: '❌ الكود غير صحيح. الرجاء المحاولة مرة أخرى',
+            verifying: '✓ جاري تأكيد تسجيلك...',
+            success: '🎉 تم التسجيل بنجاح! جاري تحويلك إلى الكورس...',
+            saveError: '⚠️ فشل حفظ البيانات. الرجاء التواصل مع الدعم',
+            resending: '📨 جاري إعادة إرسال كود التفعيل...',
+            codeResent: '✅ تم إعادة إرسال الكود إلى '
         }
-        return hash.toString();
+    };
+    
+    // Handle Other option for Position
+    function setupOtherOption(selectId, otherInputId) {
+        const select = document.getElementById(selectId);
+        const otherGroup = document.getElementById(otherInputId + 'Group');
+        const otherInput = document.getElementById(otherInputId);
+        
+        if (!select || !otherGroup || !otherInput) return;
+        
+        function checkOther() {
+            if (select.value === 'Other') {
+                otherGroup.classList.add('show');
+                otherInput.required = true;
+                otherInput.focus();
+            } else {
+                otherGroup.classList.remove('show');
+                otherInput.required = false;
+                otherInput.value = '';
+            }
+        }
+        
+        select.addEventListener('change', checkOther);
+        checkOther();
     }
-
-    // ========== CRITICAL: Save user to localStorage ==========
-    function saveUserToLocalStorage(userData) {
-        // Get existing users
-        let users = JSON.parse(localStorage.getItem('users') || '[]');
+    
+    // Get value from select with Other support
+    function getSelectValueWithOther(selectId, otherInputId) {
+        const select = document.getElementById(selectId);
+        const otherInput = document.getElementById(otherInputId);
         
-        // Check if user already exists
-        const existingUserIndex = users.findIndex(u => u.email === userData.email);
-        
-        if (existingUserIndex === -1) {
-            // Add new user
-            users.push(userData);
-            console.log('✅ New user added to localStorage');
-        } else {
-            // Update existing user
-            users[existingUserIndex] = userData;
-            console.log('✅ Existing user updated in localStorage');
+        if (select.value === 'Other') {
+            return otherInput.value.trim() || '';
         }
-        
-        // Save back to localStorage
-        localStorage.setItem('users', JSON.stringify(users));
-        
-        console.log('📊 Total users in localStorage:', users.length);
-        console.log('✅ User saved:', userData.email, '| Verified:', userData.verified);
-        
-        // Also store separately for easy access
-        localStorage.setItem(`user_${userData.email}`, JSON.stringify(userData));
-        
-        // Verify save worked
-        const verifyUsers = JSON.parse(localStorage.getItem('users') || '[]');
-        console.log('🔍 Verification - Users in storage:', verifyUsers.map(u => u.email));
-        
-        return true;
+        return select.value;
     }
-
-    // ========== MAIN REGISTRATION FUNCTION ==========
-    async function register() {
-        // Get form values
-        const name = document.getElementById('fullName').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value;
-        const position = document.getElementById('position').value.trim();
-        const country = document.getElementById('country').value.trim();
-        const organization = document.getElementById('organization').value.trim();
-        const language = document.getElementById('language').value;
-        const linkedin = document.getElementById('linkedin').value.trim();
-
-        const messageDiv = document.getElementById('registerMessage');
-        messageDiv.style.display = 'none';
-        messageDiv.className = 'error-box';
-
-        // Validation
-        if (!name) {
-            messageDiv.innerText = '❌ Please enter your full name.';
-            messageDiv.style.display = 'block';
-            return;
-        }
-
-        if (!email) {
-            messageDiv.innerText = '❌ Please enter your email address.';
-            messageDiv.style.display = 'block';
-            return;
-        }
-
-        if (!email.includes('@')) {
-            messageDiv.innerText = '❌ Please enter a valid email address.';
-            messageDiv.style.display = 'block';
-            return;
-        }
-
-        if (!password || password.length < 6) {
-            messageDiv.innerText = '❌ Password must be at least 6 characters.';
-            messageDiv.style.display = 'block';
-            return;
-        }
-
-        if (!position) {
-            messageDiv.innerText = '❌ Please enter your position/title.';
-            messageDiv.style.display = 'block';
-            return;
-        }
-
-        if (!country) {
-            messageDiv.innerText = '❌ Please enter your country.';
-            messageDiv.style.display = 'block';
-            return;
-        }
-
-        // Check if user already exists in localStorage
-        let existingUsers = JSON.parse(localStorage.getItem('users') || '[]');
-        let existingUser = existingUsers.find(u => u.email === email);
+    
+    function updateLanguage() {
+        const t = translations[currentLang];
+        document.getElementById('title').textContent = t.title;
+        document.getElementById('subtitle').textContent = t.subtitle;
+        document.getElementById('nameLabel').innerHTML = t.nameLabel + ' <span class="required-star">*</span>';
+        document.getElementById('emailLabel').innerHTML = t.emailLabel + ' <span class="required-star">*</span>';
+        document.getElementById('positionLabel').innerHTML = t.positionLabel + ' <span class="required-star">*</span>';
+        document.getElementById('countryLabel').innerHTML = t.countryLabel + ' <span class="required-star">*</span>';
+        document.getElementById('orgLabel').innerHTML = t.orgLabel + ' <span class="required-star">*</span>';
+        document.getElementById('langLabel').innerHTML = t.langLabel + ' <span class="required-star">*</span>';
+        document.getElementById('linkedinLabel').textContent = t.linkedinLabel;
+        document.getElementById('sendCodeBtn').textContent = t.sendBtn;
+        document.getElementById('verifyBtn').textContent = t.verifyBtn;
+        document.getElementById('otpLabel').innerHTML = t.otpLabel + ' <span class="required-star">*</span>';
+        document.getElementById('resendLink').textContent = t.resendLink;
+        document.getElementById('backLink').textContent = t.backLink;
+        document.getElementById('footerNote').textContent = t.footerNote;
         
-        if (existingUser && existingUser.verified) {
-            messageDiv.innerText = '❌ An account with this email already exists. Please sign in instead.';
-            messageDiv.style.display = 'block';
-            return;
-        }
-
-        // Hash password
-        const hashedPassword = simpleHash(password);
-
-        // Create user object
-        const userData = {
-            name: name,
-            email: email,
-            password: hashedPassword,
-            position: position,
-            country: country,
-            organization: organization || 'Not specified',
-            language: language,
-            verified: false,  // CRITICAL: Not verified until email click
-            combinedSocial: linkedin || '',
-            registrationDate: new Date().toISOString()
-        };
-
-        // ========== STEP 1: Save to localStorage FIRST ==========
-        console.log('💾 Saving user to localStorage...');
-        saveUserToLocalStorage(userData);
+        document.getElementById('fullName').placeholder = currentLang === 'en' ? 'e.g., Ahmed Al-Mansouri' : 'مثال: أحمد المنصوري';
+        document.getElementById('email').placeholder = currentLang === 'en' ? 'you@example.com' : 'example@domain.com';
+        document.getElementById('organization').placeholder = currentLang === 'en' ? 'Organization name' : 'اسم المنظمة';
+        document.getElementById('otpCode').placeholder = currentLang === 'en' ? 'Enter 6-digit code' : 'أدخل الكود المكون من 6 أرقام';
+        document.getElementById('positionOther').placeholder = currentLang === 'en' ? 'Please specify your position' : 'الرجاء كتابة المسمى الوظيفي';
+        document.getElementById('countryOther').placeholder = currentLang === 'en' ? 'Please specify your country' : 'الرجاء كتابة اسم الدولة';
+    }
+    
+    function generateCode() {
+        return Math.floor(100000 + Math.random() * 900000).toString();
+    }
+    
+    // Send OTP Email
+    async function sendWelcomeEmailWithCode(email, name, code, language) {
+        const formData = new FormData();
+        formData.append('action', 'sendWelcomeWithCode');
+        formData.append('email', email);
+        formData.append('name', name);
+        formData.append('code', code);
+        formData.append('language', language);
         
-        // Verify immediately that save worked
-        const verifySaved = JSON.parse(localStorage.getItem('users') || '[]');
-        const found = verifySaved.find(u => u.email === email);
-        
-        if (!found) {
-            console.error('❌ CRITICAL: User was NOT saved to localStorage!');
-            messageDiv.innerText = '❌ System error: Could not save user data. Please try again.';
-            messageDiv.style.display = 'block';
-            return;
-        }
-        
-        console.log('✅ User verified in localStorage:', found.email, 'Verified status:', found.verified);
-
-        // ========== STEP 2: Send to Google Sheets for email ==========
-        messageDiv.className = 'info-box';
-        messageDiv.innerHTML = '📧 Creating your account and sending verification email...';
-        messageDiv.style.display = 'block';
-
-        // Prepare data for Google Sheets (includes verification link)
-        const scriptData = {
-            action: 'register',
-            name: name,
-            email: email,
-            position: position,
-            country: country,
-            organization: organization || 'Not specified',
-            language: language,
-            password: hashedPassword,
-            linkedin_social: linkedin || '',
-            verificationLink: `https://malak-abdo.github.io/Resilience-Toolkit-Course/login.html?verify=${encodeURIComponent(email)}`,
-            timestamp: new Date().toISOString()
-        };
-
         try {
-            // Send to Google Apps Script
             await fetch(YOUR_SCRIPT_URL, {
                 method: 'POST',
                 mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(scriptData)
+                body: formData
             });
-            
-            console.log('✅ Registration data sent to Google Sheets');
-            
-            // Success message
-            messageDiv.className = 'success-box';
-            if (language === 'ar') {
-                messageDiv.innerHTML = `✅ تم إنشاء حسابك بنجاح! تم إرسال رابط التفعيل إلى بريدك الإلكتروني (${email}). الرجاء التحقق من بريدك الوارد والنقر على الرابط لتفعيل حسابك.`;
-            } else {
-                messageDiv.innerHTML = `✅ Account created successfully! A verification link has been sent to ${email}. Please check your inbox and click the link to verify your account.`;
-            }
-            messageDiv.style.display = 'block';
-            
-            // Clear form
-            document.getElementById('fullName').value = '';
-            document.getElementById('password').value = '';
-            
-            // Redirect to login page after 4 seconds
-            setTimeout(() => {
-                window.location.href = BASE_URL + 'login.html?email=' + encodeURIComponent(email);
-            }, 4000);
-            
+            return true;
         } catch (error) {
-            console.error('❌ Error sending to Google Sheets:', error);
-            messageDiv.className = 'error-box';
-            if (language === 'ar') {
-                messageDiv.innerHTML = `❌ حدث خطأ في إرسال البريد الإلكتروني. لكن تم حفظ حسابك. الرجاء المحاولة مرة أخرى أو الاتصال بالدعم.`;
-            } else {
-                messageDiv.innerHTML = `❌ Error sending verification email, but your account was saved. Please try again or contact support.`;
-            }
-            messageDiv.style.display = 'block';
+            console.error('Failed to send email:', error);
+            return false;
         }
     }
-
-    // ========== CHECK FOR EXISTING VERIFIED USER ==========
-    function checkExistingUser() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const emailParam = urlParams.get('email');
-        if (emailParam) {
-            const users = JSON.parse(localStorage.getItem('users') || '[]');
-            const user = users.find(u => u.email === emailParam);
-            if (user && user.verified) {
-                const messageDiv = document.getElementById('registerMessage');
-                messageDiv.className = 'info-box';
-                messageDiv.innerHTML = `ℹ️ Account already exists and is verified. <a href="login.html" style="color:#146B5C;">Sign in here →</a>`;
-                messageDiv.style.display = 'block';
-            }
-        }
-    }
-
-    // Event listeners
-    document.getElementById('registerBtn').onclick = register;
     
-    // Enter key support
-    const inputs = ['fullName', 'email', 'password', 'position', 'country', 'organization', 'linkedin'];
-    inputs.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.addEventListener('keypress', (e) => { if (e.key === 'Enter') register(); });
-    });
-    document.getElementById('language').addEventListener('keypress', (e) => { if (e.key === 'Enter') register(); });
-
-    // Run on page load
-    checkExistingUser();
-    console.log('✅ Registration page ready');
-    console.log('📋 Current localStorage users:', JSON.parse(localStorage.getItem('users') || '[]'));
+    async function saveToGoogleSheets(userData) {
+        const formData = new FormData();
+        formData.append('action', 'register');
+        formData.append('name', userData.name);
+        formData.append('email', userData.email);
+        formData.append('country', userData.country);
+        formData.append('position', userData.position);
+        formData.append('organization', userData.organization || '');
+        formData.append('linkedin', userData.linkedin || '');
+        formData.append('language', userData.language || 'en');
+        formData.append('verified', 'true');
+        formData.append('timestamp', new Date().toISOString());
+        
+        try {
+            await fetch(YOUR_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: formData
+            });
+            return true;
+        } catch (error) {
+            console.error('Failed to save data:', error);
+            return false;
+        }
+    }
+    
+    function showMessage(element, text, type) {
+        element.textContent = text;
+        element.className = type;
+        element.style.display = 'block';
+        setTimeout(() => { element.style.display = 'none'; }, 5000);
+    }
+    
+    // STEP 1: Send Verification Code
+    async function sendCode() {
+        const name = document.getElementById('fullName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const position = getSelectValueWithOther('position', 'positionOther');
+        const country = getSelectValueWithOther('country', 'countryOther');
+        const organization = document.getElementById('organization').value.trim();
+        const linkedin = document.getElementById('linkedin').value.trim();
+        const language = document.getElementById('language').value;
+        
+        const messageDiv = document.getElementById('registerMessage');
+        const t = translations[currentLang];
+        
+        if (!name) { showMessage(messageDiv, t.enterName, 'error-box'); return; }
+        if (!email) { showMessage(messageDiv, t.enterEmail, 'error-box'); return; }
+        if (!email.includes('@')) { showMessage(messageDiv, t.validEmail, 'error-box'); return; }
+        if (!position) { showMessage(messageDiv, t.enterPosition, 'error-box'); return; }
+        if (!country) { showMessage(messageDiv, t.enterCountry, 'error-box'); return; }
+        if (!organization) { showMessage(messageDiv, t.enterOrganization, 'error-box'); return; }
+        
+        tempUserData = { name, email, position, country, organization, linkedin: linkedin || '', language };
+        
+        generatedCode = generateCode();
+        codeExpiry = Date.now() + 10 * 60 * 1000;
+        
+        console.log('📧 Verification code:', generatedCode);
+        console.log('🌐 Language selected:', language);
+        
+        showMessage(messageDiv, t.sendingCode, 'info-box');
+        
+        const emailSent = await sendWelcomeEmailWithCode(email, name, generatedCode, language);
+        
+        if (emailSent) {
+            showMessage(messageDiv, t.codeSent + email + t.codeSentEnd, 'success-box');
+            document.getElementById('registrationSection').classList.add('hidden');
+            document.getElementById('otpSection').classList.remove('hidden');
+            document.getElementById('otpCode').value = '';
+            document.getElementById('otpMessage').style.display = 'none';
+        } else {
+            showMessage(messageDiv, t.sendError, 'error-box');
+        }
+    }
+    
+    // STEP 2: Verify Code
+    async function verifyCode() {
+        const enteredCode = document.getElementById('otpCode').value.trim();
+        const messageDiv = document.getElementById('otpMessage');
+        const t = translations[currentLang];
+        
+        if (!enteredCode) { showMessage(messageDiv, t.enterCode, 'error-box'); return; }
+        if (Date.now() > codeExpiry) { showMessage(messageDiv, t.codeExpired, 'error-box'); return; }
+        if (enteredCode !== generatedCode) { showMessage(messageDiv, t.wrongCode, 'error-box'); return; }
+        
+        showMessage(messageDiv, t.verifying, 'info-box');
+        
+        const saved = await saveToGoogleSheets(tempUserData);
+        
+        if (saved) {
+            showMessage(messageDiv, t.success, 'success-box');
+            
+            // 1. إضافة بطاقة الدخول للمستخدم
+            sessionStorage.setItem('isVerifiedUser', 'true');
+            
+            // حفظ بيانات المستخدم
+            localStorage.setItem('currentUser', JSON.stringify({
+                email: tempUserData.email,
+                name: tempUserData.name,
+                loggedIn: true,
+                loginTime: new Date().toISOString()
+            }));
+            
+            // 2. التحويل إلى صفحة الكورس
+            setTimeout(() => { 
+                window.location.href = 'course.html'; 
+            }, 2000);
+        } else {
+            showMessage(messageDiv, t.saveError, 'error-box');
+        }
+    }
+    
+    // Resend Code
+    async function resendCode() {
+        if (!tempUserData) return;
+        
+        const messageDiv = document.getElementById('otpMessage');
+        const t = translations[currentLang];
+        
+        generatedCode = generateCode();
+        codeExpiry = Date.now() + 10 * 60 * 1000;
+        
+        console.log('📧 New verification code:', generatedCode);
+        showMessage(messageDiv, t.resending, 'info-box');
+        
+        const emailSent = await sendWelcomeEmailWithCode(tempUserData.email, tempUserData.name, generatedCode, tempUserData.language);
+        
+        if (emailSent) {
+            showMessage(messageDiv, t.codeResent + tempUserData.email, 'success-box');
+        } else {
+            showMessage(messageDiv, t.sendError, 'error-box');
+        }
+    }
+    
+    function backToRegistration() {
+        document.getElementById('registrationSection').classList.remove('hidden');
+        document.getElementById('otpSection').classList.add('hidden');
+        document.getElementById('otpCode').value = '';
+        document.getElementById('registerMessage').style.display = 'none';
+        document.getElementById('otpMessage').style.display = 'none';
+    }
+    
+    // Initialize Other option handlers
+    setupOtherOption('position', 'positionOther');
+    setupOtherOption('country', 'countryOther');
+    
+    // Event listeners
+    document.getElementById('sendCodeBtn').onclick = sendCode;
+    document.getElementById('verifyBtn').onclick = verifyCode;
+    document.getElementById('resendLink').onclick = resendCode;
+    document.getElementById('backLink').onclick = backToRegistration;
+    
+    document.getElementById('langEnBtn').onclick = () => { currentLang = 'en'; updateLanguage(); };
+    document.getElementById('langArBtn').onclick = () => { currentLang = 'ar'; updateLanguage(); };
+    
+    document.getElementById('email').addEventListener('keypress', (e) => { if (e.key === 'Enter') sendCode(); });
+    document.getElementById('otpCode').addEventListener('keypress', (e) => { if (e.key === 'Enter') verifyCode(); });
+    
+    updateLanguage();
+    console.log('✅ Registration page ready - With Other option support');
 </script>
 </body>
 </html>
