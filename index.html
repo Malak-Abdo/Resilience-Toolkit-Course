@@ -477,7 +477,7 @@
         }
     }
     
-    // STEP 2: Verify Code
+    // STEP 2: Verify Code - REDIRECTS TO en/pre-assessment.html
     async function verifyCode() {
         const enteredCode = document.getElementById('otpCode').value.trim();
         const messageDiv = document.getElementById('otpMessage');
@@ -505,9 +505,9 @@
                 loginTime: new Date().toISOString()
             }));
             
-            // 2. التحويل إلى صفحة الكورس
+            // 2. التحويل إلى صفحة التقييم القبلي في مجلد en
             setTimeout(() => { 
-                window.location.href = 'pre-assessment.html'; 
+                window.location.href = 'en/pre-assessment.html'; 
             }, 2000);
         } else {
             showMessage(messageDiv, t.saveError, 'error-box');
@@ -561,7 +561,7 @@
     document.getElementById('otpCode').addEventListener('keypress', (e) => { if (e.key === 'Enter') verifyCode(); });
     
     updateLanguage();
-    console.log('✅ Registration page ready - With Other option support');
+    console.log('✅ Registration page ready - Redirects to en/pre-assessment.html');
 </script>
 </body>
 </html>
