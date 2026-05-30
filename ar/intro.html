@@ -411,7 +411,7 @@
             <!-- Buttons -->
             <div class="button-group">
                 <button class="btn-secondary" id="backToLoginBtn">← العودة لتسجيل الدخول</button>
-                <button class="btn-primary" id="continueToAssessmentBtn">المتابعة إلى التقييم ←</button>
+                <button class="btn-primary" id="continueToAssessmentBtn">المتابعة إلى الوحدة الأولى ←</button>
             </div>
 
             <!-- Footer -->
@@ -522,13 +522,13 @@
             window.location.href = 'index.html';
         });
 
-        // ========== CONTINUE BUTTON ==========
+        // ========== CONTINUE BUTTON - REDIRECT TO MODULE 1 ==========
         document.getElementById('continueToAssessmentBtn').addEventListener('click', function(e) {
             e.preventDefault();
             
             // Check if already completed
             if (localStorage.getItem('introduction_completed') === 'true') {
-                window.location.href = 'pre-assessment.html';
+                window.location.href = 'module1.html';
                 return;
             }
             
@@ -543,10 +543,10 @@
             localStorage.setItem('introduction_completed', 'true');
             
             // Show toast and redirect
-            showToast('✓ تم إكمال الوحدة! جارٍ التوجيه إلى التقييم...');
+            showToast('✓ تم إكمال المقدمة! جارٍ التوجيه إلى الوحدة الأولى...');
             
             setTimeout(function() {
-                window.location.href = 'pre-assessment.html';
+                window.location.href = 'module1.html';
             }, 500);
         });
     </script>
