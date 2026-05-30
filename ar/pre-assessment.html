@@ -240,7 +240,6 @@
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwOkndHS0Jhjto-GeWGmgBzGmMsA_HnwrGQLV4LOOCCp0kWpfODdTQrgZGb5zQxhB9DnA/exec';
 
 // ============================================
-// ============================================
 // GET REAL USER DATA - FIXED VERSION
 // ============================================
 function getUserData() {
@@ -326,6 +325,7 @@ function getUserData() {
     console.log('⚠️ No user data found, using default');
     return { name: 'زائر', email: 'guest@example.com', position: 'غير محدد' };
 }
+
 function showToast(message, isError = false) {
     const existing = document.querySelector('.toast-notification');
     if (existing) existing.remove();
@@ -544,6 +544,9 @@ function attachEvents() {
     }
 }
 
+// ============================================
+// FINISH ASSESSMENT - REDIRECT TO INTRO.HTML
+// ============================================
 function finishAssessment() {
     const score = calculatePreScore(answers);
     const category = getCategory(score);
@@ -608,7 +611,8 @@ function finishAssessment() {
     welcomeBlock.innerHTML = welcomeHtml;
     welcomeBlock.classList.remove('hidden');
     
-    document.getElementById('goToModule1Btn').addEventListener('click',()=>{window.location.href='module1.html';});
+    // ✅ تم التعديل: زر "ابدأ الوحدة الأولى" ينتقل إلى intro.html
+    document.getElementById('goToModule1Btn').addEventListener('click',()=>{window.location.href='intro.html';});
     document.getElementById('backToIntroBtn').addEventListener('click',()=>{window.location.href='intro.html';});
     document.getElementById('resetBtn').addEventListener('click',()=>{resetAssessment();});
     
@@ -674,5 +678,3 @@ init();
 </script>
 </body>
 </html>
-
-
