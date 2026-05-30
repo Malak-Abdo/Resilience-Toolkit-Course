@@ -290,6 +290,20 @@
     </style>
 </head>
 <body>
+        <!-- ========== كود التحقق ========== -->
+    <script>
+        const userLang = localStorage.getItem('userLanguage') || 'en';
+        const messages = {
+            en: { alert: 'Sorry, please register and verify your email first to access the course.', redirect: 'register.html' },
+            ar: { alert: 'عذراً، يرجى التسجيل وتأكيد بريدك الإلكتروني أولاً للوصول إلى الكورس.', redirect: 'register.html' }
+        };
+        const t = messages[userLang] || messages.en;
+        if (sessionStorage.getItem('isVerifiedUser') !== 'true') {
+            alert(t.alert);
+            window.location.href = t.redirect;
+        }
+    </script>
+    <!-- ================================= -->
 <div class="course-card">
     <div class="header-tag">
         <span>حزمة أدوات المرونة</span>
