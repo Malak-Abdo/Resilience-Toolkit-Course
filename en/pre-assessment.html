@@ -183,7 +183,7 @@
     </style>
 </head>
 <body>
-        <!-- ========== كود التحقق ========== -->
+    <!-- ========== كود التحقق ========== -->
     <script>
         const userLang = localStorage.getItem('userLanguage') || 'en';
         const messages = {
@@ -239,7 +239,6 @@
 // ============================================
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwOkndHS0Jhjto-GeWGmgBzGmMsA_HnwrGQLV4LOOCCp0kWpfODdTQrgZGb5zQxhB9DnA/exec';
 
-// ============================================
 // ============================================
 // GET REAL USER DATA - UPDATED to match intro.html
 // ============================================
@@ -576,6 +575,9 @@ function attachEvents() {
     }
 }
 
+// ============================================
+// FINISH ASSESSMENT - UPDATED to redirect to intro.html
+// ============================================
 function finishAssessment() {
     const score = calculatePreScore(answers);
     const category = getCategory(score);
@@ -641,7 +643,8 @@ function finishAssessment() {
     welcomeBlock.innerHTML = welcomeHtml;
     welcomeBlock.classList.remove('hidden');
     
-    document.getElementById('goToModule1Btn').addEventListener('click',()=>{window.location.href='module1.html';});
+    // ✅ تم التعديل: زر "Start Module 1" ينتقل إلى intro.html
+    document.getElementById('goToModule1Btn').addEventListener('click',()=>{window.location.href='intro.html';});
     document.getElementById('backToIntroBtn').addEventListener('click',()=>{window.location.href='intro.html';});
     document.getElementById('resetBtn').addEventListener('click',()=>{resetAssessment();});
     
