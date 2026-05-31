@@ -575,7 +575,7 @@ function attachEvents() {
 }
 
 // ============================================
-// FINISH ASSESSMENT - UPDATED to redirect to intro.html (only Start Module 1 button)
+// FINISH ASSESSMENT - UPDATED to redirect to intro.html
 // ============================================
 function finishAssessment() {
     const score = calculatePreScore(answers);
@@ -629,12 +629,12 @@ function finishAssessment() {
     resultsArea.innerHTML = resultHtml;
     resultsArea.classList.remove('hidden');
     
-    // ✅ Only two buttons: Start Module 1 and Restart Assessment (Back to Introduction removed)
+    // ✅ Only two buttons: Start Module 1 (goes to intro.html) and Restart Assessment
     let welcomeHtml = `<div class="welcome-message">
                         <div style="font-size:2rem;">✨</div>
                         <strong style="font-size:1.2rem;">You are ready to begin.</strong><br><br>
                         <div class="action-buttons">
-                            <button id="goToModule1Btn" class="btn-module">📚 Start Module 1 →</button>
+                            <button id="goToModule1Btn" class="btn-module">📚 Start Introduction →</button>
                             <button id="resetBtn" class="btn-reset">↺ Restart Assessment</button>
                         </div>
                       </div>`;
@@ -642,7 +642,7 @@ function finishAssessment() {
     welcomeBlock.innerHTML = welcomeHtml;
     welcomeBlock.classList.remove('hidden');
     
-    // Start Module 1 button redirects to intro.html
+    // ✅ Start Module 1 button redirects to intro.html
     document.getElementById('goToModule1Btn').addEventListener('click',()=>{window.location.href='intro.html';});
     document.getElementById('resetBtn').addEventListener('click',()=>{resetAssessment();});
     
