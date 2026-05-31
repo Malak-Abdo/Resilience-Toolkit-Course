@@ -569,7 +569,7 @@
     </div>
     
     <div class="module-nav">
-        <button class="secondary" id="backToPreAssessmentBtn">← Back to Pre-Assessment</button>
+        <button class="secondary" id="backToIntroBtn">← Back to Introduction</button>
         <button id="continueToModule2Btn">Continue to Module 2 →</button>
     </div>
     
@@ -1166,8 +1166,8 @@ document.getElementById('submitLeylaQuiz').addEventListener('click', () => {
 });
 
 document.getElementById('continueToModule2Btn').addEventListener('click', goToModule2);
-document.getElementById('backToPreAssessmentBtn').addEventListener('click', () => {
-    window.location.href = 'pre-assessment.html';
+document.getElementById('backToIntroBtn').addEventListener('click', () => {
+    window.location.href = 'intro.html';
 });
 document.getElementById('resetDataLink').addEventListener('click', () => { 
     if(confirm('Reset all module data? This cannot be undone.')) {
