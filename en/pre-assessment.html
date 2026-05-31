@@ -239,119 +239,98 @@
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwOkndHS0Jhjto-GeWGmgBzGmMsA_HnwrGQLV4LOOCCp0kWpfODdTQrgZGb5zQxhB9DnA/exec';
 
 // ============================================
-// GET REAL USER DATA - UPDATED to match intro.html
+// GET REAL USER DATA - FIXED (includes position & country)
 // ============================================
 function getUserData() {
-    let name = '', email = '', position = '';
+    let name = 'Guest';
+    let email = 'guest@example.com';
+    let position = 'Not specified';
+    let country = 'Not specified';
     
     console.log('🔍 Searching for user data...');
     
-    // 1. Check currentUser first (MATCHES intro.html)
+    // 1. Check currentUser first (from register.html)
     try {
         let currentUser = localStorage.getItem('currentUser');
         if (currentUser) {
             let user = JSON.parse(currentUser);
             if (user && user.name && user.name !== 'Guest' && user.name.trim() !== '') {
                 name = user.name.trim();
-                email = (user.email || '').trim();
-                position = (user.position || '').trim();
-                console.log('✅ Found from currentUser:', name);
+                email = (user.email || '').trim() || 'guest@example.com';
+                position = (user.position || '').trim() || 'Not specified';
+                country = (user.country || '').trim() || 'Not specified';
+                console.log('✅ Found from currentUser:', { name, email, position, country });
+                return { name, email, position, country };
             }
         }
-    } catch(e) {
-        console.error('Error parsing currentUser:', e);
-    }
+    } catch(e) { console.error('Error parsing currentUser:', e); }
     
-    // 2. Check users array (MATCHES intro.html fallback)
-    if (!name) {
-        try {
-            let users = JSON.parse(localStorage.getItem('users') || '[]');
-            if (Array.isArray(users) && users.length > 0) {
-                let lastUser = users[users.length - 1];
-                if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name.trim() !== '') {
-                    name = lastUser.name.trim();
-                    email = (lastUser.email || '').trim();
-                    position = (lastUser.position || '').trim();
-                    console.log('✅ Found from users array:', name);
-                }
+    // 2. Check users array
+    try {
+        let users = JSON.parse(localStorage.getItem('users') || '[]');
+        if (Array.isArray(users) && users.length > 0) {
+            let lastUser = users[users.length - 1];
+            if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name.trim() !== '') {
+                name = lastUser.name.trim();
+                email = (lastUser.email || '').trim() || 'guest@example.com';
+                position = (lastUser.position || '').trim() || 'Not specified';
+                country = (lastUser.country || '').trim() || 'Not specified';
+                console.log('✅ Found from users array:', { name, email, position, country });
+                return { name, email, position, country };
             }
-        } catch(e) {
-            console.error('Error parsing users:', e);
         }
+    } catch(e) { console.error('Error parsing users:', e); }
+    
+    // 3. Check individual fields
+    let n = localStorage.getItem('course_user_name');
+    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim() !== '') {
+        name = n.trim();
+        email = (localStorage.getItem('course_user_email') || 'guest@example.com').trim();
+        position = (localStorage.getItem('course_user_position') || 'Not specified').trim();
+        country = (localStorage.getItem('course_user_country') || 'Not specified').trim();
+        console.log('✅ Found from individual fields:', { name, email, position, country });
+        return { name, email, position, country };
     }
     
-    // 3. Check individual fields (fallback)
-    if (!name) {
-        let n = localStorage.getItem('course_user_name');
-        if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim() !== '') {
-            name = n.trim();
-            email = (localStorage.getItem('course_user_email') || '').trim();
-            position = (localStorage.getItem('course_user_position') || '').trim();
-            console.log('✅ Found from individual fields:', name);
-        }
+    // 4. Check course_user object
+    let user = localStorage.getItem('course_user');
+    if (user) {
+        try { 
+            let p = JSON.parse(user); 
+            if (p && p.name && p.name !== 'Guest' && p.name.trim() !== '') {
+                name = p.name.trim();
+                email = (p.email || 'guest@example.com').trim();
+                position = (p.position || 'Not specified').trim();
+                country = (p.country || 'Not specified').trim();
+                console.log('✅ Found from course_user:', { name, email, position, country });
+                return { name, email, position, country };
+            }
+        } catch(e) {}
     }
     
-    // 4. Check course_user object (fallback)
-    if (!name) {
-        let user = localStorage.getItem('course_user');
-        if (user) {
-            try { 
-                let p = JSON.parse(user); 
-                if (p && p.name && p.name !== 'Guest' && p.name.trim() !== '') {
-                    name = p.name.trim();
-                    email = (p.email || '').trim();
-                    position = (p.position || '').trim();
-                    console.log('✅ Found from course_user:', name);
-                }
-            } catch(e) {}
-        }
-    }
-    
-    // 5. Check resilience_users array (fallback)
-    if (!name) {
-        let users = localStorage.getItem('resilience_users');
-        if (users) {
-            try { 
-                let p = JSON.parse(users); 
-                if (Array.isArray(p) && p.length > 0) {
-                    for (let i = p.length - 1; i >= 0; i--) {
-                        if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name.trim() !== '') {
-                            name = p[i].name.trim();
-                            email = (p[i].email || '').trim();
-                            position = (p[i].position || '').trim();
-                            console.log('✅ Found from resilience_users array:', name);
-                            break;
-                        }
+    // 5. Check resilience_users array
+    let users = localStorage.getItem('resilience_users');
+    if (users) {
+        try { 
+            let p = JSON.parse(users); 
+            if (Array.isArray(p) && p.length > 0) {
+                for (let i = p.length - 1; i >= 0; i--) {
+                    if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name.trim() !== '') {
+                        name = p[i].name.trim();
+                        email = (p[i].email || 'guest@example.com').trim();
+                        position = (p[i].position || 'Not specified').trim();
+                        country = (p[i].country || 'Not specified').trim();
+                        console.log('✅ Found from resilience_users:', { name, email, position, country });
+                        return { name, email, position, country };
                     }
                 }
-            } catch(e) {}
-        }
+            }
+        } catch(e) {}
     }
     
-    // 6. Check session storage (fallback)
-    if (!name) {
-        let sessionUser = sessionStorage.getItem('current_user');
-        if (sessionUser) {
-            try {
-                let p = JSON.parse(sessionUser);
-                if (p && p.name && p.name.trim() !== '') {
-                    name = p.name.trim();
-                    email = (p.email || '').trim();
-                    position = (p.position || '').trim();
-                    console.log('✅ Found from session:', name);
-                }
-            } catch(e) {}
-        }
-    }
-    
-    const result = { 
-        name: name || 'Guest', 
-        email: email || 'guest@example.com', 
-        position: position || 'Not specified' 
-    };
-    
-    console.log('👤 Final user:', result);
-    return result;
+    // 6. Return default - NO PROMPT
+    console.log('⚠️ No user data found, using defaults');
+    return { name, email, position, country };
 }
 
 function showToast(message, isError = false) {
@@ -366,7 +345,7 @@ function showToast(message, isError = false) {
 }
 
 // ============================================
-// SEND DATA - FIRE AND FORGET (FAST)
+// SEND DATA - FIXED (includes position & country)
 // ============================================
 function sendPreAssessmentToSheet() {
     const user = getUserData();
@@ -378,6 +357,7 @@ function sendPreAssessmentToSheet() {
         userName: user.name,
         userEmail: user.email,
         userPosition: user.position,
+        userCountry: user.country,
         timestamp: new Date().toISOString(),
         answers: {
             score: calculatePreScore(answers),
@@ -390,7 +370,7 @@ function sendPreAssessmentToSheet() {
         }
     };
     
-    console.log('📤 SENDING:', JSON.stringify(payload));
+    console.log('📤 SENDING Pre-Assessment:', payload);
     
     const xhr = new XMLHttpRequest();
     xhr.open('POST', GOOGLE_SCRIPT_URL, true);
