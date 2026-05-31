@@ -581,7 +581,7 @@
     </div>
     
     <div class="module-nav">
-        <button class="secondary" id="backToPreAssessmentBtn">← العودة إلى التقييم القبلي</button>
+        <button class="secondary" id="backToIntroBtn">← العودة إلى المقدمة</button>
         <button id="continueToModule2Btn">الانتقال إلى الوحدة ٢ →</button>
     </div>
     
@@ -1159,8 +1159,8 @@ document.getElementById('submitLeylaQuiz').addEventListener('click', () => {
 
 // Navigation
 document.getElementById('continueToModule2Btn').addEventListener('click', goToModule2);
-document.getElementById('backToPreAssessmentBtn').addEventListener('click', () => {
-    window.location.href = 'pre-assessment.html';
+document.getElementById('backToIntroBtn').addEventListener('click', () => {
+    window.location.href = 'intro.html';
 });
 document.getElementById('resetDataLink').addEventListener('click', () => { 
     if (confirm('هل تريد إعادة ضبط جميع بيانات الوحدة؟ لا يمكن التراجع عن هذا.')) {
