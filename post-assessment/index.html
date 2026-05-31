@@ -607,12 +607,8 @@ async function sendResults() {
     localStorage.setItem('post_assessment_completed', 'true');
     localStorage.setItem('course_completed', 'true');
     
-    feedbackDiv.innerHTML = '✅ Saved! Redirecting...';
-    showToast('✅ Assessment complete! Redirecting...');
-    
-    setTimeout(() => {
-        window.location.href = 'badge.html';
-    }, 1500);
+    // Immediate redirect - no delay
+    window.location.href = 'badge.html';
 }
 
 function handleNext() {
