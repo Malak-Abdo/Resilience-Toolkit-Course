@@ -410,7 +410,7 @@
 
             <!-- Buttons -->
             <div class="button-group">
-                <button class="btn-secondary" id="backToLoginBtn">← العودة لتسجيل الدخول</button>
+                <button class="btn-secondary" id="backToLoginBtn">← العودة للتسجيل</button>
                 <button class="btn-primary" id="continueToAssessmentBtn">المتابعة إلى الوحدة الأولى ←</button>
             </div>
 
@@ -517,9 +517,9 @@
             console.log('📄 page_load sent');
         });
 
-        // ========== BACK BUTTON ==========
+        // ========== BACK BUTTON - Redirect to register.html ==========
         document.getElementById('backToLoginBtn').addEventListener('click', function() {
-            window.location.href = 'index.html';
+            window.location.href = 'register.html';
         });
 
         // ========== CONTINUE BUTTON - REDIRECT TO MODULE 1 ==========
