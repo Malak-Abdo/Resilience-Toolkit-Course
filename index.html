@@ -477,7 +477,7 @@
         }
     }
     
-    // STEP 2: Verify Code - Redirects to en/pre-assessment.html
+    // STEP 2: Verify Code - UPDATED to save position & country in currentUser
     async function verifyCode() {
         const enteredCode = document.getElementById('otpCode').value.trim();
         const messageDiv = document.getElementById('otpMessage');
@@ -497,10 +497,14 @@
             // 1. إضافة بطاقة الدخول للمستخدم
             sessionStorage.setItem('isVerifiedUser', 'true');
             
-            // حفظ بيانات المستخدم
+            // ✅ حفظ جميع بيانات المستخدم بما فيها position و country
             localStorage.setItem('currentUser', JSON.stringify({
                 email: tempUserData.email,
                 name: tempUserData.name,
+                position: tempUserData.position,
+                country: tempUserData.country,
+                organization: tempUserData.organization,
+                language: tempUserData.language,
                 loggedIn: true,
                 loginTime: new Date().toISOString()
             }));
