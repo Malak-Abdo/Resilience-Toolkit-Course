@@ -348,7 +348,7 @@
     </style>
 </head>
 <body>
-        <!-- ========== كود التحقق ========== -->
+    <!-- ========== كود التحقق ========== -->
     <script>
         const userLang = localStorage.getItem('userLanguage') || 'en';
         const messages = {
@@ -774,7 +774,10 @@ async function goToNextModule() {
     setTimeout(() => { window.location.href = 'module3.1.html'; }, 800);
 }
 
-document.getElementById('backToModule2Btn')?.addEventListener('click', () => window.location.href = 'module2.html');
+// ✅ Back button now works correctly
+document.getElementById('backToModule2Btn')?.addEventListener('click', () => {
+    window.location.href = 'module2.html';
+});
 document.getElementById('nextToModule4Btn')?.addEventListener('click', goToNextModule);
 document.getElementById('resetDataLink')?.addEventListener('click', () => { 
     if(confirm('Reset Module 3 progress?')) { 
