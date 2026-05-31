@@ -500,98 +500,88 @@
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
 
 // ============================================
-// GET USER DATA - EXPANDED VERSION
+// GET USER DATA - FIXED (NO PROMPTS, READS currentUser FIRST)
 // ============================================
 function getUserData() {
-    let name = '', email = '', position = '';
+    let name = 'Guest';
+    let email = 'guest@example.com';
+    let position = 'Not specified';
     
     console.log('🔍 Searching for user data in localStorage...');
     
-    // 1. Check individual fields
+    // 1. Check currentUser first (from register.html)
+    try {
+        let currentUser = localStorage.getItem('currentUser');
+        if (currentUser) {
+            let user = JSON.parse(currentUser);
+            if (user && user.name && user.name !== 'Guest' && user.name.trim() !== '') {
+                name = user.name.trim();
+                email = (user.email || '').trim() || 'guest@example.com';
+                position = (user.position || '').trim() || 'Not specified';
+                console.log('✅ Found from currentUser:', name);
+                return { name, email, position };
+            }
+        }
+    } catch(e) { console.error('Error parsing currentUser:', e); }
+    
+    // 2. Check users array
+    try {
+        let users = JSON.parse(localStorage.getItem('users') || '[]');
+        if (Array.isArray(users) && users.length > 0) {
+            let lastUser = users[users.length - 1];
+            if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name.trim() !== '') {
+                name = lastUser.name.trim();
+                email = (lastUser.email || '').trim() || 'guest@example.com';
+                position = (lastUser.position || '').trim() || 'Not specified';
+                console.log('✅ Found from users array:', name);
+                return { name, email, position };
+            }
+        }
+    } catch(e) { console.error('Error parsing users:', e); }
+    
+    // 3. Check individual fields
     let n = localStorage.getItem('course_user_name');
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'Your Name' && n.trim() !== '') {
         name = n.trim();
-        email = (localStorage.getItem('course_user_email') || '').trim();
-        position = (localStorage.getItem('course_user_position') || '').trim();
+        email = (localStorage.getItem('course_user_email') || 'guest@example.com').trim();
+        position = (localStorage.getItem('course_user_position') || 'Not specified').trim();
         console.log('✅ Found from individual fields:', name);
+        return { name, email, position };
     }
     
-    // 2. Check course_user object
-    if (!name || name === 'Your Name') {
-        let user = localStorage.getItem('course_user');
-        if (user) {
-            try { 
-                let p = JSON.parse(user); 
-                if (p && p.name && p.name !== 'Guest' && p.name !== 'Your Name' && p.name.trim() !== '') {
-                    name = p.name.trim();
-                    email = (p.email || '').trim();
-                    position = (p.position || '').trim();
-                    console.log('✅ Found from course_user:', name);
-                }
-            } catch(e) {}
-        }
+    // 4. Check course_user object
+    let user = localStorage.getItem('course_user');
+    if (user) {
+        try { 
+            let p = JSON.parse(user); 
+            if (p && p.name && p.name !== 'Guest' && p.name !== 'Your Name' && p.name.trim() !== '') {
+                name = p.name.trim();
+                email = (p.email || 'guest@example.com').trim();
+                position = (p.position || 'Not specified').trim();
+                console.log('✅ Found from course_user:', name);
+                return { name, email, position };
+            }
+        } catch(e) {}
     }
     
-    // 3. Check resilience_users array
-    if (!name || name === 'Your Name') {
-        let users = localStorage.getItem('resilience_users');
-        if (users) {
-            try { 
-                let p = JSON.parse(users); 
-                if (Array.isArray(p) && p.length > 0) {
-                    for (let i = p.length - 1; i >= 0; i--) {
-                        if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'Your Name' && p[i].name.trim() !== '') {
-                            name = p[i].name.trim();
-                            email = (p[i].email || '').trim();
-                            position = (p[i].position || '').trim();
-                            console.log('✅ Found from resilience_users:', name);
-                            break;
-                        }
-                    }
-                }
-            } catch(e) {}
+    // 5. Check sessionStorage
+    try {
+        let sessionUser = sessionStorage.getItem('current_user');
+        if (sessionUser) {
+            let p = JSON.parse(sessionUser);
+            if (p && p.name && p.name !== 'Guest' && p.name.trim() !== '') {
+                name = p.name.trim();
+                email = (p.email || 'guest@example.com').trim();
+                position = (p.position || 'Not specified').trim();
+                console.log('✅ Found from sessionStorage:', name);
+                return { name, email, position };
+            }
         }
-    }
+    } catch(e) {}
     
-    // 4. Check module1_answers for user data
-    if (!name || name === 'Your Name') {
-        let module1Answers = localStorage.getItem('module1_answers');
-        if (module1Answers) {
-            try {
-                let m1 = JSON.parse(module1Answers);
-                if (m1.userName && m1.userName !== 'Guest' && m1.userName !== 'Your Name') {
-                    name = m1.userName;
-                    email = m1.userEmail || '';
-                    position = m1.userPosition || '';
-                    console.log('✅ Found from module1_answers:', name);
-                }
-            } catch(e) {}
-        }
-    }
-    
-    // 5. Final fallback - PROMPT USER if still not found
-    if (!name || name === 'Your Name' || name === 'Guest') {
-        console.log('⚠️ No user data found, prompting user...');
-        name = prompt('👤 Please enter your full name:');
-        email = prompt('📧 Please enter your email address:');
-        if (name && name.trim() !== '') {
-            localStorage.setItem('course_user_name', name.trim());
-        }
-        if (email && email.trim() !== '') {
-            localStorage.setItem('course_user_email', email.trim());
-        }
-        name = name || 'Guest';
-        email = email || 'guest@example.com';
-    }
-    
-    const result = { 
-        name: name, 
-        email: email, 
-        position: position || 'Not specified' 
-    };
-    
-    console.log('👤 Final user data:', result);
-    return result;
+    // If we get here, use Guest but don't prompt
+    console.log('⚠️ No user data found, using Guest');
+    return { name: 'Guest', email: 'guest@example.com', position: 'Not specified' };
 }
 
 function showToast(message, isError = false) {
@@ -658,7 +648,7 @@ function saveAnswersToLocal() {
 }
 
 // ============================================
-// SEND DATA TO GOOGLE SHEETS - FIXED VERSION WITH PROMISE
+// SEND DATA TO GOOGLE SHEETS
 // ============================================
 function sendModule2DataToSheet() {
     const userData = getUserData();
@@ -677,53 +667,27 @@ function sendModule2DataToSheet() {
     
     console.log('📤 Sending Module 2 data:', payload);
     
-    // Return a promise so we can wait for it
     return new Promise((resolve) => {
         fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'text/plain;charset=utf-8',
-            },
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(payload)
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log('✅ Module 2 data sent successfully:', data);
-            showToast('✅ Answers saved!');
-            resolve(true);
-        })
-        .catch(error => {
-            console.log('❌ Fetch error:', error);
-            // Fallback to XHR
+        .then(() => { console.log('✅ Module 2 data sent'); resolve(true); })
+        .catch(() => {
             const xhr = new XMLHttpRequest();
             xhr.open('POST', GOOGLE_SCRIPT_URL, true);
             xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    console.log('✅ Module 2 data sent (XHR fallback)');
-                    resolve(true);
-                } else {
-                    console.log('⚠️ Module 2 response status:', xhr.status);
-                    resolve(false);
-                }
-            };
-            xhr.onerror = function() {
-                console.log('❌ Error sending Module 2 data');
-                resolve(false);
-            };
+            xhr.onload = () => resolve(true);
+            xhr.onerror = () => resolve(false);
             xhr.send(JSON.stringify(payload));
         });
-        
-        // Timeout fallback - resolve after 3 seconds anyway so user isn't stuck
-        setTimeout(() => {
-            console.log('⏰ Timeout - continuing anyway');
-            resolve(true);
-        }, 3000);
+        setTimeout(() => resolve(true), 3000);
     });
 }
 
 // ============================================
-// GO TO MODULE 3 - UPDATED TO WAIT FOR DATA
+// GO TO MODULE 3
 // ============================================
 async function goToModule3() {
     const q1Answered = document.querySelector('[data-q="manager"] .quiz-option.selected') !== null;
@@ -736,11 +700,8 @@ async function goToModule3() {
     }
     
     saveAnswersToLocal();
-    
-    // Show saving message
     showToast('💾 Saving your answers...');
     
-    // Wait for data to be sent before redirecting
     const saved = await sendModule2DataToSheet();
     
     if (saved) {
@@ -751,7 +712,6 @@ async function goToModule3() {
             window.location.href = 'module3.html';
         }, 800);
     } else {
-        // Still allow navigation but warn
         localStorage.setItem('module2_completed', 'true');
         showToast('⚠️ Progress saved locally. Continuing...', true);
         
