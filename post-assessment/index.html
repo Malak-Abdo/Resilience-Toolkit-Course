@@ -281,54 +281,38 @@
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxRtg0A7L7LmtEvaY_nw0UxxVAn5DNkOYQyPQuYSI6vsYevU3vNakEYL8pro7KFmTcI_Q/exec';
 
 // ============================================
-// GET USER DATA FROM LOCALSTORAGE
-// ============================================
 function getUserData() {
     let name = '', email = '', position = '';
     
-    let n = localStorage.getItem('course_user_name');
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim() !== '') {
-        name = n.trim();
-        email = (localStorage.getItem('course_user_email') || '').trim();
-        position = (localStorage.getItem('course_user_position') || '').trim();
-    }
+    const urlParams = new URLSearchParams(window.location.search);
     
-    if (!name) {
-        let user = localStorage.getItem('course_user');
-        if (user) {
-            try { 
-                let p = JSON.parse(user); 
-                if (p && p.name && p.name !== 'Guest') {
-                    name = p.name.trim();
-                    email = (p.email || '').trim();
-                    position = (p.position || '').trim();
-                }
-            } catch(e) {}
+    if (urlParams.has('name')) {
+        name = decodeURIComponent(urlParams.get('name'));
+        email = decodeURIComponent(urlParams.get('email') || '');
+        position = decodeURIComponent(urlParams.get('position') || '');
+        
+        if (name && name !== '') {
+            localStorage.setItem('course_user_name', name);
+            localStorage.setItem('course_user_email', email);
+            localStorage.setItem('course_user_position', position);
         }
     }
     
-    if (!name) {
-        let users = localStorage.getItem('resilience_users');
-        if (users) {
-            try { 
-                let p = JSON.parse(users); 
-                if (Array.isArray(p) && p.length > 0) {
-                    for (let i = p.length - 1; i >= 0; i--) {
-                        if (p[i] && p[i].name && p[i].name !== 'Guest') {
-                            name = p[i].name.trim();
-                            email = (p[i].email || '').trim();
-                            position = (p[i].position || '').trim();
-                            break;
-                        }
-                    }
-                }
-            } catch(e) {}
+    if (!name || name === '') {
+        let n = localStorage.getItem('course_user_name');
+        if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim() !== '') {
+            name = n.trim();
+            email = (localStorage.getItem('course_user_email') || '').trim();
+            position = (localStorage.getItem('course_user_position') || '').trim();
         }
     }
     
-    return { name: name || 'Guest', email: email || 'guest@example.com', position: position || 'Not specified' };
+    if (!name || name === '') {
+        name = 'Learner';
+    }
+    
+    return { name: name, email: email || 'Not provided', position: position || 'Not specified' };
 }
-
 const currentUser = getUserData();
 const userBadge = document.getElementById('userBadge');
 if (userBadge) {
