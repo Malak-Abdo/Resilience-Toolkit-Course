@@ -166,7 +166,6 @@
         .badge-icon { font-size: 3rem; margin-bottom: 0.5rem; }
         .action-buttons { display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
         .btn-module { background: #1A6B5A; color: white; }
-        .btn-intro { background: #6C86A0; color: white; }
         .btn-reset { background: #B33A3A; color: white; }
         .btn-reset:hover { background: #8B2A2A; }
         .toast-notification {
@@ -571,8 +570,10 @@ function finishAssessment() {
     } else if (category==='قيّم') {
         resultClass='results-valuable';
         badgeIcon='🌟';
-        badgeText='قيّم · صقل غرائزك التكيفية';
-        titleText='لديك بالفعل الغرائز. الآن تحتاج إلى النظام.';
+        // ✅ تم التعديل: صقل غرائزك التكيفية → صقل مهاراتك التكيفية
+        badgeText='قيّم · صقل مهاراتك التكيفية';
+        // ✅ تم التعديل: لديك بالفعل الغرائز → لديك بالفعل المهارات
+        titleText='لديك بالفعل المهارات. الآن تحتاج إلى النظام.';
         quoteText='"القيادة التكيفية لا تعني أن تكون مثالياً. إنها تعني أن تكون قادراً على التعامل مع التغيير غير المتوقع."';
         callText='الفرق بين الجيد والاستثنائي ليس الموهبة. إنه الأطر الصحيحة المطبقة في الوقت المناسب.';
     } else {
@@ -598,12 +599,12 @@ function finishAssessment() {
     resultsArea.innerHTML = resultHtml;
     resultsArea.classList.remove('hidden');
     
+    // ✅ تم التعديل: زر "ابدأ الوحدة الأولى" → "ابدأ المقدمة"
     let welcomeHtml = `<div class="welcome-message">
                         <div style="font-size:2rem;">✨</div>
                         <strong style="font-size:1.2rem;">أنت مستعد للبدء.</strong><br><br>
                         <div class="action-buttons">
-                            <button id="goToModule1Btn" class="btn-module">📚 ابدأ الوحدة الأولى →</button>
-                            <button id="backToIntroBtn" class="btn-intro">🏠 العودة إلى المقدمة</button>
+                            <button id="goToModule1Btn" class="btn-module">📚 ابدأ المقدمة →</button>
                             <button id="resetBtn" class="btn-reset">↺ إعادة التقييم</button>
                         </div>
                       </div>`;
@@ -611,9 +612,8 @@ function finishAssessment() {
     welcomeBlock.innerHTML = welcomeHtml;
     welcomeBlock.classList.remove('hidden');
     
-    // ✅ تم التعديل: زر "ابدأ الوحدة الأولى" ينتقل إلى intro.html
+    // زر "ابدأ المقدمة" ينتقل إلى intro.html
     document.getElementById('goToModule1Btn').addEventListener('click',()=>{window.location.href='intro.html';});
-    document.getElementById('backToIntroBtn').addEventListener('click',()=>{window.location.href='intro.html';});
     document.getElementById('resetBtn').addEventListener('click',()=>{resetAssessment();});
     
     assessmentCompleted = true;
