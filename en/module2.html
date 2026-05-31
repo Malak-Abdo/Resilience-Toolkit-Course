@@ -3,13 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>The Resilience Toolkit · Module 3: The S.A.F.E. Framework</title>
+    <title>The Resilience Toolkit · Module 2</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
             background: #F4F7FC;
@@ -27,11 +23,7 @@
             padding: 1.8rem 1.5rem 2.2rem;
         }
         @media (max-width: 550px) {
-            .course-card {
-                margin: 0.8rem;
-                padding: 1.5rem 1.2rem;
-                border-radius: 28px;
-            }
+            .course-card { margin: 0.8rem; padding: 1.5rem 1.2rem; border-radius: 28px; }
         }
         .header-tag {
             font-size: 0.75rem;
@@ -40,16 +32,6 @@
             color: #1A6B5A;
             font-weight: 600;
             margin-bottom: 0.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .user-badge {
-            font-size: 0.7rem;
-            background: #E8F5E9;
-            padding: 0.2rem 0.6rem;
-            border-radius: 20px;
-            color: #1A6B5A;
         }
         .module-header {
             display: flex;
@@ -61,100 +43,40 @@
             padding-bottom: 0.5rem;
             gap: 0.5rem;
         }
-        .module-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #0C2E3B;
-        }
-        .module-time {
-            font-size: 0.8rem;
-            background: #F0F4F9;
-            padding: 0.2rem 0.8rem;
-            border-radius: 20px;
-            color: #2C5F7A;
-        }
+        .module-title { font-size: 1.3rem; font-weight: 700; color: #0C2E3B; }
+        .module-time { font-size: 0.8rem; background: #F0F4F9; padding: 0.2rem 0.8rem; border-radius: 20px; color: #2C5F7A; }
         h2 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #1A6B5A;
-            margin: 1.5rem 0 0.75rem 0;
-            border-left: 4px solid #E8A735;
-            padding-left: 0.8rem;
+            font-size: 1.2rem; font-weight: 600; color: #1A6B5A;
+            margin: 1.5rem 0 0.75rem 0; border-left: 4px solid #E8A735; padding-left: 0.8rem;
         }
         .scenario-card {
-            background: #FDF8F0;
-            border-left: 5px solid #E8A735;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 16px;
+            background: #FDF8F0; border-left: 5px solid #E8A735;
+            padding: 1rem; margin: 1rem 0; border-radius: 16px;
         }
-        .framework-box {
-            background: #E8F5E9;
-            border-radius: 20px;
-            padding: 1.2rem;
-            margin: 1.2rem 0;
-            text-align: center;
+        .mindset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem; margin: 1.5rem 0;
         }
-        .step-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin: 1.5rem 0;
+        .mindset-card {
+            background: white; border-radius: 20px; padding: 1rem;
+            border: 2px solid #E2E9F2; cursor: pointer; transition: all 0.2s;
+            text-align: center; min-height: 140px;
+            display: flex; flex-direction: column; justify-content: center;
         }
-        .step-card {
-            background: white;
-            border: 2px solid #E2E9F2;
-            border-radius: 20px;
-            padding: 1rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .step-card:hover {
-            border-color: #E8A735;
-            transform: translateX(4px);
-        }
-        .step-card.active {
-            background: #FDF8F0;
-            border-color: #1A6B5A;
-        }
-        .step-title {
-            font-weight: 700;
-            color: #1A6B5A;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .step-detail {
-            display: none;
-            margin-top: 0.75rem;
-            padding-top: 0.75rem;
-            border-top: 1px solid #E2E9F2;
-            font-size: 0.9rem;
-            color: #2C5F7A;
-        }
-        .step-card.active .step-detail {
-            display: block;
-        }
+        .mindset-card:hover { transform: translateY(-4px); border-color: #E8A735; }
+        .mindset-card.flipped { background: #E8F5E9; border-color: #1A6B5A; }
+        .hidden-content { display: none; }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { border: 1px solid #E2E9F2; padding: 0.75rem; text-align: left; vertical-align: top; }
+        th { background: #F0F7F4; font-weight: 700; color: #1A6B5A; }
         button {
-            background: #1A6B5A;
-            border: none;
-            color: white;
-            font-weight: 600;
-            padding: 0.7rem 1.5rem;
-            border-radius: 60px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            margin-top: 0.5rem;
-            transition: 0.15s;
+            background: #1A6B5A; border: none; color: white; font-weight: 600;
+            padding: 0.7rem 1.5rem; border-radius: 60px; font-size: 0.9rem;
+            cursor: pointer; margin-top: 0.5rem;
         }
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        .secondary {
-            background: #E8A735;
-            color: #2E3A2A;
-        }
+        button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .secondary { background: #E8A735; color: #2E3A2A; }
         .module-nav {
             display: flex;
             justify-content: space-between;
@@ -162,131 +84,146 @@
             margin-top: 1.5rem;
             flex-wrap: wrap;
         }
-        .footer-note {
-            font-size: 0.7rem;
-            text-align: center;
-            color: #8BA0B8;
-            margin-top: 1.5rem;
+        .footer-note { font-size: 0.7rem; text-align: center; color: #8BA0B8; margin-top: 1.5rem; }
+        .reset-link { text-align: center; margin-top: 1rem; font-size: 0.7rem; }
+        .reset-link a { color: #8BA0B8; cursor: pointer; text-decoration: underline; }
+        
+        .quiz-section { margin: 2rem 0; }
+        .quiz-card {
+            background: white; border-radius: 24px; padding: 1.5rem;
+            margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #E2E9F2; transition: all 0.2s ease;
         }
-        .reset-link {
-            text-align: center;
-            margin-top: 1rem;
-            font-size: 0.7rem;
+        .quiz-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); border-color: #E8A735; }
+        .quiz-question { margin-bottom: 1rem; }
+        .quiz-question strong { font-size: 1.1rem; color: #0C2E3B; display: block; margin-bottom: 0.5rem; }
+        .quiz-options-grid { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
+        .quiz-option {
+            display: flex; align-items: center; gap: 1rem;
+            padding: 0.8rem 1rem; background: #F9FCFE;
+            border: 1px solid #E2E9F2; border-radius: 60px;
+            cursor: pointer; transition: all 0.2s ease;
         }
-        .reset-link a {
-            color: #8BA0B8;
-            cursor: pointer;
-            text-decoration: underline;
+        .quiz-option:hover { background: #F0F7F4; border-color: #E8A735; transform: translateX(4px); }
+        .quiz-option.selected { background: #E8F5E9; border-color: #1A6B5A; }
+        .quiz-option .option-marker {
+            width: 24px; height: 24px; background: #F1F5F9; border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; font-weight: bold; color: #1A6B5A;
         }
+        .quiz-option.selected .option-marker { background: #1A6B5A; color: white; }
+        .quiz-option .option-text { flex: 1; font-size: 0.9rem; color: #2A4058; }
+        
         .sentence-box {
-            background: #E8F5E9;
-            border-left: 5px solid #1A6B5A;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 16px;
-            text-align: center;
+            background: #E8F5E9; border-left: 5px solid #1A6B5A;
+            padding: 1.2rem; margin: 1.5rem 0; border-radius: 16px;
+            text-align: center; font-size: 1rem; font-weight: 500; color: #1A6B5A;
         }
-        .toast-notification {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1A6B5A;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 60px;
+        
+        .extra-resource-link { margin: 1rem 0; text-align: center; }
+        .extra-resource-link a {
+            background: #F0F4F9; padding: 0.7rem 1.5rem; border-radius: 40px;
+            text-decoration: none; font-size: 0.9rem; font-weight: 500;
+            color: #1A6B5A; display: inline-flex; align-items: center; gap: 0.5rem;
+            transition: 0.2s; border: 1px solid #D0DFE8; cursor: pointer;
+        }
+        .extra-resource-link a:hover { background: #E8A735; color: white; border-color: #E8A735; }
+        
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(3px);
+            z-index: 2000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content {
+            background: white; max-width: 450px; width: 90%;
+            border-radius: 28px; padding: 1.8rem; text-align: center;
+            transform: scale(0.9); transition: transform 0.3s ease;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            position: relative; border: 1px solid #E8A735;
+        }
+        .modal-close-btn {
+            background: #1A6B5A; color: white; border: none;
+            padding: 0.7rem 1.8rem; border-radius: 60px; font-size: 0.95rem;
+            font-weight: 600; cursor: pointer; margin-top: 0.5rem; transition: all 0.2s; width: 100%;
+        }
+        .close-icon {
+            background: none; border: none; font-size: 1.5rem; cursor: pointer;
+            color: #1A6B5A; padding: 0; margin: 0; width: auto;
+        }
+        .close-icon:hover { background: none; transform: scale(1.1); color: #E8A735; }
+        .close-beside {
+            background: #E8A735; color: #2E3A2A; border: none;
+            padding: 0.3rem 0.8rem; border-radius: 60px; font-size: 0.7rem;
+            font-weight: 600; cursor: pointer; width: auto; margin: 0;
+        }
+        .close-beside:hover { background: #d4951e; transform: scale(1.02); }
+        
+        .quiz-feedback { margin-top: 1rem; padding: 0.8rem; border-radius: 12px; font-size: 0.85rem; display: none; }
+        .quiz-feedback.correct { background: #E8F5E9; color: #1A6B5A; border-left: 3px solid #1A6B5A; }
+        .quiz-feedback.incorrect { background: #FFEBEE; color: #B33A3A; border-left: 3px solid #B33A3A; }
+        
+        .results-summary {
+            background: #F0F4F9;
+            border-radius: 24px;
+            padding: 1rem 1.5rem;
+            margin-top: 1rem;
+            border: 1px solid #D0DFE8;
+            transition: all 0.2s;
+        }
+        .result-item {
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #E2E9F2;
             font-size: 0.85rem;
-            font-weight: 500;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .result-item:last-child { border-bottom: none; }
+        .result-badge {
+            font-weight: 700;
+            min-width: 85px;
+        }
+        .result-status {
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            margin-left: 0.5rem;
+        }
+        .status-correct { background: #1A6B5A20; color: #1A6B5A; }
+        .status-incorrect { background: #B33A3A20; color: #B33A3A; }
+        .check-btn {
+            background: #E8A735;
+            color: #2E3A2A;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            width: 100%;
+            font-weight: 700;
+        }
+        .check-btn:hover { background: #d4951e; transform: scale(1.01); }
+        
+        .toast-notification {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: #1A6B5A; color: white; padding: 12px 24px;
+            border-radius: 60px; font-size: 0.85rem; font-weight: 500;
+            z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             animation: fadeInUp 0.3s ease;
         }
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
         @media (max-width: 480px) {
-            .quiz-options {
-                gap: 0.5rem;
-            }
-            .quiz-option {
-                font-size: 0.75rem;
-                padding: 0.4rem 1rem;
-            }
+            .mindset-grid { grid-template-columns: 1fr; }
+            .quiz-option { padding: 0.6rem 0.8rem; }
+            .modal-content { padding: 1.2rem; width: 95%; }
         }
-        
-        .quiz-card {
-            background: white;
-            border-radius: 24px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            border: 1px solid #E2E9F2;
-            transition: all 0.2s ease;
-        }
-        .quiz-card:hover {
-            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-            border-color: #E8A735;
-        }
-        .quiz-options-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            margin-top: 1rem;
-        }
-        .quiz-option-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.8rem 1rem;
-            background: #F9FCFE;
-            border: 1px solid #E2E9F2;
-            border-radius: 60px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .quiz-option-item:hover {
-            background: #F0F7F4;
-            border-color: #E8A735;
-            transform: translateX(4px);
-        }
-        .quiz-option-item.selected {
-            background: #E8F5E9;
-            border-color: #1A6B5A;
-        }
-        .quiz-option-marker {
-            width: 24px;
-            height: 24px;
-            background: #F1F5F9;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: bold;
-            color: #1A6B5A;
-        }
-        .quiz-option-item.selected .quiz-option-marker {
-            background: #1A6B5A;
-            color: white;
-        }
-        .quiz-option-text {
-            flex: 1;
-            font-size: 0.9rem;
-            color: #2A4058;
-        }
-        .quiz-feedback {
-            margin-top: 1rem;
-            padding: 0.8rem;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            display: none;
+        .intro-text p { margin-bottom: 1rem; line-height: 1.6; }
+        .intro-text .highlight {
+            background: #F0F7F4; padding: 1rem; border-radius: 12px;
+            margin: 1rem 0; border-left: 3px solid #E8A735;
         }
         .progress-badge {
             display: inline-block;
@@ -301,53 +238,37 @@
             background: #E8F5E9;
             color: #1A6B5A;
         }
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-        }
-        .check-btn {
-            background: #E8A735;
-            color: #2E3A2A;
-            margin-top: 1rem;
-            margin-bottom: 0;
-            width: 100%;
-            font-weight: 700;
-        }
-        .check-btn:hover {
-            background: #d4951e;
-            transform: scale(1.01);
-        }
-        .static-feedback {
-            margin-top: 1rem;
+        .generator-scenario {
+            background: #FFF8E7;
+            border-left: 5px solid #E8A735;
             padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 16px;
+        }
+        .observation-list {
+            background: #F0F7F4;
+            padding: 0.8rem;
             border-radius: 12px;
-            font-size: 0.85rem;
-            background: #E3F2FD;
-            border-left: 4px solid #1A6B5A;
-            display: none;
+            margin: 0.5rem 0;
         }
-        .static-feedback.correct {
-            background: #E8F5E9;
-            border-left-color: #1A6B5A;
-            color: #1A6B5A;
+        .manager-quote {
+            background: #EFF3F8;
+            padding: 0.8rem;
+            border-radius: 12px;
+            font-style: italic;
+            margin: 0.5rem 0;
         }
-        .static-feedback.incorrect {
+        .outcome-box {
             background: #FFEBEE;
-            border-left-color: #B33A3A;
-            color: #B33A3A;
-        }
-        .static-feedback .hint {
-            margin-top: 0.5rem;
-            padding-top: 0.5rem;
-            border-top: 1px solid rgba(0,0,0,0.1);
-            font-size: 0.8rem;
-            color: #2C5F7A;
+            padding: 0.8rem;
+            border-radius: 12px;
+            margin: 0.5rem 0;
+            border-left: 3px solid #D32F2F;
         }
     </style>
 </head>
 <body>
+
     <!-- ========== كود التحقق ========== -->
     <script>
         const userLang = localStorage.getItem('userLanguage') || 'en';
@@ -362,196 +283,316 @@
         }
     </script>
     <!-- ================================= -->
+
 <div class="course-card">
-    <div class="header-tag">
-        <span>THE RESILIENCE TOOLKIT</span>
-        <span class="user-badge" id="userBadge">👤 Loading...</span>
-    </div>
+    <div class="header-tag">THE RESILIENCE TOOLKIT</div>
     
     <div class="module-header">
-        <span class="module-title">⚡ Module 3: The S.A.F.E. Framework</span>
-        <span class="module-time">⏱️ 3 min • practical tools</span>
+        <span class="module-title">🧠 Module 2: Your Brain in Crisis Mode</span>
+        <span class="module-time">⏱️ 5 min • interactive + reporting</span>
     </div>
     
-    <p><strong>You have identified your limiting mindsets. Now let us give you a practical tool to shift them.</strong></p>
-    <p>The S.A.F.E. Framework was developed specifically for humanitarian leaders working in fragile contexts.</p>
-    
-    <div class="framework-box">
-        <strong>🧭 THE S.A.F.E. FRAMEWORK</strong><br><br>
-        <strong>S</strong> — Stop & Breathe<br>
-        <strong>A</strong> — Assess Reality (not assumptions)<br>
-        <strong>F</strong> — Find the Smallest Feasible Action<br>
-        <strong>E</strong> — Execute & Evaluate<br>
-    </div>
-
-    <div class="sentence-box">
-        💡 <strong>Note:</strong><br>
-        The S.A.F.E. Framework is not a magic wand to stop crises. It is a 'respirator' for your brain, 
-        ensuring you make the least harmful decision when everything around you collapses.
+    <div class="intro-text">
+        <p><strong>Let us be honest about something most leadership courses ignore.</strong></p>
+        <p><strong>Your brain works differently in a conflict zone.</strong></p>
+        
+        <div class="highlight">
+            <p><strong>In a stable environment</strong> — good internet, reliable fuel, predictable roads — your brain can plan, analyze, and execute. You set goals. You hit targets. You feel competent.</p>
+        </div>
+        
+        <div class="highlight">
+            <p><strong>In a crisis environment</strong> — fuel gone, checkpoint closed, staff arrested — your brain switches modes. It focuses on one thing: <strong>survival</strong>.</p>
+        </div>
+        
+        <p>When your brain is in survival mode, it does not think clearly. It thinks fast. It takes shortcuts. It defaults to what worked before — even if "before" was a completely different environment.</p>
+        
+        <div class="highlight">
+            <p><strong>In a stable environment, that mindset is an asset. In a volatile environment like Yemen, it is a liability.</strong></p>
+        </div>
     </div>
     
     <div class="scenario-card">
-        <strong>📋 Real Scenario: Access Denied in a Hard-to-Reach District</strong><br><br>
-        You are leading a high-priority aid distribution in a hard-to-reach district. After months of planning, you receive a call at 6:00 AM: "Access is denied due to new security regulations." 500 vulnerable families are already on their way to the site. Your team is panicking, and the donor is demanding an immediate update.<br><br>
-        <strong>Your old brain says:</strong> "The mission has failed. We will lose donor trust. Nothing will work." (Victim/Scarcity mindset)<br><br>
-        <strong>The S.A.F.E. Framework gives you a different path.</strong>
+        <strong>The Keith Example: Smart, Skilled, and Rejected</strong><br><br>
+        Remember Keith from earlier? Keith had 12 years of technical experience. He passed the technical test with excellence.<br><br>
+        But in the final interview for Country Director in Yemen, he said:<br>
+        <em>"The SOPs used in New York are directly transferable to Yemen. I will work with the local team to find a way to apply them there."</em><br><br>
+        <strong>Keith was not selected.</strong><br><br>
+        <strong>Because his mindset was working against him.</strong><br><br>
+        Keith's brain defaulted to the <strong>Expert Frame</strong>: "I have done this before. I know what works."<br><br>
+        <strong>In a stable environment, that mindset is an asset. In a volatile environment like Yemen, it is a liability.</strong>
     </div>
     
-    <h2>Walk Through the S.A.F.E. Steps</h2>
-    <p><em>Click each step to expand and see how it applies to the access denial scenario.</em></p>
+    <div class="generator-scenario">
+        <strong>📋 The Generator Example: Expert Assumption in Action</strong><br><br>
+        <strong>You are an Operations Lead.</strong> Your manager is planning a new office in a conflict zone.<br><br>
+        <div class="manager-quote">
+            "We do not need a generator for the office. Cash will be distributed digitally. The team only needs to meet once if necessary. The budget is already finalized."
+        </div>
+        
+        <strong>You observe:</strong>
+        <div class="observation-list">
+            • No reliable internet<br>
+            • 45°C heat<br>
+            • Local staff have told you the internet goes down daily between 11 AM and 3 PM
+        </div>
+        
+        <strong>You raise concerns. The manager replies:</strong>
+        <div class="manager-quote">
+            "The budget is done. If we need a generator later, we will see. It is too costly to add now."
+        </div>
+        
+        <strong>Three months later:</strong>
+        <div class="outcome-box">
+            The manager realizes the digital-first model does not work. The team cannot synchronize data. Work stops. The office is unusable after 11 AM. A generator is now needed urgently — at emergency prices.
+        </div>
+        
+        <p style="margin-top: 0.8rem;"><strong>What mindset was the manager exhibiting?</strong> The manager assumed what worked elsewhere would work here — without checking local conditions. That is the <strong>Expert Frame</strong>.</p>
+    </div>
     
-    <div class="step-container" id="stepsContainer">
-        <div class="step-card" data-step="1">
-            <div class="step-title"><span>🧘 1. STOP & BREATHE</span></div>
-            <div class="step-detail"><strong>Why it matters:</strong> Your amygdala is hijacking your prefrontal cortex. A 10-second breathing pause interrupts the panic loop and reconnects you with your logic.<br><br><strong>Application:</strong> "I feel the panic rising in my chest. My heart is beating fast. I will stop now. I will take three deep, slow breaths: inhale... exhale... inhale... exhale... before I speak or decide anything. My team needs a calm leader right now."</div>
+    <h2>The Good News: Mindsets Are Not Permanent</h2>
+    <div class="scenario-card">
+        <strong>Your mindset is not your personality. It is a pattern. And patterns can be changed.</strong><br><br>
+        The five mindsets — Victim, Scarcity, Panic, Fixed, Expert — are not diagnoses. They are patterns that show up under pressure.<br><br>
+        Every leader has them. The difference is learning to recognize and <strong>shift</strong> them.
+    </div>
+    
+    <h2>Click each card to transition from Limiting to Adaptive state</h2>
+    <div class="mindset-grid" id="mindsetGrid">
+        <div class="mindset-card" data-mindset="victim">
+            <div class="mindset-front"><strong>📉 Victim</strong><br>"The fleet is grounded. Work is impossible."<br><span style="font-size:0.7rem;">👇 Click to flip</span></div>
+            <div class="mindset-back hidden-content"><strong>🌿 Agent</strong><br>"What tasks can we execute on foot?"</div>
         </div>
-        <div class="step-card" data-step="2">
-            <div class="step-title"><span>🔍 2. ASSESS REALITY (not assumptions)</span></div>
-            <div class="step-detail"><strong>Why it matters:</strong> Crisis brains inflate threats and ignore available resources. Reality assessment separates facts from the stories your fearful brain tells you.<br><br><strong>Application:</strong> "Let's take another breath and sort things out: <strong>Fact:</strong> Access to the primary site is currently denied. <strong>Fact:</strong> 500 families are en route and may arrive within hours. <strong>Fact:</strong> We have the phone numbers of local elders. <strong>Assumption:</strong> 'Everything has failed' – this may not be true. There might be an alternative route, a secondary distribution site, or room for negotiation. <strong>Priority:</strong> Find alternative distribution methods or negotiate with local elders."</div>
+        <div class="mindset-card" data-mindset="scarcity">
+            <div class="mindset-front"><strong>📉 Scarcity</strong><br>"We have only one vehicle. We cannot reach all three communities."<br><span style="font-size:0.7rem;">👇 Click to flip</span></div>
+            <div class="mindset-back hidden-content"><strong>🌿 Abundance</strong><br>"What is the smallest feasible action?"</div>
         </div>
-        <div class="step-card" data-step="3">
-            <div class="step-title"><span>🎯 3. FIND THE SMALLEST FEASIBLE ACTION</span></div>
-            <div class="step-detail"><strong>Why it matters:</strong> The team is frozen because the problem seems too big. Any small win, no matter how minor, creates momentum and breaks the cycle of paralysis.<br><br><strong>Application:</strong> "We cannot solve the entire access problem right now. That is beyond us. But we can do one small thing now. I will call local community elders to understand the situation and ask for their advice. Or I will start testing the Remote Distribution Protocol with a small group of beneficiaries as a pilot."</div>
+        <div class="mindset-card" data-mindset="panic">
+            <div class="mindset-front"><strong>😰 Panic</strong><br>"I need to do everything at once!"<br><span style="font-size:0.7rem;">👇 Click to flip</span></div>
+            <div class="mindset-back hidden-content"><strong>🔍 Curious</strong><br>"What is the highest-priority threat?"</div>
         </div>
-        <div class="step-card" data-step="4">
-            <div class="step-title"><span>🔄 4. EXECUTE & EVALUATE</span></div>
-            <div class="step-detail"><strong>Why it matters:</strong> In a crisis, perfection is the enemy of good. You take small steps, evaluate the results, then adjust your course. This cycle prevents paralysis.<br><br><strong>Application (in bullet points):</strong><br>• <strong>Communicate:</strong> I will call the local elder directly to explore the possibility of negotiating for limited or temporary access to the site.<br><br>• <strong>Delegate:</strong> I will ask the Program Manager to immediately search for an alternative distribution site in the area.<br><br>• <strong>Manage Donor Expectations:</strong> I will send a brief, clear update to the donor: "We are facing a temporary access challenge. Our team is currently working on alternative solutions. We will provide you with a detailed update within two hours."<br><br>• <strong>Evaluate and Review:</strong> After two hours, I will meet with the team to check: Have we successfully opened a communication channel with the local elder? Has an alternative site been identified? Based on the answers, we will adjust our plan and take the next step."</div>
+        <div class="mindset-card" data-mindset="fixed">
+            <div class="mindset-front"><strong>🔒 Fixed</strong><br>"I have never handled this. I don't know what to do."<br><span style="font-size:0.7rem;">👇 Click to flip</span></div>
+            <div class="mindset-back hidden-content"><strong>🌱 Growth</strong><br>"Who on the team has experience here?"</div>
         </div>
+        <div class="mindset-card" data-mindset="expert">
+            <div class="mindset-front"><strong>👨‍🔬 Expert</strong><br>"I have managed this before. The SOP is clear."<br><span style="font-size:0.7rem;">👇 Click to flip</span></div>
+            <div class="mindset-back hidden-content"><strong>🎓 Beginner</strong><br>"What has changed since my last observation?"</div>
+        </div>
+    </div>
+    
+    <h2>The Five Adaptive Frames</h2>
+    <table class="adaptive-table">
+        <thead>
+            <tr><th>Limiting Frame</th><th>Adaptive Frame</th><th>Reframe Question</th></tr>
+        </thead>
+        <tbody>
+            <tr><td style="text-align:right;">Victim</div></td><td style="text-align:right;">Agent</div></td><td style="text-align:right;">"What actions remain possible?"</div></tr>
+            <tr><td style="text-align:right;">Scarcity</div></td><td style="text-align:right;">Abundance</div></td><td style="text-align:right;">"What is the smallest feasible action?"</div></tr>
+            <tr><td style="text-align:right;">Panic</div></td><td style="text-align:right;">Curious</div></td><td style="text-align:right;">"What is the highest-priority threat?"</div></tr>
+            <tr><td style="text-align:right;">Fixed</div></td><td style="text-align:right;">Growth</div></td><td style="text-align:right;">"Who possesses relevant competence?"</div></tr>
+            <tr><td style="text-align:right;">Expert</div></td><td style="text-align:right;">Beginner</div></td><td style="text-align:right;">"What assumptions have changed?"</div></tr>
+        </tbody>
+     </table>
+    
+    <div class="quiz-section">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+            <h2 style="margin: 0; border-left: none; padding-left: 0;">📋 Module Quiz</h2>
+            <span class="progress-badge" id="quizProgress">0/3 answered</span>
+        </div>
+        
+        <div class="quiz-card">
+            <div class="quiz-question">
+                <strong>❓ Question 1: What mindset was your manager exhibiting?</strong>
+            </div>
+            <div class="quiz-options-grid" data-q="manager">
+                <div class="quiz-option" data-val="Victim"><span class="option-marker">○</span><span class="option-text">Victim</span></div>
+                <div class="quiz-option" data-val="Scarcity"><span class="option-marker">○</span><span class="option-text">Scarcity</span></div>
+                <div class="quiz-option" data-val="Panic"><span class="option-marker">○</span><span class="option-text">Panic</span></div>
+                <div class="quiz-option" data-val="Fixed"><span class="option-marker">○</span><span class="option-text">Fixed</span></div>
+                <div class="quiz-option" data-val="Expert"><span class="option-marker">○</span><span class="option-text">Expert</span></div>
+            </div>
+            <div id="managerFb1" class="quiz-feedback"></div>
+        </div>
+        
+        <div class="quiz-card">
+            <div class="quiz-question">
+                <strong>❓ Question 2: What mindset shift does the manager need to make?</strong>
+            </div>
+            <div class="quiz-options-grid" data-q="shift">
+                <div class="quiz-option" data-val="Victim → Agent"><span class="option-marker">○</span><span class="option-text">Victim → Agent</span></div>
+                <div class="quiz-option" data-val="Scarcity → Abundance"><span class="option-marker">○</span><span class="option-text">Scarcity → Abundance</span></div>
+                <div class="quiz-option" data-val="Panic → Curious"><span class="option-marker">○</span><span class="option-text">Panic → Curious</span></div>
+                <div class="quiz-option" data-val="Fixed → Growth"><span class="option-marker">○</span><span class="option-text">Fixed → Growth</span></div>
+                <div class="quiz-option" data-val="Expert → Beginner"><span class="option-marker">○</span><span class="option-text">Expert → Beginner</span></div>
+            </div>
+            <div id="managerFb2" class="quiz-feedback"></div>
+        </div>
+        
+        <div class="quiz-card">
+            <div class="quiz-question">
+                <strong>❓ Question 3: What should the manager say to the team now? (Accountability)</strong>
+            </div>
+            <div class="quiz-options-grid" data-q="account">
+                <div class="quiz-option" data-val="The budget was already set. Nothing I could do."><span class="option-marker">○</span><span class="option-text">"The budget was already set. Nothing I could do."</span></div>
+                <div class="quiz-option" data-val="The team should have told me."><span class="option-marker">○</span><span class="option-text">"The team should have told me."</span></div>
+                <div class="quiz-option" data-val="I made an assumption. I was wrong. That is on me."><span class="option-marker">○</span><span class="option-text">"I made an assumption. I was wrong. That is on me."</span></div>
+                <div class="quiz-option" data-val="We will buy a generator next quarter."><span class="option-marker">○</span><span class="option-text">"We will buy a generator next quarter."</span></div>
+            </div>
+            <div id="accountabilityFeedback" class="quiz-feedback"></div>
+        </div>
+        
+        <button id="checkResultsBtn" class="check-btn">📊 Check My Results</button>
+        <div id="resultsSummaryContainer" class="results-summary" style="display: none;"></div>
     </div>
     
     <div class="sentence-box">
-        <strong>💡 The Core Insight</strong><br>"You do not need the perfect plan. You need the next right action. Slow down, assess, move, then repeat."
+        <strong>💡 One Sentence to Remember</strong><br>
+        "The environment has changed. Your expertise has not. Ask what is different before you act."
     </div>
     
-    <div class="section-header">
-        <h2 style="margin: 0; border-left: none; padding-left: 0;">📋 Check Your Understanding</h2>
-        <span class="progress-badge" id="quizProgress">0/4 answered</span>
+    <div class="extra-resource-link">
+        <a id="deepDiveBtn">📖 Deep Dive: Accountability Under Pressure →</a>
     </div>
     
-    <!-- Question 1 -->
-    <div class="quiz-card" id="q1Card">
-        <div class="quiz-question">
-            <strong>❓ Question 1: According to the S.A.F.E. Framework, what should you do FIRST when a crisis hits?</strong>
+    <div id="deepDiveModal" class="modal-overlay">
+        <div class="modal-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h3 style="margin-bottom: 0;">📖 Accountability Under Pressure</h3>
+                <button id="closeModalBtnTop" class="close-icon">✕</button>
+            </div>
+            <div class="deep-dive-box">
+                <p><strong>🔑 The Core Truth:</strong></p>
+                <p>In stable environments, accountability means hitting targets. In crisis environments, accountability means <strong>owning the mistake</strong> before finding the solution.</p>
+            </div>
+            <div class="deep-dive-box">
+                <p><strong>💡 Why This Matters:</strong></p>
+                <p>When a leader says "I made an assumption. I was wrong. That is on me," three things happen:</p>
+                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                    <li>✅ Trust is preserved — the team feels safe</li>
+                    <li>✅ Learning replaces blame — energy moves forward</li>
+                    <li>✅ Psychological safety increases — people speak up sooner</li>
+                </ul>
+            </div>
+            <div class="deep-dive-box" style="position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <p><strong>🌟 Real-World Application:</strong></p>
+                    <button id="closeModalBtnBeside" class="close-beside">✕ Close</button>
+                </div>
+                <p>In conflict zones, leaders who admit uncertainty build <strong>stronger teams</strong> than those who pretend to have all the answers.</p>
+            </div>
+            <button class="modal-close-btn" id="closeModalBtn">Got it → Close</button>
         </div>
-        <div class="quiz-options-grid" data-q="first">
-            <div class="quiz-option-item" data-val="plan"><span class="quiz-option-marker">○</span><span class="quiz-option-text">Create a detailed recovery plan</span></div>
-            <div class="quiz-option-item" data-val="stop"><span class="quiz-option-marker">○</span><span class="quiz-option-text">Stop and breathe</span></div>
-            <div class="quiz-option-item" data-val="call"><span class="quiz-option-marker">○</span><span class="quiz-option-text">Call headquarters for guidance</span></div>
-            <div class="quiz-option-item" data-val="action"><span class="quiz-option-marker">○</span><span class="quiz-option-text">Take the biggest action immediately</span></div>
-        </div>
-        <div id="fb1" class="static-feedback"></div>
-        <button class="check-btn" data-q="1">✅ Check Answer</button>
-    </div>
-    
-    <!-- Question 2 -->
-    <div class="quiz-card" id="q2Card">
-        <div class="quiz-question">
-            <strong>❓ Question 2: In the access denial scenario, what is the "Smallest Feasible Action"?</strong>
-        </div>
-        <div class="quiz-options-grid" data-q="smallest">
-            <div class="quiz-option-item" data-val="wait"><span class="quiz-option-marker">○</span><span class="quiz-option-text">Wait for a formal letter from authorities</span></div>
-            <div class="quiz-option-item" data-val="cancel"><span class="quiz-option-marker">○</span><span class="quiz-option-text">Cancel all operations immediately and notify the donor of failure</span></div>
-            <div class="quiz-option-item" data-val="elders"><span class="quiz-option-marker">○</span><span class="quiz-option-text">Call local community elders to negotiate access or identify an alternative site</span></div>
-            <div class="quiz-option-item" data-val="donor"><span class="quiz-option-marker">○</span><span class="quiz-option-text">Send a long, detailed report to the donor explaining the reasons for failure</span></div>
-        </div>
-        <div id="fb2" class="static-feedback"></div>
-        <button class="check-btn" data-q="2">✅ Check Answer</button>
-    </div>
-    
-    <!-- Question 3 -->
-    <div class="quiz-card" id="q3Card">
-        <div class="quiz-question">
-            <strong>❓ Question 3: Why does the S.A.F.E. Framework emphasize "Assess Reality (not assumptions)"?</strong>
-        </div>
-        <div class="quiz-options-grid" data-q="assess">
-            <div class="quiz-option-item" data-val="slow"><span class="quiz-option-marker">○</span><span class="quiz-option-text">It slows down decision-making which is always good</span></div>
-            <div class="quiz-option-item" data-val="inflate"><span class="quiz-option-marker">○</span><span class="quiz-option-text">Crisis brains inflate threats and ignore available resources, and assessment corrects this distortion</span></div>
-            <div class="quiz-option-item" data-val="blame"><span class="quiz-option-marker">○</span><span class="quiz-option-text">It helps identify who caused the crisis for appropriate blame</span></div>
-            <div class="quiz-option-item" data-val="document"><span class="quiz-option-marker">○</span><span class="quiz-option-text">It creates better documentation for donors in final reports</span></div>
-        </div>
-        <div id="fb3" class="static-feedback"></div>
-        <button class="check-btn" data-q="3">✅ Check Answer</button>
-    </div>
-    
-    <!-- Question 4 -->
-    <div class="quiz-card" id="q4Card">
-        <div class="quiz-question">
-            <strong>❓ Question 4: Which mindset shift does the S.A.F.E. Framework directly support and reinforce?</strong>
-        </div>
-        <div class="quiz-options-grid" data-q="shift">
-            <div class="quiz-option-item" data-val="victim"><span class="quiz-option-marker">○</span><span class="quiz-option-text">Victim → Waiting for help</span></div>
-            <div class="quiz-option-item" data-val="panic"><span class="quiz-option-marker">○</span><span class="quiz-option-text">Panic and Paralysis → Small, deliberate, methodical actions</span></div>
-            <div class="quiz-option-item" data-val="expert"><span class="quiz-option-marker">○</span><span class="quiz-option-text">Expert who knows everything → Ignoring local knowledge</span></div>
-            <div class="quiz-option-item" data-val="fixed"><span class="quiz-option-marker">○</span><span class="quiz-option-text">Fixed mindset → Blaming the environment and external factors</span></div>
-        </div>
-        <div id="fb4" class="static-feedback"></div>
-        <button class="check-btn" data-q="4">✅ Check Answer</button>
     </div>
     
     <div class="module-nav">
-        <button class="secondary" id="backToModule2Btn">← Back to Module 2</button>
-        <button id="nextToModule4Btn">Next: Module 3.1 →</button>
+        <button class="secondary" id="backToModule1Btn">← Back to Module 1</button>
+        <button id="continueToModule3Btn" style="background:#1A6B5A;">Continue to Module 3 →</button>
     </div>
     
-    <div class="footer-note">Module 3 of The Resilience Toolkit</div>
-    <div class="reset-link"><a id="resetDataLink">↺ Reset Module 3 Data</a></div>
+    <div class="footer-note">Module 2 of The Resilience Toolkit</div>
+    <div class="reset-link"><a id="resetDataLink">↺ Reset Module Data</a></div>
 </div>
 
 <script>
 // ============================================
-// GOOGLE SHEETS WEB APP URL
+// GOOGLE SHEETS WEB APP URL - SAME AS MODULE 1
 // ============================================
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
 
 // ============================================
-// GET USER DATA - SILENT VERSION (NO PROMPTS EVER)
+// GET USER DATA - EXPANDED VERSION
 // ============================================
 function getUserData() {
-    let name = 'Guest';
-    let email = 'guest@example.com';
-    let position = 'Not specified';
+    let name = '', email = '', position = '';
     
-    // 1. Check currentUser first (from intro.html login)
-    try {
-        let currentUser = localStorage.getItem('currentUser');
-        if (currentUser) {
-            let user = JSON.parse(currentUser);
-            if (user && user.name && user.name !== 'Guest' && user.name.trim() !== '') {
-                return { 
-                    name: user.name.trim(), 
-                    email: (user.email || 'guest@example.com').trim(), 
-                    position: (user.position || 'Not specified').trim() 
-                };
-            }
+    console.log('🔍 Searching for user data in localStorage...');
+    
+    // 1. Check individual fields
+    let n = localStorage.getItem('course_user_name');
+    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'Your Name' && n.trim() !== '') {
+        name = n.trim();
+        email = (localStorage.getItem('course_user_email') || '').trim();
+        position = (localStorage.getItem('course_user_position') || '').trim();
+        console.log('✅ Found from individual fields:', name);
+    }
+    
+    // 2. Check course_user object
+    if (!name || name === 'Your Name') {
+        let user = localStorage.getItem('course_user');
+        if (user) {
+            try { 
+                let p = JSON.parse(user); 
+                if (p && p.name && p.name !== 'Guest' && p.name !== 'Your Name' && p.name.trim() !== '') {
+                    name = p.name.trim();
+                    email = (p.email || '').trim();
+                    position = (p.position || '').trim();
+                    console.log('✅ Found from course_user:', name);
+                }
+            } catch(e) {}
         }
-    } catch(e) {}
+    }
     
-    // 2. Check users array
-    try {
-        let users = JSON.parse(localStorage.getItem('users') || '[]');
-        if (users.length > 0) {
-            let lastUser = users[users.length - 1];
-            if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name.trim() !== '') {
-                return { 
-                    name: lastUser.name.trim(), 
-                    email: (lastUser.email || 'guest@example.com').trim(), 
-                    position: (lastUser.position || 'Not specified').trim() 
-                };
-            }
+    // 3. Check resilience_users array
+    if (!name || name === 'Your Name') {
+        let users = localStorage.getItem('resilience_users');
+        if (users) {
+            try { 
+                let p = JSON.parse(users); 
+                if (Array.isArray(p) && p.length > 0) {
+                    for (let i = p.length - 1; i >= 0; i--) {
+                        if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'Your Name' && p[i].name.trim() !== '') {
+                            name = p[i].name.trim();
+                            email = (p[i].email || '').trim();
+                            position = (p[i].position || '').trim();
+                            console.log('✅ Found from resilience_users:', name);
+                            break;
+                        }
+                    }
+                }
+            } catch(e) {}
         }
-    } catch(e) {}
+    }
     
-    // 3. Return Guest - NO PROMPT
-    return { name: 'Guest', email: 'guest@example.com', position: 'Not specified' };
+    // 4. Check module1_answers for user data
+    if (!name || name === 'Your Name') {
+        let module1Answers = localStorage.getItem('module1_answers');
+        if (module1Answers) {
+            try {
+                let m1 = JSON.parse(module1Answers);
+                if (m1.userName && m1.userName !== 'Guest' && m1.userName !== 'Your Name') {
+                    name = m1.userName;
+                    email = m1.userEmail || '';
+                    position = m1.userPosition || '';
+                    console.log('✅ Found from module1_answers:', name);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    // 5. Final fallback - PROMPT USER if still not found
+    if (!name || name === 'Your Name' || name === 'Guest') {
+        console.log('⚠️ No user data found, prompting user...');
+        name = prompt('👤 Please enter your full name:');
+        email = prompt('📧 Please enter your email address:');
+        if (name && name.trim() !== '') {
+            localStorage.setItem('course_user_name', name.trim());
+        }
+        if (email && email.trim() !== '') {
+            localStorage.setItem('course_user_email', email.trim());
+        }
+        name = name || 'Guest';
+        email = email || 'guest@example.com';
+    }
+    
+    const result = { 
+        name: name, 
+        email: email, 
+        position: position || 'Not specified' 
+    };
+    
+    console.log('👤 Final user data:', result);
+    return result;
 }
-
-// Display user name in badge (silently)
-const currentUser = getUserData();
-const userBadge = document.getElementById('userBadge');
-if (userBadge) {
-    userBadge.innerText = currentUser.name !== 'Guest' ? `👤 ${currentUser.name}` : '👤 Learner';
-}
-console.log('👤 User loaded for Module 3:', currentUser.name);
 
 function showToast(message, isError = false) {
     const existing = document.querySelector('.toast-notification');
@@ -564,231 +605,325 @@ function showToast(message, isError = false) {
     setTimeout(() => { if (toast) toast.remove(); }, 3000);
 }
 
-// Step cards
-const stepCards = document.querySelectorAll('.step-card');
-stepCards.forEach(card => {
-    card.addEventListener('click', () => {
-        stepCards.forEach(c => c.classList.remove('active'));
-        card.classList.add('active');
-    });
-    if (card.getAttribute('data-step') === '1') card.classList.add('active');
-});
-
-// Quiz state
-let answers = { first: null, smallest: null, assess: null, shift: null };
-
-function updateProgress() {
-    let answered = 0;
-    if (answers.first) answered++;
-    if (answers.smallest) answered++;
-    if (answers.assess) answered++;
-    if (answers.shift) answered++;
+function updateQuizProgress() {
+    const q1Answered = document.querySelector('[data-q="manager"] .quiz-option.selected') !== null;
+    const q2Answered = document.querySelector('[data-q="shift"] .quiz-option.selected') !== null;
+    const q3Answered = document.querySelector('[data-q="account"] .quiz-option.selected') !== null;
+    
+    let answeredCount = 0;
+    if (q1Answered) answeredCount++;
+    if (q2Answered) answeredCount++;
+    if (q3Answered) answeredCount++;
     
     const progressSpan = document.getElementById('quizProgress');
     if (progressSpan) {
-        progressSpan.textContent = `${answered}/4 answered`;
-        if (answered === 4) {
+        progressSpan.textContent = `${answeredCount}/3 answered`;
+        if (answeredCount === 3) {
             progressSpan.className = 'progress-badge progress-complete';
         } else {
             progressSpan.className = 'progress-badge';
         }
     }
-    return answered === 4;
-}
-
-// Bind option clicks
-function bindOptionClick(selector, key) {
-    const group = document.querySelector(selector);
-    if (!group) return;
-    group.querySelectorAll('.quiz-option-item').forEach(opt => {
-        opt.addEventListener('click', () => {
-            const val = opt.getAttribute('data-val');
-            answers[key] = val;
-            group.querySelectorAll('.quiz-option-item').forEach(o => {
-                o.classList.remove('selected');
-                const marker = o.querySelector('.quiz-option-marker');
-                if (marker) marker.textContent = '○';
-            });
-            opt.classList.add('selected');
-            const marker = opt.querySelector('.quiz-option-marker');
-            if (marker) marker.textContent = '●';
-            
-            localStorage.setItem('module3_answers', JSON.stringify(answers));
-            updateProgress();
-        });
-    });
-}
-
-bindOptionClick('[data-q="first"]', 'first');
-bindOptionClick('[data-q="smallest"]', 'smallest');
-bindOptionClick('[data-q="assess"]', 'assess');
-bindOptionClick('[data-q="shift"]', 'shift');
-
-// Show static feedback when check button is clicked
-function showStaticFeedback(fbId, isCorrect, message, hintText) {
-    const fb = document.getElementById(fbId);
-    if (fb) {
-        fb.className = isCorrect ? 'static-feedback correct' : 'static-feedback incorrect';
-        fb.innerHTML = `
-            <strong>${isCorrect ? '✅ Correct!' : '⚠️ Not quite.'}</strong> ${message}
-            <div class="hint">💡 <strong>Hint:</strong> ${hintText}</div>
-        `;
-        fb.style.display = 'block';
-    }
-}
-
-// Check Answer buttons
-document.querySelectorAll('.check-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const qNum = btn.getAttribute('data-q');
-        
-        if (qNum === '1') {
-            const selected = document.querySelector('[data-q="first"] .quiz-option-item.selected');
-            const selectedVal = selected ? selected.getAttribute('data-val') : null;
-            if (selectedVal === 'stop') {
-                showStaticFeedback('fb1', true, 'Stopping and breathing interrupts the panic response and restores logical thinking.', 'The first step is to interrupt the panic response. Your amygdala is hijacking your logic. A 10-second breathing pause restores calm before you act.');
-            } else if (selectedVal) {
-                showStaticFeedback('fb1', false, 'The correct answer is "Stop and breathe".', 'The first step is to interrupt the panic response. Your amygdala is hijacking your logic. A 10-second breathing pause restores calm before you act.');
-            } else {
-                showStaticFeedback('fb1', false, 'Please select an answer first. The correct answer is "Stop and breathe".', 'The first step is to interrupt the panic response.');
-            }
-        }
-        else if (qNum === '2') {
-            const selected = document.querySelector('[data-q="smallest"] .quiz-option-item.selected');
-            const selectedVal = selected ? selected.getAttribute('data-val') : null;
-            if (selectedVal === 'elders') {
-                showStaticFeedback('fb2', true, 'Calling local community elders is the smallest feasible action that opens channels for negotiation and alternative solutions.', 'The smallest feasible action is something you CAN do right now, not waiting or giving up.');
-            } else if (selectedVal) {
-                showStaticFeedback('fb2', false, 'The correct answer is "Call local community elders to negotiate access or identify an alternative site".', 'The smallest feasible action is something you CAN do right now, not waiting or giving up.');
-            } else {
-                showStaticFeedback('fb2', false, 'Please select an answer first.', 'The smallest feasible action is something you CAN do right now.');
-            }
-        }
-        else if (qNum === '3') {
-            const selected = document.querySelector('[data-q="assess"] .quiz-option-item.selected');
-            const selectedVal = selected ? selected.getAttribute('data-val') : null;
-            if (selectedVal === 'inflate') {
-                showStaticFeedback('fb3', true, 'Crisis brains inflate threats and ignore available resources. Reality assessment corrects this distortion.', 'In a crisis, your brain automatically inflates threats and ignores available resources.');
-            } else if (selectedVal) {
-                showStaticFeedback('fb3', false, 'The correct answer is about how crisis brains inflate threats.', 'Crisis brains inflate threats and ignore available resources.');
-            } else {
-                showStaticFeedback('fb3', false, 'Please select an answer first.', 'Crisis brains inflate threats and ignore available resources.');
-            }
-        }
-        else if (qNum === '4') {
-            const selected = document.querySelector('[data-q="shift"] .quiz-option-item.selected');
-            const selectedVal = selected ? selected.getAttribute('data-val') : null;
-            if (selectedVal === 'panic') {
-                showStaticFeedback('fb4', true, 'The SAFE Framework transforms panic and paralysis into small, deliberate actions, restoring a sense of control.', 'The S.A.F.E. Framework helps you move from frozen panic to methodical action.');
-            } else if (selectedVal) {
-                showStaticFeedback('fb4', false, 'The correct answer is "Panic and Paralysis → Small, deliberate, methodical actions".', 'The S.A.F.E. Framework targets the Panic and Paralysis mindset.');
-            } else {
-                showStaticFeedback('fb4', false, 'Please select an answer first.', 'The S.A.F.E. Framework targets the Panic and Paralysis mindset.');
-            }
-        }
-    });
-});
-
-// Load saved answers
-const savedAnswers = localStorage.getItem('module3_answers');
-if (savedAnswers) {
-    try {
-        const data = JSON.parse(savedAnswers);
-        answers = data;
-        for (let [key, val] of Object.entries(data)) {
-            if (val) {
-                let selector = '';
-                if (key === 'first') selector = '[data-q="first"]';
-                else if (key === 'smallest') selector = '[data-q="smallest"]';
-                else if (key === 'assess') selector = '[data-q="assess"]';
-                else if (key === 'shift') selector = '[data-q="shift"]';
-                const opt = document.querySelector(`${selector} .quiz-option-item[data-val="${val}"]`);
-                if (opt) {
-                    opt.classList.add('selected');
-                    const marker = opt.querySelector('.quiz-option-marker');
-                    if (marker) marker.textContent = '●';
-                }
-            }
-        }
-        updateProgress();
-    } catch(e) {}
-}
-
-// ============================================
-// SEND DATA TO GOOGLE SHEETS
-// ============================================
-function sendModule3DataToSheet() {
-    const userData = getUserData();
     
-    const payload = {
-        module: 'Module 3',
-        language: 'en',
+    return answeredCount === 3;
+}
+
+function collectAllAnswers() {
+    let managerMindset = '', mindsetShift = '', accountability = '';
+    let flippedCards = [];
+    const selMgr = document.querySelector('[data-q="manager"] .quiz-option.selected');
+    if (selMgr) managerMindset = selMgr.getAttribute('data-val');
+    const selShift = document.querySelector('[data-q="shift"] .quiz-option.selected');
+    if (selShift) mindsetShift = selShift.getAttribute('data-val');
+    const selAcct = document.querySelector('[data-q="account"] .quiz-option.selected');
+    if (selAcct) accountability = selAcct.getAttribute('data-val');
+    document.querySelectorAll('.mindset-card').forEach(card => {
+        if (card.classList.contains('flipped')) flippedCards.push(card.getAttribute('data-mindset') || 'unknown');
+    });
+    return { 
+        manager_mindset: managerMindset || 'Not answered', 
+        mindset_shift: mindsetShift || 'Not answered', 
+        accountability: accountability || 'Not answered', 
+        victim_flipped: flippedCards.includes('victim') ? 'Yes' : 'No', 
+        scarcity_flipped: flippedCards.includes('scarcity') ? 'Yes' : 'No', 
+        panic_flipped: flippedCards.includes('panic') ? 'Yes' : 'No', 
+        fixed_flipped: flippedCards.includes('fixed') ? 'Yes' : 'No', 
+        expert_flipped: flippedCards.includes('expert') ? 'Yes' : 'No', 
+        flipped_cards_summary: flippedCards.join(', ') || 'None' 
+    };
+}
+
+function saveAnswersToLocal() { 
+    localStorage.setItem('module2_answers', JSON.stringify({ ...collectAllAnswers(), lastUpdated: new Date().toISOString() })); 
+}
+
+// ============================================
+// SEND DATA TO GOOGLE SHEETS - FIXED VERSION WITH PROMISE
+// ============================================
+function sendModule2DataToSheet() {
+    const userData = getUserData();
+    const answers = collectAllAnswers();
+    
+    const payload = { 
+        module: 'Module 2', 
+        action: 'completed',
+        language: 'en', 
         userName: userData.name,
         userEmail: userData.email,
         userPosition: userData.position,
-        timestamp: new Date().toISOString(),
-        answers: {
-            q1_safe_first_step: answers.first || 'Not answered',
-            q2_smallest_feasible_action: answers.smallest || 'Not answered',
-            q3_assess_reality: answers.assess || 'Not answered',
-            q4_mindset_shift: answers.shift || 'Not answered'
-        }
+        timestamp: new Date().toISOString(), 
+        answers: answers 
     };
     
-    console.log('📤 Sending Module 3 data:', payload);
+    console.log('📤 Sending Module 2 data:', payload);
     
+    // Return a promise so we can wait for it
     return new Promise((resolve) => {
         fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8',
+            },
             body: JSON.stringify(payload)
         })
-        .then(() => { console.log('✅ Module 3 data sent'); resolve(true); })
-        .catch(() => {
+        .then(response => response.json())
+        .then(data => {
+            console.log('✅ Module 2 data sent successfully:', data);
+            showToast('✅ Answers saved!');
+            resolve(true);
+        })
+        .catch(error => {
+            console.log('❌ Fetch error:', error);
+            // Fallback to XHR
             const xhr = new XMLHttpRequest();
             xhr.open('POST', GOOGLE_SCRIPT_URL, true);
             xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
-            xhr.onload = () => resolve(true);
-            xhr.onerror = () => resolve(false);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    console.log('✅ Module 2 data sent (XHR fallback)');
+                    resolve(true);
+                } else {
+                    console.log('⚠️ Module 2 response status:', xhr.status);
+                    resolve(false);
+                }
+            };
+            xhr.onerror = function() {
+                console.log('❌ Error sending Module 2 data');
+                resolve(false);
+            };
             xhr.send(JSON.stringify(payload));
         });
-        setTimeout(() => resolve(true), 3000);
+        
+        // Timeout fallback - resolve after 3 seconds anyway so user isn't stuck
+        setTimeout(() => {
+            console.log('⏰ Timeout - continuing anyway');
+            resolve(true);
+        }, 3000);
     });
 }
 
 // ============================================
-// GO TO NEXT MODULE
+// GO TO MODULE 3 - UPDATED TO WAIT FOR DATA
 // ============================================
-async function goToNextModule() {
-    const allAnswered = updateProgress();
+async function goToModule3() {
+    const q1Answered = document.querySelector('[data-q="manager"] .quiz-option.selected') !== null;
+    const q2Answered = document.querySelector('[data-q="shift"] .quiz-option.selected') !== null;
+    const q3Answered = document.querySelector('[data-q="account"] .quiz-option.selected') !== null;
     
-    if (!allAnswered) {
-        showToast('⚠️ Please answer all 4 questions before continuing to Module 3.1.', true);
+    if (!q1Answered || !q2Answered || !q3Answered) {
+        showToast('⚠️ Please answer all 3 questions before continuing to Module 3.', true);
         return;
     }
     
-    localStorage.setItem('module3_answers', JSON.stringify(answers));
-    localStorage.setItem('module3_completed', 'true');
+    saveAnswersToLocal();
     
+    // Show saving message
     showToast('💾 Saving your answers...');
     
-    await sendModule3DataToSheet();
-    showToast('✅ Progress saved! Redirecting...');
+    // Wait for data to be sent before redirecting
+    const saved = await sendModule2DataToSheet();
     
-    setTimeout(() => { window.location.href = 'module3.1.html'; }, 800);
+    if (saved) {
+        localStorage.setItem('module2_completed', 'true');
+        showToast('✅ Progress saved! Redirecting...');
+        
+        setTimeout(() => {
+            window.location.href = 'module3.html';
+        }, 800);
+    } else {
+        // Still allow navigation but warn
+        localStorage.setItem('module2_completed', 'true');
+        showToast('⚠️ Progress saved locally. Continuing...', true);
+        
+        setTimeout(() => {
+            window.location.href = 'module3.html';
+        }, 800);
+    }
 }
 
-document.getElementById('backToModule2Btn')?.addEventListener('click', () => window.location.href = 'module2.html');
-document.getElementById('nextToModule4Btn')?.addEventListener('click', goToNextModule);
-document.getElementById('resetDataLink')?.addEventListener('click', () => { 
-    if(confirm('Reset Module 3 progress?')) { 
-        localStorage.removeItem('module3_answers'); 
-        localStorage.removeItem('module3_completed');
-        location.reload(); 
-    } 
-});
+function displayResultsSummary() {
+    const q1Selected = document.querySelector('[data-q="manager"] .quiz-option.selected');
+    const q2Selected = document.querySelector('[data-q="shift"] .quiz-option.selected');
+    const q3Selected = document.querySelector('[data-q="account"] .quiz-option.selected');
+    
+    const q1Answer = q1Selected ? q1Selected.getAttribute('data-val') : null;
+    const q2Answer = q2Selected ? q2Selected.getAttribute('data-val') : null;
+    const q3Answer = q3Selected ? q3Selected.getAttribute('data-val') : null;
+    
+    const isQ1Correct = (q1Answer === 'Victim');
+    const isQ2Correct = (q2Answer === 'Victim → Agent');
+    const isQ3Correct = (q3Answer === 'I made an assumption. I was wrong. That is on me.');
+    
+    const totalCorrect = (isQ1Correct ? 1 : 0) + (isQ2Correct ? 1 : 0) + (isQ3Correct ? 1 : 0);
+    
+    const q1Display = q1Answer ? q1Answer : 'Not answered';
+    const q2Display = q2Answer ? q2Answer : 'Not answered';
+    const q3Display = q3Answer ? q3Answer : 'Not answered';
+    
+    const container = document.getElementById('resultsSummaryContainer');
+    container.style.display = 'block';
+    container.innerHTML = `
+        <h4>📋 Your Quiz Results · ${totalCorrect}/3 correct</h4>
+        <div class="result-item"><span class="result-badge">Q1: Mindset</span> <span>${escapeHtml(q1Display)}</span> <span class="result-status ${isQ1Correct ? 'status-correct' : 'status-incorrect'}">${isQ1Correct ? '✓ Correct' : '✗ Incorrect'}</span></div>
+        <div class="result-item"><span class="result-badge">Q2: Shift</span> <span>${escapeHtml(q2Display)}</span> <span class="result-status ${isQ2Correct ? 'status-correct' : 'status-incorrect'}">${isQ2Correct ? '✓ Correct' : '✗ Incorrect'}</span></div>
+        <div class="result-item"><span class="result-badge">Q3: Accountability</span> <span>${escapeHtml(q3Display)}</span> <span class="result-status ${isQ3Correct ? 'status-correct' : 'status-incorrect'}">${isQ3Correct ? '✓ Correct' : '✗ Incorrect'}</span></div>
+        <div style="margin-top: 12px; font-size:0.75rem; color:#4B6F86;">💡 Correct answers: Victim | Victim → Agent | "I made an assumption. I was wrong. That is on me."</div>
+    `;
+    container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
 
-updateProgress();
+function escapeHtml(str) { 
+    if (!str) return ''; 
+    return str.replace(/[&<>]/g, function(m) { 
+        if (m === '&') return '&amp;'; 
+        if (m === '<') return '&lt;'; 
+        if (m === '>') return '&gt;'; 
+        return m; 
+    }); 
+}
+
+function bindEvents() {
+    document.querySelectorAll('[data-q="manager"] .quiz-option, [data-q="shift"] .quiz-option, [data-q="account"] .quiz-option').forEach(opt => {
+        opt.addEventListener('click', () => {
+            const parent = opt.parentElement;
+            parent.querySelectorAll('.quiz-option').forEach(o => { 
+                o.classList.remove('selected'); 
+                const m = o.querySelector('.option-marker'); 
+                if (m) m.textContent = '○'; 
+            });
+            opt.classList.add('selected'); 
+            const marker = opt.querySelector('.option-marker'); 
+            if (marker) marker.textContent = '●';
+            
+            const qParent = opt.closest('.quiz-card');
+            if (qParent && qParent.querySelector('[data-q="manager"]')) {
+                const selectedVal = opt.getAttribute('data-val');
+                const fbDiv = document.getElementById('managerFb1');
+                const isCorrect = (selectedVal === 'Victim');
+                fbDiv.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+                fbDiv.innerHTML = isCorrect ? '✅ <strong>Correct!</strong> The manager is exhibiting the Victim mindset — focusing on what\'s impossible.' : '❌ <strong>Incorrect.</strong> The correct answer is "Victim". The statement reflects a victim frame.';
+                fbDiv.style.display = 'block';
+            } else if (qParent && qParent.querySelector('[data-q="shift"]')) {
+                const selectedVal = opt.getAttribute('data-val');
+                const fbDiv = document.getElementById('managerFb2');
+                const isCorrect = (selectedVal === 'Victim → Agent');
+                fbDiv.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+                fbDiv.innerHTML = isCorrect ? '✅ <strong>Correct!</strong> Shift from Victim to Agent — asking "What actions remain possible?"' : '❌ <strong>Incorrect.</strong> The correct shift is "Victim → Agent".';
+                fbDiv.style.display = 'block';
+            } else if (qParent && qParent.querySelector('[data-q="account"]')) {
+                const selectedVal = opt.getAttribute('data-val');
+                const correctVal = "I made an assumption. I was wrong. That is on me.";
+                const fbDiv = document.getElementById('accountabilityFeedback');
+                const isCorrect = (selectedVal === correctVal);
+                fbDiv.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+                fbDiv.innerHTML = isCorrect ? '✅ <strong>Correct!</strong> True accountability means owning the mistake.' : '❌ <strong>Incorrect.</strong> The correct answer is: "I made an assumption. I was wrong. That is on me."';
+                fbDiv.style.display = 'block';
+            }
+            
+            saveAnswersToLocal();
+            updateQuizProgress();
+        });
+    });
+    
+    document.querySelectorAll('.mindset-card').forEach(card => {
+        card.addEventListener('click', function() {
+            this.classList.toggle('flipped');
+            const front = this.querySelector('.mindset-front');
+            const back = this.querySelector('.mindset-back');
+            if (this.classList.contains('flipped')) { 
+                if (front) front.classList.add('hidden-content'); 
+                if (back) back.classList.remove('hidden-content'); 
+            } else { 
+                if (front) front.classList.remove('hidden-content'); 
+                if (back) back.classList.add('hidden-content'); 
+            }
+            saveAnswersToLocal();
+        });
+    });
+}
+
+function loadSavedAnswers() {
+    const saved = localStorage.getItem('module2_answers');
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            if (data.manager_mindset && data.manager_mindset !== 'Not answered') {
+                const opts = document.querySelectorAll('[data-q="manager"] .quiz-option');
+                opts.forEach(opt => { if (opt.getAttribute('data-val') === data.manager_mindset) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
+            }
+            if (data.mindset_shift && data.mindset_shift !== 'Not answered') {
+                const opts = document.querySelectorAll('[data-q="shift"] .quiz-option');
+                opts.forEach(opt => { if (opt.getAttribute('data-val') === data.mindset_shift) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
+            }
+            if (data.accountability && data.accountability !== 'Not answered') {
+                const opts = document.querySelectorAll('[data-q="account"] .quiz-option');
+                opts.forEach(opt => { if (opt.getAttribute('data-val') === data.accountability) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
+            }
+        } catch(e) { console.warn(e); }
+    }
+    updateQuizProgress();
+}
+
+function setupModal() {
+    const modal = document.getElementById('deepDiveModal');
+    const openBtn = document.getElementById('deepDiveBtn');
+    const closeBtns = ['closeModalBtn', 'closeModalBtnBeside', 'closeModalBtnTop'];
+    function openModal() { modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function closeModal() { modal.classList.remove('active'); document.body.style.overflow = ''; }
+    if (openBtn) openBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+    closeBtns.forEach(id => { const btn = document.getElementById(id); if (btn) btn.addEventListener('click', closeModal); });
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadSavedAnswers();
+    bindEvents();
+    setupModal();
+    
+    const checkBtn = document.getElementById('checkResultsBtn');
+    if (checkBtn) {
+        checkBtn.addEventListener('click', () => { displayResultsSummary(); });
+    }
+    
+    const continueBtn = document.getElementById('continueToModule3Btn');
+    if (continueBtn) {
+        continueBtn.addEventListener('click', goToModule3);
+    }
+    
+    document.getElementById('backToModule1Btn').addEventListener('click', () => { 
+        window.location.href = 'module1.html'; 
+    });
+    
+    document.getElementById('resetDataLink').addEventListener('click', (e) => { 
+        e.preventDefault(); 
+        if (confirm('Reset all module data? This cannot be undone.')) { 
+            localStorage.removeItem('module2_answers'); 
+            localStorage.removeItem('module2_completed'); 
+            location.reload(); 
+        } 
+    });
+});
 </script>
 </body>
 </html>
