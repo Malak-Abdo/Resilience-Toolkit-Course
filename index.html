@@ -477,7 +477,7 @@
         }
     }
     
-    // STEP 2: Verify Code - UPDATED to save position & country in currentUser
+    // STEP 2: Verify Code - Redirects based on selected language
     async function verifyCode() {
         const enteredCode = document.getElementById('otpCode').value.trim();
         const messageDiv = document.getElementById('otpMessage');
@@ -497,7 +497,7 @@
             // 1. إضافة بطاقة الدخول للمستخدم
             sessionStorage.setItem('isVerifiedUser', 'true');
             
-            // ✅ حفظ جميع بيانات المستخدم بما فيها position و country
+            // حفظ جميع بيانات المستخدم
             localStorage.setItem('currentUser', JSON.stringify({
                 email: tempUserData.email,
                 name: tempUserData.name,
@@ -509,9 +509,15 @@
                 loginTime: new Date().toISOString()
             }));
             
-            // 2. التحويل إلى صفحة التقييم القبلي في مجلد en
+            // ✅ حفظ اللغة المختارة للاستخدام في الصفحات الأخرى
+            localStorage.setItem('userLanguage', tempUserData.language);
+            
+            // ✅ التحويل حسب اللغة المختارة
+            const selectedLanguage = tempUserData.language; // 'en' or 'ar'
+            const redirectUrl = selectedLanguage === 'ar' ? 'ar/pre-assessment.html' : 'en/pre-assessment.html';
+            
             setTimeout(() => { 
-                window.location.href = 'en/pre-assessment.html'; 
+                window.location.href = redirectUrl; 
             }, 2000);
         } else {
             showMessage(messageDiv, t.saveError, 'error-box');
@@ -565,7 +571,7 @@
     document.getElementById('otpCode').addEventListener('keypress', (e) => { if (e.key === 'Enter') verifyCode(); });
     
     updateLanguage();
-    console.log('✅ Registration page ready - Redirects to en/pre-assessment.html');
+    console.log('✅ Registration page ready - Redirects based on language selection');
 </script>
 </body>
 </html>
