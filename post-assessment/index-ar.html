@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقييم ما بعد الدورة</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Tahoma,sans-serif;background:#F4F7FC;color:#1E2F3E;padding:0 0 2rem}
+        .course-card{max-width:680px;margin:1rem auto;background:#fff;border-radius:32px;padding:1.8rem 1.5rem 2.2rem;box-shadow:0 8px 20px rgba(0,0,0,0.05)}
+        @media(max-width:550px){.course-card{margin:.8rem;padding:1.5rem 1.2rem}}
+        .header-tag{font-size:.75rem;text-transform:uppercase;color:#1A6B5A;font-weight:600;display:flex;justify-content:space-between;margin-bottom:.5rem}
+        .user-badge{font-size:.7rem;background:#E8F5E9;padding:.2rem .6rem;border-radius:20px;color:#1A6B5A}
+        h1{font-size:1.8rem;font-weight:700;color:#0C2E3B;text-align:center;margin-bottom:.5rem}
+        .assessment-header{background:#F0F7F4;border-radius:24px;padding:1.2rem;margin-bottom:1.5rem;border-right:4px solid #E8A735;text-align:center}
+        .progress-area{background:#F0F4FA;border-radius:60px;padding:.2rem;margin:1rem 0}
+        .progress-bar-fill{background:#1A6B5A;height:6px;width:0%;border-radius:60px;transition:width .2s}
+        .progress-stats{display:flex;justify-content:space-between;font-size:.7rem;color:#4F6F8F;margin-top:.3rem}
+        .question{background:#FEFEFE;border:1px solid #E2E9F2;border-radius:24px;padding:1.2rem 1rem;margin-bottom:1.5rem}
+        .scale-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.5rem}
+        .scale-item{flex:1;min-width:60px;text-align:center;background:#F1F5F9;padding:.5rem 0;border-radius:48px;cursor:pointer}
+        .scale-item.selected{background:#1A6B5A;color:#fff}
+        .nav-buttons{display:flex;justify-content:space-between;margin-top:1.5rem;gap:1rem}
+        button{background:#1A6B5A;border:none;color:#fff;font-weight:600;padding:.7rem 1.5rem;border-radius:60px;cursor:pointer}
+        button:disabled{opacity:.5;cursor:not-allowed}
+        .secondary{background:#E8A735;color:#2E3A2A}
+        .results-box{background:#F0F7F4;border-radius:24px;padding:1.5rem;margin:1rem 0;text-align:center}
+        .congrats-message{background:linear-gradient(135deg,#E8A735,#D4951E);border-radius:20px;padding:1.5rem;margin-bottom:1rem;color:#fff}
+        .congrats-message h3{color:#fff;font-size:1.6rem}
+        .tools-list{background:#fff;border-radius:16px;padding:1rem;margin:1rem 0;text-align:right}
+        .footer-note{font-size:.7rem;text-align:center;color:#8BA0B8;margin-top:1.5rem}
+        textarea{width:100%;padding:.8rem;border-radius:16px;border:1px solid #ccc;font-family:inherit;margin-top:.5rem}
+        .hidden{display:none}
+        .toast-message{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1A6B5A;color:#fff;padding:12px 24px;border-radius:60px;z-index:1000}
+        .toast-message.error{background:#B33A3A}
+        .badge-btn{background:linear-gradient(135deg,#E8A735,#D4951E);color:#2E3A2A;font-weight:700;padding:.8rem 1.8rem;margin-top:1rem}
+    </style>
+</head>
+<body>
+<div class="course-card">
+    <div class="header-tag">
+        <span>حزمة أدوات المرونة</span>
+        <span class="user-badge" id="userBadge">👤 جار التحميل...</span>
+    </div>
+    <h1>📋 تقييم ما بعد الدورة</h1>
+    <div class="assessment-header">
+        <p><strong>⏱️ ٣ دقائق · لا توجد إجابات خاطئة</strong></p>
+        <p>شكراً لإتمامك الدورة. الرجاء الإجابة على هذه الأسئلة بصدق.</p>
+    </div>
+    <div class="progress-area"><div class="progress-bar-fill" id="progressFill"></div></div>
+    <div class="progress-stats"><span id="progressText">٠/٦ أسئلة</span></div>
+    <div id="questionsContainer"></div>
+    <div class="nav-buttons">
+        <button id="prevBtn" class="secondary" disabled>← السابق</button>
+        <button id="nextBtn" disabled>التالي →</button>
+    </div>
+    <div id="resultsArea" class="hidden"></div>
+    <div id="sendSection" class="hidden" style="text-align:center;margin-top:1.5rem">
+        <button id="sendResultsBtn" class="badge-btn">🎓 احصل على شارة الإكمال</button>
+        <div id="sendFeedback" style="margin-top:.5rem;font-size:.85rem"></div>
+    </div>
+    <div class="footer-note">ملاحظاتك تساعدنا على تحسين الدورة.</div>
+</div>
+
+<script>
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_WEB_APP_URL/exec';
+
+function getUserData(){
+    let name='',email='',position='';
+    const p=new URLSearchParams(window.location.search);
+    if(p.has('name')){
+        name=decodeURIComponent(p.get('name'));
+        email=decodeURIComponent(p.get('email')||'');
+        position=decodeURIComponent(p.get('position')||'');
+        if(name&&name!==''){localStorage.setItem('course_user_name',name);localStorage.setItem('course_user_email',email);localStorage.setItem('course_user_position',position);}
+    }
+    if(!name||name===''){let n=localStorage.getItem('course_user_name');if(n&&n!=='null'&&n!=='Guest'&&n.trim()!==''){name=n.trim();email=localStorage.getItem('course_user_email')||'';position=localStorage.getItem('course_user_position')||'';}}
+    if(!name||name==='')name='متعلم';
+    return{name:name,email:email||'غير متوفر',position:position||'غير محدد'};
+}
+const cu=getUserData();
+document.getElementById('userBadge').innerText=`👤 ${cu.name}`;
+
+function showToast(m,e){let t=document.querySelector('.toast-message');if(t)t.remove();let d=document.createElement('div');d.className='toast-message'+(e?' error':'');d.textContent=m;document.body.appendChild(d);setTimeout(()=>d.remove(),3000);}
+
+async function sendToGoogleSheet(d){let u=getUserData();let p={module:'Post Assessment',action:'completed',language:'ar',userName:u.name,userEmail:u.email,userPosition:u.position,timestamp:new Date().toISOString(),answers:d};try{let r=await fetch(GOOGLE_SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(p)});let j=await r.json();return j.success===true;}catch(e){return true;}}
+
+const qs=[{id:1,text:"هل تشعر بالثقة في قدرتك على استخدام إطار S.A.F.E. في أزمة مستقبلية؟",type:"scale",min:1,max:5,labels:["غير واثق","واثق قليلاً","واثق معتدل","واثق","واثق جداً"]},{id:2,text:"هل تعتقد أن رد فعلك الأول تجاه الأزمات سيتغير بعد هذه الدورة؟",type:"scale",min:1,max:5,labels:["لا أوافق بشدة","لا أوافق","محايد","أوافق","أوافق بشدة"]},{id:3,text:"مقارنة بما قبل الدورة، ما مدى ثقتك في قيادة فريقك خلال أزمة؟",type:"scale",min:1,max:5,labels:["أقل ثقة بكثير","أقل ثقة قليلاً","لا تغيير","أكثر ثقة قليلاً","أكثر ثقة بكثير"]},{id:4,text:"ما هو أكثر شيء قيم تعلمته من هذه الدورة؟",type:"text",placeholder:"مثال: إطار S.A.F.E. سيساعدني..."},{id:5,text:"ما مدى احتمالية استخدامك لأداة من هذه الدورة في الثلاثين يوماً القادمة؟",type:"scale",min:1,max:5,labels:["غير محتمل","غير محتمل","محايد","محتمل","محتمل جداً"]},{id:6,text:"بشكل عام، كيف تقيم هذه الدورة؟",type:"scale",min:1,max:5,labels:["ضعيفة","مقبولة","جيدة","جيدة جداً","ممتازة"]}];
+let answers={},ci=0;
+for(let i=1;i<=qs.length;i++)answers[i]=qs[i-1].type==='text'?'':null;
+const cont=document.getElementById('questionsContainer'),pB=document.getElementById('prevBtn'),nB=document.getElementById('nextBtn'),pFill=document.getElementById('progressFill'),pTxt=document.getElementById('progressText'),rArea=document.getElementById('resultsArea'),sSec=document.getElementById('sendSection');
+
+function updateProgress(){
+    let a=0;
+    for(let i=1;i<=qs.length;i++){let q=qs[i-1];if(q.type==='text'){if(answers[i]&&answers[i].trim()!=='')a++;}else{if(answers[i]!==null&&answers[i]!=='')a++;}}
+    let p=(a/qs.length)*100;pFill.style.width=p+'%';pTxt.innerText=a+'/'+qs.length+' أسئلة';
+    let cq=qs[ci];let ans=false;if(cq.type==='text')ans=(answers[ci+1]&&answers[ci+1].trim()!=='');else ans=(answers[ci+1]!==null&&answers[ci+1]!=='');
+    nB.disabled=!ans;
+}
+function renderQuestion(){
+    let q=qs[ci];if(!q)return;
+    let h='<div class="question"><p><strong>السؤال '+(ci+1)+' من '+qs.length+'</strong></p><p>'+q.text+'</p>';
+    if(q.type==='scale'){
+        h+='<div class="scale-row">';
+        for(let i=q.min;i<=q.max;i++){let s=(answers[ci+1]===i);h+='<div class="scale-item '+(s?'selected':'')+'" data-value="'+i+'"><strong>'+i+'</strong><br><span style="font-size:.7rem;">'+q.labels[i-1]+'</span></div>';}
+        h+='</div>';
+    }else if(q.type==='text'){h+='<textarea id="textAnswer" rows="4" placeholder="'+q.placeholder+'">'+(answers[ci+1]||'')+'</textarea>';}
+    h+='</div>';cont.innerHTML=h;
+    if(q.type==='scale'){
+        document.querySelectorAll('.scale-item').forEach(i=>{i.addEventListener('click',()=>{let v=parseInt(i.getAttribute('data-value'));document.querySelectorAll('.scale-item').forEach(i=>i.classList.remove('selected'));i.classList.add('selected');answers[ci+1]=v;updateProgress();});});
+    }else if(q.type==='text'){
+        let ta=document.getElementById('textAnswer');ta.addEventListener('input',()=>{answers[ci+1]=ta.value;updateProgress();});
+    }
+}
+function calcScore(){let a=0;for(let i=1;i<=qs.length;i++){let q=qs[i-1];if(q.type==='text'){if(answers[i]&&answers[i].trim()!=='')a++;}else{if(answers[i]!==null&&answers[i]!=='')a++;}}return Math.round((a/qs.length)*100);}
+function showResults(){
+    let sc=calcScore(),un=cu.name;
+    let h='<div class="results-box"><div class="congrats-message"><h3>🎉 شكراً لك، '+un+'! 🎉</h3><p>لقد أكملت التقييم بنجاح.</p></div><div class="tools-list"><h4>🧰 حزمة أدوات المرونة الخاصة بك جاهزة</h4><ul><li><strong>🔍 إطار S.A.F.E.</strong></li><li><strong>🔄 تحويل العقلية</strong></li><li><strong>🎯 نوايا التعلم</strong></li><li><strong>⚙️ العادات التنفيذية</strong></li><li><strong>⏰ بروتوكول السابعة صباحاً</strong></li></ul></div><div><strong>✅ اكتمل التقييم:</strong> '+sc+'%</div>';
+    if(answers[4]&&answers[4].trim())h+='<div><strong>💡 أكثر شيء قيم تعلمته:</strong><br>"'+answers[4]+'"</div>';
+    h+='</div>';rArea.innerHTML=h;rArea.classList.remove('hidden');cont.classList.add('hidden');pB.classList.add('hidden');nB.classList.add('hidden');sSec.classList.remove('hidden');
+}
+async function sendResults(){
+    let btn=document.getElementById('sendResultsBtn'),fd=document.getElementById('sendFeedback');
+    let all=true;
+    for(let i=1;i<=qs.length;i++){let q=qs[i-1];if(q.type==='text'){if(!answers[i]||answers[i].trim()==='')all=false;}else{if(answers[i]===null||answers[i]==='')all=false;}}
+    if(!all){showToast('⚠️ الرجاء الإجابة على جميع الأسئلة.',true);return;}
+    btn.disabled=true;btn.innerText='🎓 جاري الحفظ...';fd.innerHTML='⏳ جاري الإرسال...';
+    let sc=calcScore(),ad={q1_confidence_safe:answers[1]||'',q2_reaction_change:answers[2]||'',q3_confidence_team:answers[3]||'',q4_most_valuable:answers[4]||'',q5_likelihood_use:answers[5]||'',q6_overall_rating:answers[6]||'',completionScore:sc};
+    await sendToGoogleSheet(ad);localStorage.setItem('post_assessment_completed','true');localStorage.setItem('course_completed','true');
+    window.location.href='badge-ar.html';
+}
+function handleNext(){
+    let cq=qs[ci];let ans=false;if(cq.type==='text')ans=(answers[ci+1]&&answers[ci+1].trim()!=='');else ans=(answers[ci+1]!==null&&answers[ci+1]!=='');
+    if(!ans){showToast('⚠️ الرجاء الإجابة على السؤال الحالي.',true);return;}
+    if(ci<qs.length-1){ci++;renderQuestion();pB.disabled=false;}else{showResults();}
+}
+function handlePrev(){if(ci>0){ci--;renderQuestion();if(ci===0)pB.disabled=true;}}
+document.getElementById('sendResultsBtn')?.addEventListener('click',sendResults);pB.addEventListener('click',handlePrev);nB.addEventListener('click',handleNext);
+renderQuestion();updateProgress();
+</script>
+</body>
+</html>
