@@ -438,53 +438,6 @@
         }
     }
     
-    // ============================================
-    // ✅ NEW: Save user data to Google Sheets
-    // ============================================
-    async function saveUserDataToSheet() {
-        const webAppUrl = GOOGLE_SCRIPT_URL;
-        
-        const payload = {
-            module: 'Post Assessment',
-            action: 'completed',
-            language: userLanguage,
-            userName: user.name,
-            userEmail: user.email,
-            userPosition: user.position,
-            timestamp: new Date().toISOString(),
-            answers: {
-                q1_confidence_safe: '5',
-                q2_reaction_change: '5',
-                q3_confidence_team: '5',
-                q4_most_valuable: 'Completed the Resilience Toolkit successfully',
-                q5_likelihood_use: '5',
-                q6_overall_rating: '5',
-                completionScore: 100
-            }
-        };
-        
-        console.log('📤 Saving user data to sheet:', payload);
-        
-        try {
-            const response = await fetch(webAppUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'text/plain;charset=utf-8',
-                },
-                body: JSON.stringify(payload)
-            });
-            const result = await response.json();
-            console.log('✅ Save result:', result);
-            return true;
-        } catch(error) {
-            console.log('⚠️ Error saving:', error);
-            return false;
-        }
-    }
-    
-    // ============================================
-    // MODIFIED: Handle badge click with sheet save first
-    // ============================================
     function handleGetBadgeClick() {
         const button = document.getElementById('getCertificateBtn');
         if (button.disabled) return;
@@ -497,44 +450,39 @@
             button.innerHTML = '⏳ Sending...';
         }
         
-        // ✅ First: Save data to Google Sheets
-        saveUserDataToSheet().then(() => {
-            // ✅ Second: Send email
-            const payload = {
-                event: 'send_badge_email',
-                email: user.email,
-                name: user.name,
-                position: user.position,
-                assessmentLink: ASSESSMENT_LINK,
-                language: userLanguage
-            };
-            
-            console.log('📤 Sending email payload:', payload);
-            console.log('📤 To URL:', GOOGLE_SCRIPT_URL);
-            
-            fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'text/plain;charset=utf-8',
-                },
-                body: JSON.stringify(payload)
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('✅ Email sent successfully:', data);
-            })
-            .catch(err => {
-                console.log('⚠️ Error sending email:', err);
-            });
-        });
-        
         // Show popup immediately
         showEmailBadgePopup();
+        
+        const payload = {
+            event: 'send_badge_email',
+            email: user.email,
+            name: user.name,
+            assessmentLink: ASSESSMENT_LINK,
+            language: userLanguage
+        };
+        
+        console.log('📤 Sending payload:', payload);
+        console.log('📤 To URL:', GOOGLE_SCRIPT_URL);
+        
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8',
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('✅ Email sent successfully:', data);
+        })
+        .catch(err => {
+            console.log('⚠️ Error sending email:', err);
+        });
         
         localStorage.setItem('badge_requested_at', new Date().toISOString());
         localStorage.setItem('badge_requested_for', user.email);
         
-        // Reset button after 3 seconds
+        // Reset button quickly
         setTimeout(() => {
             button.disabled = false;
             if (userLanguage === 'ar') {
@@ -542,7 +490,7 @@
             } else {
                 button.innerHTML = '📧 Get Your Badge';
             }
-        }, 3000);
+        }, 1000);
     }
     
     function finalizeCourseCompletion() {
