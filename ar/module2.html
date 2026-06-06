@@ -350,15 +350,15 @@
     <h2>الخبر السار: العقليات ليست دائمة</h2>
     <div class="scenario-card">
         <strong>عقليتك ليست شخصيتك. إنها نمط. والأنماط يمكن تغييرها.</strong><br><br>
-        العقليات الخمس — الضحية - المبادر، الندرة، الذعر، الجمود، الخبير — ليست تشخيصات. إنها أنماط تظهر تحت الضغط.<br><br>
+        العقليات الخمس — الضحية، الندرة، الذعر، الجمود، الخبير — ليست تشخيصات. إنها أنماط تظهر تحت الضغط.<br><br>
         كل قائد لديه هذه العقليات. الفرق هو تعلم كيفية التعرف عليها <strong>وتحويلها</strong>.
     </div>
     
     <h2>انقر على كل بطاقة للانتقال من الحالة المحدودة إلى التكيفية</h2>
     <div class="mindset-grid" id="mindsetGrid">
         <div class="mindset-card" data-mindset="victim">
-            <div class="mindset-front"><strong>📉 الضحية - المبادر</strong><br>"الأسطول معطل. العمل مستحيل."<br><span style="font-size:0.7rem;">👇 اضغط للقلب</span></div>
-            <div class="mindset-back hidden-content"><strong>🌿 الوكيل</strong><br>"ما المهام التي يمكننا تنفيذها سيراً على الأقدام؟"</div>
+            <div class="mindset-front"><strong>📉 الضحية</strong><br>"الأسطول معطل. العمل مستحيل."<br><span style="font-size:0.7rem;">👇 اضغط للقلب</span></div>
+            <div class="mindset-back hidden-content"><strong>🌿 المبادر</strong><br>"ما المهام التي يمكننا تنفيذها سيراً على الأقدام؟"</div>
         </div>
         <div class="mindset-card" data-mindset="scarcity">
             <div class="mindset-front"><strong>📉 الندرة</strong><br>"لدينا مركبة واحدة فقط. لا يمكننا الوصول إلى المجتمعات الثلاث."<br><span style="font-size:0.7rem;">👇 اضغط للقلب</span></div>
@@ -384,7 +384,7 @@
             <tr><th>العقلية المحدودة</th><th>العقلية التكيفية</th><th>سؤال إعادة الصياغة</th></tr>
         </thead>
         <tbody>
-            <tr><td>الضحية - المبادر</td><td>الوكيل</td><td>"ما الإجراءات التي لا تزال ممكنة؟"</td></tr>
+            <tr><td>الضحية</td><td>المبادر</td><td>"ما الإجراءات التي لا تزال ممكنة؟"</td></tr>
             <tr><td>الندرة</td><td>الوفرة</td><td>"ما هو أصغر إجراء ممكن؟"</td></tr>
             <tr><td>الذعر</td><td>الفضول</td><td>"ما هو الشيء ذو الأولوية القصوى؟"</td></tr>
             <tr><td>الجمود</td><td>النمو</td><td>"من يمتلك الكفاءة ذات الصلة؟"</td></tr>
@@ -403,7 +403,7 @@
                 <strong>❓ السؤال ١: أي عقلية كان يُظهرها المدير؟</strong>
             </div>
             <div class="quiz-options-grid" data-q="manager">
-                <div class="quiz-option" data-val="الضحية - المبادر"><span class="option-marker">○</span><span class="option-text">الضحية - المبادر</span></div>
+                <div class="quiz-option" data-val="الضحية"><span class="option-marker">○</span><span class="option-text">الضحية</span></div>
                 <div class="quiz-option" data-val="الندرة"><span class="option-marker">○</span><span class="option-text">الندرة</span></div>
                 <div class="quiz-option" data-val="الذعر"><span class="option-marker">○</span><span class="option-text">الذعر</span></div>
                 <div class="quiz-option" data-val="الجمود"><span class="option-marker">○</span><span class="option-text">الجمود</span></div>
@@ -417,7 +417,7 @@
                 <strong>❓ السؤال ٢: ما هو تحول العقلية الذي يحتاج المدير إلى إجرائه؟</strong>
             </div>
             <div class="quiz-options-grid" data-q="shift">
-                <div class="quiz-option" data-val="الضحية - المبادر ← الوكيل"><span class="option-marker">○</span><span class="option-text">الضحية - المبادر ← الوكيل</span></div>
+                <div class="quiz-option" data-val="الضحية ← المبادر"><span class="option-marker">○</span><span class="option-text">الضحية ← المبادر</span></div>
                 <div class="quiz-option" data-val="الندرة ← الوفرة"><span class="option-marker">○</span><span class="option-text">الندرة ← الوفرة</span></div>
                 <div class="quiz-option" data-val="الذعر ← الفضول"><span class="option-marker">○</span><span class="option-text">الذعر ← الفضول</span></div>
                 <div class="quiz-option" data-val="الجمود ← النمو"><span class="option-marker">○</span><span class="option-text">الجمود ← النمو</span></div>
@@ -647,8 +647,8 @@ function displayResultsSummary() {
     const q2Answer = q2Selected ? q2Selected.getAttribute('data-val') : null;
     const q3Answer = q3Selected ? q3Selected.getAttribute('data-val') : null;
     
-    const isQ1Correct = (q1Answer === 'الضحية - المبادر');
-    const isQ2Correct = (q2Answer === 'الضحية - المبادر ← الوكيل');
+    const isQ1Correct = (q1Answer === 'الضحية');
+    const isQ2Correct = (q2Answer === 'الضحية ← المبادر');
     const isQ3Correct = (q3Answer === 'لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي.');
     
     const totalCorrect = (isQ1Correct ? 1 : 0) + (isQ2Correct ? 1 : 0) + (isQ3Correct ? 1 : 0);
@@ -664,7 +664,7 @@ function displayResultsSummary() {
         <div class="result-item"><span class="result-badge">س١: العقلية</span> <span>${escapeHtml(q1Display)}</span> <span class="result-status ${isQ1Correct ? 'status-correct' : 'status-incorrect'}">${isQ1Correct ? '✓ صحيح' : '✗ خطأ'}</span></div>
         <div class="result-item"><span class="result-badge">س٢: التحول</span> <span>${escapeHtml(q2Display)}</span> <span class="result-status ${isQ2Correct ? 'status-correct' : 'status-incorrect'}">${isQ2Correct ? '✓ صحيح' : '✗ خطأ'}</span></div>
         <div class="result-item"><span class="result-badge">س٣: المساءلة</span> <span>${escapeHtml(q3Display)}</span> <span class="result-status ${isQ3Correct ? 'status-correct' : 'status-incorrect'}">${isQ3Correct ? '✓ صحيح' : '✗ خطأ'}</span></div>
-        <div style="margin-top: 12px; font-size:0.75rem; color:#4B6F86;">💡 الإجابات الصحيحة: الضحية - المبادر | الضحية - المبادر ← الوكيل | "لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي."</div>
+        <div style="margin-top: 12px; font-size:0.75rem; color:#4B6F86;">💡 الإجابات الصحيحة: الضحية | الضحية ← المبادر | "لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي."</div>
     `;
     container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
@@ -696,16 +696,16 @@ function bindEvents() {
             if (qParent && qParent.querySelector('[data-q="manager"]')) {
                 const selectedVal = opt.getAttribute('data-val');
                 const fbDiv = document.getElementById('managerFb1');
-                const isCorrect = (selectedVal === 'الضحية - المبادر');
+                const isCorrect = (selectedVal === 'الضحية');
                 fbDiv.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
-                fbDiv.innerHTML = isCorrect ? '✅ <strong>صحيح!</strong> كان المدير يُظهر عقلية الضحية - المبادر — التركيز على ما هو مستحيل.' : '❌ <strong>خطأ.</strong> الإجابة الصحيحة هي "الضحية - المبادر". العبارة تعكس إطار الضحية - المبادر.';
+                fbDiv.innerHTML = isCorrect ? '✅ <strong>صحيح!</strong> كان المدير يُظهر عقلية الضحية — التركيز على ما هو مستحيل.' : '❌ <strong>خطأ.</strong> الإجابة الصحيحة هي "الضحية". العبارة تعكس إطار الضحية.';
                 fbDiv.style.display = 'block';
             } else if (qParent && qParent.querySelector('[data-q="shift"]')) {
                 const selectedVal = opt.getAttribute('data-val');
                 const fbDiv = document.getElementById('managerFb2');
-                const isCorrect = (selectedVal === 'الضحية - المبادر ← الوكيل');
+                const isCorrect = (selectedVal === 'الضحية ← المبادر');
                 fbDiv.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
-                fbDiv.innerHTML = isCorrect ? '✅ <strong>صحيح!</strong> التحول من الضحية - المبادر إلى الوكيل — سؤال "ما الإجراءات التي لا تزال ممكنة؟"' : '❌ <strong>خطأ.</strong> التحول الصحيح هو "الضحية - المبادر ← الوكيل".';
+                fbDiv.innerHTML = isCorrect ? '✅ <strong>صحيح!</strong> التحول من الضحية إلى المبادر — سؤال "ما الإجراءات التي لا تزال ممكنة؟"' : '❌ <strong>خطأ.</strong> التحول الصحيح هو "الضحية ← المبادر".';
                 fbDiv.style.display = 'block';
             } else if (qParent && qParent.querySelector('[data-q="account"]')) {
                 const selectedVal = opt.getAttribute('data-val');
