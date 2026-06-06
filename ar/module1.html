@@ -158,7 +158,6 @@
             background: #4a627a;
         }
         
-        /* Mobile-Friendly Matching Game (Replaces Drag & Drop) */
         .matching-game {
             margin: 1.5rem 0;
         }
@@ -326,10 +325,19 @@
             color: #B33A3A;
             border-right: 3px solid #B33A3A;
         }
+        .core-takeaway {
+            background: #1A6B5A;
+            color: white;
+            padding: 1rem;
+            border-radius: 16px;
+            margin: 1rem 0;
+            text-align: center;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
-        <!-- ========== كود التحقق ========== -->
+    <!-- ========== VERIFICATION CODE ========== -->
     <script>
         const userLang = localStorage.getItem('userLanguage') || 'en';
         const messages = {
@@ -383,13 +391,15 @@
     <button id="submitPollBtn">تأكيد الاختيارات</button>
     <div id="pollFeedback" class="feedback"></div>
     
+    <!-- SCENARIO 1: KEITH -->
     <div class="scenario-card">
-        <strong>📖 سيناريو: "كيث – الخبير التقني الذي لم يستطع التكيف"</strong><br><br>
-        كان لدى كيث ١٢ عاماً من الخبرة التقنية في مجاله. كان ماهراً جداً وتم ترشيحه لمنصب المدير القطري في اليمن لإحدى المنظمات الإنسانية الدولية.<br><br>
-        أثناء الاختبار التقني، أدى كيث أداءً جيداً جداً. لكن في المقابلة النهائية، قال:<br>
-        <em>"إجراءات التشغيل القياسية (SOPs) المستخدمة في نيويورك قابلة للنقل مباشرة إلى اليمن. سأعمل مع الفريق المحلي لإيجاد طريقة لتطبيقها هناك."</em><br><br>
-        عندما سُئل عن المتغيرات الثقافية المحلية، رد بأن البروتوكولات الحالية لا ينبغي تغييرها – فقط تطبيقها. وقال إنه يتوقع من الفريق أن "يجد طريقة" لجعلها تعمل.<br><br>
-        لم يتم اختيار كيث لهذا الدور.
+        <strong>📖 السيناريو ١: "كيث – الخبير التقني الذي لم يستطع التكيف"</strong><br><br>
+        كان لدى كيث ١٢ عاماً من الخبرة التقنية الممتازة في مجاله. كان ماهراً جداً وبسبب عمله الرائع، تم ترشيحه لمنصب رفيع: المدير القطري في اليمن لإحدى المنظمات الإنسانية الدولية.<br><br>
+        أثناء الاختبار التقني، أدى كيث أداءً جيداً جداً. لقد أثبت أنه يعرف الجانب التقني بشكل مثالي. لكن في المقابلة النهائية، قال للجنة:<br>
+        <em>"إجراءات التشغيل القياسية (SOPs / القواعد الرسمية) التي نستخدمها في مكتبنا في نيويورك يمكن استخدامها مباشرة في اليمن. سأعمل مع الفريق المحلي لإيجاد طريقة لاستخدامها هناك."</em><br><br>
+        سألته لجنة المقابلة كيف سيتعامل مع التغيرات الثقافية المحلية والقواعد العشائرية على الأرض. أجاب كيث بحزم:<br>
+        <em>"قواعدنا الحالية لا ينبغي تغييرها. يجب اتباعها فقط بدقة للحفاظ على جودتنا العالية. أتوقع من الفريق المحلي أن يجد طريقة لجعلها تعمل."</em><br><br>
+        كانت هذه العقلية الجامدة أحد الأسباب الرئيسية لعدم اختيار كيث لهذا الدور.
     </div>
     
     <div class="section-header">
@@ -399,12 +409,12 @@
     
     <div id="keithQuiz">
         <div class="quiz-question" id="q1">
-            <strong>السؤال ١ (اختيار من متعدد)</strong><br>ما هو الخطأ الرئيسي الذي ارتكبه كيث؟
+            <strong>السؤال ١</strong><br>ما هو خطأ كيث الأكبر؟
             <div class="quiz-options" data-q="1">
-                <div class="quiz-option" data-val="A">أ) فشل في الاختبار التقني.</div>
+                <div class="quiz-option" data-val="A">أ) فشل في اختباره التقني.</div>
                 <div class="quiz-option" data-val="B">ب) افترض أن إجراءات التشغيل القياسية من سياق مستقر ستعمل دون تغيير في سياق متقلب.</div>
-                <div class="quiz-option" data-val="C">ج) رفض الذهاب إلى اليمن.</div>
-                <div class="quiz-option" data-val="D">د) كان لديه ١٢ عاماً فقط من الخبرة.</div>
+                <div class="quiz-option" data-val="C">ج) غير رأيه ورفض السفر إلى اليمن.</div>
+                <div class="quiz-option" data-val="D">د) لم يكن لديه سنوات كافية من الخبرة المهنية.</div>
             </div>
             <div class="feedback" id="fb1"></div>
         </div>
@@ -416,7 +426,7 @@
         </div>
         
         <div class="quiz-question" id="q3">
-            <strong>السؤال ٣ (قائم على سيناريو)</strong><br>لو كنت مدير التوظيف، ما هو السؤال الوحيد الذي كنت ستطرحه على كيث لاختبار قيادته التكيفية قبل رفضه؟
+            <strong>السؤال ٣ (قائم على السيناريو)</strong><br>لو كنت مدير التوظيف، ما هو السؤال الوحيد الذي كنت ستطرحه على كيث لاختبار قيادته التكيفية قبل رفضه؟
             <textarea id="q3answer" rows="2" placeholder="اكتب إجابتك هنا..."></textarea>
             <div class="feedback" id="fb3"></div>
         </div>
@@ -441,18 +451,24 @@
     
     <div id="keithDiagnosis" style="margin-top:1.5rem; display:none; background:#F0F7F4; padding:1rem; border-radius:20px;">
         <strong>لماذا لم يتم اختيار كيث؟ (التشخيص)</strong><br><br>
-        لم يتم رفض كيث بسبب افتقاره إلى المهارات التقنية - لقد تفوق في الاختبار التقني. تم رفضه لأنه:<br><br>
+        لم يتم رفض كيث بسبب افتقاره إلى المهارات التقنية - لقد تفوق في الاختبار التقني. لم يتم اختيار كيث لعدة أسباب، منها:<br><br>
         • تجاهل المتغيرات الثقافية والسياقية المحلية في اليمن، وهي بيئة إنسانية متقلبة وعالية المخاطر.<br>
-        • افترض أن إجراءات التشغيل القياسية المصممة في نيويورك (بيئة مستقرة وموفرة للموارد) قابلة للنقل المباشر دون تعديل.<br>
+        • افترض أن إجراءات التشغيل القياسية المصممة في نيويورك (بيئة مستقرة وموفرة للموارد وموجهة بالقواعد) قابلة للنقل المباشر دون تعديل.<br>
         • قال إنه سيطلب من الفريق المحلي "إيجاد طريقة" لتطبيق تلك الإجراءات - مما يحول عبء التكيف بأكمله إلى الموظفين المحليين، دون منحهم السلطة أو المرونة أو الموارد.<br><br>
         هذا النهج سيؤدي إلى إرهاق الموظفين، وانهيار الثقة المحلية، وفقدان كامل للحافز.<br><br>
         <strong>التشخيص:</strong> كان كيث ممتازاً في الأداء في ظل البيئات التي يسودها الاستقرار، لكنه جامد استراتيجياً في ظل التقلبات. المهارة التقنية توصلك إلى الباب. المهارة التكيفية هي التي تقرر ما إذا كان سيُسمح لك بالقيادة من خلاله.
     </div>
     
+    <!-- SCENARIO 2: LEYLA -->
     <div class="scenario-card">
-        <strong>📖 سيناريو: "ليلى – الاستراتيجية التكيفية"</strong><br><br>
-        ليلى مديرة قطرية لمنظمة إنسانية في السودان. أثناء حملة إغاثة حرجة، حدث نقص حاد في الوقود لمدة 7 أيام. شلّ هذا النقص أسطول المركبات، ولم يعد الفريق الميداني قادراً على الوصول لمواقع التوزيع أو العيادات. نظر الفريق إلى ليلى.<br><br>
-        <em>ماذا تفعل لو كنت في موقع ليلى؟<br>(هل تلوم فريق الخدمات اللوجستية لعدم وجود وقود احتياطي؟ هل تنتظر موافقة المكتب الرئيسي على شراء وقود من السوق السوداء؟)</em>
+        <strong>📖 السيناريو ٢: "ليلى – القائدة المرنة"</strong><br><br>
+        كانت ليلى المديرة القطرية لمنظمة إغاثة دولية في السودان، في منطقة تعاني من نزاع نشط وكثيف.<br><br>
+        في منتصف مشروع إنقاذ حياة مهم، ضرب نقص حاد في الوقود المنطقة بأكملها فجأة. لم يكن الوقود متاحاً في أي مكان. كان من المتوقع أن يستمر النقص لمدة ٧ أيام على الأقل.<br><br>
+        بدون وقود، لم تستطع أي من شاحنات المنظمة أو سياراتها التحرك. لم تستطع الفرق الميدانية السفر لتوصيل الغذاء، أو فتح العيادات الصحية، أو التحقق من المجتمعات المحتاجة.<br><br>
+        توقف كل العمل. نظر الفريق بأكمله إلى ليلى، في انتظار قرارها.<br><br>
+        <em>ماذا ستفعل لو كنت في مكان ليلى؟<br>
+        هل تغضب وتلوم فريق الخدمات اللوجستية لعدم الاحتفاظ بوقود إضافي؟<br>
+        هل توقف كل العمل وتنتظر أياماً حتى يوافق المكتب الرئيسي الدولي على شراء الوقود من مصادر محلية بديلة؟</em>
     </div>
     
     <div class="section-header">
@@ -461,58 +477,54 @@
     </div>
     
     <div class="quiz-question" id="leylaQ1">
-        <strong>السؤال ١: اختيار من متعدد</strong><br>أي من التالي كان الإجراء الأول الذي اتخذته ليلى فعلاً (والأكثر تكيفاً)؟
+        <strong>السؤال ١: اختيار من متعدد</strong><br>أي من الإجراءات التالية هو الإجراء الأول الذي اتخذته ليلى بالفعل (والأكثر تكيفاً)؟
         <div class="quiz-options" data-q="leyla1">
-            <div class="quiz-option" data-val="A">أ) لوم فريق الخدمات اللوجستية لعدم وجود احتياطيات وقود.</div>
-            <div class="quiz-option" data-val="B">ب) انتظار موافقة كتابية من المكتب الرئيسي لشراء وقود من السوق السوداء.</div>
-            <div class="quiz-option" data-val="C">ج) جمع الفريق المحلي (السائقين، اللوجستيين، منسقي المجتمع) وسؤالهم: "ما الذي نجح في حالات نقص الوقود السابقة هنا؟"</div>
-            <div class="quiz-option" data-val="D">د) تعليق جميع العمليات لمدة سبعة أيام للبقاء آمنين.</div>
+            <div class="quiz-option" data-val="A">أ) إلقاء اللوم على فريق الخدمات اللوجستية لعدم وجود احتياطيات وقود إضافية.</div>
+            <div class="quiz-option" data-val="B">ب) انتظار موافقة كتابية من المكتب الرئيسي الدولي لشراء الوقود من مصادر محلية بديلة.</div>
+            <div class="quiz-option" data-val="C">ج) جمع الموظفين المحليين (سائقين، لوجستيين، وسطاء مجتمعيين) وسؤالهم: "ما الذي نجح في حالات نقص الوقود السابقة هنا؟"</div>
+            <div class="quiz-option" data-val="D">د) تعليق جميع العمليات لمدة سبعة أيام للبقاء آمنين تماماً.</div>
         </div>
         <div class="feedback" id="leylaFb1"></div>
         <button class="check-btn" data-check="leylaQ1">✅ تحقق من الإجابة</button>
     </div>
 
     <div class="quiz-question" id="leylaQ5">
-        <strong>السؤال ٢: تحدي التصفية (Filtering)</strong><br>يقترح الفريق المحلي شراء وقود من تاجر في السوق السوداء. هذا يحل مشكلة النقل لكنه يخالف قواعد المانحين. كيف تقوم بـ"تصفية" هذا الحل؟
-        <textarea id="filterAnswer" rows="3" placeholder="مثال: أتأكد إن كان التاجر مدرجاً على قائمة العقوبات، أو أتفاوض على صفقة جزئية..."></textarea>
+        <strong>السؤال ٢: تحدي التصفية</strong><br>يقترح الموظفون المحليون شراء الوقود من تاجر في السوق السوداء. هذا يحل مشكلة النقل لكنه ينتهك قواعد المانحين. كيف تقوم بتصفية هذا الحل؟
+        <textarea id="filterAnswer" rows="3" placeholder=""></textarea>
         <div class="feedback" id="filterFb"></div>
         <button class="check-btn" data-check="filterQuestion">✅ تحقق من الإجابة</button>
     </div>
     
-    <!-- Mobile-Friendly Matching Game (Replaces Drag & Drop) -->
     <div class="quiz-question" id="leylaQ2">
-        <strong>السؤال ٣: طابق كل إجراء بالنتيجة المناسبة</strong><br>
-        <p><em>لكل إجراء أدناه، اختر النتيجة الصحيحة.</em></p>
+        <strong>السؤال ٣: طابق كل إجراء بنتيجته</strong><br>
+        <p><em>لكل إجراء قيادي أدناه، اختر النتيجة التشغيلية الصحيحة على الأرض:</em></p>
         
         <div class="matching-game" id="matchingGame">
-            <!-- Action 1: Blame logistics team -->
             <div class="matching-item">
-                <div class="matching-action">📌 الإجراء ١: لوم فريق الخدمات اللوجستية</div>
+                <div class="matching-action">📌 الإجراء ١: لوم فريق الخدمات اللوجستية الميداني والضغط عليهم بسبب نقص الوقود.</div>
                 <div class="matching-options" data-action="blame">
                     <div class="match-option" data-outcome="A">✅ نجاح تكيفي</div>
-                    <div class="match-option" data-outcome="B">🔴 توقف/شلل</div>
-                    <div class="match-option" data-outcome="C">❌ فشل</div>
+                    <div class="match-option" data-outcome="B">⏳ نافذة استجابة ممتدة</div>
+                    <div class="match-option" data-outcome="C">❌ فشل (يدمر ثقة الفريق ويترك المركبات عالقة)</div>
                 </div>
                 <div id="blameFeedback" class="match-result" style="display:none;"></div>
             </div>
             
-            <!-- Action 2: Wait for HQ black market approval -->
             <div class="matching-item">
-                <div class="matching-action">📌 الإجراء ٢: انتظار موافقة المكتب الرئيسي على شراء وقود السوق السوداء</div>
+                <div class="matching-action">📌 الإجراء ٢: انتظار موافقة المكتب الرئيسي عن بعد دون إرسال الحقائق والسياق المحلي.</div>
                 <div class="matching-options" data-action="waitHQ">
                     <div class="match-option" data-outcome="A">✅ نجاح تكيفي</div>
-                    <div class="match-option" data-outcome="B">🔴 توقف/شلل</div>
+                    <div class="match-option" data-outcome="B">⏳ نافذة استجابة ممتدة (نظراً لعدم وجود بيانات ميدانية، يحتاج المكتب الرئيسي إلى وقت إضافي للتحقق من المخاطر، مما يوقف عملياتك مؤقتاً).</div>
                     <div class="match-option" data-outcome="C">❌ فشل</div>
                 </div>
                 <div id="waitHQFeedback" class="match-result" style="display:none;"></div>
             </div>
             
-            <!-- Action 3: Negotiate with motorcycle union leaders -->
             <div class="matching-item">
-                <div class="matching-action">📌 الإجراء ٣: التفاوض مع قادة اتحاد الدراجات النارية</div>
+                <div class="matching-action">📌 الإجراء ٣: التحدث مع الموظفين المحليين والتفاوض على حل آمن مع قادة اتحاد الدراجات النارية المحليين.</div>
                 <div class="matching-options" data-action="negotiate">
-                    <div class="match-option" data-outcome="A">✅ نجاح تكيفي</div>
-                    <div class="match-option" data-outcome="B">🔴 توقف/شلل</div>
+                    <div class="match-option" data-outcome="A">✅ نجاح تكيفي (يستخدم الشبكات المحلية الموثوقة لتوصيل المساعدات المنقذة للحياة فوراً)</div>
+                    <div class="match-option" data-outcome="B">⏳ نافذة استجابة ممتدة</div>
                     <div class="match-option" data-outcome="C">❌ فشل</div>
                 </div>
                 <div id="negotiateFeedback" class="match-result" style="display:none;"></div>
@@ -524,16 +536,16 @@
     </div>
     
     <div class="quiz-question" id="leylaQ3">
-        <strong>🔀 السؤال ٤: سيناريو متفرع</strong><br>أنت في موقع ليلى. يحدث نقص الوقود. تقرر التصرف. ما هو أول ما تفعله؟
+        <strong>🔀 السؤال ٤: سيناريو متفرع</strong><br>لقد حدث نقص الوقود للتو في منطقتك. كل شيء توقف، وفرقك الميدانية عالقة. تحتاج إلى التصرف فوراً. ما هو أول ما تفعله؟
         <div class="branch-choices">
             <div class="branch-choice" data-choice="A">
-                <strong>أ.</strong> عقد اجتماع طارئ مع فريق الخدمات اللوجستية والمطالبة: "لماذا لم تخزنوا وقوداً احتياطياً؟"
+                <strong>أ.</strong> عقد اجتماع طارئ مع فريق الخدمات اللوجستية والمطالبة: "لماذا لم تخزنوا وقوداً احتياطياً لحالات الطوارئ؟"
             </div>
             <div class="branch-choice" data-choice="B">
-                <strong>ب.</strong> إرسال بريد إلكتروني عاجل إلى المكتب الرئيسي: "نحتاج موافقة على شراء وقود من السوق السوداء. الرجاء الرد خلال ٢٤ ساعة."
+                <strong>ب.</strong> إرسال بريد إلكتروني عاجل إلى المكتب الرئيسي نصه: "لدينا أزمة. نحتاج موافقة لشراء الوقود من مصادر محلية بديلة. الرجاء الرد خلال ٢٤ ساعة."
             </div>
             <div class="branch-choice" data-choice="C">
-                <strong>ج.</strong> عقد اجتماع مع الفريق المحلي، وسؤالهم: "من يعرف كيف حصل الناس على الوقود أثناء النقص السابق؟"
+                <strong>ج.</strong> عقد اجتماع فوري مع موظفيك المحليين (سائقين، حراس، مساعدين) وسؤالهم: "من يتذكر كيف حصل الناس على الوقود هنا أثناء النقص الكبير السابق؟"
             </div>
         </div>
         <div id="branchOutcome" class="branch-outcome" style="display:none;"></div>
@@ -575,9 +587,13 @@
     <div id="leylaQuizFeedback" class="feedback" style="display:none;"></div>
 
     <div class="reality-check" id="realityCheckDiv" style="display:none;">
-        <strong>⚠️ تنبيه ميداني (Reality Check):</strong><br>
-        ليلى لم تحل الأزمة بضغطة زر. لقد واجهت عراقيل لوجستية ومعضلات أخلاقية. المرونة لا تعني اختفاء المشاكل، بل تعني أن تنجز المهام في وقت أقل، وتحمي معنويات فريقك، وتجد "الفعل الصحيح التالي" بدلاً من الشعور بالتجمد وتوقف العمل.<br><br>
-        <strong>ملاحظة:</strong> المرونة لا تعني "كسر القواعد". بل تعني معرفة متى يتطلب السياق "تكييف" البروتوكول لإنقاذ الأرواح، ومتى يكون الالتزام الصارم هو الطريق الآمن الوحيد.
+        <strong>⚠️ تنبيه ميداني:</strong><br>
+        ليلى لم تحل الأزمة بسؤال واحد. لقد واجهت عراقيل لوجستية ومعضلات أخلاقية. المرونة لا تعني اختفاء المشاكل، بل تعني أن تنجز المهام في وقت أقل، وتحمي معنويات فريقك، وتجد "الفعل الصحيح التالي" بدلاً من التوقف.<br><br>
+        <strong>ملاحظة:</strong> المرونة لا تعني كسر القواعد. بل تعني معرفة متى يتطلب السياق تكييف البروتوكول لإنقاذ الأرواح، ومتى يكون الالتزام الصارم هو الطريق الآمن الوحيد.
+    </div>
+
+    <div class="core-takeaway" id="coreTakeawayDiv" style="display:none;">
+        💡 الخلاصة الأساسية: اجمع المعرفة المحلية أولاً دائماً! يحتاج المكتب الرئيسي إلى البيانات الميدانية لاتخاذ خيارات سريعة وآمنة. لتجنب التأخير، لا ترمِ المشكلة أبداً على المكتب الرئيسي فقط - بل أرسل دائماً خطتك المحلية إلى جانب تقييم المخاطر لفتح الطريق للموافقات السريعة.
     </div>
     
     <div class="module-nav">
@@ -591,19 +607,19 @@
 
 <script>
 // ============================================
-// GOOGLE SHEETS WEB APP URL - UPDATED TO MATCH PRE-ASSESSMENT
+// GOOGLE SHEETS WEB APP URL
 // ============================================
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
 
 // ============================================
-// GET REAL USER DATA - FIXED WITH currentUser SUPPORT
+// GET USER DATA
 // ============================================
 function getUserData() {
-    let name = '', email = '', position = '';
+    let name = '';
+    let email = '';
+    let position = '';
     
-    console.log('🔍 Searching for user data...');
-    
-    // 1. Check currentUser FIRST (from intro.html login)
+    // 1. Check currentUser FIRST
     try {
         let currentUser = localStorage.getItem('currentUser');
         if (currentUser) {
@@ -612,11 +628,10 @@ function getUserData() {
                 name = user.name.trim();
                 email = (user.email || '').trim();
                 position = (user.position || '').trim();
-                console.log('✅ Found from currentUser:', name);
                 return { name, email, position };
             }
         }
-    } catch(e) { console.error('Error parsing currentUser:', e); }
+    } catch(e) {}
     
     // 2. Check users array
     try {
@@ -627,11 +642,10 @@ function getUserData() {
                 name = lastUser.name.trim();
                 email = (lastUser.email || '').trim();
                 position = (lastUser.position || '').trim();
-                console.log('✅ Found from users array:', name);
                 return { name, email, position };
             }
         }
-    } catch(e) { console.error('Error parsing users:', e); }
+    } catch(e) {}
     
     // 3. Check course_user_name
     let n = localStorage.getItem('course_user_name');
@@ -639,40 +653,20 @@ function getUserData() {
         name = n.trim();
         email = (localStorage.getItem('course_user_email') || '').trim();
         position = (localStorage.getItem('course_user_position') || '').trim();
-        console.log('✅ Found from course_user_name:', name);
         return { name, email, position };
     }
     
-    // 4. Check course_user object
-    let user = localStorage.getItem('course_user');
-    if (user) {
-        try { 
-            let p = JSON.parse(user); 
-            if (p && p.name && p.name !== 'Guest' && p.name !== 'زائر' && p.name.trim() !== '') {
-                name = p.name.trim();
-                email = (p.email || '').trim();
-                position = (p.position || '').trim();
-                console.log('✅ Found from course_user:', name);
-                return { name, email, position };
-            }
-        } catch(e) {}
-    }
-    
-    // 5. Return default - NO PROMPT
-    console.log('⚠️ No user data found, using default');
+    // 4. Default
     return { name: 'زائر', email: 'guest@example.com', position: 'غير محدد' };
 }
 
-// Display user name in badge
 const currentUser = getUserData();
 const userBadge = document.getElementById('userBadge');
 if (userBadge) {
     if (currentUser.name !== 'زائر') {
         userBadge.innerText = `👤 ${currentUser.name}`;
-        console.log('✅ User badge updated with:', currentUser.name);
     } else {
         userBadge.innerText = `👤 متعلم`;
-        console.log('⚠️ No user name found, showing default');
     }
 }
 
@@ -705,7 +699,6 @@ function showModelAnswer(elementId, modelText) {
     modelDiv.style.display = 'block';
 }
 
-// --- Progress & Answer Logic ---
 function updateKeithProgress() {
     let completed = 0;
     if (document.querySelector('#q1 .quiz-option.selected')) completed++;
@@ -743,12 +736,7 @@ function updateLeylaProgress() {
     return completed === 6;
 }
 
-// Matching game selections storage
-let matchSelections = {
-    blame: null,
-    waitHQ: null,
-    negotiate: null
-};
+let matchSelections = { blame: null, waitHQ: null, negotiate: null };
 
 function saveMatchSelections() {
     const blameOpt = document.querySelector('[data-action="blame"] .match-option.selected');
@@ -857,9 +845,6 @@ function loadSavedAnswers() {
     updateLeylaProgress();
 }
 
-// ============================================
-// SEND DATA - EXACT SAME STYLE AS PRE-ASSESSMENT
-// ============================================
 function sendModule1DataToSheet() {
     const user = getUserData();
     const answers = collectAllAnswers();
@@ -875,20 +860,9 @@ function sendModule1DataToSheet() {
         answers: answers
     };
     
-    console.log('📤 Sending module data to Google Sheet:', payload);
-    
     const xhr = new XMLHttpRequest();
     xhr.open('POST', GOOGLE_SCRIPT_URL, true);
     xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                console.log('✅ Module 1 data sent successfully:', xhr.responseText);
-            } else {
-                console.log('📤 Module 1 data sent (no-cors mode, response not available):', xhr.status);
-            }
-        }
-    };
     xhr.send(JSON.stringify(payload));
     showToast('✅ تم حفظ نتائج الوحدة الأولى!');
 }
@@ -930,7 +904,6 @@ document.getElementById('submitPollBtn').addEventListener('click', () => {
     saveAnswersToLocal();
 });
 
-// Keith options
 document.querySelectorAll('#q1 .quiz-option, #q4 .quiz-option').forEach(opt => {
     opt.addEventListener('click', function() {
         this.parentElement.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
@@ -944,12 +917,13 @@ document.getElementById('submitKeithQuiz').addEventListener('click', () => {
     let q1Val = document.querySelector('#q1 .quiz-option.selected')?.getAttribute('data-val');
     let fb1 = document.getElementById('fb1');
     fb1.style.display = 'block';
-    fb1.innerHTML = q1Val === 'B' ? '✅ إجابة صحيحة. افترض كيث أن إجراءات التشغيل القياسية من سياق مستقر ستعمل دون تغيير.' : '❌ الإجابة الصحيحة هي ب: افترض أن الإجراءات قابلة للنقل دون تعديل.';
+    if (q1Val === 'B') fb1.innerHTML = '✅ إجابة صحيحة. ب) افترض أن إجراءات التشغيل القياسية من سياق مستقر ستعمل دون تغيير في سياق متقلب.';
+    else fb1.innerHTML = '❌ الإجابة الصحيحة هي ب: افترض أن إجراءات التشغيل القياسية من سياق مستقر (نيويورك) ستعمل دون تغيير في منطقة أزمات متغيرة (اليمن).';
 
     let q4Val = document.querySelector('#q4 .quiz-option.selected')?.getAttribute('data-val');
     let fb4 = document.getElementById('fb4');
     fb4.style.display = 'block';
-    fb4.innerHTML = q4Val === 'false' ? '✅ إجابة صحيحة. الخبرة التقنية وحدها لا تكفي.' : '❌ خطأ. المهارة التكيفية هي العامل المميز.';
+    fb4.innerHTML = q4Val === 'false' ? '✅ إجابة صحيحة. الخبرة التقنية وحدها لا تكفي.' : '❌ خطأ. الخبرة التقنية ضرورية ولكنها غير كافية.';
     document.getElementById('keithDiagnosis').style.display = 'block';
 
     let q2txt = document.getElementById('q2answer').value.trim();
@@ -975,7 +949,6 @@ document.getElementById('submitKeithQuiz').addEventListener('click', () => {
     updateKeithProgress();
 });
 
-// Leyla Q1 options
 document.querySelectorAll('#leylaQ1 .quiz-option').forEach(opt => {
     opt.addEventListener('click', function() {
         document.querySelectorAll('#leylaQ1 .quiz-option').forEach(o => o.classList.remove('selected'));
@@ -985,7 +958,6 @@ document.querySelectorAll('#leylaQ1 .quiz-option').forEach(opt => {
     });
 });
 
-// Leyla Q6 (Criteria) options
 document.querySelectorAll('#leylaQ6 .quiz-option').forEach(opt => {
     opt.addEventListener('click', function() {
         document.querySelectorAll('#leylaQ6 .quiz-option').forEach(o => o.classList.remove('selected'));
@@ -995,28 +967,22 @@ document.querySelectorAll('#leylaQ6 .quiz-option').forEach(opt => {
     });
 });
 
-// Filter input
 document.getElementById('filterAnswer').addEventListener('input', function() {
     saveAnswersToLocal();
     updateLeylaProgress();
 });
 
-// Matching game option clicks
 document.querySelectorAll('.match-option').forEach(opt => {
     opt.addEventListener('click', function() {
         const parent = this.parentElement;
-        const action = parent.getAttribute('data-action');
-        
         parent.querySelectorAll('.match-option').forEach(o => o.classList.remove('selected'));
         this.classList.add('selected');
-        
         saveMatchSelections();
         updateLeylaProgress();
         saveAnswersToLocal();
     });
 });
 
-// Check Matches Button
 document.getElementById('checkMatchesBtn').addEventListener('click', () => {
     const blameSelected = document.querySelector('[data-action="blame"] .match-option.selected');
     const waitHQSelected = document.querySelector('[data-action="waitHQ"] .match-option.selected');
@@ -1030,27 +996,26 @@ document.getElementById('checkMatchesBtn').addEventListener('click', () => {
     const waitHQCorrect = (waitHQVal === 'B');
     const negotiateCorrect = (negotiateVal === 'A');
     
-    document.getElementById('blameFeedback').innerHTML = blameCorrect ? '✅ صحيح! اللوم يؤدي إلى الفشل.' : '❌ اللوم يؤدي إلى الفشل. (النتيجة ج)';
+    document.getElementById('blameFeedback').innerHTML = blameCorrect ? '✅ صحيح! اللوم يؤدي إلى الفشل (يدمر ثقة الفريق ويترك المركبات عالقة).' : '❌ اللوم يؤدي إلى الفشل. (النتيجة ج)';
     document.getElementById('blameFeedback').className = `match-result ${blameCorrect ? 'correct' : 'incorrect'}`;
     document.getElementById('blameFeedback').style.display = 'block';
     
-    document.getElementById('waitHQFeedback').innerHTML = waitHQCorrect ? '✅ صحيح! انتظار المكتب الرئيسي يسبب التوقف.' : '❌ انتظار المكتب الرئيسي يسبب التوقف. (النتيجة ب)';
+    document.getElementById('waitHQFeedback').innerHTML = waitHQCorrect ? '✅ صحيح! انتظار المكتب الرئيسي يسبب نافذة استجابة ممتدة (توقف تشغيلي مؤقت).' : '❌ انتظار المكتب الرئيسي يسبب نافذة استجابة ممتدة. (النتيجة ب)';
     document.getElementById('waitHQFeedback').className = `match-result ${waitHQCorrect ? 'correct' : 'incorrect'}`;
     document.getElementById('waitHQFeedback').style.display = 'block';
     
-    document.getElementById('negotiateFeedback').innerHTML = negotiateCorrect ? '✅ صحيح! التفاوض هو نجاح تكيفي.' : '❌ التفاوض هو نجاح تكيفي. (النتيجة أ)';
+    document.getElementById('negotiateFeedback').innerHTML = negotiateCorrect ? '✅ صحيح! التفاوض هو نجاح تكيفي (يستخدم الشبكات المحلية الموثوقة لتوصيل المساعدات المنقذة للحياة فوراً).' : '❌ التفاوض هو نجاح تكيفي. (النتيجة أ)';
     document.getElementById('negotiateFeedback').className = `match-result ${negotiateCorrect ? 'correct' : 'incorrect'}`;
     document.getElementById('negotiateFeedback').style.display = 'block';
     
     const matchFeedback = document.getElementById('matchFeedback');
-    matchFeedback.innerHTML = '<strong>✅ اكتمل التحقق من المطابقات!</strong><br>اللوم = فشل. انتظار المكتب الرئيسي = توقف، طالما لم تقم بجمع المعلومات محلياً. التفاوض = نجاح تكيفي.<br><br>💡 اجمع المعرفة المحلية أولاً دائماً!';
+    matchFeedback.innerHTML = '<strong>✅ اكتمل التحقق من المطابقات!</strong><br>اللوم = ❌ فشل<br>انتظار المكتب الرئيسي = ⏳ نافذة استجابة ممتدة<br>التفاوض = ✅ نجاح تكيفي';
     matchFeedback.style.display = 'block';
     
     saveAnswersToLocal();
     updateLeylaProgress();
 });
 
-// Branching Scenario
 document.querySelectorAll('.branch-choice').forEach(choice => {
     choice.addEventListener('click', function() {
         document.querySelectorAll('.branch-choice').forEach(c => c.classList.remove('selected'));
@@ -1059,15 +1024,14 @@ document.querySelectorAll('.branch-choice').forEach(choice => {
         let branchOutcome = document.getElementById('branchOutcome');
         let choiceVal = this.getAttribute('data-choice');
         if (choiceVal === 'C') branchOutcome.innerHTML = '<div class="success-outcome" style="padding:1rem;"><strong>✅ نجاح تكيفي:</strong> جمع المعرفة المحلية أولاً. هذا ما فعلته ليلى.</div>';
-        else if (choiceVal === 'B') branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ توقف/شلل:</strong> انتظار المكتب الرئيسي بينما يعاني المستفيدون ليس تكيفياً.</div>';
-        else branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ فشل:</strong> اللوم يوقف التواصل ويخفي المشاكل.</div>';
+        else if (choiceVal === 'B') branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>⏳ نافذة استجابة ممتدة:</strong> نظراً لعدم وجود بيانات ميدانية، يحتاج المكتب الرئيسي إلى وقت إضافي للتحقق من المخاطر، مما يوقف عملياتك مؤقتاً.</div>';
+        else branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ فشل:</strong> اللوم يوقف التواصل ويخفي المشاكل. ثقة الفريق تُدمر، والمركبات تبقى عالقة.</div>';
         branchOutcome.style.display = 'block';
         saveAnswersToLocal();
         updateLeylaProgress();
     });
 });
 
-// Hotspot
 document.querySelectorAll('.hotspot-item').forEach(item => {
     item.addEventListener('click', function() {
         document.querySelectorAll('.hotspot-item').forEach(i => i.classList.remove('selected'));
@@ -1077,7 +1041,6 @@ document.querySelectorAll('.hotspot-item').forEach(item => {
     });
 });
 
-// Check Answer buttons for Leyla questions
 document.querySelectorAll('.check-btn').forEach(btn => {
     btn.addEventListener('click', function() {
         const checkId = this.getAttribute('data-check');
@@ -1087,15 +1050,14 @@ document.querySelectorAll('.check-btn').forEach(btn => {
             let fb1 = document.getElementById('leylaFb1');
             fb1.style.display = 'block';
             if (leylaQ1 === 'C') {
-                fb1.innerHTML = '✅ صحيح! القادة التكيفيون يجمعون المعرفة المحلية أولاً. "المعرفة الضمنية" من السائقين والمنسقين هي الذهب الحقيقي.';
+                fb1.innerHTML = '✅ صحيح! القادة التكيفيون يجمعون المعرفة المحلية أولاً.';
                 fb1.className = 'feedback feedback-correct';
             } else {
-                fb1.innerHTML = '❌ الإجابة الصحيحة هي ج: اسأل الفريق المحلي عما نجح من قبل. اجمع المعرفة المحلية أولاً. دائماً.';
+                fb1.innerHTML = '❌ الإجابة الصحيحة هي ج: اسأل الفريق المحلي عما نجح من قبل.';
                 fb1.className = 'feedback feedback-incorrect';
-                showModelAnswer('leylaFb1', 'ليلى ستسأل الفريق المحلي أولاً. موافقة المكتب الرئيسي تأتي بعد أن تحصل على المعلومات الكاملة.');
+                showModelAnswer('leylaFb1', 'ليلى ستسأل الفريق المحلي أولاً.');
             }
         }
-        
         else if (checkId === 'filterQuestion') {
             let filterVal = document.getElementById('filterAnswer').value.trim();
             let filterFb = document.getElementById('filterFb');
@@ -1103,42 +1065,38 @@ document.querySelectorAll('.check-btn').forEach(btn => {
             if (!isValidText(filterVal)) {
                 filterFb.innerHTML = '⚠️ التصفية مهمة جداً. ';
                 filterFb.className = 'feedback feedback-incorrect';
-                showModelAnswer('filterFb', 'يجب أن تعرف متى "تكيف" البروتوكول لإنقاذ الأرواح، ومتى يكون الالتزام هو الطريق الصحيح. قم بتقييم المخاطر، وتوثيق هذا الأمر كاستثناء لإنقاذ الحياة، وتوضيحه للمانح لاحقاً.');
+                showModelAnswer('filterFb', 'قم بتقييم المخاطر، وتوثيق هذا الأمر كاستثناء لإنقاذ الحياة، وتوضيحه للمانح لاحقاً.');
             } else {
                 filterFb.innerHTML = '✅ غريزة تصفية جيدة. ';
                 filterFb.className = 'feedback feedback-correct';
-                showModelAnswer('filterFb', 'يجب أن تعرف متى "تكيف" البروتوكول لإنقاذ الأرواح، ومتى يكون الالتزام هو الطريق الصحيح. قم بتقييم المخاطر، وتوثيق هذا الأمر كاستثناء لإنقاذ الحياة، وتوضيحه للمانح لاحقاً.');
+                showModelAnswer('filterFb', 'قم بتقييم المخاطر، وتوثيق هذا الأمر كاستثناء لإنقاذ الحياة، وتوضيحه للمانح لاحقاً.');
             }
         }
-        
         else if (checkId === 'criteriaQuestion') {
             let criteriaVal = document.querySelector('#leylaQ6 .quiz-option.selected')?.getAttribute('data-val');
             let criteriaFb = document.getElementById('criteriaFb');
             criteriaFb.style.display = 'block';
             if (criteriaVal === 'B') {
-                criteriaFb.innerHTML = '✅ صحيح. إنقاذ الأرواح + الامتثال القابل للتبرير هو الخط الأخلاقي.';
+                criteriaFb.innerHTML = '✅ صحيح. إنقاذ الأرواح + الامتثال القابل للتبرير.';
                 criteriaFb.className = 'feedback feedback-correct';
             } else {
-                criteriaFb.innerHTML = '❌ الإجابة الصحيحة هي ب: عندما تكون حياة الناس على المحك فوراً، ويمكن تبرير الامتثال لاحقاً.';
+                criteriaFb.innerHTML = '❌ الإجابة الصحيحة هي ب: عندما تكون حياة الناس على المحك فوراً.';
                 criteriaFb.className = 'feedback feedback-incorrect';
-                showModelAnswer('criteriaFb', 'الإجابة الصحيحة هي ب: عندما تكون حياة الناس على المحك فوراً، ويمكن تبرير الامتثال لاحقاً.');
             }
         }
-        
         saveAnswersToLocal();
         updateLeylaProgress();
     });
 });
 
-// Submit All Leyla Quiz
 document.getElementById('submitLeylaQuiz').addEventListener('click', () => {
     let selectedHotspot = document.querySelector('.hotspot-item.selected')?.getAttribute('data-hotspot');
     let hotspotFb = document.getElementById('hotspotFeedback');
     if (selectedHotspot === 'hand') {
-        hotspotFb.innerHTML = '✅ صحيح! العلاقات هي أقوى عملة. الموظف المحلي يعرف "التاجر الموثوق" الذي لا يستطيع هاتف القمر الصناعي العثور عليه.';
+        hotspotFb.innerHTML = '✅ صحيح! العلاقات هي أقوى عملة.';
         hotspotFb.className = 'feedback feedback-correct';
     } else if (selectedHotspot) {
-        hotspotFb.innerHTML = '❌ ليس صحيحاً. ستلجأ ليلى إلى الموظفين المحليين أولاً. قبل المكتب الرئيسي، قبل الكتيبات.';
+        hotspotFb.innerHTML = '❌ ليس صحيحاً. ستلجأ ليلى إلى الموظفين المحليين أولاً.';
         hotspotFb.className = 'feedback feedback-incorrect';
     } else {
         hotspotFb.innerHTML = '⚠️ الرجاء النقر على أحد الخيارات الثلاثة أعلاه.';
@@ -1147,6 +1105,7 @@ document.getElementById('submitLeylaQuiz').addEventListener('click', () => {
     hotspotFb.style.display = 'block';
     
     document.getElementById('realityCheckDiv').style.display = 'block';
+    document.getElementById('coreTakeawayDiv').style.display = 'block';
     
     let finalFeedback = document.getElementById('leylaQuizFeedback');
     finalFeedback.innerHTML = '📚 عمل رائع! القادة التكيفيون يجمعون المعرفة المحلية أولاً دائماً.';
@@ -1157,7 +1116,6 @@ document.getElementById('submitLeylaQuiz').addEventListener('click', () => {
     updateLeylaProgress();
 });
 
-// Navigation
 document.getElementById('continueToModule2Btn').addEventListener('click', goToModule2);
 document.getElementById('backToIntroBtn').addEventListener('click', () => {
     window.location.href = 'intro.html';
@@ -1169,11 +1127,7 @@ document.getElementById('resetDataLink').addEventListener('click', () => {
     }
 });
 
-// Load saved answers on page load
 loadSavedAnswers();
-
-// Log user data on load for debugging
-console.log('📋 Current user data on load:', currentUser);
 </script>
 </body>
 </html>
