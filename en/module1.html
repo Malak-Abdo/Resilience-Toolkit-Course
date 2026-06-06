@@ -316,6 +316,15 @@
             color: #B33A3A;
             border-left: 3px solid #B33A3A;
         }
+        .core-takeaway {
+            background: #1A6B5A;
+            color: white;
+            padding: 1rem;
+            border-radius: 16px;
+            margin: 1rem 0;
+            text-align: center;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -433,7 +442,7 @@
     
     <div id="keithDiagnosis" style="margin-top:1.5rem; display:none; background:#F0F7F4; padding:1rem; border-radius:20px;">
         <strong>Why was Keith not selected? (Diagnosis)</strong><br><br>
-        Keith was rejected not because he lacked technical skill - he excelled at the technical test. He was rejected because:<br><br>
+        Keith was rejected not because he lacked technical skill - he excelled at the technical test. Keith was not selected for several reasons, including:<br><br>
         • He ignored local cultural and contextual variables in Yemen, a volatile, high-risk humanitarian setting.<br>
         • He assumed that SOPs designed in New York (a stable, resourced, rule-bound environment) were directly transferable without modification.<br>
         • He said he would demand the local team "find a way" to apply those SOPs - shifting the entire burden of adaptation onto local staff, without giving them authority, flexibility, or resources.<br><br>
@@ -572,6 +581,10 @@
         <strong>⚠️ FIELD REALITY CHECK:</strong><br>
         Leyla did NOT solve the crisis with a single question. She faced pushback, logistical nightmares, and ethical dilemmas. Adaptability does NOT mean problems disappear. It means you get tasks done in less time, protect your team's morale, and find the "next right action" instead of freezing.<br><br>
         <strong>Note:</strong> Adaptability does NOT mean breaking rules. It means knowing when the context requires bending the protocol to save lives, and when strict compliance is the only safe path.
+    </div>
+
+    <div class="core-takeaway" id="coreTakeawayDiv" style="display:none;">
+        💡 Core Takeaway: Always gather local knowledge FIRST! Headquarters needs field data to make safe, fast choices. To avoid delays, never just dump a problem on HQ—always send your local plan alongside your risk assessment to unlock fast approvals.
     </div>
     
     <div class="module-nav">
@@ -964,8 +977,8 @@ document.getElementById('submitKeithQuiz').addEventListener('click', () => {
     let q1Val = document.querySelector('#q1 .quiz-option.selected')?.getAttribute('data-val');
     let fb1 = document.getElementById('fb1');
     fb1.style.display = 'block';
-    if (q1Val === 'B') fb1.innerHTML = '✅ Correct. He assumed SOPs from a stable context would work unchanged in a volatile context.';
-    else fb1.innerHTML = '❌ Correct answer: B. He assumed SOPs from a stable context (New York) would work unchanged in a volatile crisis zone (Yemen).';
+    if (q1Val === 'B') fb1.innerHTML = '✅ Correct. B) He thought rules from a safe, quiet place (New York) would work without changes in a shifting crisis zone (Yemen).';
+    else fb1.innerHTML = '❌ Correct answer: B) He thought rules from a safe, quiet place (New York) would work without changes in a shifting crisis zone (Yemen).';
 
     let q2Val = document.getElementById('q2answer').value.trim();
     let fb2 = document.getElementById('fb2');
@@ -1161,6 +1174,7 @@ document.getElementById('submitLeylaQuiz').addEventListener('click', () => {
     hotspotFb.style.display = 'block';
     
     document.getElementById('realityCheckDiv').style.display = 'block';
+    document.getElementById('coreTakeawayDiv').style.display = 'block';
     
     let finalFeedback = document.getElementById('leylaQuizFeedback');
     finalFeedback.innerHTML = '📚 Great work! Adaptive leaders ALWAYS gather local knowledge FIRST.';
