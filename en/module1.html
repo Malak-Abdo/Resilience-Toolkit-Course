@@ -319,7 +319,7 @@
     </style>
 </head>
 <body>
-    <!-- ========== كود التحقق ========== -->
+    <!-- ========== VERIFICATION CODE ========== -->
     <script>
         const userLang = localStorage.getItem('userLanguage') || 'en';
         const messages = {
@@ -373,13 +373,15 @@
     <button id="submitPollBtn">Submit Selections</button>
     <div id="pollFeedback" class="feedback"></div>
     
+    <!-- SCENARIO 1: KEITH -->
     <div class="scenario-card">
-        <strong>📖 Scenario: "Keith – The Technical Expert Who Couldn't Adapt"</strong><br><br>
-        Keith had 12 years of technical experience in his field. He was highly skilled and was referred for the position of Country Director in Yemen for a humanitarian INGO.<br><br>
-        During the technical test, Keith performed very well. But in the final interview, he said:<br>
-        <em>"The Standard Operating Procedures (SOPs) used in New York are directly transferable to Yemen. I will work with the local team to find a way to apply them there."</em><br><br>
-        When asked about local cultural variables, he replied that existing protocols should not be changed – only implemented. He said he would expect the team to "find a way" to make them work.<br><br>
-        Keith was not selected for the role.
+        <strong>📖 Scenario 1: "Keith – The Expert referral for CD position but can't make it!"</strong><br><br>
+        Keith had 12 years of excellent technical experience in his field. He was highly skilled. Because of his great work, he was recommended for a top position: Country Director in Yemen for an international aid organization (INGO).<br><br>
+        During the technical test, Keith did a very good job. He proved he knew the technical side perfectly. But in the final interview, he told the panel:<br>
+        <em>"The Standard Operating Procedures (SOPs / official rules) we use in our New York office can be used directly in Yemen. I will work with the local team to find a way to use them there."</em><br><br>
+        The interview panel asked him how he would handle local cultural changes and tribal rules on the ground. Keith answered firmly:<br>
+        <em>"Our existing rules should not be changed. They must only be followed strictly to keep our quality high. I expect the local team to find a way to make them work."</em><br><br>
+        This rigid mindset was one of the main reasons Keith was not selected for the role.
     </div>
     
     <div class="section-header">
@@ -389,12 +391,12 @@
     
     <div id="keithQuiz">
         <div class="quiz-question" id="q1">
-            <strong>Question 1 (Multiple choice)</strong><br>What was Keith's primary mistake?
+            <strong>Question 1</strong><br>What was Keith's biggest mistake?
             <div class="quiz-options" data-q="1">
-                <div class="quiz-option" data-val="A">A) He failed the technical test.</div>
-                <div class="quiz-option" data-val="B">B) He assumed SOPs from a stable context would work unchanged in a volatile context.</div>
-                <div class="quiz-option" data-val="C">C) He refused to go to Yemen.</div>
-                <div class="quiz-option" data-val="D">D) He had only 12 years of experience.</div>
+                <div class="quiz-option" data-val="A">A) He failed his technical exam.</div>
+                <div class="quiz-option" data-val="B">B) He thought rules from a safe, quiet place (New York) would work without changes in a shifting crisis zone (Yemen).</div>
+                <div class="quiz-option" data-val="C">C) He changed his mind and refused to travel to Yemen.</div>
+                <div class="quiz-option" data-val="D">D) He did not have enough years of professional experience.</div>
             </div>
             <div class="feedback" id="fb1"></div>
         </div>
@@ -439,12 +441,16 @@
         <strong>Diagnosis:</strong> Keith was performance-oriented under stability, but strategically rigid under volatility. Technical skill gets you to the door. Adaptive skill decides if you are allowed to lead through it.
     </div>
     
+    <!-- SCENARIO 2: LEYLA -->
     <div class="scenario-card">
-        <strong>📖 Scenario: "Leyla – The Adaptive Strategist"</strong><br><br>
-        Leyla served as a Country Director for a humanitarian INGO in a high-intensity conflict zone in Sudan.<br><br>
-        Midway through a critical relief operation, a severe fuel shortage hit the region. The shortage was expected to last seven days. Without fuel, the fleet of vehicles could not operate. Field teams could not travel to distribution sites, health clinics, or assessment areas.<br><br>
-        Work seemed suspended. The team looked to Leyla.<br><br>
-        <em>What do you do if you are in Leyla's position?<br>(Do you blame the logistics team for no spare fuel? Do you wait for HQ to approve black market fuel?)</em>
+        <strong>📖 Scenario 2: "Leyla – The Flexible Leader"</strong><br><br>
+        Leyla was the Country Director for an international aid organization (INGO) in Sudan, a place with heavy, active conflict.<br><br>
+        In the middle of an important, life-saving project, a major fuel shortage suddenly hit the entire region. No fuel was available anywhere. The shortage was expected to last for at least 7 days.<br><br>
+        Without fuel, none of the organization's trucks or cars could move. The field teams could not travel to deliver food, open health clinics, or check on communities in need.<br><br>
+        All work stopped. The entire team looked at Leyla, waiting for her decision.<br><br>
+        <em>If you were in Leyla's position, what would you do?<br>
+        Do you get angry and blame your logistics team for not keeping extra fuel?<br>
+        Do you stop all work and wait days for international Headquarters (HQ) to approve buying fuel from alternative local sources?</em>
     </div>
     
     <div class="section-header">
@@ -456,9 +462,9 @@
         <strong>Question 1: Multiple Choice</strong><br>Which of the following is the FIRST action Leyla actually took (and the most adaptive one)?
         <div class="quiz-options" data-q="leyla1">
             <div class="quiz-option" data-val="A">A) Blame the logistics team for not having spare fuel reserves.</div>
-            <div class="quiz-option" data-val="B">B) Wait for written approval from HQ to purchase black market fuel.</div>
-            <div class="quiz-option" data-val="C">C) Gather local staff (drivers, logistics, community liaisons) and ask: "What has worked in past fuel shortages here?"</div>
-            <div class="quiz-option" data-val="D">D) Suspend all operations for seven days to stay safe.</div>
+            <div class="quiz-option" data-val="B">B) Wait for written approval from international HQ to purchase fuel from alternative local sources.</div>
+            <div class="quiz-option" data-val="C">C) Gather local staff (drivers, logisticians, community liaisons) and ask: "What has worked in past fuel shortages here?"</div>
+            <div class="quiz-option" data-val="D">D) Suspend all operations for seven days to stay completely safe.</div>
         </div>
         <div class="feedback" id="leylaFb1"></div>
         <button class="check-btn" data-check="leylaQ1">✅ Check Answer</button>
@@ -473,34 +479,34 @@
     
     <div class="quiz-question" id="leylaQ2">
         <strong>Question 3: Match Each Action to Its Outcome</strong><br>
-        <p><em>For each action below, select the correct outcome.</em></p>
+        <p><em>For each leadership action below, select the correct operational outcome on the ground:</em></p>
         
         <div class="matching-game" id="matchingGame">
             <div class="matching-item">
-                <div class="matching-action">📌 Action 1: Blame logistics team</div>
+                <div class="matching-action">📌 Action 1: Blame and pressure the field logistics team for the fuel shortage.</div>
                 <div class="matching-options" data-action="blame">
                     <div class="match-option" data-outcome="A">✅ Adaptive Success</div>
-                    <div class="match-option" data-outcome="B">🔴 Paralysis</div>
-                    <div class="match-option" data-outcome="C">❌ Failure</div>
+                    <div class="match-option" data-outcome="B">⏳ Extended Response Window</div>
+                    <div class="match-option" data-outcome="C">❌ Failure (Destroys team trust and leaves vehicles stuck)</div>
                 </div>
                 <div id="blameFeedback" class="match-result" style="display:none;"></div>
             </div>
             
             <div class="matching-item">
-                <div class="matching-action">📌 Action 2: Wait for HQ black market approval</div>
+                <div class="matching-action">📌 Action 2: Wait for remote HQ approval without sending them local facts and context.</div>
                 <div class="matching-options" data-action="waitHQ">
                     <div class="match-option" data-outcome="A">✅ Adaptive Success</div>
-                    <div class="match-option" data-outcome="B">🔴 Paralysis</div>
+                    <div class="match-option" data-outcome="B">⏳ Extended Response Window (Lacking field data, HQ must take extra time to verify risks, which pauses your operations).</div>
                     <div class="match-option" data-outcome="C">❌ Failure</div>
                 </div>
                 <div id="waitHQFeedback" class="match-result" style="display:none;"></div>
             </div>
             
             <div class="matching-item">
-                <div class="matching-action">📌 Action 3: Negotiate with motorcycle union leaders</div>
+                <div class="matching-action">📌 Action 3: Talk with local staff and negotiate a safe workaround with local motorcycle union leaders.</div>
                 <div class="matching-options" data-action="negotiate">
-                    <div class="match-option" data-outcome="A">✅ Adaptive Success</div>
-                    <div class="match-option" data-outcome="B">🔴 Paralysis</div>
+                    <div class="match-option" data-outcome="A">✅ Adaptive Success (Uses trusted local networks to deliver life-saving aid immediately)</div>
+                    <div class="match-option" data-outcome="B">⏳ Extended Response Window</div>
                     <div class="match-option" data-outcome="C">❌ Failure</div>
                 </div>
                 <div id="negotiateFeedback" class="match-result" style="display:none;"></div>
@@ -512,19 +518,20 @@
     </div>
     
     <div class="quiz-question" id="leylaQ3">
-        <strong>🔀 Question 4: Branching Scenario</strong><br>You are in Leyla's position. The fuel shortage hits. You decide to act. What do you do first?
+        <strong>🔀 Question 4: Branching Scenario</strong><br>The fuel shortage has just hit your region. Everything has stopped, and your field teams are stuck. You need to act immediately. What do you do first?
         <div class="branch-choices">
             <div class="branch-choice" data-choice="A">
-                <strong>A.</strong> Call an emergency meeting with logistics team and demand: "Why didn't you stock spare fuel?"
+                <strong>A.</strong> Call an emergency meeting with your logistics team and demand: "Why didn't you stock spare fuel for emergencies?"
             </div>
             <div class="branch-choice" data-choice="B">
-                <strong>B.</strong> Send an urgent email to HQ: "We need approval for black market fuel. Please respond within 24 hours."
+                <strong>B.</strong> Send an urgent email to HQ stating: "We have a crisis. We need approval to buy fuel from alternative local sources. Please respond within 24 hours."
             </div>
             <div class="branch-choice" data-choice="C">
-                <strong>C.</strong> Call a catch-up meeting with the local team, gather any local team members you see, and ask: "Who knows how people got fuel during the last shortage?"
+                <strong>C.</strong> Call an immediate meeting with your local staff (drivers, guards, assistants) and ask: "Who remembers how people here found fuel during the last major shortage?"
             </div>
         </div>
         <div id="branchOutcome" class="branch-outcome" style="display:none;"></div>
+        <p style="font-size:0.8rem; margin-top:0.5rem; color:#6C86A0;">💡 Hint for B: Extended Response Window — Because your email doesn't include local facts, risks, or a concrete plan, HQ has to reply with a long list of questions to protect compliance. Your project remains paused. Go back and gather field data first.</p>
     </div>
 
     <div class="quiz-question" id="leylaQ6">
@@ -565,7 +572,8 @@
     <div class="reality-check" id="realityCheckDiv" style="display:none;">
         <strong>⚠️ FIELD REALITY CHECK:</strong><br>
         Leyla did NOT solve the crisis with a single question. She faced pushback, logistical nightmares, and ethical dilemmas. Adaptability does NOT mean problems disappear. It means you get tasks done in less time, protect your team's morale, and find the "next right action" instead of freezing.<br><br>
-        <strong>Note:</strong> Adaptability does NOT mean breaking rules. It means knowing when the context requires bending the protocol to save lives, and when strict compliance is the only safe path.
+        <strong>Note:</strong> Adaptability does NOT mean breaking rules. It means knowing when the context requires bending the protocol to save lives, and when strict compliance is the only safe path.<br><br>
+        <strong>💡 Core Takeaway:</strong> Always gather local knowledge FIRST! Headquarters needs field data to make safe, fast choices. To avoid delays, never just dump a problem on HQ—always send your local plan alongside your risk assessment to unlock fast approvals.
     </div>
     
     <div class="module-nav">
@@ -958,8 +966,8 @@ document.getElementById('submitKeithQuiz').addEventListener('click', () => {
     let q1Val = document.querySelector('#q1 .quiz-option.selected')?.getAttribute('data-val');
     let fb1 = document.getElementById('fb1');
     fb1.style.display = 'block';
-    if (q1Val === 'B') fb1.innerHTML = '✅ Correct. He assumed stable-context SOPs work in volatile contexts.';
-    else fb1.innerHTML = '❌ Correct answer: B. He assumed SOPs from NY work in Yemen without change.';
+    if (q1Val === 'B') fb1.innerHTML = '✅ Correct. He assumed rules from a stable context (New York) would work unchanged in a volatile crisis zone (Yemen).';
+    else fb1.innerHTML = '❌ Correct answer: B. He thought rules from a safe, quiet place would work without changes in a shifting crisis zone.';
 
     let q2Val = document.getElementById('q2answer').value.trim();
     let fb2 = document.getElementById('fb2');
@@ -969,7 +977,7 @@ document.getElementById('submitKeithQuiz').addEventListener('click', () => {
         showModelAnswer('fb2', '"Find a way" is a leadership abdication. It shifts the burden of impossible adaptation onto an exhausted local team without giving them authority or resources.');
     } else {
         fb2.innerHTML = '📝 Reflection saved. ';
-        showModelAnswer('fb2', 'Compare your thinking: The red flag is "abdication of responsibility."');
+        showModelAnswer('fb2', 'Compare your thinking: The red flag is "abdication of responsibility." The leader expects the team to solve an impossible problem without authority or resources.');
     }
 
     let q3Val = document.getElementById('q3answer').value.trim();
@@ -980,14 +988,14 @@ document.getElementById('submitKeithQuiz').addEventListener('click', () => {
         showModelAnswer('fb3', '"If your local team tells you an SOP will put their lives at risk, what is your first step?"');
     } else {
         fb3.innerHTML = '✅ Good question. ';
-        showModelAnswer('fb3', 'Ideal question: "What do you do if local staff say the SOP is dangerous?"');
+        showModelAnswer('fb3', 'Ideal question: "What do you do if local staff say the SOP is dangerous or culturally inappropriate?"');
     }
 
     let q4Val = document.querySelector('#q4 .quiz-option.selected')?.getAttribute('data-val');
     let fb4 = document.getElementById('fb4');
     fb4.style.display = 'block';
-    if (q4Val === 'false') fb4.innerHTML = '✅ Correct. Technical skill alone is insufficient.';
-    else fb4.innerHTML = '❌ False. Technical skill is necessary but not sufficient.';
+    if (q4Val === 'false') fb4.innerHTML = '✅ Correct. Technical skill alone is insufficient for Country Director in a volatile context.';
+    else fb4.innerHTML = '❌ False. Technical expertise is necessary but not sufficient for adaptive leadership in crisis zones.';
 
     let q5Val = document.getElementById('q5answer').value.trim();
     let fb5 = document.getElementById('fb5');
@@ -1046,20 +1054,20 @@ document.getElementById('checkMatchesBtn').addEventListener('click', () => {
     const waitHQCorrect = (waitHQVal === 'B');
     const negotiateCorrect = (negotiateVal === 'A');
     
-    document.getElementById('blameFeedback').innerHTML = blameCorrect ? '✅ Correct! Blaming leads to Failure.' : '❌ Blaming leads to Failure. (Outcome C)';
+    document.getElementById('blameFeedback').innerHTML = blameCorrect ? '✅ Correct! Blaming leads to Failure (Destroys team trust and leaves vehicles stuck).' : '❌ Blaming leads to Failure. (Outcome C)';
     document.getElementById('blameFeedback').className = `match-result ${blameCorrect ? 'correct' : 'incorrect'}`;
     document.getElementById('blameFeedback').style.display = 'block';
     
-    document.getElementById('waitHQFeedback').innerHTML = waitHQCorrect ? '✅ Correct! Waiting for HQ causes Paralysis.' : '❌ Waiting for HQ causes Paralysis. (Outcome B)';
+    document.getElementById('waitHQFeedback').innerHTML = waitHQCorrect ? '✅ Correct! Waiting for HQ causes Extended Response Window (Temporary operational pause).' : '❌ Waiting for HQ causes Extended Response Window. (Outcome B)';
     document.getElementById('waitHQFeedback').className = `match-result ${waitHQCorrect ? 'correct' : 'incorrect'}`;
     document.getElementById('waitHQFeedback').style.display = 'block';
     
-    document.getElementById('negotiateFeedback').innerHTML = negotiateCorrect ? '✅ Correct! Negotiating is Adaptive Success.' : '❌ Negotiating is Adaptive Success. (Outcome A)';
+    document.getElementById('negotiateFeedback').innerHTML = negotiateCorrect ? '✅ Correct! Negotiating is Adaptive Success (Uses trusted local networks to deliver life-saving aid immediately).' : '❌ Negotiating is Adaptive Success. (Outcome A)';
     document.getElementById('negotiateFeedback').className = `match-result ${negotiateCorrect ? 'correct' : 'incorrect'}`;
     document.getElementById('negotiateFeedback').style.display = 'block';
     
     const matchFeedback = document.getElementById('matchFeedback');
-    matchFeedback.innerHTML = '<strong>✅ Matching Check Complete!</strong><br>Blame = Failure, Wait HQ = Paralysis, Negotiate = Adaptive Success.<br><br>💡 Always gather local knowledge FIRST!';
+    matchFeedback.innerHTML = '<strong>✅ Matching Check Complete!</strong><br>Blame = ❌ Failure<br>Wait HQ = ⏳ Extended Response Window<br>Negotiate = ✅ Adaptive Success<br><br>💡 Core Takeaway: Always gather local knowledge FIRST! Headquarters needs field data to make safe, fast choices. To avoid delays, never just dump a problem on HQ—always send your local plan alongside your risk assessment to unlock fast approvals.';
     matchFeedback.style.display = 'block';
     
     saveAnswersToLocal();
@@ -1073,9 +1081,9 @@ document.querySelectorAll('.branch-choice').forEach(choice => {
         
         let branchOutcome = document.getElementById('branchOutcome');
         let choiceVal = this.getAttribute('data-choice');
-        if (choiceVal === 'C') branchOutcome.innerHTML = '<div class="success-outcome" style="padding:1rem;"><strong>✅ Adaptive Success:</strong> Gather local knowledge first. This is what Leyla did.</div>';
-        else if (choiceVal === 'B') branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ Paralysis:</strong> Waiting for HQ while beneficiaries suffer is not adaptive.</div>';
-        else branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ Failure:</strong> Blaming shuts down communication and hides problems.</div>';
+        if (choiceVal === 'C') branchOutcome.innerHTML = '<div class="success-outcome" style="padding:1rem;"><strong>✅ Adaptive Success:</strong> Gather local knowledge first. This is what Leyla did. Local staff know what worked before.</div>';
+        else if (choiceVal === 'B') branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>⏳ Extended Response Window:</strong> Because your email doesn\'t include local facts, risks, or a concrete plan, HQ has to reply with a long list of questions to protect compliance. Your project remains paused. Go back and gather field data first.</div>';
+        else branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ Failure:</strong> Blaming shuts down communication and hides problems. Team trust is destroyed, and vehicles remain stuck.</div>';
         branchOutcome.style.display = 'block';
         saveAnswersToLocal();
         updateLeylaProgress();
@@ -1103,9 +1111,9 @@ document.querySelectorAll('.check-btn').forEach(btn => {
                 fb1.innerHTML = '✅ Correct! Adaptive leaders gather local knowledge FIRST.';
                 fb1.className = 'feedback feedback-correct';
             } else {
-                fb1.innerHTML = '❌ The correct answer is C: Ask local staff what worked before.';
+                fb1.innerHTML = '❌ The correct answer is C: Gather local staff and ask: "What has worked in past fuel shortages here?"';
                 fb1.className = 'feedback feedback-incorrect';
-                showModelAnswer('leylaFb1', 'Leyla would ask local staff first.');
+                showModelAnswer('leylaFb1', 'Leyla would ask local staff first - they know the context best.');
             }
         }
         else if (checkId === 'filterQuestion') {
@@ -1115,11 +1123,11 @@ document.querySelectorAll('.check-btn').forEach(btn => {
             if (!isValidText(filterVal)) {
                 filterFb.innerHTML = '⚠️ Filtering is critical. ';
                 filterFb.className = 'feedback feedback-incorrect';
-                showModelAnswer('filterFb', 'Assess risk, document as life-saving exception, explain to donor later.');
+                showModelAnswer('filterFb', 'Assess risk: check sanctions list, document as life-saving exception, verify dealer credibility, explain to donor later with full justification.');
             } else {
                 filterFb.innerHTML = '✅ Strong filtering instinct. ';
                 filterFb.className = 'feedback feedback-correct';
-                showModelAnswer('filterFb', 'Assess risk, document as life-saving exception, explain to donor later.');
+                showModelAnswer('filterFb', 'Assess risk, document as life-saving exception, explain to donor later with full justification.');
             }
         }
         else if (checkId === 'criteriaQuestion') {
@@ -1127,10 +1135,10 @@ document.querySelectorAll('.check-btn').forEach(btn => {
             let criteriaFb = document.getElementById('criteriaFb');
             criteriaFb.style.display = 'block';
             if (criteriaVal === 'B') {
-                criteriaFb.innerHTML = '✅ Correct. Life-saving at stake + Justifiable compliance.';
+                criteriaFb.innerHTML = '✅ Correct. Life-saving at stake + Justifiable compliance after the fact.';
                 criteriaFb.className = 'feedback feedback-correct';
             } else {
-                criteriaFb.innerHTML = '❌ The correct answer is B: When immediate life-saving is at stake.';
+                criteriaFb.innerHTML = '❌ The correct answer is B: When immediate life-saving is at stake AND compliance can be justified post-fact.';
                 criteriaFb.className = 'feedback feedback-incorrect';
             }
         }
@@ -1143,10 +1151,10 @@ document.getElementById('submitLeylaQuiz').addEventListener('click', () => {
     let selectedHotspot = document.querySelector('.hotspot-item.selected')?.getAttribute('data-hotspot');
     let hotspotFb = document.getElementById('hotspotFeedback');
     if (selectedHotspot === 'hand') {
-        hotspotFb.innerHTML = '✅ Correct! Relationships are the strongest currency.';
+        hotspotFb.innerHTML = '✅ Correct! Relationships are the strongest currency. Leyla reaches for local staff first.';
         hotspotFb.className = 'feedback feedback-correct';
     } else if (selectedHotspot) {
-        hotspotFb.innerHTML = '❌ Not quite. Leyla reaches for local staff first.';
+        hotspotFb.innerHTML = '❌ Not quite. Leyla reaches for local staff first - not the rulebook or HQ.';
         hotspotFb.className = 'feedback feedback-incorrect';
     } else {
         hotspotFb.innerHTML = '⚠️ Please click on one of the three options above.';
