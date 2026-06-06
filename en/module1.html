@@ -394,7 +394,7 @@
             <strong>Question 1</strong><br>What was Keith's biggest mistake?
             <div class="quiz-options" data-q="1">
                 <div class="quiz-option" data-val="A">A) He failed his technical exam.</div>
-                <div class="quiz-option" data-val="B">B) He thought rules from a safe, quiet place (New York) would work without changes in a shifting crisis zone (Yemen).</div>
+                <div class="quiz-option" data-val="B">B) He assumed SOPs from a stable context would work unchanged in a volatile context.</div>
                 <div class="quiz-option" data-val="C">C) He changed his mind and refused to travel to Yemen.</div>
                 <div class="quiz-option" data-val="D">D) He did not have enough years of professional experience.</div>
             </div>
@@ -472,7 +472,7 @@
 
     <div class="quiz-question" id="leylaQ5">
         <strong>Question 2: The Filtering Challenge</strong><br>Local staff suggest buying fuel from a black market dealer. This solves the transport issue but violates donor compliance. How do you FILTER this solution?
-        <textarea id="filterAnswer" rows="3" placeholder="Example: I check if the dealer is on a sanctions list, or negotiate a 'partial' deal..."></textarea>
+        <textarea id="filterAnswer" rows="3" placeholder=""></textarea>
         <div class="feedback" id="filterFb"></div>
         <button class="check-btn" data-check="filterQuestion">✅ Check Answer</button>
     </div>
@@ -531,7 +531,6 @@
             </div>
         </div>
         <div id="branchOutcome" class="branch-outcome" style="display:none;"></div>
-        <p style="font-size:0.8rem; margin-top:0.5rem; color:#6C86A0;">💡 Hint for B: Extended Response Window — Because your email doesn't include local facts, risks, or a concrete plan, HQ has to reply with a long list of questions to protect compliance. Your project remains paused. Go back and gather field data first.</p>
     </div>
 
     <div class="quiz-question" id="leylaQ6">
@@ -572,8 +571,7 @@
     <div class="reality-check" id="realityCheckDiv" style="display:none;">
         <strong>⚠️ FIELD REALITY CHECK:</strong><br>
         Leyla did NOT solve the crisis with a single question. She faced pushback, logistical nightmares, and ethical dilemmas. Adaptability does NOT mean problems disappear. It means you get tasks done in less time, protect your team's morale, and find the "next right action" instead of freezing.<br><br>
-        <strong>Note:</strong> Adaptability does NOT mean breaking rules. It means knowing when the context requires bending the protocol to save lives, and when strict compliance is the only safe path.<br><br>
-        <strong>💡 Core Takeaway:</strong> Always gather local knowledge FIRST! Headquarters needs field data to make safe, fast choices. To avoid delays, never just dump a problem on HQ—always send your local plan alongside your risk assessment to unlock fast approvals.
+        <strong>Note:</strong> Adaptability does NOT mean breaking rules. It means knowing when the context requires bending the protocol to save lives, and when strict compliance is the only safe path.
     </div>
     
     <div class="module-nav">
@@ -810,7 +808,7 @@ function sendModule1DataToSheet() {
     if (branchOutcomeDiv.style.display === 'block') {
         const branchText = branchOutcomeDiv.innerText;
         if (branchText.includes('Adaptive Success')) branchChoice = 'C - Adaptive Success';
-        else if (branchText.includes('Paralysis')) branchChoice = 'B - Paralysis';
+        else if (branchText.includes('Extended Response Window')) branchChoice = 'B - Extended Response Window';
         else if (branchText.includes('Failure')) branchChoice = 'A - Failure';
     }
     
@@ -966,8 +964,8 @@ document.getElementById('submitKeithQuiz').addEventListener('click', () => {
     let q1Val = document.querySelector('#q1 .quiz-option.selected')?.getAttribute('data-val');
     let fb1 = document.getElementById('fb1');
     fb1.style.display = 'block';
-    if (q1Val === 'B') fb1.innerHTML = '✅ Correct. He assumed rules from a stable context (New York) would work unchanged in a volatile crisis zone (Yemen).';
-    else fb1.innerHTML = '❌ Correct answer: B. He thought rules from a safe, quiet place would work without changes in a shifting crisis zone.';
+    if (q1Val === 'B') fb1.innerHTML = '✅ Correct. He assumed SOPs from a stable context would work unchanged in a volatile context.';
+    else fb1.innerHTML = '❌ Correct answer: B. He assumed SOPs from a stable context (New York) would work unchanged in a volatile crisis zone (Yemen).';
 
     let q2Val = document.getElementById('q2answer').value.trim();
     let fb2 = document.getElementById('fb2');
@@ -977,7 +975,7 @@ document.getElementById('submitKeithQuiz').addEventListener('click', () => {
         showModelAnswer('fb2', '"Find a way" is a leadership abdication. It shifts the burden of impossible adaptation onto an exhausted local team without giving them authority or resources.');
     } else {
         fb2.innerHTML = '📝 Reflection saved. ';
-        showModelAnswer('fb2', 'Compare your thinking: The red flag is "abdication of responsibility." The leader expects the team to solve an impossible problem without authority or resources.');
+        showModelAnswer('fb2', 'Compare your thinking: The red flag is "abdication of responsibility."');
     }
 
     let q3Val = document.getElementById('q3answer').value.trim();
@@ -988,14 +986,14 @@ document.getElementById('submitKeithQuiz').addEventListener('click', () => {
         showModelAnswer('fb3', '"If your local team tells you an SOP will put their lives at risk, what is your first step?"');
     } else {
         fb3.innerHTML = '✅ Good question. ';
-        showModelAnswer('fb3', 'Ideal question: "What do you do if local staff say the SOP is dangerous or culturally inappropriate?"');
+        showModelAnswer('fb3', 'Ideal question: "What do you do if local staff say the SOP is dangerous?"');
     }
 
     let q4Val = document.querySelector('#q4 .quiz-option.selected')?.getAttribute('data-val');
     let fb4 = document.getElementById('fb4');
     fb4.style.display = 'block';
-    if (q4Val === 'false') fb4.innerHTML = '✅ Correct. Technical skill alone is insufficient for Country Director in a volatile context.';
-    else fb4.innerHTML = '❌ False. Technical expertise is necessary but not sufficient for adaptive leadership in crisis zones.';
+    if (q4Val === 'false') fb4.innerHTML = '✅ Correct. Technical skill alone is insufficient.';
+    else fb4.innerHTML = '❌ False. Technical skill is necessary but not sufficient.';
 
     let q5Val = document.getElementById('q5answer').value.trim();
     let fb5 = document.getElementById('fb5');
@@ -1067,7 +1065,7 @@ document.getElementById('checkMatchesBtn').addEventListener('click', () => {
     document.getElementById('negotiateFeedback').style.display = 'block';
     
     const matchFeedback = document.getElementById('matchFeedback');
-    matchFeedback.innerHTML = '<strong>✅ Matching Check Complete!</strong><br>Blame = ❌ Failure<br>Wait HQ = ⏳ Extended Response Window<br>Negotiate = ✅ Adaptive Success<br><br>💡 Core Takeaway: Always gather local knowledge FIRST! Headquarters needs field data to make safe, fast choices. To avoid delays, never just dump a problem on HQ—always send your local plan alongside your risk assessment to unlock fast approvals.';
+    matchFeedback.innerHTML = '<strong>✅ Matching Check Complete!</strong><br>Blame = ❌ Failure<br>Wait HQ = ⏳ Extended Response Window<br>Negotiate = ✅ Adaptive Success';
     matchFeedback.style.display = 'block';
     
     saveAnswersToLocal();
@@ -1081,8 +1079,8 @@ document.querySelectorAll('.branch-choice').forEach(choice => {
         
         let branchOutcome = document.getElementById('branchOutcome');
         let choiceVal = this.getAttribute('data-choice');
-        if (choiceVal === 'C') branchOutcome.innerHTML = '<div class="success-outcome" style="padding:1rem;"><strong>✅ Adaptive Success:</strong> Gather local knowledge first. This is what Leyla did. Local staff know what worked before.</div>';
-        else if (choiceVal === 'B') branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>⏳ Extended Response Window:</strong> Because your email doesn\'t include local facts, risks, or a concrete plan, HQ has to reply with a long list of questions to protect compliance. Your project remains paused. Go back and gather field data first.</div>';
+        if (choiceVal === 'C') branchOutcome.innerHTML = '<div class="success-outcome" style="padding:1rem;"><strong>✅ Adaptive Success:</strong> Gather local knowledge first. This is what Leyla did.</div>';
+        else if (choiceVal === 'B') branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>⏳ Extended Response Window:</strong> Lacking field data, HQ must take extra time to verify risks, which pauses your operations.</div>';
         else branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ Failure:</strong> Blaming shuts down communication and hides problems. Team trust is destroyed, and vehicles remain stuck.</div>';
         branchOutcome.style.display = 'block';
         saveAnswersToLocal();
@@ -1111,9 +1109,9 @@ document.querySelectorAll('.check-btn').forEach(btn => {
                 fb1.innerHTML = '✅ Correct! Adaptive leaders gather local knowledge FIRST.';
                 fb1.className = 'feedback feedback-correct';
             } else {
-                fb1.innerHTML = '❌ The correct answer is C: Gather local staff and ask: "What has worked in past fuel shortages here?"';
+                fb1.innerHTML = '❌ The correct answer is C: Ask local staff what worked before.';
                 fb1.className = 'feedback feedback-incorrect';
-                showModelAnswer('leylaFb1', 'Leyla would ask local staff first - they know the context best.');
+                showModelAnswer('leylaFb1', 'Leyla would ask local staff first.');
             }
         }
         else if (checkId === 'filterQuestion') {
@@ -1123,11 +1121,11 @@ document.querySelectorAll('.check-btn').forEach(btn => {
             if (!isValidText(filterVal)) {
                 filterFb.innerHTML = '⚠️ Filtering is critical. ';
                 filterFb.className = 'feedback feedback-incorrect';
-                showModelAnswer('filterFb', 'Assess risk: check sanctions list, document as life-saving exception, verify dealer credibility, explain to donor later with full justification.');
+                showModelAnswer('filterFb', 'Assess risk, document as life-saving exception, explain to donor later.');
             } else {
                 filterFb.innerHTML = '✅ Strong filtering instinct. ';
                 filterFb.className = 'feedback feedback-correct';
-                showModelAnswer('filterFb', 'Assess risk, document as life-saving exception, explain to donor later with full justification.');
+                showModelAnswer('filterFb', 'Assess risk, document as life-saving exception, explain to donor later.');
             }
         }
         else if (checkId === 'criteriaQuestion') {
@@ -1135,10 +1133,10 @@ document.querySelectorAll('.check-btn').forEach(btn => {
             let criteriaFb = document.getElementById('criteriaFb');
             criteriaFb.style.display = 'block';
             if (criteriaVal === 'B') {
-                criteriaFb.innerHTML = '✅ Correct. Life-saving at stake + Justifiable compliance after the fact.';
+                criteriaFb.innerHTML = '✅ Correct. Life-saving at stake + Justifiable compliance.';
                 criteriaFb.className = 'feedback feedback-correct';
             } else {
-                criteriaFb.innerHTML = '❌ The correct answer is B: When immediate life-saving is at stake AND compliance can be justified post-fact.';
+                criteriaFb.innerHTML = '❌ The correct answer is B: When immediate life-saving is at stake.';
                 criteriaFb.className = 'feedback feedback-incorrect';
             }
         }
@@ -1151,10 +1149,10 @@ document.getElementById('submitLeylaQuiz').addEventListener('click', () => {
     let selectedHotspot = document.querySelector('.hotspot-item.selected')?.getAttribute('data-hotspot');
     let hotspotFb = document.getElementById('hotspotFeedback');
     if (selectedHotspot === 'hand') {
-        hotspotFb.innerHTML = '✅ Correct! Relationships are the strongest currency. Leyla reaches for local staff first.';
+        hotspotFb.innerHTML = '✅ Correct! Relationships are the strongest currency.';
         hotspotFb.className = 'feedback feedback-correct';
     } else if (selectedHotspot) {
-        hotspotFb.innerHTML = '❌ Not quite. Leyla reaches for local staff first - not the rulebook or HQ.';
+        hotspotFb.innerHTML = '❌ Not quite. Leyla reaches for local staff first.';
         hotspotFb.className = 'feedback feedback-incorrect';
     } else {
         hotspotFb.innerHTML = '⚠️ Please click on one of the three options above.';
