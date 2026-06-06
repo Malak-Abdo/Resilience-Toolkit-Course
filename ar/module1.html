@@ -337,7 +337,6 @@
     </style>
 </head>
 <body>
-    <!-- ========== VERIFICATION CODE ========== -->
     <script>
         const userLang = localStorage.getItem('userLanguage') || 'en';
         const messages = {
@@ -350,7 +349,6 @@
             window.location.href = t.redirect;
         }
     </script>
-    <!-- ================================= -->
 <div class="course-card">
     <div class="header-tag">
         <span>حزمة أدوات المرونة</span>
@@ -391,7 +389,6 @@
     <button id="submitPollBtn">تأكيد الاختيارات</button>
     <div id="pollFeedback" class="feedback"></div>
     
-    <!-- SCENARIO 1: KEITH -->
     <div class="scenario-card">
         <strong>📖 السيناريو ١: "كيث – الخبير التقني الذي لم يستطع التكيف"</strong><br><br>
         كان لدى كيث ١٢ عاماً من الخبرة التقنية الممتازة في مجاله. كان ماهراً جداً وبسبب عمله الرائع، تم ترشيحه لمنصب رفيع: المدير القطري في اليمن لإحدى المنظمات الإنسانية الدولية.<br><br>
@@ -459,7 +456,6 @@
         <strong>التشخيص:</strong> كان كيث ممتازاً في الأداء في ظل البيئات التي يسودها الاستقرار، لكنه جامد استراتيجياً في ظل التقلبات. المهارة التقنية توصلك إلى الباب. المهارة التكيفية هي التي تقرر ما إذا كان سيُسمح لك بالقيادة من خلاله.
     </div>
     
-    <!-- SCENARIO 2: LEYLA -->
     <div class="scenario-card">
         <strong>📖 السيناريو ٢: "ليلى – القائدة المرنة"</strong><br><br>
         كانت ليلى المديرة القطرية لمنظمة إغاثة دولية في السودان، في منطقة تعاني من نزاع نشط وكثيف.<br><br>
@@ -504,7 +500,7 @@
                 <div class="matching-action">📌 الإجراء ١: لوم فريق الخدمات اللوجستية الميداني والضغط عليهم بسبب نقص الوقود.</div>
                 <div class="matching-options" data-action="blame">
                     <div class="match-option" data-outcome="A">✅ نجاح تكيفي</div>
-                    <div class="match-option" data-outcome="B">⏳ نافذة استجابة ممتدة</div>
+                    <div class="match-option" data-outcome="B">⏳ وقت انتظار أطول</div>
                     <div class="match-option" data-outcome="C">❌ فشل (يدمر ثقة الفريق ويترك المركبات عالقة)</div>
                 </div>
                 <div id="blameFeedback" class="match-result" style="display:none;"></div>
@@ -514,7 +510,7 @@
                 <div class="matching-action">📌 الإجراء ٢: انتظار موافقة المكتب الرئيسي عن بعد دون إرسال الحقائق والسياق المحلي.</div>
                 <div class="matching-options" data-action="waitHQ">
                     <div class="match-option" data-outcome="A">✅ نجاح تكيفي</div>
-                    <div class="match-option" data-outcome="B">⏳ نافذة استجابة ممتدة (نظراً لعدم وجود بيانات ميدانية، يحتاج المكتب الرئيسي إلى وقت إضافي للتحقق من المخاطر، مما يوقف عملياتك مؤقتاً).</div>
+                    <div class="match-option" data-outcome="B">⏳ وقت انتظار أطول (نظراً لعدم وجود بيانات ميدانية، يحتاج المكتب الرئيسي إلى وقت إضافي للتحقق من المخاطر، مما يوقف عملياتك مؤقتاً)</div>
                     <div class="match-option" data-outcome="C">❌ فشل</div>
                 </div>
                 <div id="waitHQFeedback" class="match-result" style="display:none;"></div>
@@ -524,7 +520,7 @@
                 <div class="matching-action">📌 الإجراء ٣: التحدث مع الموظفين المحليين والتفاوض على حل آمن مع قادة اتحاد الدراجات النارية المحليين.</div>
                 <div class="matching-options" data-action="negotiate">
                     <div class="match-option" data-outcome="A">✅ نجاح تكيفي (يستخدم الشبكات المحلية الموثوقة لتوصيل المساعدات المنقذة للحياة فوراً)</div>
-                    <div class="match-option" data-outcome="B">⏳ نافذة استجابة ممتدة</div>
+                    <div class="match-option" data-outcome="B">⏳ وقت انتظار أطول</div>
                     <div class="match-option" data-outcome="C">❌ فشل</div>
                 </div>
                 <div id="negotiateFeedback" class="match-result" style="display:none;"></div>
@@ -606,20 +602,13 @@
 </div>
 
 <script>
-// ============================================
-// GOOGLE SHEETS WEB APP URL
-// ============================================
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
 
-// ============================================
-// GET USER DATA
-// ============================================
 function getUserData() {
     let name = '';
     let email = '';
     let position = '';
     
-    // 1. Check currentUser FIRST
     try {
         let currentUser = localStorage.getItem('currentUser');
         if (currentUser) {
@@ -633,7 +622,6 @@ function getUserData() {
         }
     } catch(e) {}
     
-    // 2. Check users array
     try {
         let users = JSON.parse(localStorage.getItem('users') || '[]');
         if (Array.isArray(users) && users.length > 0) {
@@ -647,7 +635,6 @@ function getUserData() {
         }
     } catch(e) {}
     
-    // 3. Check course_user_name
     let n = localStorage.getItem('course_user_name');
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
         name = n.trim();
@@ -656,7 +643,6 @@ function getUserData() {
         return { name, email, position };
     }
     
-    // 4. Default
     return { name: 'زائر', email: 'guest@example.com', position: 'غير محدد' };
 }
 
@@ -887,7 +873,7 @@ function goToModule2() {
     }, 500);
 }
 
-// --- Event Listeners ---
+// Event Listeners
 document.getElementById('playAudioHookBtn').addEventListener('click', () => {
     document.getElementById('audioTranscript').innerHTML = "🎙️ إحاطة: أنت تقود في اليمن، السودان، سوريا، العراق، غزة، أفغانستان، الكونغو، الساحل، أو أوكرانيا. بحلول الساعة ٧:٣٠ صباحاً اليوم، قد تواجه نقصاً في الوقود، أو تعطل مركبة، أو اعتقال مترجم، أو حرارة شديدة، أو فيضاناً مفاجئاً. هذه الإحاطة ليست تحفيزية. إنها استراتيجية.";
 });
@@ -917,8 +903,8 @@ document.getElementById('submitKeithQuiz').addEventListener('click', () => {
     let q1Val = document.querySelector('#q1 .quiz-option.selected')?.getAttribute('data-val');
     let fb1 = document.getElementById('fb1');
     fb1.style.display = 'block';
-    if (q1Val === 'B') fb1.innerHTML = '✅ إجابة صحيحة. ب) افترض أن إجراءات التشغيل القياسية من سياق مستقر ستعمل دون تغيير في سياق متقلب.';
-    else fb1.innerHTML = '❌ الإجابة الصحيحة هي ب: افترض أن إجراءات التشغيل القياسية من سياق مستقر (نيويورك) ستعمل دون تغيير في منطقة أزمات متغيرة (اليمن).';
+    if (q1Val === 'B') fb1.innerHTML = '✅ إجابة صحيحة. ب) اعتقد أن القواعد من مكان آمن وهادئ (نيويورك) ستعمل دون تغيير في منطقة أزمات متغيرة (اليمن).';
+    else fb1.innerHTML = '❌ الإجابة الصحيحة هي ب: اعتقد أن القواعد من مكان آمن وهادئ (نيويورك) ستعمل دون تغيير في منطقة أزمات متغيرة (اليمن).';
 
     let q4Val = document.querySelector('#q4 .quiz-option.selected')?.getAttribute('data-val');
     let fb4 = document.getElementById('fb4');
@@ -1000,7 +986,7 @@ document.getElementById('checkMatchesBtn').addEventListener('click', () => {
     document.getElementById('blameFeedback').className = `match-result ${blameCorrect ? 'correct' : 'incorrect'}`;
     document.getElementById('blameFeedback').style.display = 'block';
     
-    document.getElementById('waitHQFeedback').innerHTML = waitHQCorrect ? '✅ صحيح! انتظار المكتب الرئيسي يسبب نافذة استجابة ممتدة (توقف تشغيلي مؤقت).' : '❌ انتظار المكتب الرئيسي يسبب نافذة استجابة ممتدة. (النتيجة ب)';
+    document.getElementById('waitHQFeedback').innerHTML = waitHQCorrect ? '✅ صحيح! انتظار المكتب الرئيسي يسبب وقت انتظار أطول (نافذة استجابة ممتدة).' : '❌ انتظار المكتب الرئيسي يسبب وقت انتظار أطول. (النتيجة ب)';
     document.getElementById('waitHQFeedback').className = `match-result ${waitHQCorrect ? 'correct' : 'incorrect'}`;
     document.getElementById('waitHQFeedback').style.display = 'block';
     
@@ -1009,7 +995,7 @@ document.getElementById('checkMatchesBtn').addEventListener('click', () => {
     document.getElementById('negotiateFeedback').style.display = 'block';
     
     const matchFeedback = document.getElementById('matchFeedback');
-    matchFeedback.innerHTML = '<strong>✅ اكتمل التحقق من المطابقات!</strong><br>اللوم = ❌ فشل<br>انتظار المكتب الرئيسي = ⏳ نافذة استجابة ممتدة<br>التفاوض = ✅ نجاح تكيفي';
+    matchFeedback.innerHTML = '<strong>✅ اكتمل التحقق من المطابقات!</strong><br>اللوم = ❌ فشل<br>انتظار المكتب الرئيسي = ⏳ وقت انتظار أطول<br>التفاوض = ✅ نجاح تكيفي';
     matchFeedback.style.display = 'block';
     
     saveAnswersToLocal();
@@ -1024,7 +1010,7 @@ document.querySelectorAll('.branch-choice').forEach(choice => {
         let branchOutcome = document.getElementById('branchOutcome');
         let choiceVal = this.getAttribute('data-choice');
         if (choiceVal === 'C') branchOutcome.innerHTML = '<div class="success-outcome" style="padding:1rem;"><strong>✅ نجاح تكيفي:</strong> جمع المعرفة المحلية أولاً. هذا ما فعلته ليلى.</div>';
-        else if (choiceVal === 'B') branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>⏳ نافذة استجابة ممتدة:</strong> نظراً لعدم وجود بيانات ميدانية، يحتاج المكتب الرئيسي إلى وقت إضافي للتحقق من المخاطر، مما يوقف عملياتك مؤقتاً.</div>';
+        else if (choiceVal === 'B') branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>⏳ وقت انتظار أطول:</strong> نظراً لعدم وجود بيانات ميدانية، يحتاج المكتب الرئيسي إلى وقت إضافي للتحقق من المخاطر، مما يوقف عملياتك مؤقتاً.</div>';
         else branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ فشل:</strong> اللوم يوقف التواصل ويخفي المشاكل. ثقة الفريق تُدمر، والمركبات تبقى عالقة.</div>';
         branchOutcome.style.display = 'block';
         saveAnswersToLocal();
