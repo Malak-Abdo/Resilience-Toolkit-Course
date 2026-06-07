@@ -795,15 +795,38 @@ function escapeHtml(str) {
     });
 }
 
+// ============================================
+// UPDATED downloadCardBtn - NO EMOJIS, CLEAR TEXT FORMAT
+// ============================================
 document.getElementById('downloadCardBtn').addEventListener('click', function() {
-    var content = "بروتوكول الساعة السابعة صباحاً - البطاقة الجيبية\n\n";
-    content += "فيضان مفاجئ:\n\"السجلات ذهبت. الناس هنا. ما السجلات الموجودة في مكان آخر؟\"\n\n";
-    content += "تهديد التدقيق:\n\"اللوم غير مفيد. الأدلة مفيدة. الجميع يحضر الحقائق في غضون ساعتين.\"\n\n";
-    content += "خطر الاختطاف:\n\"أعد تعيينهم لأسباب تشغيلية. حماية بدون ذعر.\"\n\n";
-    content += "انقطاع الاتصالات:\n\"لا اتصال مع الخارج. نتخذ القرارات معاً. ما هي المشكلة الأكثر إلحاحاً؟\"\n\n";
+    var content = "========================================\n";
+    content += "   بروتوكول الساعة السابعة صباحاً\n";
+    content += "   البطاقة الجيبية للقائد\n";
+    content += "========================================\n\n";
+    
+    content += "[فيضان مفاجئ]\n";
+    content += "\"السجلات ذهبت. الناس هنا. ما السجلات الموجودة في مكان آخر؟\"\n\n";
+    
+    content += "[تهديد التدقيق]\n";
+    content += "\"اللوم غير مفيد. الأدلة مفيدة. الجميع يحضر الحقائق في غضون ساعتين.\"\n\n";
+    
+    content += "[خطر الاختطاف]\n";
+    content += "\"أعد تعيينهم لأسباب تشغيلية. حماية بدون ذعر.\"\n\n";
+    
+    content += "[انقطاع الاتصالات]\n";
+    content += "\"لا اتصال مع الخارج. نتخذ القرارات معاً. ما هي المشكلة الأكثر إلحاحاً؟\"\n\n";
+    
     var protocolScript = document.getElementById('protocolScript').value.trim();
-    if (protocolScript) content += "بروتوكولي الخاص:\n" + protocolScript + "\n\n";
-    var blob = new Blob([content], { type: 'text/plain' });
+    if (protocolScript) {
+        content += "========================================\n";
+        content += "[بروتوكولي الخاص]\n";
+        content += protocolScript + "\n";
+        content += "========================================\n";
+    }
+    
+    content += "\n--- تذكر: اجمع المعرفة المحلية أولاً دائماً! ---\n";
+    
+    var blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     a.href = url;
