@@ -329,21 +329,22 @@
         <thead>
             <tr><th>العنصر</th><th>ماذا يعني</th><th>مثال</th> </thead>
         <tbody>
-            <tr><td><strong>المحفز</strong></td><td>ما يبدأ العادة</td><td>"يصل مقياس الحرارة إلى ٤٥ درجة مئوية الساعة ٩ صباحاً"</td></tr>
-            <tr><td><strong>الروتين</strong></td><td>السلوك التلقائي</td><td>"أسأل: ما المهام الحرجة التي يمكن إنجازها قبل الساعة ١١ صباحاً؟"</td></tr>
-            <tr><td><strong>المكافأة</strong></td><td>ما تشعر به</td><td>"السيطرة. فريقي آمن. العمل لا يزال مستمراً."</td></tr>
+            <tr><td><strong>المحفز</strong></td><td>ما يبدأ العادة</div></td><td>"يصل مقياس الحرارة إلى ٤٥ درجة مئوية الساعة ٩ صباحاً"</td> </tr>
+            <tr><td><strong>الروتين</strong></td><td>السلوك التلقائي</td><td>"أسأل: ما المهام الحرجة التي يمكن إنجازها قبل الساعة ١١ صباحاً؟"</td> </tr>
+            <tr><td><strong>المكافأة</strong></td><td>ما تشعر به</td><td>"السيطرة. فريقي آمن. العمل لا يزال مستمراً."</td> </tr>
         </tbody>
-    </table>
+     </table>
     
     <h2>مثال: حلقة عادة مكتملة</h2>
     <table>
-        <thead><tr><th>الأزمة</th><th>المحفز</th><th>الروتين</th><th>المكافأة</th></tr></thead>
+        <thead>
+            <tr><th>الأزمة</th><th>المحفز</th><th>الروتين</th><th>المكافأة</th> </thead>
         <tbody>
-            <tr><td>نقص الوقود</td><td>"مقياس الوقود يصل إلى الصفر"</td><td>"أسأل: ما الذي يعمل بدون وقود؟"</td><td>"المبادرة. لسنا عالقين."</td></tr>
-            <tr><td>مغادرة موظف</td><td>"يقدم موظف رئيسي استقالته"</td><td>"أسأل: من يستطيع القيام بجزء من هذه المهمة؟"</td><td>"الفضول. ليس اليأس."</td></tr>
-            <tr><td>حرارة شديدة</td><td>"يصل مقياس الحرارة إلى ٤٥ درجة مئوية الساعة ٩ صباحاً"</td><td>"أسأل: ما الذي يمكننا إنجازه قبل الساعة ١١ صباحاً؟"</td><td>"السيطرة. فريقي آمن."</td></tr>
+            <tr><td>نقص الوقود</td><td>"مقياس الوقود يصل إلى الصفر"</td><td>"أسأل: ما الذي يعمل بدون وقود؟"</td><td>"المبادرة. لسنا عالقين."</td> </tr>
+            <tr><td>مغادرة موظف</td><td>"يقدم موظف رئيسي استقالته"</td><td>"أسأل: من يستطيع القيام بجزء من هذه المهمة؟"</td><td>"الفضول. ليس اليأس."</td> </tr>
+            <tr><td>حرارة شديدة</td><td>"يصل مقياس الحرارة إلى ٤٥ درجة مئوية الساعة ٩ صباحاً"</td><td>"أسأل: ما الذي يمكننا إنجازه قبل الساعة ١١ صباحاً؟"</td><td>"السيطرة. فريقي آمن."</td> </tr>
         </tbody>
-    </table>
+     </table>
     
     <div class="section-header">
         <h2 style="margin: 0; border-right: none; padding-right: 0;">📝 دورك الآن: بناء عادتك</h2>
@@ -419,37 +420,72 @@
 
 <script>
 // ============================================
-// GOOGLE SHEETS WEB APP URL (نفس رابط الوحدة ٤)
+// GOOGLE SHEETS WEB APP URL
 // ============================================
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
 
 // ============================================
-// GET REAL USER DATA (نفس منطق الوحدة ٤)
+// FIXED getUserData() - SEARCHES FOR currentUser FIRST (SAME AS OTHER MODULES)
 // ============================================
 function getUserData() {
     let name = '', email = '', position = '';
     
+    // 1. Check currentUser FIRST (from intro.html login)
+    try {
+        let currentUser = localStorage.getItem('currentUser');
+        if (currentUser) {
+            let user = JSON.parse(currentUser);
+            if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر' && user.name.trim() !== '') {
+                name = user.name.trim();
+                email = (user.email || '').trim();
+                position = (user.position || '').trim();
+                console.log('✅ Found user from currentUser:', name);
+                return { name, email, position };
+            }
+        }
+    } catch(e) { console.error('Error parsing currentUser:', e); }
+    
+    // 2. Check users array
+    try {
+        let users = JSON.parse(localStorage.getItem('users') || '[]');
+        if (Array.isArray(users) && users.length > 0) {
+            let lastUser = users[users.length - 1];
+            if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name !== 'زائر' && lastUser.name.trim() !== '') {
+                name = lastUser.name.trim();
+                email = (lastUser.email || '').trim();
+                position = (lastUser.position || '').trim();
+                console.log('✅ Found user from users array:', name);
+                return { name, email, position };
+            }
+        }
+    } catch(e) { console.error('Error parsing users:', e); }
+    
+    // 3. Check course_user_name
     let n = localStorage.getItem('course_user_name');
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim() !== '') {
+    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
         name = n.trim();
         email = (localStorage.getItem('course_user_email') || '').trim();
         position = (localStorage.getItem('course_user_position') || '').trim();
+        console.log('✅ Found user from course_user_name:', name);
+        return { name, email, position };
     }
     
-    if (!name) {
-        let user = localStorage.getItem('course_user');
-        if (user) {
-            try { 
-                let p = JSON.parse(user); 
-                if (p && p.name && p.name !== 'Guest') {
-                    name = p.name.trim();
-                    email = (p.email || '').trim();
-                    position = (p.position || '').trim();
-                }
-            } catch(e) {}
-        }
+    // 4. Check course_user object
+    let user = localStorage.getItem('course_user');
+    if (user) {
+        try { 
+            let p = JSON.parse(user); 
+            if (p && p.name && p.name !== 'Guest' && p.name !== 'زائر' && p.name.trim() !== '') {
+                name = p.name.trim();
+                email = (p.email || '').trim();
+                position = (p.position || '').trim();
+                console.log('✅ Found user from course_user:', name);
+                return { name, email, position };
+            }
+        } catch(e) {}
     }
     
+    // 5. Check resilience_users
     if (!name) {
         let users = localStorage.getItem('resilience_users');
         if (users) {
@@ -457,11 +493,12 @@ function getUserData() {
                 let p = JSON.parse(users); 
                 if (Array.isArray(p) && p.length > 0) {
                     for (let i = p.length - 1; i >= 0; i--) {
-                        if (p[i] && p[i].name && p[i].name !== 'Guest') {
+                        if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'زائر') {
                             name = p[i].name.trim();
                             email = (p[i].email || '').trim();
                             position = (p[i].position || '').trim();
-                            break;
+                            console.log('✅ Found user from resilience_users:', name);
+                            return { name, email, position };
                         }
                     }
                 }
@@ -469,35 +506,21 @@ function getUserData() {
         }
     }
     
-    if (!name) {
-        let usersAlt = localStorage.getItem('users');
-        if (usersAlt) {
-            try { 
-                let p = JSON.parse(usersAlt); 
-                if (Array.isArray(p) && p.length > 0) {
-                    for (let i = p.length - 1; i >= 0; i--) {
-                        if (p[i] && p[i].name && p[i].name !== 'Guest') {
-                            name = p[i].name.trim();
-                            email = (p[i].email || '').trim();
-                            position = (p[i].position || '').trim();
-                            break;
-                        }
-                    }
-                }
-            } catch(e) {}
-        }
-    }
-    
-    return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
+    // 6. Return default
+    console.log('⚠️ No user data found, using default');
+    return { name: 'زائر', email: 'guest@example.com', position: 'غير محدد' };
 }
 
+// Display user name in badge
 const currentUser = getUserData();
 const userBadge = document.getElementById('userBadge');
 if (userBadge) {
     if (currentUser.name !== 'زائر') {
         userBadge.innerText = `👤 ${currentUser.name}`;
+        console.log('✅ User badge updated with:', currentUser.name);
     } else {
         userBadge.innerText = `👤 متعلم`;
+        console.log('⚠️ No user name found, showing default');
     }
 }
 
@@ -595,7 +618,6 @@ function saveModule5DataToLocal() {
     localStorage.setItem('module5_data', JSON.stringify(data));
 }
 
-// دالة إرسال البيانات إلى Google Sheets (نفس طريقة الوحدة ٤ بالكامل)
 function sendModule5DataToSheet(callback) {
     const userData = getUserData();
     const crisis = crisisSelect.value === 'أخرى' ? (otherCrisisInput ? otherCrisisInput.value.trim() : '') : crisisSelect.value;
@@ -619,7 +641,6 @@ function sendModule5DataToSheet(callback) {
     };
     
     console.log('📤 جاري إرسال بيانات الوحدة ٥ للمستخدم:', userData.name);
-    console.log('📦 البيانات:', payload);
     
     const xhr = new XMLHttpRequest();
     xhr.open('POST', GOOGLE_SCRIPT_URL, true);
@@ -642,7 +663,6 @@ function sendModule5DataToSheet(callback) {
     xhr.send(JSON.stringify(payload));
 }
 
-// الدالة الرئيسية للانتقال إلى الوحدة التالية (مطابقة للوحدة ٤)
 function goToNextModule() {
     const habitComplete = updateHabitProgress();
     const flipComplete = updateFlipProgress();
@@ -663,7 +683,6 @@ function goToNextModule() {
         return;
     }
     
-    // حفظ البيانات في localStorage
     const crisis = crisisSelect.value === 'أخرى' ? (otherCrisisInput ? otherCrisisInput.value.trim() : '') : crisisSelect.value;
     const habitData = {
         crisis: crisis,
@@ -677,7 +696,6 @@ function goToNextModule() {
     localStorage.setItem('module5_completed', 'true');
     saveModule5DataToLocal();
     
-    // إرسال البيانات إلى Google Sheets (مثل الوحدة ٤ تماماً)
     showToast('جاري حفظ تقدمك وإرسال البيانات...');
     
     sendModule5DataToSheet(function(success) {
@@ -686,7 +704,6 @@ function goToNextModule() {
         } else {
             console.log('⚠️ فشل الإرسال ولكن تم حفظ البيانات محلياً');
         }
-        // تأخير بسيط للانتقال (مثل الوحدة ٤)
         setTimeout(() => {
             window.location.href = 'module6.html';
         }, 500);
