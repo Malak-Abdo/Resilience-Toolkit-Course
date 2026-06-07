@@ -247,7 +247,6 @@
     </style>
 </head>
 <body>
-    <!-- ========== كود التحقق ========== -->
     <script>
         const userLang = localStorage.getItem('userLanguage') || 'en';
         const messages = {
@@ -260,7 +259,6 @@
             window.location.href = t.redirect;
         }
     </script>
-    <!-- ================================= -->
 <div class="celebration-card">
     <div class="badge-icon">
         🎉🏆✨
@@ -311,9 +309,9 @@
 
 <script>
     // ============================================
-    // CONFIGURATION - FIXED URL
+    // FIXED URL - USE THE SAME AS WORKING MODULE 1
     // ============================================
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzVdUtUxnKdrFUNzMDvO5HUdnC99-l2167-o3JKGl2udqM7APTCOqhS5KpsrQMH6b68/exec';
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbylF2X6XfxJIPQ77YyDaICfdYQe_aRad_64ssVtTAezsVV09R86ArUKagYWLaTpDHwrMA/exec';
 
     const ASSESSMENT_LINK = 'https://docs.google.com/forms/d/e/1FAIpQLScvfH1X4Z3-xmDuDvozziHj0O1zo_2HWFuWVmUmdQxLsDdTxw/viewform?usp=dialog';
     
@@ -445,12 +443,11 @@
         button.disabled = true;
         
         if (userLanguage === 'ar') {
-            button.innerHTML = '⏳ جاري الإرسال...';
+            button.innerHTML = '⏳ Sending...';
         } else {
             button.innerHTML = '⏳ Sending...';
         }
         
-        // Show popup immediately
         showEmailBadgePopup();
         
         const payload = {
@@ -463,6 +460,7 @@
         
         console.log('📤 Sending payload:', payload);
         console.log('📤 To URL:', GOOGLE_SCRIPT_URL);
+        console.log('📤 Email recipient:', user.email);
         
         fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
@@ -473,24 +471,23 @@
         })
         .then(response => response.json())
         .then(data => {
-            console.log('✅ Email sent successfully:', data);
+            console.log('✅ Response from server:', data);
         })
         .catch(err => {
-            console.log('⚠️ Error sending email:', err);
+            console.log('⚠️ Error sending request:', err);
         });
         
         localStorage.setItem('badge_requested_at', new Date().toISOString());
         localStorage.setItem('badge_requested_for', user.email);
         
-        // Reset button quickly
         setTimeout(() => {
             button.disabled = false;
             if (userLanguage === 'ar') {
-                button.innerHTML = '📧 احصل على شارتك';
+                button.innerHTML = '📧 Get Your Badge';
             } else {
                 button.innerHTML = '📧 Get Your Badge';
             }
-        }, 1000);
+        }, 2000);
     }
     
     function finalizeCourseCompletion() {
