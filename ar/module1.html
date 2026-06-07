@@ -758,11 +758,38 @@ function loadMatchSelections() {
     }
 }
 
+// ============================================
+// UPDATED collectAllAnswers - FIXED for Arabic version
+// Sends correct letter values (C, B, A) instead of Arabic text
+// ============================================
 function collectAllAnswers() {
     let selectedConstraints = [];
     document.querySelectorAll('.poll-item.selected').forEach(item => {
         selectedConstraints.push(item.getAttribute('data-value'));
     });
+    
+    // Get match selections and convert to LETTERS (C, B, A) not Arabic text
+    let dragBlameValue = '';
+    let dragWaitHQValue = '';
+    let dragNegotiateValue = '';
+    
+    const blameSelected = document.querySelector('[data-action="blame"] .match-option.selected');
+    const waitHQSelected = document.querySelector('[data-action="waitHQ"] .match-option.selected');
+    const negotiateSelected = document.querySelector('[data-action="negotiate"] .match-option.selected');
+    
+    if (blameSelected) dragBlameValue = blameSelected.getAttribute('data-outcome');
+    if (waitHQSelected) dragWaitHQValue = waitHQSelected.getAttribute('data-outcome');
+    if (negotiateSelected) dragNegotiateValue = negotiateSelected.getAttribute('data-outcome');
+    
+    // Convert branch choice to letter (C, B, A)
+    let branchChoiceValue = 'Not selected';
+    const branchOutcomeDiv = document.getElementById('branchOutcome');
+    if (branchOutcomeDiv.style.display === 'block') {
+        const branchText = branchOutcomeDiv.innerText;
+        if (branchText.includes('نجاح تكيفي')) branchChoiceValue = 'C';
+        else if (branchText.includes('وقت انتظار أطول')) branchChoiceValue = 'B';
+        else if (branchText.includes('فشل')) branchChoiceValue = 'A';
+    }
     
     return {
         pollConstraints: selectedConstraints.join(', ') || 'لا شيء',
@@ -774,10 +801,10 @@ function collectAllAnswers() {
         leylaQ1: document.querySelector('#leylaQ1 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب',
         filterAnswer: document.getElementById('filterAnswer')?.value.trim() || '',
         criteriaAnswer: document.querySelector('#leylaQ6 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب',
-        dragBlame: matchSelections.blame ? 'النتيجة ' + matchSelections.blame : 'غير مطابق',
-        dragWaitHQ: matchSelections.waitHQ ? 'النتيجة ' + matchSelections.waitHQ : 'غير مطابق',
-        dragNegotiate: matchSelections.negotiate ? 'النتيجة ' + matchSelections.negotiate : 'غير مطابق',
-        branchChoice: document.getElementById('branchOutcome').style.display === 'block' ? 'تم الاختيار' : 'غير محدد',
+        dragBlame: dragBlameValue,
+        dragWaitHQ: dragWaitHQValue,
+        dragNegotiate: dragNegotiateValue,
+        branchChoice: branchChoiceValue,
         hotspotChoice: document.querySelector('.hotspot-item.selected')?.getAttribute('data-hotspot') || 'غير محدد'
     };
 }
