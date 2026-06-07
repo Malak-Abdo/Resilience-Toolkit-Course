@@ -453,47 +453,82 @@
 <script>
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
 
+// ============================================
+// FIXED getUserData() - SEARCHES FOR currentUser FIRST
+// ============================================
 function getUserData() {
     let name = '', email = '', position = '';
     
-    // Check currentUser
+    // 1. Check currentUser FIRST (from intro.html login)
     try {
         let currentUser = localStorage.getItem('currentUser');
         if (currentUser) {
             let user = JSON.parse(currentUser);
-            if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر') {
-                return { name: user.name.trim(), email: (user.email || '').trim(), position: (user.position || '').trim() };
+            if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر' && user.name.trim() !== '') {
+                name = user.name.trim();
+                email = (user.email || '').trim();
+                position = (user.position || '').trim();
+                console.log('✅ Found user from currentUser:', name);
+                return { name, email, position };
             }
         }
-    } catch(e) {}
+    } catch(e) { console.error('Error parsing currentUser:', e); }
     
-    // Check users array
+    // 2. Check users array
     try {
         let users = JSON.parse(localStorage.getItem('users') || '[]');
-        if (users.length > 0) {
+        if (Array.isArray(users) && users.length > 0) {
             let lastUser = users[users.length - 1];
-            if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name !== 'زائر') {
-                return { name: lastUser.name.trim(), email: (lastUser.email || '').trim(), position: (lastUser.position || '').trim() };
+            if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name !== 'زائر' && lastUser.name.trim() !== '') {
+                name = lastUser.name.trim();
+                email = (lastUser.email || '').trim();
+                position = (lastUser.position || '').trim();
+                console.log('✅ Found user from users array:', name);
+                return { name, email, position };
             }
         }
-    } catch(e) {}
+    } catch(e) { console.error('Error parsing users:', e); }
     
-    // Check course_user_name
+    // 3. Check course_user_name
     let n = localStorage.getItem('course_user_name');
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر') {
+    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
         name = n.trim();
-        email = localStorage.getItem('course_user_email') || '';
-        position = localStorage.getItem('course_user_position') || '';
+        email = (localStorage.getItem('course_user_email') || '').trim();
+        position = (localStorage.getItem('course_user_position') || '').trim();
+        console.log('✅ Found user from course_user_name:', name);
         return { name, email, position };
     }
     
+    // 4. Check course_user object
+    let user = localStorage.getItem('course_user');
+    if (user) {
+        try { 
+            let p = JSON.parse(user); 
+            if (p && p.name && p.name !== 'Guest' && p.name !== 'زائر' && p.name.trim() !== '') {
+                name = p.name.trim();
+                email = (p.email || '').trim();
+                position = (p.position || '').trim();
+                console.log('✅ Found user from course_user:', name);
+                return { name, email, position };
+            }
+        } catch(e) {}
+    }
+    
+    // 5. Return default
+    console.log('⚠️ No user data found, using default');
     return { name: 'زائر', email: 'guest@example.com', position: 'غير محدد' };
 }
 
 const currentUser = getUserData();
 const userBadge = document.getElementById('userBadge');
 if (userBadge) {
-    userBadge.innerText = currentUser.name !== 'زائر' ? `👤 ${currentUser.name}` : '👤 متعلم';
+    if (currentUser.name !== 'زائر') {
+        userBadge.innerText = `👤 ${currentUser.name}`;
+        console.log('✅ User badge updated with:', currentUser.name);
+    } else {
+        userBadge.innerText = `👤 متعلم`;
+        console.log('⚠️ No user name found, showing default');
+    }
 }
 
 function showToast(message, isError = false) {
@@ -611,6 +646,7 @@ function sendModule4DataToSheet() {
             scenario4: document.getElementById('scenario4').value.trim() || 'لم يجب'
         }
     };
+    console.log('📤 جاري إرسال بيانات الوحدة ٤ للمستخدم:', userData.name);
     const xhr = new XMLHttpRequest();
     xhr.open('POST', GOOGLE_SCRIPT_URL, true);
     xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
