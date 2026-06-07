@@ -794,6 +794,9 @@ function loadMatchSelections() {
     }
 }
 
+// ============================================
+// UPDATED sendModule1DataToSheet - MATCHES NEW APPS SCRIPT COLUMNS
+// ============================================
 function sendModule1DataToSheet() {
     const userData = getUserData();
     
@@ -812,17 +815,19 @@ function sendModule1DataToSheet() {
     let filterAnswer = document.getElementById('filterAnswer')?.value.trim() || 'Not answered';
     let criteriaAnswer = document.querySelector('#leylaQ6 .quiz-option.selected')?.getAttribute('data-val') || 'Not answered';
     
-    let dragBlame = matchSelections.blame ? 'Outcome ' + matchSelections.blame : 'Not matched';
-    let dragWaitHQ = matchSelections.waitHQ ? 'Outcome ' + matchSelections.waitHQ : 'Not matched';
-    let dragNegotiate = matchSelections.negotiate ? 'Outcome ' + matchSelections.negotiate : 'Not matched';
+    // FIXED: Send raw outcome values without "Outcome " prefix
+    let dragBlame = matchSelections.blame || 'Not matched';
+    let dragWaitHQ = matchSelections.waitHQ || 'Not matched';
+    let dragNegotiate = matchSelections.negotiate || 'Not matched';
     
+    // FIXED: Send just the letter for branch choice
     let branchChoice = 'Not selected';
     const branchOutcomeDiv = document.getElementById('branchOutcome');
     if (branchOutcomeDiv.style.display === 'block') {
         const branchText = branchOutcomeDiv.innerText;
-        if (branchText.includes('Adaptive Success')) branchChoice = 'C - Adaptive Success';
-        else if (branchText.includes('Extended Response Window')) branchChoice = 'B - Extended Response Window';
-        else if (branchText.includes('Failure')) branchChoice = 'A - Failure';
+        if (branchText.includes('Adaptive Success')) branchChoice = 'C';
+        else if (branchText.includes('Extended Response Window')) branchChoice = 'B';
+        else if (branchText.includes('Failure')) branchChoice = 'A';
     }
     
     let hotspotChoice = document.querySelector('.hotspot-item.selected')?.getAttribute('data-hotspot') || 'Not selected';
@@ -837,10 +842,19 @@ function sendModule1DataToSheet() {
         timestamp: new Date().toISOString(),
         answers: {
             pollConstraints: selectedConstraints.join(', ') || 'None',
-            keithQ1, keithQ2, keithQ3, keithQ4, keithQ5,
-            leylaQ1, filterAnswer, criteriaAnswer,
-            dragBlame, dragWaitHQ, dragNegotiate,
-            branchChoice, hotspotChoice
+            keithQ1: keithQ1,
+            keithQ2: keithQ2,
+            keithQ3: keithQ3,
+            keithQ4: keithQ4,
+            keithQ5: keithQ5,
+            leylaQ1: leylaQ1,
+            filterAnswer: filterAnswer,
+            criteriaAnswer: criteriaAnswer,
+            dragBlame: dragBlame,
+            dragWaitHQ: dragWaitHQ,
+            dragNegotiate: dragNegotiate,
+            branchChoice: branchChoice,
+            hotspotChoice: hotspotChoice
         }
     };
     
