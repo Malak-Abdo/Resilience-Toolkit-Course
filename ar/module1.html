@@ -758,17 +758,12 @@ function loadMatchSelections() {
     }
 }
 
-// ============================================
-// UPDATED collectAllAnswers - FIXED for Arabic version
-// Sends correct letter values (C, B, A) instead of Arabic text
-// ============================================
 function collectAllAnswers() {
     let selectedConstraints = [];
     document.querySelectorAll('.poll-item.selected').forEach(item => {
         selectedConstraints.push(item.getAttribute('data-value'));
     });
     
-    // Get match selections and convert to LETTERS (C, B, A) not Arabic text
     let dragBlameValue = '';
     let dragWaitHQValue = '';
     let dragNegotiateValue = '';
@@ -781,7 +776,6 @@ function collectAllAnswers() {
     if (waitHQSelected) dragWaitHQValue = waitHQSelected.getAttribute('data-outcome');
     if (negotiateSelected) dragNegotiateValue = negotiateSelected.getAttribute('data-outcome');
     
-    // Convert branch choice to letter (C, B, A)
     let branchChoiceValue = 'Not selected';
     const branchOutcomeDiv = document.getElementById('branchOutcome');
     if (branchOutcomeDiv.style.display === 'block') {
@@ -1078,11 +1072,11 @@ document.querySelectorAll('.check-btn').forEach(btn => {
             if (!isValidText(filterVal)) {
                 filterFb.innerHTML = '⚠️ التصفية مهمة جداً. ';
                 filterFb.className = 'feedback feedback-incorrect';
-                showModelAnswer('filterFb', 'قم بتقييم المخاطر، وتوثيق هذا الأمر كاستثناء لإنقاذ الحياة، وتوضيحه للمانح لاحقاً.');
+                showModelAnswer('filterFb', 'قم تقييم المخاطر، وتوثيقها كاستثناء لإنقاذ الأرواح، وتبرير ذلك للمتبرع بوثائق دقيقة.');
             } else {
                 filterFb.innerHTML = '✅ غريزة تصفية جيدة. ';
                 filterFb.className = 'feedback feedback-correct';
-                showModelAnswer('filterFb', 'قم بتقييم المخاطر، وتوثيق هذا الأمر كاستثناء لإنقاذ الحياة، وتوضيحه للمانح لاحقاً.');
+                showModelAnswer('filterFb', 'قم تقييم المخاطر، وتوثيقها كاستثناء لإنقاذ الأرواح، وتبرير ذلك للمتبرع بوثائق دقيقة.');
             }
         }
         else if (checkId === 'criteriaQuestion') {
