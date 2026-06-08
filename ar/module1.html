@@ -602,6 +602,11 @@
 </div>
 
 <script>
+// ============================================
+// LANGUAGE SUFFIX FOR LOCALSTORAGE
+// ============================================
+const storageSuffix = '_ar';
+
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbylF2X6XfxJIPQ77YyDaICfdYQe_aRad_64ssVtTAezsVV09R86ArUKagYWLaTpDHwrMA/exec';
 
 function getUserData() {
@@ -610,7 +615,7 @@ function getUserData() {
     let position = '';
     
     try {
-        let currentUser = localStorage.getItem('currentUser');
+        let currentUser = localStorage.getItem('currentUser' + storageSuffix);
         if (currentUser) {
             let user = JSON.parse(currentUser);
             if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر' && user.name.trim() !== '') {
@@ -623,7 +628,7 @@ function getUserData() {
     } catch(e) {}
     
     try {
-        let users = JSON.parse(localStorage.getItem('users') || '[]');
+        let users = JSON.parse(localStorage.getItem('users' + storageSuffix) || '[]');
         if (Array.isArray(users) && users.length > 0) {
             let lastUser = users[users.length - 1];
             if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name !== 'زائر' && lastUser.name.trim() !== '') {
@@ -635,12 +640,42 @@ function getUserData() {
         }
     } catch(e) {}
     
-    let n = localStorage.getItem('course_user_name');
+    let n = localStorage.getItem('course_user_name' + storageSuffix);
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
         name = n.trim();
-        email = (localStorage.getItem('course_user_email') || '').trim();
-        position = (localStorage.getItem('course_user_position') || '').trim();
+        email = (localStorage.getItem('course_user_email' + storageSuffix) || '').trim();
+        position = (localStorage.getItem('course_user_position' + storageSuffix) || '').trim();
         return { name, email, position };
+    }
+    
+    let user = localStorage.getItem('course_user' + storageSuffix);
+    if (user) {
+        try { 
+            let p = JSON.parse(user); 
+            if (p && p.name && p.name !== 'Guest' && p.name !== 'زائر' && p.name.trim() !== '') {
+                name = p.name.trim();
+                email = (p.email || '').trim();
+                position = (p.position || '').trim();
+                return { name, email, position };
+            }
+        } catch(e) {}
+    }
+    
+    let users = localStorage.getItem('resilience_users' + storageSuffix);
+    if (users) {
+        try { 
+            let p = JSON.parse(users); 
+            if (Array.isArray(p) && p.length > 0) {
+                for (let i = p.length - 1; i >= 0; i--) {
+                    if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'زائر' && p[i].name.trim() !== '') {
+                        name = p[i].name.trim();
+                        email = (p[i].email || '').trim();
+                        position = (p[i].position || '').trim();
+                        return { name, email, position };
+                    }
+                }
+            }
+        } catch(e) {}
     }
     
     return { name: 'زائر', email: 'guest@example.com', position: 'غير محدد' };
@@ -733,11 +768,11 @@ function saveMatchSelections() {
     if (waitHQOpt) matchSelections.waitHQ = waitHQOpt.getAttribute('data-outcome');
     if (negotiateOpt) matchSelections.negotiate = negotiateOpt.getAttribute('data-outcome');
     
-    localStorage.setItem('module1_match_selections', JSON.stringify(matchSelections));
+    localStorage.setItem('module1_match_selections' + storageSuffix, JSON.stringify(matchSelections));
 }
 
 function loadMatchSelections() {
-    const saved = localStorage.getItem('module1_match_selections');
+    const saved = localStorage.getItem('module1_match_selections' + storageSuffix);
     if (saved) {
         try {
             const data = JSON.parse(saved);
@@ -804,12 +839,12 @@ function collectAllAnswers() {
 }
 
 function saveAnswersToLocal() {
-    localStorage.setItem('module1_answers', JSON.stringify(collectAllAnswers()));
+    localStorage.setItem('module1_answers' + storageSuffix, JSON.stringify(collectAllAnswers()));
     saveMatchSelections();
 }
 
 function loadSavedAnswers() {
-    const saved = localStorage.getItem('module1_answers');
+    const saved = localStorage.getItem('module1_answers' + storageSuffix);
     if (saved) {
         try {
             const data = JSON.parse(saved);
@@ -886,7 +921,7 @@ function goToModule2() {
     
     saveAnswersToLocal();
     sendModule1DataToSheet();
-    localStorage.setItem('module1_completed', 'true');
+    localStorage.setItem('module1_completed' + storageSuffix, 'true');
     showToast('✅ جاري حفظ تقدمك...');
     
     setTimeout(() => {
