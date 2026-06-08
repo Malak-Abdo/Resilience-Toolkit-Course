@@ -400,22 +400,26 @@
         <div class="feedback" id="feedback2"></div>
     </div>
     
-    <!-- Crisis 3 -->
+    <!-- Crisis 3 - NEW AIRSTRIKE SCENARIO -->
     <div class="crisis-card" id="crisis3">
-        <div class="crisis-title">⚠️ Crisis 3 of 4 - Kidnapping Risk</div>
-        <p><em>"Intelligence suggests two of your national staff are on a kidnapping list. You cannot tell them why they are being reassigned."</em></p>
+        <div class="crisis-title">⚠️ Crisis 3 of 4 - Airstrike Warning</div>
+        <p><em>"Your team is working in the field. Security shares information that airstrikes are expected in the area within the next hour. You call the team and ask them to return to the office immediately. The team responds: 'We have 30 minutes of work left to complete our target. We will finish and then return.' You feel torn between safety and meeting the target. What do you do?"</em></p>
         <div class="option-group">
             <div class="option-row" data-crisis="3" data-option="A">
                 <div class="option-radio">○</div>
-                <div class="option-text">"Tell them the truth and risk panic and abandonment."</div>
+                <div class="option-text">A) "I will insist they return immediately. No target is worth the risk. I will remind them that we can resume tomorrow."</div>
             </div>
             <div class="option-row" data-crisis="3" data-option="B">
                 <div class="option-radio">○</div>
-                <div class="option-text">"Reassign them for 'operational reasons.' Protect without panic."</div>
+                <div class="option-text">B) "I will ask them to assess the situation: can the remaining 30 minutes of work be done from a safer location? If not, they must return."</div>
             </div>
             <div class="option-row" data-crisis="3" data-option="C">
                 <div class="option-radio">○</div>
-                <div class="option-text">"Do nothing. Hope the intelligence is wrong."</div>
+                <div class="option-text">C) "I will trust their judgment. They know the area better than I do. I will let them stay and complete the work."</div>
+            </div>
+            <div class="option-row" data-crisis="3" data-option="D">
+                <div class="option-radio">○</div>
+                <div class="option-text">D) "I will call my supervisor and ask them to decide. I don't want to take responsibility for the wrong choice."</div>
             </div>
         </div>
         <div class="feedback" id="feedback3"></div>
@@ -471,7 +475,7 @@
         <hr>
         <p><strong>🌊 Flash Flood:</strong><br>"Records are gone. People are here. What records exist elsewhere?"</p>
         <p><strong>📋 Audit Threat:</strong><br>"Blame is useless. Evidence is useful. Everyone bring facts in 2 hours."</p>
-        <p><strong>⚠️ Kidnapping Risk:</strong><br>"Reassign them for operational reasons. Protect without panic."</p>
+        <p><strong>⚠️ Airstrike Warning:</strong><br>"Ask them to assess: can the remaining work be done from a safer location? If not, they must return."</p>
         <p><strong>📡 Communication Blackout:</strong><br>"No contact with outside. We make decisions together. What is the most urgent problem?"</p>
         <hr>
         <p><strong>📌 My Protocol:</strong><br><span id="myProtocolDisplay"></span></p>
@@ -571,17 +575,19 @@ function showToast(message, isError = false) {
 // MODULE 6 JAVASCRIPT - WITH PROGRESS TRACKING
 // ============================================
 var correctAnswers = { 1: 'B', 2: 'B', 3: 'B', 4: 'B' };
+
 var feedbackMessages = {
     1: '✅ Correct. Records can be recreated. People cannot.',
     2: '✅ Correct. Blame stops learning. Evidence starts solutions.',
-    3: '✅ Correct. Protection without panic is leadership.',
+    3: '✅ Correct. This balances safety and productivity. You trust the team\'s expertise while maintaining your duty to protect them.',
     4: '✅ Correct. Isolation is not paralysis. Your team is your resource.'
 };
+
 var incorrectMessages = {
     1: '❌ Correct answer: "Records are gone. People are here. What records exist elsewhere?"',
     2: '❌ Correct answer: "Blame is useless. Evidence is useful. Everyone bring facts in 2 hours."',
-    3: '❌ Correct answer: "Reassign them for operational reasons. Protect without panic."',
-    4: '❌ Correct answer: "No contact with outside. We make decisions together."'
+    3: '❌ Correct answer: "I will ask them to assess the situation: can the remaining 30 minutes be done from a safer location? If not, they must return."',
+    4: '❌ Correct answer: "No contact with outside. We make decisions together. What is the most urgent problem?"'
 };
 
 var selectedAnswers = { 1: null, 2: null, 3: null, 4: null };
@@ -781,7 +787,7 @@ document.getElementById('downloadCardBtn').addEventListener('click', function() 
     var content = "THE 7 AM PROTOCOL - Pocket Card\n\n";
     content += "Flash Flood:\n\"Records are gone. People are here. What records exist elsewhere?\"\n\n";
     content += "Audit Threat:\n\"Blame is useless. Evidence is useful. Everyone bring facts in 2 hours.\"\n\n";
-    content += "Kidnapping Risk:\n\"Reassign them for operational reasons. Protect without panic.\"\n\n";
+    content += "Airstrike Warning:\n\"Ask them to assess: can the remaining work be done from a safer location? If not, they must return.\"\n\n";
     content += "Communication Blackout:\n\"No contact with outside. We make decisions together. What is the most urgent problem?\"\n\n";
     var protocolScript = document.getElementById('protocolScript').value.trim();
     if (protocolScript) content += "My Protocol:\n" + protocolScript + "\n\n";
@@ -848,7 +854,7 @@ function sendModule6DataToSheet() {
 }
 
 // ============================================
-// GO TO CERTIFICATE - FIXED: lowercase 'c'
+// GO TO CERTIFICATE
 // ============================================
 async function goToCertificate() {
     const crisisComplete = updateCrisisProgress();
