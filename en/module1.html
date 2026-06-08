@@ -598,21 +598,28 @@
 
 <script>
 // ============================================
+// LANGUAGE SUFFIX FOR LOCALSTORAGE
+// ============================================
+const storageSuffix = '_en';
+
+// ============================================
 // GOOGLE SHEETS WEB APP URL
 // ============================================
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbylF2X6XfxJIPQ77YyDaICfdYQe_aRad_64ssVtTAezsVV09R86ArUKagYWLaTpDHwrMA/exec';
 
 // ============================================
-// GET USER DATA - SILENT VERSION (NO PROMPTS EVER)
+// IMPROVED getUserData() - Looks for data WITHOUT suffix first (from registration)
 // ============================================
 function getUserData() {
     let name = 'Guest';
     let email = 'guest@example.com';
     let position = 'Not specified';
     
-    console.log('🔍 Searching for user data in localStorage...');
+    console.log('🔍 Searching for user data in module1-en.html...');
     
-    // 1. Check currentUser first (from intro.html login)
+    // FIRST: Try to get user data WITHOUT suffix (from registration page)
+    
+    // 1. Check currentUser first - NO SUFFIX
     try {
         let currentUser = localStorage.getItem('currentUser');
         if (currentUser) {
@@ -621,13 +628,20 @@ function getUserData() {
                 name = user.name.trim();
                 email = (user.email || '').trim() || 'guest@example.com';
                 position = (user.position || '').trim() || 'Not specified';
-                console.log('✅ Found from currentUser:', name);
+                console.log('✅ Found from currentUser (no suffix):', name);
+                
+                // Save with suffix for future use
+                localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(user));
+                localStorage.setItem('course_user_name' + storageSuffix, name);
+                localStorage.setItem('course_user_email' + storageSuffix, email);
+                localStorage.setItem('course_user_position' + storageSuffix, position);
+                
                 return { name, email, position };
             }
         }
     } catch(e) { console.error('Error parsing currentUser:', e); }
     
-    // 2. Check users array
+    // 2. Check users array - NO SUFFIX
     try {
         let users = JSON.parse(localStorage.getItem('users') || '[]');
         if (Array.isArray(users) && users.length > 0) {
@@ -636,23 +650,36 @@ function getUserData() {
                 name = lastUser.name.trim();
                 email = (lastUser.email || '').trim() || 'guest@example.com';
                 position = (lastUser.position || '').trim() || 'Not specified';
-                console.log('✅ Found from users array:', name);
+                console.log('✅ Found from users array (no suffix):', name);
+                
+                // Save with suffix
+                localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(lastUser));
+                localStorage.setItem('course_user_name' + storageSuffix, name);
+                localStorage.setItem('course_user_email' + storageSuffix, email);
+                localStorage.setItem('course_user_position' + storageSuffix, position);
+                
                 return { name, email, position };
             }
         }
     } catch(e) { console.error('Error parsing users:', e); }
     
-    // 3. Check individual fields
+    // 3. Check individual fields - NO SUFFIX
     let n = localStorage.getItem('course_user_name');
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'Your Name' && n.trim() !== '') {
         name = n.trim();
         email = (localStorage.getItem('course_user_email') || 'guest@example.com').trim();
         position = (localStorage.getItem('course_user_position') || 'Not specified').trim();
-        console.log('✅ Found from individual fields:', name);
+        console.log('✅ Found from individual fields (no suffix):', name);
+        
+        // Save with suffix
+        localStorage.setItem('course_user_name' + storageSuffix, name);
+        localStorage.setItem('course_user_email' + storageSuffix, email);
+        localStorage.setItem('course_user_position' + storageSuffix, position);
+        
         return { name, email, position };
     }
     
-    // 4. Check course_user object
+    // 4. Check course_user object - NO SUFFIX
     let user = localStorage.getItem('course_user');
     if (user) {
         try { 
@@ -661,13 +688,44 @@ function getUserData() {
                 name = p.name.trim();
                 email = (p.email || 'guest@example.com').trim();
                 position = (p.position || 'Not specified').trim();
-                console.log('✅ Found from course_user:', name);
+                console.log('✅ Found from course_user (no suffix):', name);
+                
+                // Save with suffix
+                localStorage.setItem('course_user_name' + storageSuffix, name);
+                localStorage.setItem('course_user_email' + storageSuffix, email);
+                localStorage.setItem('course_user_position' + storageSuffix, position);
+                
                 return { name, email, position };
             }
         } catch(e) {}
     }
     
-    // 5. Check sessionStorage
+    // 5. Check resilience_users array - NO SUFFIX
+    let users = localStorage.getItem('resilience_users');
+    if (users) {
+        try { 
+            let p = JSON.parse(users); 
+            if (Array.isArray(p) && p.length > 0) {
+                for (let i = p.length - 1; i >= 0; i--) {
+                    if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name.trim() !== '') {
+                        name = p[i].name.trim();
+                        email = (p[i].email || 'guest@example.com').trim();
+                        position = (p[i].position || 'Not specified').trim();
+                        console.log('✅ Found from resilience_users (no suffix):', name);
+                        
+                        // Save with suffix
+                        localStorage.setItem('course_user_name' + storageSuffix, name);
+                        localStorage.setItem('course_user_email' + storageSuffix, email);
+                        localStorage.setItem('course_user_position' + storageSuffix, position);
+                        
+                        return { name, email, position };
+                    }
+                }
+            }
+        } catch(e) {}
+    }
+    
+    // 6. Check sessionStorage - NO SUFFIX
     try {
         let sessionUser = sessionStorage.getItem('current_user');
         if (sessionUser) {
@@ -676,13 +734,43 @@ function getUserData() {
                 name = p.name.trim();
                 email = (p.email || 'guest@example.com').trim();
                 position = (p.position || 'Not specified').trim();
-                console.log('✅ Found from sessionStorage:', name);
+                console.log('✅ Found from sessionStorage (no suffix):', name);
+                
+                // Save with suffix
+                localStorage.setItem('course_user_name' + storageSuffix, name);
+                localStorage.setItem('course_user_email' + storageSuffix, email);
+                localStorage.setItem('course_user_position' + storageSuffix, position);
+                
                 return { name, email, position };
             }
         }
     } catch(e) {}
     
-    // If we get here, use Guest but don't prompt
+    // 7. Finally, try WITH suffix (for returning users)
+    n = localStorage.getItem('course_user_name' + storageSuffix);
+    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim() !== '') {
+        name = n.trim();
+        email = (localStorage.getItem('course_user_email' + storageSuffix) || 'guest@example.com').trim();
+        position = (localStorage.getItem('course_user_position' + storageSuffix) || 'Not specified').trim();
+        console.log('✅ Found from individual fields (with suffix):', name);
+        return { name, email, position };
+    }
+    
+    // 8. Try currentUser with suffix
+    try {
+        let currentUser = localStorage.getItem('currentUser' + storageSuffix);
+        if (currentUser) {
+            let user = JSON.parse(currentUser);
+            if (user && user.name && user.name !== 'Guest' && user.name.trim() !== '') {
+                name = user.name.trim();
+                email = (user.email || '').trim() || 'guest@example.com';
+                position = (user.position || '').trim() || 'Not specified';
+                console.log('✅ Found from currentUser (with suffix):', name);
+                return { name, email, position };
+            }
+        }
+    } catch(e) {}
+    
     console.log('⚠️ No user data found, using Guest');
     return { name: 'Guest', email: 'guest@example.com', position: 'Not specified' };
 }
@@ -768,11 +856,11 @@ function saveMatchSelections() {
     if (waitHQOpt) matchSelections.waitHQ = waitHQOpt.getAttribute('data-outcome');
     if (negotiateOpt) matchSelections.negotiate = negotiateOpt.getAttribute('data-outcome');
     
-    localStorage.setItem('module1_match_selections', JSON.stringify(matchSelections));
+    localStorage.setItem('module1_match_selections' + storageSuffix, JSON.stringify(matchSelections));
 }
 
 function loadMatchSelections() {
-    const saved = localStorage.getItem('module1_match_selections');
+    const saved = localStorage.getItem('module1_match_selections' + storageSuffix);
     if (saved) {
         try {
             const data = JSON.parse(saved);
@@ -815,12 +903,10 @@ function sendModule1DataToSheet() {
     let filterAnswer = document.getElementById('filterAnswer')?.value.trim() || 'Not answered';
     let criteriaAnswer = document.querySelector('#leylaQ6 .quiz-option.selected')?.getAttribute('data-val') || 'Not answered';
     
-    // FIXED: Send raw outcome values without "Outcome " prefix
     let dragBlame = matchSelections.blame || 'Not matched';
     let dragWaitHQ = matchSelections.waitHQ || 'Not matched';
     let dragNegotiate = matchSelections.negotiate || 'Not matched';
     
-    // FIXED: Send just the letter for branch choice
     let branchChoice = 'Not selected';
     const branchOutcomeDiv = document.getElementById('branchOutcome');
     if (branchOutcomeDiv.style.display === 'block') {
@@ -895,12 +981,12 @@ function saveAnswersToLocal() {
     document.querySelectorAll('.poll-item.selected').forEach(item => {
         answers.pollConstraints.push(item.getAttribute('data-value'));
     });
-    localStorage.setItem('module1_answers', JSON.stringify(answers));
+    localStorage.setItem('module1_answers' + storageSuffix, JSON.stringify(answers));
     saveMatchSelections();
 }
 
 function loadSavedAnswers() {
-    const saved = localStorage.getItem('module1_answers');
+    const saved = localStorage.getItem('module1_answers' + storageSuffix);
     if (saved) {
         try {
             const data = JSON.parse(saved);
@@ -956,7 +1042,7 @@ async function goToModule2() {
     showToast('💾 Saving your answers...');
     
     await sendModule1DataToSheet();
-    localStorage.setItem('module1_completed', 'true');
+    localStorage.setItem('module1_completed' + storageSuffix, 'true');
     showToast('✅ Progress saved! Redirecting...');
     
     setTimeout(() => { window.location.href = 'module2.html'; }, 800);
@@ -1205,7 +1291,9 @@ document.getElementById('backToIntroBtn').addEventListener('click', () => {
 });
 document.getElementById('resetDataLink').addEventListener('click', () => { 
     if(confirm('Reset all module data? This cannot be undone.')) {
-        localStorage.clear();
+        localStorage.removeItem('module1_answers' + storageSuffix);
+        localStorage.removeItem('module1_match_selections' + storageSuffix);
+        localStorage.removeItem('module1_completed' + storageSuffix);
         location.reload();
     }
 });
