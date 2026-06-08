@@ -418,44 +418,146 @@
     </div>
 
     <script>
+        // ========== LANGUAGE SUFFIX FOR LOCALSTORAGE ==========
+        const storageSuffix = '_en';
+
         // ========== CONFIGURATION (UNCHANGED) ==========
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzjxPvVYa8xquvIiaaDBpZMujFabPyYg8nTB_CY-6X8OSIrkWubmg3cwxzN4BfVQISGtw/exec';
         
         let pageLoadTime = new Date();
 
-        // ========== USER DATA (UNCHANGED) ==========
+        // ========== IMPROVED USER DATA - Looks for data WITHOUT suffix first ==========
         function getUserData() {
+            // FIRST: Try to get user data WITHOUT suffix (from registration page)
+            console.log('🔍 Searching for user data in intro-en.html...');
+            
+            // 1. Check currentUser first - NO SUFFIX
             try {
                 let currentUser = localStorage.getItem('currentUser');
                 if (currentUser) {
                     let user = JSON.parse(currentUser);
-                    console.log('✅ Found user from currentUser:', user);
-                    return {
-                        name: user.name || 'Guest',
-                        email: user.email || '',
-                        position: user.position || '',
-                        country: user.country || ''
-                    };
+                    if (user && user.name && user.name !== 'Guest' && user.name.trim() !== '') {
+                        console.log('✅ Found from currentUser (no suffix):', user);
+                        
+                        // Save with suffix for future use
+                        localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(user));
+                        localStorage.setItem('course_user_name' + storageSuffix, user.name);
+                        localStorage.setItem('course_user_email' + storageSuffix, user.email || '');
+                        localStorage.setItem('course_user_position' + storageSuffix, user.position || '');
+                        
+                        return {
+                            name: user.name || 'Guest',
+                            email: user.email || '',
+                            position: user.position || '',
+                            country: user.country || ''
+                        };
+                    }
                 }
             } catch(e) {
                 console.error('Error parsing currentUser:', e);
             }
             
+            // 2. Check users array - NO SUFFIX
             try {
                 let users = JSON.parse(localStorage.getItem('users') || '[]');
                 if (users.length > 0) {
                     let lastUser = users[users.length - 1];
-                    console.log('✅ Found user from users array:', lastUser);
-                    return {
-                        name: lastUser.name || 'Guest',
-                        email: lastUser.email || '',
-                        position: lastUser.position || '',
-                        country: lastUser.country || ''
-                    };
+                    if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name.trim() !== '') {
+                        console.log('✅ Found from users array (no suffix):', lastUser);
+                        
+                        // Save with suffix
+                        localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(lastUser));
+                        localStorage.setItem('course_user_name' + storageSuffix, lastUser.name);
+                        localStorage.setItem('course_user_email' + storageSuffix, lastUser.email || '');
+                        localStorage.setItem('course_user_position' + storageSuffix, lastUser.position || '');
+                        
+                        return {
+                            name: lastUser.name || 'Guest',
+                            email: lastUser.email || '',
+                            position: lastUser.position || '',
+                            country: lastUser.country || ''
+                        };
+                    }
                 }
             } catch(e) {
                 console.error('Error parsing users:', e);
             }
+            
+            // 3. Check individual fields - NO SUFFIX
+            let n = localStorage.getItem('course_user_name');
+            if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim() !== '') {
+                let name = n.trim();
+                let email = localStorage.getItem('course_user_email') || '';
+                let position = localStorage.getItem('course_user_position') || '';
+                console.log('✅ Found from individual fields (no suffix):', name);
+                
+                // Save with suffix
+                localStorage.setItem('course_user_name' + storageSuffix, name);
+                localStorage.setItem('course_user_email' + storageSuffix, email);
+                localStorage.setItem('course_user_position' + storageSuffix, position);
+                
+                return {
+                    name: name,
+                    email: email,
+                    position: position,
+                    country: ''
+                };
+            }
+            
+            // 4. Check course_user object - NO SUFFIX
+            let user = localStorage.getItem('course_user');
+            if (user) {
+                try {
+                    let p = JSON.parse(user);
+                    if (p && p.name && p.name !== 'Guest' && p.name.trim() !== '') {
+                        console.log('✅ Found from course_user (no suffix):', p.name);
+                        
+                        // Save with suffix
+                        localStorage.setItem('course_user_name' + storageSuffix, p.name);
+                        localStorage.setItem('course_user_email' + storageSuffix, p.email || '');
+                        localStorage.setItem('course_user_position' + storageSuffix, p.position || '');
+                        
+                        return {
+                            name: p.name || 'Guest',
+                            email: p.email || '',
+                            position: p.position || '',
+                            country: p.country || ''
+                        };
+                    }
+                } catch(e) {}
+            }
+            
+            // 5. Finally, try WITH suffix (for returning users)
+            let nWithSuffix = localStorage.getItem('course_user_name' + storageSuffix);
+            if (nWithSuffix && nWithSuffix !== 'null' && nWithSuffix !== 'undefined' && nWithSuffix !== 'Guest' && nWithSuffix.trim() !== '') {
+                let name = nWithSuffix.trim();
+                let email = localStorage.getItem('course_user_email' + storageSuffix) || '';
+                let position = localStorage.getItem('course_user_position' + storageSuffix) || '';
+                console.log('✅ Found from individual fields (with suffix):', name);
+                return {
+                    name: name,
+                    email: email,
+                    position: position,
+                    country: ''
+                };
+            }
+            
+            // 6. Try currentUser with suffix
+            try {
+                let currentUser = localStorage.getItem('currentUser' + storageSuffix);
+                if (currentUser) {
+                    let user = JSON.parse(currentUser);
+                    if (user && user.name && user.name !== 'Guest' && user.name.trim() !== '') {
+                        console.log('✅ Found from currentUser (with suffix):', user);
+                        return {
+                            name: user.name || 'Guest',
+                            email: user.email || '',
+                            position: user.position || '',
+                            country: user.country || ''
+                        };
+                    }
+                }
+            } catch(e) {}
             
             console.log('⚠️ No user found, using Guest');
             return { name: 'Guest', email: '', position: '', country: '' };
@@ -514,11 +616,12 @@
             window.location.href = 'pre-assessment.html';
         });
 
-        // ========== CONTINUE BUTTON (UNCHANGED) ==========
+        // ========== CONTINUE BUTTON (UPDATED WITH LANGUAGE SUFFIX) ==========
         document.getElementById('continueToAssessmentBtn').addEventListener('click', function(e) {
             e.preventDefault();
             
-            if (localStorage.getItem('introduction_completed') === 'true') {
+            // Check if already completed - UPDATED with suffix
+            if (localStorage.getItem('introduction_completed' + storageSuffix) === 'true') {
                 window.location.href = 'module1.html';
                 return;
             }
@@ -528,7 +631,8 @@
             
             sendToSheet('module_completed', { time_spent_seconds: timeSpent });
             
-            localStorage.setItem('introduction_completed', 'true');
+            // Mark as completed - UPDATED with suffix
+            localStorage.setItem('introduction_completed' + storageSuffix, 'true');
             
             showToast('✓ Introduction completed! Redirecting to Module 1...');
             
