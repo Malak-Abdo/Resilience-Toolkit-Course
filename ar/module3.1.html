@@ -453,19 +453,28 @@
 
 <script>
 // ============================================
+// LANGUAGE SUFFIX FOR LOCALSTORAGE
+// ============================================
+const storageSuffix = '_ar';
+
+// ============================================
 // GOOGLE SHEETS WEB APP URL
 // ============================================
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
 
 // ============================================
-// FIXED getUserData() - NOW SEARCHES FOR currentUser FIRST (SAME AS MODULE 1,2,3)
+// IMPROVED getUserData() - Looks for data WITHOUT suffix first (from registration)
 // ============================================
 function getUserData() {
     let name = '';
     let email = '';
     let position = '';
     
-    // 1. Check currentUser FIRST (from intro.html login)
+    console.log('🔍 Searching for user data in module3.1.html...');
+    
+    // FIRST: Try to get user data WITHOUT suffix (from registration page)
+    
+    // 1. Check currentUser first - NO SUFFIX
     try {
         let currentUser = localStorage.getItem('currentUser');
         if (currentUser) {
@@ -474,13 +483,20 @@ function getUserData() {
                 name = user.name.trim();
                 email = (user.email || '').trim();
                 position = (user.position || '').trim();
-                console.log('✅ Found user from currentUser:', name);
-                return { name, email, position };
+                console.log('✅ Found from currentUser (no suffix):', name);
+                
+                // Save with suffix for future use
+                localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(user));
+                localStorage.setItem('course_user_name' + storageSuffix, name);
+                localStorage.setItem('course_user_email' + storageSuffix, email);
+                localStorage.setItem('course_user_position' + storageSuffix, position);
+                
+                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
             }
         }
     } catch(e) { console.error('Error parsing currentUser:', e); }
     
-    // 2. Check users array
+    // 2. Check users array - NO SUFFIX
     try {
         let users = JSON.parse(localStorage.getItem('users') || '[]');
         if (Array.isArray(users) && users.length > 0) {
@@ -489,23 +505,36 @@ function getUserData() {
                 name = lastUser.name.trim();
                 email = (lastUser.email || '').trim();
                 position = (lastUser.position || '').trim();
-                console.log('✅ Found user from users array:', name);
-                return { name, email, position };
+                console.log('✅ Found from users array (no suffix):', name);
+                
+                // Save with suffix
+                localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(lastUser));
+                localStorage.setItem('course_user_name' + storageSuffix, name);
+                localStorage.setItem('course_user_email' + storageSuffix, email);
+                localStorage.setItem('course_user_position' + storageSuffix, position);
+                
+                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
             }
         }
     } catch(e) { console.error('Error parsing users:', e); }
     
-    // 3. Check course_user_name
+    // 3. Check individual fields - NO SUFFIX
     let n = localStorage.getItem('course_user_name');
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
         name = n.trim();
         email = (localStorage.getItem('course_user_email') || '').trim();
         position = (localStorage.getItem('course_user_position') || '').trim();
-        console.log('✅ Found user from course_user_name:', name);
-        return { name, email, position };
+        console.log('✅ Found from individual fields (no suffix):', name);
+        
+        // Save with suffix
+        localStorage.setItem('course_user_name' + storageSuffix, name);
+        localStorage.setItem('course_user_email' + storageSuffix, email);
+        localStorage.setItem('course_user_position' + storageSuffix, position);
+        
+        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
     }
     
-    // 4. Check course_user object
+    // 4. Check course_user object - NO SUFFIX
     let user = localStorage.getItem('course_user');
     if (user) {
         try { 
@@ -514,13 +543,68 @@ function getUserData() {
                 name = p.name.trim();
                 email = (p.email || '').trim();
                 position = (p.position || '').trim();
-                console.log('✅ Found user from course_user:', name);
-                return { name, email, position };
+                console.log('✅ Found from course_user (no suffix):', name);
+                
+                // Save with suffix
+                localStorage.setItem('course_user_name' + storageSuffix, name);
+                localStorage.setItem('course_user_email' + storageSuffix, email);
+                localStorage.setItem('course_user_position' + storageSuffix, position);
+                
+                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
             }
         } catch(e) {}
     }
     
-    // 5. Return default - NO PROMPT
+    // 5. Check resilience_users array - NO SUFFIX
+    let users = localStorage.getItem('resilience_users');
+    if (users) {
+        try { 
+            let p = JSON.parse(users); 
+            if (Array.isArray(p) && p.length > 0) {
+                for (let i = p.length - 1; i >= 0; i--) {
+                    if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'زائر' && p[i].name.trim() !== '') {
+                        name = p[i].name.trim();
+                        email = (p[i].email || '').trim();
+                        position = (p[i].position || '').trim();
+                        console.log('✅ Found from resilience_users (no suffix):', name);
+                        
+                        // Save with suffix
+                        localStorage.setItem('course_user_name' + storageSuffix, name);
+                        localStorage.setItem('course_user_email' + storageSuffix, email);
+                        localStorage.setItem('course_user_position' + storageSuffix, position);
+                        
+                        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
+                    }
+                }
+            }
+        } catch(e) {}
+    }
+    
+    // 6. Finally, try WITH suffix (for returning users)
+    n = localStorage.getItem('course_user_name' + storageSuffix);
+    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
+        name = n.trim();
+        email = (localStorage.getItem('course_user_email' + storageSuffix) || '').trim();
+        position = (localStorage.getItem('course_user_position' + storageSuffix) || '').trim();
+        console.log('✅ Found from individual fields (with suffix):', name);
+        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
+    }
+    
+    // 7. Try currentUser with suffix
+    try {
+        let currentUser = localStorage.getItem('currentUser' + storageSuffix);
+        if (currentUser) {
+            let user = JSON.parse(currentUser);
+            if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر' && user.name.trim() !== '') {
+                name = user.name.trim();
+                email = (user.email || '').trim();
+                position = (user.position || '').trim();
+                console.log('✅ Found from currentUser (with suffix):', name);
+                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
+            }
+        }
+    } catch(e) {}
+    
     console.log('⚠️ No user data found, using default');
     return { name: 'زائر', email: 'guest@example.com', position: 'غير محدد' };
 }
@@ -705,13 +789,13 @@ function saveModule31DataToLocal() {
         },
         lastUpdated: new Date().toISOString()
     };
-    localStorage.setItem('module3_1_data', JSON.stringify(data));
+    localStorage.setItem('module3_1_data' + storageSuffix, JSON.stringify(data));
     updateSafeProgress();
     updateFlipProgress();
 }
 
 function loadModule31Data() {
-    const saved = localStorage.getItem('module3_1_data');
+    const saved = localStorage.getItem('module3_1_data' + storageSuffix);
     if (saved) {
         try {
             const data = JSON.parse(saved);
@@ -798,7 +882,7 @@ function goToNextModule() {
     
     saveModule31DataToLocal();
     sendModule31DataToSheet();
-    localStorage.setItem('module3_1_completed', 'true');
+    localStorage.setItem('module3_1_completed' + storageSuffix, 'true');
     showToast('جاري حفظ تقدمك...');
     
     setTimeout(() => {
@@ -827,8 +911,8 @@ document.addEventListener('DOMContentLoaded', () => {
         resetLink.addEventListener('click', (e) => {
             e.preventDefault();
             if (confirm('هل تريد إعادة ضبط جميع بيانات الوحدة ٣.١؟ لا يمكن التراجع عن هذا.')) {
-                localStorage.removeItem('module3_1_data');
-                localStorage.removeItem('module3_1_completed');
+                localStorage.removeItem('module3_1_data' + storageSuffix);
+                localStorage.removeItem('module3_1_completed' + storageSuffix);
                 location.reload();
             }
         });
