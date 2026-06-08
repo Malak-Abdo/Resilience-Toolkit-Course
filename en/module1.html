@@ -1148,11 +1148,11 @@ document.querySelectorAll('.check-btn').forEach(btn => {
             if (!isValidText(filterVal)) {
                 filterFb.innerHTML = '⚠️ Filtering is critical. ';
                 filterFb.className = 'feedback feedback-incorrect';
-                showModelAnswer('filterFb', 'Assess risk, document as life-saving exception, explain to donor later.');
+                showModelAnswer('filterFb', 'Assess risk, document as life-saving exception, justify with accurate documentation to the donor.');
             } else {
                 filterFb.innerHTML = '✅ Strong filtering instinct. ';
                 filterFb.className = 'feedback feedback-correct';
-                showModelAnswer('filterFb', 'Assess risk, document as life-saving exception, explain to donor later.');
+                showModelAnswer('filterFb', 'Assess risk, document as life-saving exception, justify with accurate documentation to the donor.');
             }
         }
         else if (checkId === 'criteriaQuestion') {
