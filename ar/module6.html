@@ -389,22 +389,22 @@
         <div class="feedback" id="feedback2"></div>
     </div>
     
-    <!-- الأزمة 3 -->
+    <!-- الأزمة 3 - تم استبدالها بسيناريو خرق بيانات المستفيدين -->
     <div class="crisis-card" id="crisis3">
-        <div class="crisis-title">⚠️ الأزمة ٣ من ٤ - خطر الاختطاف</div>
-        <p><em>"تشير المعلومات الاستخباراتية إلى أن اثنين من موظفيك المحليين على قائمة الاختطاف. لا يمكنك إخبارهم لماذا يتم إعادة تعيينهم."</em></p>
+        <div class="crisis-title">⚠️ الأزمة ٣ من ٤ - خرق بيانات المستفيدين</div>
+        <p><em>"سُرِق حاسوب محمول يحتوي على بيانات حساسة للمستفيدين من سيارة أحد الموظفين، والموظف في حالة ذعر خوفاً من أن يتم فصله من العمل. ما هو الإجراء الأفضل في هذه الحالة؟"</em></p>
         <div class="option-group">
             <div class="option-row" data-crisis="3" data-option="A">
                 <div class="option-radio">○</div>
-                <div class="option-text">"أخبرهم الحقيقة وخاطر بالذعر والهجر."</div>
+                <div class="option-text">أ: فصل الموظف فوراً؛ فقد خالف قواعد الأمن والسلامة.</div>
             </div>
             <div class="option-row" data-crisis="3" data-option="B">
                 <div class="option-radio">○</div>
-                <div class="option-text">"أعد تعيينهم لـ 'أسباب تشغيلية'. حماية بدون ذعر."</div>
+                <div class="option-text">ب: إبلاغ قسم الأمن والجهة المانحة فوراً بالحادثة، وتأمين كافة الحسابات، وإخطار المستفيدين المتضررين إذا لزم الأمر، مع دعم الموظف والتركيز على معالجة المشكلة بدلاً من معاقبته على صدقه.</div>
             </div>
             <div class="option-row" data-crisis="3" data-option="C">
                 <div class="option-radio">○</div>
-                <div class="option-text">"لا تفعل شيئاً. أمل أن تكون المعلومات الاستخباراتية خاطئة."</div>
+                <div class="option-text">ج: التكتم على الحادثة، وعدم إبلاغ أي شخص، والأمل بأن لا يتم الوصول إلى البيانات المسروقة.</div>
             </div>
         </div>
         <div class="feedback" id="feedback3"></div>
@@ -461,7 +461,7 @@
         <hr>
         <p><strong>🌊 فيضان مفاجئ:</strong><br>"السجلات ذهبت. الناس نجت. ما السجلات الموجودة في مكان آخر؟"</p>
         <p><strong>📋 تهديد التدقيق:</strong><br>"اللوم غير مفيد. الأدلة مفيدة. الجميع يحضر المستندات الثبوتية في غضون ساعتين."</p>
-        <p><strong>⚠️ خطر الاختطاف:</strong><br>"أعد تعيينهم لأسباب تشغيلية. حماية بدون ذعر."</p>
+        <p><strong>⚠️ خرق بيانات المستفيدين:</strong><br>"إبلاغ قسم الأمن والجهة المانحة فوراً، تأمين الحسابات، إخطار المستفيدين، دعم الموظف والتركيز على الحل."</p>
         <p><strong>📡 انقطاع الاتصالات:</strong><br>"لا اتصال مع الخارج. نتخذ القرارات معاً. ما هي المشكلة الأكثر إلحاحاً؟"</p>
         <hr>
         <p><strong>📌 بروتوكولي الخاص:</strong><br><span id="myProtocolDisplay"></span></p>
@@ -594,17 +594,18 @@ function showToast(message, isError = false) {
 // ============================================
 // MODULE 6 JAVASCRIPT - WITH PROGRESS TRACKING
 // ============================================
+// التصحيح: الإجابة الصحيحة للأزمة 3 هي B
 var correctAnswers = { 1: 'B', 2: 'B', 3: 'B', 4: 'B' };
 var feedbackMessages = {
     1: '✅ صحيح. يمكن إعادة إنشاء السجلات. الناس لا يمكن استبدالهم.',
     2: '✅ صحيح. اللوم يوقف التعلم. الأدلة تبدأ الحلول.',
-    3: '✅ صحيح. الحماية بدون ذعر هي القيادة.',
+    3: '✅ إجابة صحيحة. الشفافية تبني الثقة. ركّز على إيجاد الحلول لا على العقاب. دعم الموظفين الصادقين يشجعهم على الإبلاغ السريع في المستقبل.\n\n💡 نصيحة إضافية: "الخطأ التقني يمكن إصلاحه، ولكن ثقافة الخوف والسرية قد تدمر المؤسسة."',
     4: '✅ صحيح. العزلة ليست شللاً. فريقك هو موردك.'
 };
 var incorrectMessages = {
     1: '❌ الإجابة الصحيحة: "السجلات ذهبت. الناس هنا. ما السجلات الموجودة في مكان آخر؟"',
     2: '❌ الإجابة الصحيحة: "اللوم غير مفيد. الأدلة مفيدة. الجميع يحضر الحقائق في غضون ساعتين."',
-    3: '❌ الإجابة الصحيحة: "أعد تعيينهم لأسباب تشغيلية. حماية بدون ذعر."',
+    3: '❌ إجابة خاطئة. الإجراء الصحيح هو الإبلاغ عن الحادثة فوراً، وتأمين الحسابات، ودعم الموظف، والتركيز على معالجة المشكلة الأمنية بدلاً من العقاب.',
     4: '❌ الإجابة الصحيحة: "لا اتصال مع الخارج. نتخذ القرارات معاً."'
 };
 
@@ -796,44 +797,47 @@ function escapeHtml(str) {
 }
 
 // ============================================
-// UPDATED downloadCardBtn - NO EMOJIS, CLEAR TEXT FORMAT
+// FIXED downloadCardBtn - WITH BOM AND WINDOWS LINE BREAKS
 // ============================================
 document.getElementById('downloadCardBtn').addEventListener('click', function() {
-    var content = "========================================\n";
-    content += "   بروتوكول الساعة السابعة صباحاً\n";
-    content += "   البطاقة الجيبية للقائد\n";
-    content += "========================================\n\n";
+    // Prepare plain text content for TXT file
+    var content = "========================================\r\n";
+    content += "   بروتوكول الساعة السابعة صباحاً\r\n";
+    content += "   البطاقة الجيبية للقائد\r\n";
+    content += "========================================\r\n\r\n";
     
-    content += "[فيضان مفاجئ]\n";
-    content += "\"السجلات ذهبت. الناس هنا. ما السجلات الموجودة في مكان آخر؟\"\n\n";
+    content += "[فيضان مفاجئ]\r\n";
+    content += "\"السجلات ذهبت. الناس هنا. ما السجلات الموجودة في مكان آخر؟\"\r\n\r\n";
     
-    content += "[تهديد التدقيق]\n";
-    content += "\"اللوم غير مفيد. الأدلة مفيدة. الجميع يحضر الحقائق في غضون ساعتين.\"\n\n";
+    content += "[تهديد التدقيق]\r\n";
+    content += "\"اللوم غير مفيد. الأدلة مفيدة. الجميع يحضر الحقائق في غضون ساعتين.\"\r\n\r\n";
     
-    content += "[خطر الاختطاف]\n";
-    content += "\"أعد تعيينهم لأسباب تشغيلية. حماية بدون ذعر.\"\n\n";
+    content += "[خرق بيانات المستفيدين]\r\n";
+    content += "\"إبلاغ قسم الأمن والجهة المانحة فوراً، تأمين الحسابات، إخطار المستفيدين، دعم الموظف والتركيز على الحل.\"\r\n\r\n";
     
-    content += "[انقطاع الاتصالات]\n";
-    content += "\"لا اتصال مع الخارج. نتخذ القرارات معاً. ما هي المشكلة الأكثر إلحاحاً؟\"\n\n";
+    content += "[انقطاع الاتصالات]\r\n";
+    content += "\"لا اتصال مع الخارج. نتخذ القرارات معاً. ما هي المشكلة الأكثر إلحاحاً؟\"\r\n\r\n";
     
     var protocolScript = document.getElementById('protocolScript').value.trim();
     if (protocolScript) {
-        content += "========================================\n";
-        content += "[بروتوكولي الخاص]\n";
-        content += protocolScript + "\n";
-        content += "========================================\n";
+        content += "========================================\r\n";
+        content += "[بروتوكولي الخاص]\r\n";
+        content += protocolScript + "\r\n";
+        content += "========================================\r\n";
     }
     
-    content += "\n--- تذكر: اجمع المعرفة المحلية أولاً دائماً! ---\n";
+    content += "\r\n--- تذكر: اجمع المعرفة المحلية أولاً دائماً! ---\r\n";
     
-    var blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    // --- FIX: Add BOM (Byte Order Mark) and use UTF-8 encoding to prevent garbled text ---
+    var blob = new Blob(["\uFEFF" + content], { type: "text/plain;charset=utf-8" });
+    
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     a.href = url;
     a.download = 'protocol_7am.txt';
     a.click();
     URL.revokeObjectURL(url);
-    showToast('📥 تم تحميل البطاقة الجيبية!');
+    showToast('📥 تم تحميل البطاقة الجيبية بنجاح!');
 });
 
 // Input listeners for progress updates
@@ -868,7 +872,7 @@ function sendModule6DataToSheet(callback) {
         }
     };
     
-    console.log('📤 جاري إرسال بيانات الوحدة ٦ للمستخدم:', userData.name);
+    console.log('📤 Sending Module 6 data for user:', userData.name);
     
     const xhr = new XMLHttpRequest();
     xhr.open('POST', GOOGLE_SCRIPT_URL, true);
@@ -876,16 +880,16 @@ function sendModule6DataToSheet(callback) {
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-                console.log('✅ تم إرسال بيانات الوحدة ٦ بنجاح');
+                console.log('✅ Module 6 data sent successfully');
                 if (callback) callback(true);
             } else {
-                console.log('⚠️ فشل إرسال البيانات - الحالة:', xhr.status);
+                console.log('⚠️ Failed to send data - status:', xhr.status);
                 if (callback) callback(false);
             }
         }
     };
     xhr.onerror = function() {
-        console.log('⚠️ خطأ في الشبكة أثناء الإرسال');
+        console.log('⚠️ Network error while sending');
         if (callback) callback(false);
     };
     xhr.send(JSON.stringify(payload));
@@ -919,9 +923,9 @@ function goToCertificate() {
     
     sendModule6DataToSheet(function(success) {
         if (success) {
-            console.log('✅ تم إرسال بيانات الوحدة ٦ بنجاح');
+            console.log('✅ Module 6 data saved to Google Sheets');
         } else {
-            console.log('⚠️ فشل الإرسال ولكن تم حفظ البيانات محلياً');
+            console.log('⚠️ Could not save to Google Sheets, but local data is saved');
         }
         
         localStorage.setItem('module6_completed', 'true');
