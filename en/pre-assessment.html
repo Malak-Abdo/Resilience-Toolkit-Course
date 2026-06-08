@@ -234,12 +234,17 @@
 
 <script>
 // ============================================
+// LANGUAGE SUFFIX FOR LOCALSTORAGE
+// ============================================
+const storageSuffix = '_en';
+
+// ============================================
 // GOOGLE SHEETS WEB APP URL
 // ============================================
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwOkndHS0Jhjto-GeWGmgBzGmMsA_HnwrGQLV4LOOCCp0kWpfODdTQrgZGb5zQxhB9DnA/exec';
 
 // ============================================
-// GET REAL USER DATA - FIXED (includes position & country)
+// IMPROVED getUserData() - Looks for data WITHOUT suffix first (from registration)
 // ============================================
 function getUserData() {
     let name = 'Guest';
@@ -247,9 +252,11 @@ function getUserData() {
     let position = 'Not specified';
     let country = 'Not specified';
     
-    console.log('🔍 Searching for user data...');
+    console.log('🔍 Searching for user data in pre-assessment-en.html...');
     
-    // 1. Check currentUser first (from register.html)
+    // FIRST: Try to get user data WITHOUT suffix (from registration page)
+    
+    // 1. Check currentUser first - NO SUFFIX
     try {
         let currentUser = localStorage.getItem('currentUser');
         if (currentUser) {
@@ -259,13 +266,21 @@ function getUserData() {
                 email = (user.email || '').trim() || 'guest@example.com';
                 position = (user.position || '').trim() || 'Not specified';
                 country = (user.country || '').trim() || 'Not specified';
-                console.log('✅ Found from currentUser:', { name, email, position, country });
+                console.log('✅ Found from currentUser (no suffix):', { name, email, position, country });
+                
+                // Save with suffix for future use
+                localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(user));
+                localStorage.setItem('course_user_name' + storageSuffix, name);
+                localStorage.setItem('course_user_email' + storageSuffix, email);
+                localStorage.setItem('course_user_position' + storageSuffix, position);
+                localStorage.setItem('course_user_country' + storageSuffix, country);
+                
                 return { name, email, position, country };
             }
         }
     } catch(e) { console.error('Error parsing currentUser:', e); }
     
-    // 2. Check users array
+    // 2. Check users array - NO SUFFIX
     try {
         let users = JSON.parse(localStorage.getItem('users') || '[]');
         if (Array.isArray(users) && users.length > 0) {
@@ -275,24 +290,39 @@ function getUserData() {
                 email = (lastUser.email || '').trim() || 'guest@example.com';
                 position = (lastUser.position || '').trim() || 'Not specified';
                 country = (lastUser.country || '').trim() || 'Not specified';
-                console.log('✅ Found from users array:', { name, email, position, country });
+                console.log('✅ Found from users array (no suffix):', { name, email, position, country });
+                
+                // Save with suffix
+                localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(lastUser));
+                localStorage.setItem('course_user_name' + storageSuffix, name);
+                localStorage.setItem('course_user_email' + storageSuffix, email);
+                localStorage.setItem('course_user_position' + storageSuffix, position);
+                localStorage.setItem('course_user_country' + storageSuffix, country);
+                
                 return { name, email, position, country };
             }
         }
     } catch(e) { console.error('Error parsing users:', e); }
     
-    // 3. Check individual fields
+    // 3. Check individual fields - NO SUFFIX
     let n = localStorage.getItem('course_user_name');
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim() !== '') {
         name = n.trim();
         email = (localStorage.getItem('course_user_email') || 'guest@example.com').trim();
         position = (localStorage.getItem('course_user_position') || 'Not specified').trim();
         country = (localStorage.getItem('course_user_country') || 'Not specified').trim();
-        console.log('✅ Found from individual fields:', { name, email, position, country });
+        console.log('✅ Found from individual fields (no suffix):', { name, email, position, country });
+        
+        // Save with suffix
+        localStorage.setItem('course_user_name' + storageSuffix, name);
+        localStorage.setItem('course_user_email' + storageSuffix, email);
+        localStorage.setItem('course_user_position' + storageSuffix, position);
+        localStorage.setItem('course_user_country' + storageSuffix, country);
+        
         return { name, email, position, country };
     }
     
-    // 4. Check course_user object
+    // 4. Check course_user object - NO SUFFIX
     let user = localStorage.getItem('course_user');
     if (user) {
         try { 
@@ -302,13 +332,20 @@ function getUserData() {
                 email = (p.email || 'guest@example.com').trim();
                 position = (p.position || 'Not specified').trim();
                 country = (p.country || 'Not specified').trim();
-                console.log('✅ Found from course_user:', { name, email, position, country });
+                console.log('✅ Found from course_user (no suffix):', { name, email, position, country });
+                
+                // Save with suffix
+                localStorage.setItem('course_user_name' + storageSuffix, name);
+                localStorage.setItem('course_user_email' + storageSuffix, email);
+                localStorage.setItem('course_user_position' + storageSuffix, position);
+                localStorage.setItem('course_user_country' + storageSuffix, country);
+                
                 return { name, email, position, country };
             }
         } catch(e) {}
     }
     
-    // 5. Check resilience_users array
+    // 5. Check resilience_users array - NO SUFFIX
     let users = localStorage.getItem('resilience_users');
     if (users) {
         try { 
@@ -320,7 +357,14 @@ function getUserData() {
                         email = (p[i].email || 'guest@example.com').trim();
                         position = (p[i].position || 'Not specified').trim();
                         country = (p[i].country || 'Not specified').trim();
-                        console.log('✅ Found from resilience_users:', { name, email, position, country });
+                        console.log('✅ Found from resilience_users (no suffix):', { name, email, position, country });
+                        
+                        // Save with suffix
+                        localStorage.setItem('course_user_name' + storageSuffix, name);
+                        localStorage.setItem('course_user_email' + storageSuffix, email);
+                        localStorage.setItem('course_user_position' + storageSuffix, position);
+                        localStorage.setItem('course_user_country' + storageSuffix, country);
+                        
                         return { name, email, position, country };
                     }
                 }
@@ -328,9 +372,36 @@ function getUserData() {
         } catch(e) {}
     }
     
-    // 6. Return default - NO PROMPT
+    // 6. Finally, try WITH suffix (for returning users)
+    n = localStorage.getItem('course_user_name' + storageSuffix);
+    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim() !== '') {
+        name = n.trim();
+        email = (localStorage.getItem('course_user_email' + storageSuffix) || 'guest@example.com').trim();
+        position = (localStorage.getItem('course_user_position' + storageSuffix) || 'Not specified').trim();
+        country = (localStorage.getItem('course_user_country' + storageSuffix) || 'Not specified').trim();
+        console.log('✅ Found from individual fields (with suffix):', { name, email, position, country });
+        return { name, email, position, country };
+    }
+    
+    // 7. Try currentUser with suffix
+    try {
+        let currentUser = localStorage.getItem('currentUser' + storageSuffix);
+        if (currentUser) {
+            let user = JSON.parse(currentUser);
+            if (user && user.name && user.name !== 'Guest' && user.name.trim() !== '') {
+                name = user.name.trim();
+                email = (user.email || '').trim() || 'guest@example.com';
+                position = (user.position || '').trim() || 'Not specified';
+                country = (user.country || '').trim() || 'Not specified';
+                console.log('✅ Found from currentUser (with suffix):', { name, email, position, country });
+                return { name, email, position, country };
+            }
+        }
+    } catch(e) {}
+    
+    // 8. Return default
     console.log('⚠️ No user data found, using defaults');
-    return { name, email, position, country };
+    return { name: 'Guest', email: 'guest@example.com', position: 'Not specified', country: 'Not specified' };
 }
 
 function showToast(message, isError = false) {
@@ -484,10 +555,10 @@ function updateNextButtonState() {
     nextBtn.disabled = q.type==='multi' ? !(answers[5]&&answers[5].length>0) : !(answers[q.id]!==null&&answers[q.id]!=='');
 }
 
-function persistAnswers() { localStorage.setItem('pre_assessment_answers',JSON.stringify(answers)); }
+function persistAnswers() { localStorage.setItem('pre_assessment_answers' + storageSuffix, JSON.stringify(answers)); }
 
 function loadStoredAnswers() {
-    const s = localStorage.getItem('pre_assessment_answers');
+    const s = localStorage.getItem('pre_assessment_answers' + storageSuffix);
     if (s) { try { const p = JSON.parse(s); for (let k in p) { if (answers.hasOwnProperty(k)) answers[k]=p[k]; } } catch(e) {} }
     updateProgressBar();
 }
@@ -561,8 +632,8 @@ function finishAssessment() {
     const score = calculatePreScore(answers);
     const category = getCategory(score);
     
-    localStorage.setItem('pre_assessment_score',score);
-    localStorage.setItem('pre_assessment_category',category);
+    localStorage.setItem('pre_assessment_score' + storageSuffix, score);
+    localStorage.setItem('pre_assessment_category' + storageSuffix, category);
     
     // Send data in background - instant results
     sendPreAssessmentToSheet();
@@ -634,7 +705,7 @@ function resetAssessment() {
     answers = {1:null,2:null,3:null,4:null,5:[]};
     assessmentCompleted = false;
     currentIndex = 0;
-    localStorage.removeItem('pre_assessment_answers');
+    localStorage.removeItem('pre_assessment_answers' + storageSuffix);
     resultsArea.classList.add('hidden');
     welcomeBlock.classList.add('hidden');
     container.classList.remove('hidden');
@@ -667,9 +738,9 @@ function updateNavButtons() {
 
 function resetCourse() {
     if (confirm('Reset all assessment data? This cannot be undone.')) {
-        localStorage.removeItem('pre_assessment_answers');
-        localStorage.removeItem('pre_assessment_score');
-        localStorage.removeItem('pre_assessment_category');
+        localStorage.removeItem('pre_assessment_answers' + storageSuffix);
+        localStorage.removeItem('pre_assessment_score' + storageSuffix);
+        localStorage.removeItem('pre_assessment_category' + storageSuffix);
         location.reload();
     }
 }
