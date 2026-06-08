@@ -418,15 +418,18 @@
     </div>
 
     <script>
+        // ========== LANGUAGE SUFFIX ==========
+        const storageSuffix = '_ar';
+        
         // ========== CONFIGURATION (UNCHANGED) ==========
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzjxPvVYa8xquvIiaaDBpZMujFabPyYg8nTB_CY-6X8OSIrkWubmg3cwxzN4BfVQISGtw/exec';
         
         let pageLoadTime = new Date();
 
-        // ========== USER DATA (UNCHANGED) ==========
+        // ========== USER DATA (UPDATED WITH LANGUAGE SUFFIX) ==========
         function getUserData() {
             try {
-                let currentUser = localStorage.getItem('currentUser');
+                let currentUser = localStorage.getItem('currentUser' + storageSuffix);
                 if (currentUser) {
                     let user = JSON.parse(currentUser);
                     console.log('✅ Found user from currentUser:', user);
@@ -444,7 +447,7 @@
             
             // Fallback: try users array
             try {
-                let users = JSON.parse(localStorage.getItem('users') || '[]');
+                let users = JSON.parse(localStorage.getItem('users' + storageSuffix) || '[]');
                 if (users.length > 0) {
                     let lastUser = users[users.length - 1];
                     console.log('✅ Found user from users array:', lastUser);
@@ -518,12 +521,12 @@
             window.location.href = 'pre-assessment.html';
         });
 
-        // ========== CONTINUE BUTTON (UNCHANGED) ==========
+        // ========== CONTINUE BUTTON (UPDATED WITH LANGUAGE SUFFIX) ==========
         document.getElementById('continueToAssessmentBtn').addEventListener('click', function(e) {
             e.preventDefault();
             
-            // Check if already completed
-            if (localStorage.getItem('introduction_completed') === 'true') {
+            // Check if already completed (UPDATED)
+            if (localStorage.getItem('introduction_completed' + storageSuffix) === 'true') {
                 window.location.href = 'module1.html';
                 return;
             }
@@ -535,8 +538,8 @@
             // Send completion event to sheet
             sendToSheet('module_completed', { time_spent_seconds: timeSpent });
             
-            // Mark as completed
-            localStorage.setItem('introduction_completed', 'true');
+            // Mark as completed (UPDATED)
+            localStorage.setItem('introduction_completed' + storageSuffix, 'true');
             
             // Show toast and redirect
             showToast('✓ تم إكمال المقدمة! جارٍ التوجيه إلى الوحدة الأولى...');
