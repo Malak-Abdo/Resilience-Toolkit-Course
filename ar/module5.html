@@ -325,18 +325,18 @@
     
     <h2>حلقة العادة (المحفز → الروتين → المكافأة)</h2>
     <p><em>من منهج ماكينزي</em></p>
-    <table>
+    <table class="adaptive-table">
         <thead>
             <tr><th>العنصر</th><th>ماذا يعني</th><th>مثال</th> </thead>
         <tbody>
-            <tr><td><strong>المحفز</strong></td><td>ما يبدأ العادة</div></td><td>"يصل مقياس الحرارة إلى ٤٥ درجة مئوية الساعة ٩ صباحاً"</div> </tr>
-            <tr><td><strong>الروتين</strong> </tr><td>السلوك التلقائي</div> </tr><td>"أسأل: ما المهام الحرجة التي يمكن إنجازها قبل الساعة ١١ صباحاً؟"</div> </tr>
-            <tr><td><strong>المكافأة</strong> </tr><td>ما تشعر به</div> </tr><td>"السيطرة. فريقي آمن. العمل لا يزال مستمراً."</div> </tr>
+            <tr><td><strong>المحفز</strong> </div><td>ما يبدأ العادة</div><td>"يصل مقياس الحرارة إلى ٤٥ درجة مئوية الساعة ٩ صباحاً"</div> </tr>
+            <tr><td><strong>الروتين</strong> </div><td>السلوك التلقائي</div><td>"أسأل: ما المهام الحرجة التي يمكن إنجازها قبل الساعة ١١ صباحاً؟"</div> </tr>
+            <tr><td><strong>المكافأة</strong> </div><td>ما تشعر به</div><td>"السيطرة. فريقي آمن. العمل لا يزال مستمراً."</div> </tr>
         </tbody>
       </table>
     
     <h2>مثال: حلقة عادة مكتملة</h2>
-    <table>
+    <table class="adaptive-table">
         <thead>
             <tr><th>الأزمة</th><th>المحفز</th><th>الروتين</th><th>المكافأة</th> </thead>
         <tbody>
@@ -433,7 +433,9 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLk
 // IMPROVED getUserData() - Looks for data WITHOUT suffix first (from registration)
 // ============================================
 function getUserData() {
-    let name = '', email = '', position = '';
+    let name = '';
+    let email = '';
+    let position = '';
     
     console.log('🔍 Searching for user data in module5.html...');
     
