@@ -400,26 +400,22 @@
         <div class="feedback" id="feedback2"></div>
     </div>
     
-    <!-- Crisis 3 - NEW AIRSTRIKE SCENARIO -->
+    <!-- Crisis 3 - NEW DATA BREACH SCENARIO -->
     <div class="crisis-card" id="crisis3">
-        <div class="crisis-title">⚠️ Crisis 3 of 4 - Airstrike Warning</div>
-        <p><em>"Your team is working in the field. Security shares information that airstrikes are expected in the area within the next hour. You call the team and ask them to return to the office immediately. The team responds: 'We have 30 minutes of work left to complete our target. We will finish and then return.' You feel torn between safety and meeting the target. What do you do?"</em></p>
+        <div class="crisis-title">⚠️ Crisis 3 of 4 - Data Breach</div>
+        <p><em>"A laptop containing sensitive beneficiary data is stolen from a staff member's car. The staff member is terrified of being fired. What is the best course of action?"</em></p>
         <div class="option-group">
             <div class="option-row" data-crisis="3" data-option="A">
                 <div class="option-radio">○</div>
-                <div class="option-text">A) "I will insist they return immediately. No target is worth the risk. I will remind them that we can resume tomorrow."</div>
+                <div class="option-text">A) Fire the staff member immediately. They broke the security rules.</div>
             </div>
             <div class="option-row" data-crisis="3" data-option="B">
                 <div class="option-radio">○</div>
-                <div class="option-text">B) "I will ask them to assess the situation: can the remaining 30 minutes of work be done from a safer location? If not, they must return."</div>
+                <div class="option-text">B) Report the incident to security and the donor immediately. Secure all accounts, and support the staff member. Focus on fixing the issue rather than punishing the honesty.</div>
             </div>
             <div class="option-row" data-crisis="3" data-option="C">
                 <div class="option-radio">○</div>
-                <div class="option-text">C) "I will trust their judgment. They know the area better than I do. I will let them stay and complete the work."</div>
-            </div>
-            <div class="option-row" data-crisis="3" data-option="D">
-                <div class="option-radio">○</div>
-                <div class="option-text">D) "I will call my supervisor and ask them to decide. I don't want to take responsibility for the wrong choice."</div>
+                <div class="option-text">C) Keep the incident quiet. Do not report it to anyone and hope that the stolen data is never accessed.</div>
             </div>
         </div>
         <div class="feedback" id="feedback3"></div>
@@ -475,7 +471,7 @@
         <hr>
         <p><strong>🌊 Flash Flood:</strong><br>"Records are gone. People are here. What records exist elsewhere?"</p>
         <p><strong>📋 Audit Threat:</strong><br>"Blame is useless. Evidence is useful. Everyone bring facts in 2 hours."</p>
-        <p><strong>⚠️ Airstrike Warning:</strong><br>"Ask them to assess: can the remaining work be done from a safer location? If not, they must return."</p>
+        <p><strong>⚠️ Data Breach:</strong><br>"Report immediately. Secure accounts. Support the staff member. Focus on solutions, not punishment."</p>
         <p><strong>📡 Communication Blackout:</strong><br>"No contact with outside. We make decisions together. What is the most urgent problem?"</p>
         <hr>
         <p><strong>📌 My Protocol:</strong><br><span id="myProtocolDisplay"></span></p>
@@ -579,15 +575,15 @@ var correctAnswers = { 1: 'B', 2: 'B', 3: 'B', 4: 'B' };
 var feedbackMessages = {
     1: '✅ Correct. Records can be recreated. People cannot.',
     2: '✅ Correct. Blame stops learning. Evidence starts solutions.',
-    3: '✅ Correct. This balances safety and productivity. You trust the team\'s expertise while maintaining your duty to protect them.',
+    3: '✅ Correct. Transparency builds trust. Focus on solutions, not punishment. Supporting honest staff encourages future reporting.',
     4: '✅ Correct. Isolation is not paralysis. Your team is your resource.'
 };
 
 var incorrectMessages = {
     1: '❌ Correct answer: "Records are gone. People are here. What records exist elsewhere?"',
     2: '❌ Correct answer: "Blame is useless. Evidence is useful. Everyone bring facts in 2 hours."',
-    3: '❌ Correct answer: "I will ask them to assess the situation: can the remaining 30 minutes be done from a safer location? If not, they must return."',
-    4: '❌ Correct answer: "No contact with outside. We make decisions together. What is the most urgent problem?"'
+    3: '❌ Correct answer: "Report the incident immediately. Secure accounts. Support the staff member. Focus on fixing the issue, not punishment."',
+    4: '❌ Correct answer: "No contact with outside. We make decisions together."'
 };
 
 var selectedAnswers = { 1: null, 2: null, 3: null, 4: null };
@@ -787,7 +783,7 @@ document.getElementById('downloadCardBtn').addEventListener('click', function() 
     var content = "THE 7 AM PROTOCOL - Pocket Card\n\n";
     content += "Flash Flood:\n\"Records are gone. People are here. What records exist elsewhere?\"\n\n";
     content += "Audit Threat:\n\"Blame is useless. Evidence is useful. Everyone bring facts in 2 hours.\"\n\n";
-    content += "Airstrike Warning:\n\"Ask them to assess: can the remaining work be done from a safer location? If not, they must return.\"\n\n";
+    content += "Data Breach:\n\"Report immediately. Secure accounts. Support the staff member. Focus on solutions, not punishment.\"\n\n";
     content += "Communication Blackout:\n\"No contact with outside. We make decisions together. What is the most urgent problem?\"\n\n";
     var protocolScript = document.getElementById('protocolScript').value.trim();
     if (protocolScript) content += "My Protocol:\n" + protocolScript + "\n\n";
