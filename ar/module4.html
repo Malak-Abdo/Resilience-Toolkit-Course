@@ -13,6 +13,12 @@
             line-height: 1.5;
             padding: 2rem 1rem;
         }
+        /* ===== تحسينات النص ===== */
+        p, li, .scenario-card, .highlight-box, .warning-box, 
+        .learning-bridge-note, .golden-rule, .exercise-box {
+            text-align: justify;
+            word-wrap: break-word;
+        }
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -27,6 +33,36 @@
         }
         @media (max-width: 600px) {
             .card { padding: 1.5rem; }
+        }
+        /* ===== تحسينات الجوال ===== */
+        @media (max-width: 480px) {
+            body {
+                font-size: 0.9rem;
+                padding: 1rem 0.8rem;
+            }
+            .card {
+                padding: 1.2rem;
+            }
+            .module-title {
+                font-size: 1.1rem;
+            }
+            h2 {
+                font-size: 1.1rem;
+            }
+            .goal-input {
+                font-size: 0.85rem;
+                padding: 0.6rem;
+            }
+            .check-btn {
+                padding: 0.4rem 1rem;
+                font-size: 0.75rem;
+            }
+            .comparison-table {
+                font-size: 0.8rem;
+            }
+            .comparison-table th, .comparison-table td {
+                padding: 0.5rem;
+            }
         }
         .header-tag {
             font-size: 0.75rem;
@@ -355,10 +391,7 @@
         </div>
 
         <table class="comparison-table">
-            <thead>
-                <tr><th>هدف الأداء</th><th>نية التعلم</th>
-                </tr>
-            </thead>
+            <thead><tr><th>هدف الأداء</th><th>نية التعلم</th></tr></thead>
             <tbody>
                 <tr><td>"توصيل ١٠,٠٠٠ حصة غذائية بحلول يوم الجمعة"</td><td>"تعلم كيفية توصيل الحصص الغذائية عندما يكون الطريق الرئيسي مغلقاً"</td></tr>
                 <tr><td>"إصلاح المركبة المعطلة في ٢٤ ساعة"</td><td>"تعلم كيفية استعارة مركبة من المجتمع"</td></tr>
@@ -459,7 +492,7 @@ const storageSuffix = '_ar';
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
 
 // ============================================
-// IMPROVED getUserData() - Looks for data WITHOUT suffix first (from registration)
+// IMPROVED getUserData()
 // ============================================
 function getUserData() {
     let name = '';
@@ -468,9 +501,6 @@ function getUserData() {
     
     console.log('🔍 Searching for user data in module4.html...');
     
-    // FIRST: Try to get user data WITHOUT suffix (from registration page)
-    
-    // 1. Check currentUser first - NO SUFFIX
     try {
         let currentUser = localStorage.getItem('currentUser');
         if (currentUser) {
@@ -481,7 +511,6 @@ function getUserData() {
                 position = (user.position || '').trim();
                 console.log('✅ Found from currentUser (no suffix):', name);
                 
-                // Save with suffix for future use
                 localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(user));
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
@@ -492,7 +521,6 @@ function getUserData() {
         }
     } catch(e) { console.error('Error parsing currentUser:', e); }
     
-    // 2. Check users array - NO SUFFIX
     try {
         let users = JSON.parse(localStorage.getItem('users') || '[]');
         if (Array.isArray(users) && users.length > 0) {
@@ -503,7 +531,6 @@ function getUserData() {
                 position = (lastUser.position || '').trim();
                 console.log('✅ Found from users array (no suffix):', name);
                 
-                // Save with suffix
                 localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(lastUser));
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
@@ -514,7 +541,6 @@ function getUserData() {
         }
     } catch(e) { console.error('Error parsing users:', e); }
     
-    // 3. Check individual fields - NO SUFFIX
     let n = localStorage.getItem('course_user_name');
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
         name = n.trim();
@@ -522,7 +548,6 @@ function getUserData() {
         position = (localStorage.getItem('course_user_position') || '').trim();
         console.log('✅ Found from individual fields (no suffix):', name);
         
-        // Save with suffix
         localStorage.setItem('course_user_name' + storageSuffix, name);
         localStorage.setItem('course_user_email' + storageSuffix, email);
         localStorage.setItem('course_user_position' + storageSuffix, position);
@@ -530,7 +555,6 @@ function getUserData() {
         return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
     }
     
-    // 4. Check course_user object - NO SUFFIX
     let user = localStorage.getItem('course_user');
     if (user) {
         try { 
@@ -541,7 +565,6 @@ function getUserData() {
                 position = (p.position || '').trim();
                 console.log('✅ Found from course_user (no suffix):', name);
                 
-                // Save with suffix
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
                 localStorage.setItem('course_user_position' + storageSuffix, position);
@@ -551,7 +574,6 @@ function getUserData() {
         } catch(e) {}
     }
     
-    // 5. Check resilience_users array - NO SUFFIX
     let users = localStorage.getItem('resilience_users');
     if (users) {
         try { 
@@ -564,7 +586,6 @@ function getUserData() {
                         position = (p[i].position || '').trim();
                         console.log('✅ Found from resilience_users (no suffix):', name);
                         
-                        // Save with suffix
                         localStorage.setItem('course_user_name' + storageSuffix, name);
                         localStorage.setItem('course_user_email' + storageSuffix, email);
                         localStorage.setItem('course_user_position' + storageSuffix, position);
@@ -576,7 +597,6 @@ function getUserData() {
         } catch(e) {}
     }
     
-    // 6. Finally, try WITH suffix (for returning users)
     n = localStorage.getItem('course_user_name' + storageSuffix);
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
         name = n.trim();
@@ -586,7 +606,6 @@ function getUserData() {
         return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
     }
     
-    // 7. Try currentUser with suffix
     try {
         let currentUser = localStorage.getItem('currentUser' + storageSuffix);
         if (currentUser) {
@@ -630,7 +649,7 @@ function showToast(message, isError = false) {
 
 const sampleAnswers = {
     1: ["تعلم كيفية الوصول إلى المستفيدين", "تعلم طرق بديلة", "تعلم القوارب المحلية"],
-    2: ["تعلم كيفية اتخاذ قرارات بدون المكتب الرئيسي", "تعلم القرارات المستقلة", "اتخاذ قرارات عندما لا تستطيع التواصل", "تعلم كيفية اتخاذ قرارات مستقلة عندما لا تستطيع التواصل"],
+    2: ["تعلم كيفية اتخاذ قرارات بدون المكتب الرئيسي", "تعلم القرارات المستقلة", "اتخاذ قرارات عندما لا تستطيع التواصل", "تعلم كيفية اتخاذ قرارات مستقلة"],
     3: ["تعلم كيفية التواصل بدون مترجم", "تعلم تواصل بديل", "تعلم الإيماءات", "متطوعين من المجتمع"],
     4: ["تعلم من لديه مركبة", "تعلم استعارة مركبة", "مركبة من المجتمع", "استعارة مركبة"]
 };
