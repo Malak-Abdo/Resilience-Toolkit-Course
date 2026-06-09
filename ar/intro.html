@@ -286,6 +286,59 @@
                 margin-left: 0;
             }
         }
+
+        /* ========== MOBILE RESPONSIVE TEXT IMPROVEMENTS ========== */
+        p {
+            text-align: justify;
+            word-wrap: break-word;
+        }
+        li {
+            text-align: justify;
+            word-wrap: break-word;
+        }
+        .quote-box, .highlight-box, .scenario-card {
+            text-align: justify;
+        }
+        .name-prompt p {
+            text-align: center;
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 0.8rem;
+            }
+            .module-card {
+                padding: 1.2rem;
+                border-radius: 1.5rem;
+            }
+            h1 {
+                font-size: 1.3rem;
+            }
+            h2 {
+                font-size: 1.2rem;
+            }
+            p, li, .quote-box, .highlight-box, .scenario-card {
+                font-size: 0.9rem;
+                line-height: 1.55;
+            }
+            .name-prompt {
+                padding: 0.8rem 1rem;
+            }
+            .name-prompt p {
+                font-size: 0.9rem;
+            }
+            .scenario-card {
+                padding: 1rem;
+            }
+            .quote-box {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+            button {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
     </style>
 </head>
 <body>
