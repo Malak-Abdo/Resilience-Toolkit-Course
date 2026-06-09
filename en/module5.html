@@ -299,6 +299,59 @@
                 transform: translateX(-50%) translateY(0);
             }
         }
+
+        /* ========== MOBILE RESPONSIVE TEXT IMPROVEMENTS ========== */
+        p {
+            text-align: justify;
+            word-wrap: break-word;
+        }
+        li {
+            text-align: justify;
+            word-wrap: break-word;
+        }
+        .scenario-card p, .scenario-card {
+            text-align: justify;
+        }
+        .hint-note {
+            text-align: justify;
+        }
+        .commitment-box {
+            text-align: justify;
+        }
+        .reminder-note {
+            text-align: center;
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 0;
+            }
+            .course-card {
+                margin: 0.5rem;
+                padding: 1.2rem;
+            }
+            p, li, .scenario-card p, .hint-note, .commitment-box {
+                font-size: 0.9rem;
+                line-height: 1.55;
+            }
+            .module-title {
+                font-size: 1.1rem;
+            }
+            h2 {
+                font-size: 1.1rem;
+            }
+            .scenario-card {
+                padding: 0.8rem;
+            }
+            button {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+            .form-group input, .form-group textarea, select {
+                font-size: 0.85rem;
+                padding: 0.6rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -341,9 +394,9 @@
         <thead>
             <tr><th>Element</th><th>What it means</th><th>Example</th> </thead>
         <tbody>
-            <tr><td><strong>Cue</strong></td><td>What starts the habit</td><td>"The thermometer reaches 45°C at 9:00 AM"</td> </tr>
-            <tr><td><strong>Routine</strong></td><td>The automatic behavior</td><td>"I ask: What critical tasks can be done before 11:00 AM?"</td> </tr>
-            <tr><td><strong>Reward</strong></td><td>What you feel</td><td>"Control. My team is safe. Work is still moving."</td> </tr>
+            <tr><td><strong>Cue</strong></div></td><td>What starts the habit</div></td>\nThe thermometer reaches 45°C at 9:00 AM"</div> </tr>
+            <tr><td><strong>Routine</strong></div></td><td>The automatic behavior</div> </td>\n"I ask: What critical tasks can be done before 11:00 AM?"</div> </tr>
+            <tr><td><strong>Reward</strong></div> </td><td>What you feel</div> </td>\n"Control. My team is safe. Work is still moving."</div> </tr>
         </tbody>
     </table>
     
@@ -352,9 +405,9 @@
         <thead>
             <tr><th>Crisis</th><th>Cue</th><th>Routine</th><th>Reward</th> </thead>
         <tbody>
-            <tr><td>Fuel shortage</td><td>"The fuel gauge hits zero"</td><td>"I ask: What works without fuel?"</td><td>"Agency. We are not stuck."</td> </tr>
-            <tr><td>Staff departure</td><td>"A key staff member resigns"</td><td>"I ask: Who can take part of this task?"</td><td>"Curiosity. Not despair."</td> </tr>
-            <tr><td>Extreme heat</td><td>"The thermometer reaches 45°C at 9:00 AM"</td><td>"I ask: What can we accomplish before 11:00 AM?"</td><td>"Control. My team is safe."</td> </tr>
+            <tr><td>Fuel shortage</div></td>\nThe fuel gauge hits zero"</div></td>\n"I ask: What works without fuel?"</div></td>\n"Agency. We are not stuck."</div> </tr>
+            <tr><td>Staff departure</div></td>\n"A key staff member resigns"</div></td>\n"I ask: Who can take part of this task?"</div></td>\n"Curiosity. Not despair."</div> </tr>
+            <tr><td>Extreme heat</div><td>\nThe thermometer reaches 45°C at 9:00 AM"</div><td>\n"I ask: What can we accomplish before 11:00 AM?"</div><td>\n"Control. My team is safe."</div> </tr>
         </tbody>
     </table>
     
