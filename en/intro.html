@@ -114,6 +114,7 @@
         p {
             margin-bottom: 1rem;
             color: #2C3F3A;
+            text-align: justify;
         }
 
         ul {
@@ -123,6 +124,7 @@
 
         li {
             margin-bottom: 0.5rem;
+            text-align: justify;
         }
 
         .scenario-card {
@@ -134,12 +136,20 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
         }
 
+        .scenario-card p {
+            text-align: justify;
+        }
+
         .highlight-box {
             background: #EFF7F5;
             border-radius: 1rem;
             padding: 1rem 1.25rem;
             margin: 1rem 0;
             border-left: 3px solid #1A6B5A;
+        }
+
+        .highlight-box p {
+            text-align: justify;
         }
 
         .quote-box {
@@ -151,6 +161,7 @@
             font-style: italic;
             color: #5A4A2A;
             font-size: 1.05rem;
+            text-align: justify;
         }
 
         .button-group {
@@ -264,6 +275,7 @@
             }
         }
 
+        /* RESPONSIVE STYLES - IMPROVED FOR MOBILE */
         @media (max-width: 640px) {
             .module-card {
                 padding: 1.5rem;
@@ -283,6 +295,47 @@
             }
             ul {
                 margin-left: 1rem;
+                padding-right: 0;
+            }
+            p, li, .quote-box, .highlight-box p, .scenario-card p {
+                text-align: justify;
+                word-wrap: break-word;
+                hyphens: auto;
+            }
+            .quote-box {
+                font-size: 0.95rem;
+                padding: 1rem;
+            }
+            .name-prompt {
+                padding: 0.8rem 1rem;
+            }
+            .name-prompt p {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* EXTRA SMALL DEVICES */
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+            .module-card {
+                padding: 1.2rem;
+                border-radius: 1.5rem;
+            }
+            h2 {
+                font-size: 1.2rem;
+                margin: 1.5rem 0 0.75rem;
+            }
+            p, li {
+                font-size: 0.9rem;
+                line-height: 1.55;
+            }
+            ul {
+                margin-left: 0.8rem;
+            }
+            .scenario-card, .highlight-box, .quote-box {
+                padding: 0.8rem;
             }
         }
     </style>
