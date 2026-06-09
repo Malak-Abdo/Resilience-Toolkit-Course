@@ -334,6 +334,81 @@
             text-align: center;
             font-weight: bold;
         }
+
+        /* ========== MOBILE RESPONSIVE TEXT IMPROVEMENTS ========== */
+        p {
+            text-align: justify;
+            word-wrap: break-word;
+        }
+        li {
+            text-align: justify;
+            word-wrap: break-word;
+        }
+        .scenario-card p, .scenario-card {
+            text-align: justify;
+        }
+        .key-message {
+            text-align: center;
+        }
+        .reality-check p {
+            text-align: justify;
+        }
+        .core-takeaway {
+            text-align: center;
+        }
+        .match-action, .match-option {
+            text-align: justify;
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 0;
+            }
+            .course-card {
+                margin: 0.5rem;
+                padding: 1.2rem;
+            }
+            .module-title {
+                font-size: 1.1rem;
+            }
+            h2 {
+                font-size: 1.1rem;
+            }
+            p, li, .scenario-card p, .reality-check p, .match-action, .match-option {
+                font-size: 0.9rem;
+                line-height: 1.55;
+            }
+            .scenario-card {
+                padding: 0.8rem;
+            }
+            .quiz-option {
+                font-size: 0.75rem;
+                padding: 0.3rem 0.7rem;
+            }
+            button {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+            .match-option {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.5rem;
+                min-width: 80px;
+            }
+            .hotspot-item {
+                min-width: 100px;
+                padding: 0.6rem;
+            }
+            .hotspot-emoji {
+                font-size: 2rem;
+            }
+            .branch-choice {
+                padding: 0.8rem;
+            }
+            textarea {
+                font-size: 0.85rem;
+                padding: 0.6rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -532,7 +607,7 @@
     </div>
     
     <div class="quiz-question" id="leylaQ3">
-        <strong>🔀 السؤال ٤: سيناريو متفرع</strong><br>لقد حدث نقص الوقود للتو في منطقتك. كل شيء توقف، وفرقك الميدانية عالقة. تحتاج إلى التصرف فوراً. ما هو أول ما تفعله؟
+        <strong>🔀 السؤال ٤: سيناريو متفرع</strong><br>لقد حدث نقص الوقود للتو في منطقتك. كل شيء توقف، وفرقك الميدانية عالقة. تحتاج إلى التصرف فوراً. ما هو أول ما تفعله？
         <div class="branch-choices">
             <div class="branch-choice" data-choice="A">
                 <strong>أ.</strong> عقد اجتماع طارئ مع فريق الخدمات اللوجستية والمطالبة: "لماذا لم تخزنوا وقوداً احتياطياً لحالات الطوارئ؟"
@@ -541,710 +616,4 @@
                 <strong>ب.</strong> إرسال بريد إلكتروني عاجل إلى المكتب الرئيسي نصه: "لدينا أزمة. نحتاج موافقة لشراء الوقود من مصادر محلية بديلة. الرجاء الرد خلال ٢٤ ساعة."
             </div>
             <div class="branch-choice" data-choice="C">
-                <strong>ج.</strong> عقد اجتماع فوري مع موظفيك المحليين (سائقين، حراس، مساعدين) وسؤالهم: "من يتذكر كيف حصل الناس على الوقود هنا أثناء النقص الكبير السابق؟"
-            </div>
-        </div>
-        <div id="branchOutcome" class="branch-outcome" style="display:none;"></div>
-    </div>
-
-    <div class="quiz-question" id="leylaQ6">
-        <strong>السؤال ٥: المعايير الثلاثة لتعديل البروتوكول</strong><br>متى يكون من المقبول تكييف أو "تعديل" إجراءات التشغيل القياسية (SOP)؟
-        <div class="quiz-options" data-q="criteria">
-            <div class="quiz-option" data-val="A">أ) عندما تكون الإجراءات غير مريحة.</div>
-            <div class="quiz-option" data-val="B">ب) عندما تكون حياة الناس على المحك فوراً، ويمكن تبرير الامتثال لاحقاً.</div>
-            <div class="quiz-option" data-val="C">ج) أبداً. يجب اتباع الإجراءات حرفياً دائماً.</div>
-        </div>
-        <div class="feedback" id="criteriaFb"></div>
-        <button class="check-btn" data-check="criteriaQuestion">✅ تحقق من الإجابة</button>
-    </div>
-    
-    <div class="quiz-question" id="leylaQ4">
-        <strong>السؤال ٦: ماذا ستفعل ليلى؟ - نقطة تفاعلية ساخنة</strong><br>انقر على الشيء الذي كانت ستلجأ إليه ليلى أولاً.
-        <div class="hotspot-container">
-            <div class="hotspot-image">
-                <div class="hotspot-item" data-hotspot="rulebook">
-                    <span class="hotspot-emoji">📖</span>
-                    <span class="hotspot-label">كتيب القواعد (دليل الإجراءات)</span>
-                </div>
-                <div class="hotspot-item" data-hotspot="satphone">
-                    <span class="hotspot-emoji">📡</span>
-                    <span class="hotspot-label">هاتف الأقمار الصناعية (الاتصال بالمكتب الرئيسي)</span>
-                </div>
-                <div class="hotspot-item" data-hotspot="hand">
-                    <span class="hotspot-emoji">🤝</span>
-                    <span class="hotspot-label">يد موظف محلي</span>
-                </div>
-            </div>
-            <div id="hotspotFeedback" class="hotspot-feedback" style="display:none;"></div>
-        </div>
-    </div>
-    
-    <button id="submitLeylaQuiz">تأكيد جميع إجابات اختبار ليلى</button>
-    <div id="leylaQuizFeedback" class="feedback" style="display:none;"></div>
-
-    <div class="reality-check" id="realityCheckDiv" style="display:none;">
-        <strong>⚠️ تنبيه ميداني:</strong><br>
-        ليلى لم تحل الأزمة بسؤال واحد. لقد واجهت عراقيل لوجستية ومعضلات أخلاقية. المرونة لا تعني اختفاء المشاكل، بل تعني أن تنجز المهام في وقت أقل، وتحمي معنويات فريقك، وتجد "الفعل الصحيح التالي" بدلاً من التوقف.<br><br>
-        <strong>ملاحظة:</strong> المرونة لا تعني كسر القواعد. بل تعني معرفة متى يتطلب السياق تكييف البروتوكول لإنقاذ الأرواح، ومتى يكون الالتزام الصارم هو الطريق الآمن الوحيد.
-    </div>
-
-    <div class="core-takeaway" id="coreTakeawayDiv" style="display:none;">
-        💡 الخلاصة الأساسية: اجمع المعرفة المحلية أولاً دائماً! يحتاج المكتب الرئيسي إلى البيانات الميدانية لاتخاذ خيارات سريعة وآمنة. لتجنب التأخير، لا ترمِ المشكلة أبداً على المكتب الرئيسي فقط - بل أرسل دائماً خطتك المحلية إلى جانب تقييم المخاطر لفتح الطريق للموافقات السريعة.
-    </div>
-    
-    <div class="module-nav">
-        <button class="secondary" id="backToIntroBtn">← العودة إلى المقدمة</button>
-        <button id="continueToModule2Btn">الانتقال إلى الوحدة ٢ →</button>
-    </div>
-    
-    <div class="footer-note">الوحدة ١ من حزمة أدوات المرونة</div>
-    <div class="reset-link"><a id="resetDataLink">↺ إعادة ضبط بيانات الوحدة</a></div>
-</div>
-
-<script>
-// ============================================
-// LANGUAGE SUFFIX FOR LOCALSTORAGE
-// ============================================
-const storageSuffix = '_ar';
-
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbylF2X6XfxJIPQ77YyDaICfdYQe_aRad_64ssVtTAezsVV09R86ArUKagYWLaTpDHwrMA/exec';
-
-// ============================================
-// IMPROVED getUserData() - Looks for data WITHOUT suffix first
-// ============================================
-function getUserData() {
-    let name = '';
-    let email = '';
-    let position = '';
-    
-    console.log('🔍 Searching for user data in module1.html...');
-    
-    // FIRST: Try to get user data WITHOUT suffix (from registration page)
-    
-    // 1. Check currentUser first - NO SUFFIX
-    try {
-        let currentUser = localStorage.getItem('currentUser');
-        if (currentUser) {
-            let user = JSON.parse(currentUser);
-            if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر' && user.name.trim() !== '') {
-                name = user.name.trim();
-                email = (user.email || '').trim();
-                position = (user.position || '').trim();
-                console.log('✅ Found from currentUser (no suffix):', name);
-                
-                // Save with suffix for future use
-                localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(user));
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
-        }
-    } catch(e) { console.error('Error parsing currentUser:', e); }
-    
-    // 2. Check users array - NO SUFFIX
-    try {
-        let users = JSON.parse(localStorage.getItem('users') || '[]');
-        if (Array.isArray(users) && users.length > 0) {
-            let lastUser = users[users.length - 1];
-            if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name !== 'زائر' && lastUser.name.trim() !== '') {
-                name = lastUser.name.trim();
-                email = (lastUser.email || '').trim();
-                position = (lastUser.position || '').trim();
-                console.log('✅ Found from users array (no suffix):', name);
-                
-                // Save with suffix
-                localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(lastUser));
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
-        }
-    } catch(e) { console.error('Error parsing users:', e); }
-    
-    // 3. Check individual fields - NO SUFFIX
-    let n = localStorage.getItem('course_user_name');
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
-        name = n.trim();
-        email = (localStorage.getItem('course_user_email') || '').trim();
-        position = (localStorage.getItem('course_user_position') || '').trim();
-        console.log('✅ Found from individual fields (no suffix):', name);
-        
-        // Save with suffix
-        localStorage.setItem('course_user_name' + storageSuffix, name);
-        localStorage.setItem('course_user_email' + storageSuffix, email);
-        localStorage.setItem('course_user_position' + storageSuffix, position);
-        
-        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-    }
-    
-    // 4. Check course_user object - NO SUFFIX
-    let user = localStorage.getItem('course_user');
-    if (user) {
-        try { 
-            let p = JSON.parse(user); 
-            if (p && p.name && p.name !== 'Guest' && p.name !== 'زائر' && p.name.trim() !== '') {
-                name = p.name.trim();
-                email = (p.email || '').trim();
-                position = (p.position || '').trim();
-                console.log('✅ Found from course_user (no suffix):', name);
-                
-                // Save with suffix
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
-        } catch(e) {}
-    }
-    
-    // 5. Check resilience_users array - NO SUFFIX
-    let users = localStorage.getItem('resilience_users');
-    if (users) {
-        try { 
-            let p = JSON.parse(users); 
-            if (Array.isArray(p) && p.length > 0) {
-                for (let i = p.length - 1; i >= 0; i--) {
-                    if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'زائر' && p[i].name.trim() !== '') {
-                        name = p[i].name.trim();
-                        email = (p[i].email || '').trim();
-                        position = (p[i].position || '').trim();
-                        console.log('✅ Found from resilience_users (no suffix):', name);
-                        
-                        // Save with suffix
-                        localStorage.setItem('course_user_name' + storageSuffix, name);
-                        localStorage.setItem('course_user_email' + storageSuffix, email);
-                        localStorage.setItem('course_user_position' + storageSuffix, position);
-                        
-                        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-                    }
-                }
-            }
-        } catch(e) {}
-    }
-    
-    // 6. Finally, try WITH suffix (for returning users)
-    n = localStorage.getItem('course_user_name' + storageSuffix);
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
-        name = n.trim();
-        email = (localStorage.getItem('course_user_email' + storageSuffix) || '').trim();
-        position = (localStorage.getItem('course_user_position' + storageSuffix) || '').trim();
-        console.log('✅ Found from individual fields (with suffix):', name);
-        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-    }
-    
-    // 7. Try currentUser with suffix
-    try {
-        let currentUser = localStorage.getItem('currentUser' + storageSuffix);
-        if (currentUser) {
-            let user = JSON.parse(currentUser);
-            if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر' && user.name.trim() !== '') {
-                name = user.name.trim();
-                email = (user.email || '').trim();
-                position = (user.position || '').trim();
-                console.log('✅ Found from currentUser (with suffix):', name);
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
-        }
-    } catch(e) {}
-    
-    console.log('⚠️ No user data found, using default');
-    return { name: 'زائر', email: 'guest@example.com', position: 'غير محدد' };
-}
-
-const currentUser = getUserData();
-const userBadge = document.getElementById('userBadge');
-if (userBadge) {
-    if (currentUser.name !== 'زائر') {
-        userBadge.innerText = `👤 ${currentUser.name}`;
-    } else {
-        userBadge.innerText = `👤 متعلم`;
-    }
-}
-
-function showToast(message, isError = false) {
-    const existing = document.querySelector('.toast-notification');
-    if (existing) existing.remove();
-    const toast = document.createElement('div');
-    toast.className = 'toast-notification';
-    toast.style.background = isError ? '#C0392B' : '#1A6B5A';
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    setTimeout(() => { if (toast) toast.remove(); }, 3000);
-}
-
-function isValidText(value) {
-    if (!value || value.length < 5) return false;
-    const gibberishPattern = /^(.)\1{3,}$|asdf|qwerty|zxcv|1234|شسيبلاه|لاغت|تاشب/i;
-    return !gibberishPattern.test(value);
-}
-
-function showModelAnswer(elementId, modelText) {
-    const feedbackDiv = document.getElementById(elementId);
-    let modelDiv = feedbackDiv.querySelector('.model-answer');
-    if (!modelDiv) {
-        modelDiv = document.createElement('div');
-        modelDiv.className = 'model-answer';
-        feedbackDiv.appendChild(modelDiv);
-    }
-    modelDiv.innerHTML = `<strong>📚 الإجابة النموذجية:</strong><br>${modelText}`;
-    modelDiv.style.display = 'block';
-}
-
-function updateKeithProgress() {
-    let completed = 0;
-    if (document.querySelector('#q1 .quiz-option.selected')) completed++;
-    if (document.getElementById('q2answer').value.trim().length > 3) completed++;
-    if (document.getElementById('q3answer').value.trim().length > 3) completed++;
-    if (document.querySelector('#q4 .quiz-option.selected')) completed++;
-    if (document.getElementById('q5answer').value.trim().length > 3) completed++;
-    const progressSpan = document.getElementById('keithProgress');
-    if (progressSpan) {
-        progressSpan.innerText = `${completed}/5 مكتمل`;
-        progressSpan.className = completed === 5 ? 'progress-badge progress-complete' : 'progress-badge';
-    }
-    return completed === 5;
-}
-
-function updateLeylaProgress() {
-    let completed = 0;
-    if (document.querySelector('#leylaQ1 .quiz-option.selected')) completed++;
-    if (document.getElementById('filterAnswer').value.trim().length > 3) completed++;
-    
-    const blameSelected = document.querySelector('[data-action="blame"] .match-option.selected');
-    const waitHQSelected = document.querySelector('[data-action="waitHQ"] .match-option.selected');
-    const negotiateSelected = document.querySelector('[data-action="negotiate"] .match-option.selected');
-    if (blameSelected && waitHQSelected && negotiateSelected) completed++;
-    
-    if (document.getElementById('branchOutcome').style.display === 'block') completed++;
-    if (document.querySelector('#leylaQ6 .quiz-option.selected')) completed++;
-    if (document.querySelector('.hotspot-item.selected')) completed++;
-    
-    const progressSpan = document.getElementById('leylaProgress');
-    if (progressSpan) {
-        progressSpan.innerText = `${completed}/6 مكتمل`;
-        progressSpan.className = completed === 6 ? 'progress-badge progress-complete' : 'progress-badge';
-    }
-    return completed === 6;
-}
-
-let matchSelections = { blame: null, waitHQ: null, negotiate: null };
-
-function saveMatchSelections() {
-    const blameOpt = document.querySelector('[data-action="blame"] .match-option.selected');
-    const waitHQOpt = document.querySelector('[data-action="waitHQ"] .match-option.selected');
-    const negotiateOpt = document.querySelector('[data-action="negotiate"] .match-option.selected');
-    
-    if (blameOpt) matchSelections.blame = blameOpt.getAttribute('data-outcome');
-    if (waitHQOpt) matchSelections.waitHQ = waitHQOpt.getAttribute('data-outcome');
-    if (negotiateOpt) matchSelections.negotiate = negotiateOpt.getAttribute('data-outcome');
-    
-    localStorage.setItem('module1_match_selections' + storageSuffix, JSON.stringify(matchSelections));
-}
-
-function loadMatchSelections() {
-    const saved = localStorage.getItem('module1_match_selections' + storageSuffix);
-    if (saved) {
-        try {
-            const data = JSON.parse(saved);
-            matchSelections = data;
-            if (data.blame) {
-                const opt = document.querySelector(`[data-action="blame"] .match-option[data-outcome="${data.blame}"]`);
-                if (opt) opt.classList.add('selected');
-            }
-            if (data.waitHQ) {
-                const opt = document.querySelector(`[data-action="waitHQ"] .match-option[data-outcome="${data.waitHQ}"]`);
-                if (opt) opt.classList.add('selected');
-            }
-            if (data.negotiate) {
-                const opt = document.querySelector(`[data-action="negotiate"] .match-option[data-outcome="${data.negotiate}"]`);
-                if (opt) opt.classList.add('selected');
-            }
-        } catch(e) {}
-    }
-}
-
-function collectAllAnswers() {
-    let selectedConstraints = [];
-    document.querySelectorAll('.poll-item.selected').forEach(item => {
-        selectedConstraints.push(item.getAttribute('data-value'));
-    });
-    
-    let dragBlameValue = '';
-    let dragWaitHQValue = '';
-    let dragNegotiateValue = '';
-    
-    const blameSelected = document.querySelector('[data-action="blame"] .match-option.selected');
-    const waitHQSelected = document.querySelector('[data-action="waitHQ"] .match-option.selected');
-    const negotiateSelected = document.querySelector('[data-action="negotiate"] .match-option.selected');
-    
-    if (blameSelected) dragBlameValue = blameSelected.getAttribute('data-outcome');
-    if (waitHQSelected) dragWaitHQValue = waitHQSelected.getAttribute('data-outcome');
-    if (negotiateSelected) dragNegotiateValue = negotiateSelected.getAttribute('data-outcome');
-    
-    let branchChoiceValue = 'Not selected';
-    const branchOutcomeDiv = document.getElementById('branchOutcome');
-    if (branchOutcomeDiv.style.display === 'block') {
-        const branchText = branchOutcomeDiv.innerText;
-        if (branchText.includes('نجاح تكيفي')) branchChoiceValue = 'C';
-        else if (branchText.includes('وقت انتظار أطول')) branchChoiceValue = 'B';
-        else if (branchText.includes('فشل')) branchChoiceValue = 'A';
-    }
-    
-    return {
-        pollConstraints: selectedConstraints.join(', ') || 'لا شيء',
-        keithQ1: document.querySelector('#q1 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب',
-        keithQ2: document.getElementById('q2answer')?.value.trim() || '',
-        keithQ3: document.getElementById('q3answer')?.value.trim() || '',
-        keithQ4: document.querySelector('#q4 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب',
-        keithQ5: document.getElementById('q5answer')?.value.trim() || '',
-        leylaQ1: document.querySelector('#leylaQ1 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب',
-        filterAnswer: document.getElementById('filterAnswer')?.value.trim() || '',
-        criteriaAnswer: document.querySelector('#leylaQ6 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب',
-        dragBlame: dragBlameValue,
-        dragWaitHQ: dragWaitHQValue,
-        dragNegotiate: dragNegotiateValue,
-        branchChoice: branchChoiceValue,
-        hotspotChoice: document.querySelector('.hotspot-item.selected')?.getAttribute('data-hotspot') || 'غير محدد'
-    };
-}
-
-function saveAnswersToLocal() {
-    localStorage.setItem('module1_answers' + storageSuffix, JSON.stringify(collectAllAnswers()));
-    saveMatchSelections();
-}
-
-function loadSavedAnswers() {
-    const saved = localStorage.getItem('module1_answers' + storageSuffix);
-    if (saved) {
-        try {
-            const data = JSON.parse(saved);
-            if (data.pollConstraints && data.pollConstraints !== 'لا شيء') {
-                const constraints = data.pollConstraints.split(', ');
-                document.querySelectorAll('.poll-item').forEach(item => {
-                    if (constraints.includes(item.getAttribute('data-value'))) {
-                        item.classList.add('selected');
-                    }
-                });
-            }
-            if (data.keithQ1 && data.keithQ1 !== 'لم يجب') {
-                document.querySelectorAll('#q1 .quiz-option').forEach(opt => {
-                    if (opt.getAttribute('data-val') === data.keithQ1) opt.classList.add('selected');
-                });
-            }
-            if (data.keithQ2 && data.keithQ2 !== 'لم يجب') document.getElementById('q2answer').value = data.keithQ2;
-            if (data.keithQ3 && data.keithQ3 !== 'لم يجب') document.getElementById('q3answer').value = data.keithQ3;
-            if (data.keithQ4 && data.keithQ4 !== 'لم يجب') {
-                document.querySelectorAll('#q4 .quiz-option').forEach(opt => {
-                    if (opt.getAttribute('data-val') === data.keithQ4) opt.classList.add('selected');
-                });
-            }
-            if (data.keithQ5 && data.keithQ5 !== 'لم يجب') document.getElementById('q5answer').value = data.keithQ5;
-            if (data.leylaQ1 && data.leylaQ1 !== 'لم يجب') {
-                document.querySelectorAll('#leylaQ1 .quiz-option').forEach(opt => {
-                    if (opt.getAttribute('data-val') === data.leylaQ1) opt.classList.add('selected');
-                });
-            }
-            if (data.filterAnswer) document.getElementById('filterAnswer').value = data.filterAnswer;
-            if (data.criteriaAnswer && data.criteriaAnswer !== 'لم يجب') {
-                document.querySelectorAll('#leylaQ6 .quiz-option').forEach(opt => {
-                    if (opt.getAttribute('data-val') === data.criteriaAnswer) opt.classList.add('selected');
-                });
-            }
-        } catch(e) { console.warn('خطأ في التحميل:', e); }
-    }
-    loadMatchSelections();
-    updateKeithProgress();
-    updateLeylaProgress();
-}
-
-function sendModule1DataToSheet() {
-    const user = getUserData();
-    const answers = collectAllAnswers();
-    
-    const payload = {
-        module: 'Module 1',
-        action: 'completed',
-        language: 'ar',
-        userName: user.name,
-        userEmail: user.email,
-        userPosition: user.position,
-        timestamp: new Date().toISOString(),
-        answers: answers
-    };
-    
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', GOOGLE_SCRIPT_URL, true);
-    xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
-    xhr.send(JSON.stringify(payload));
-    showToast('✅ تم حفظ نتائج الوحدة الأولى!');
-}
-
-function goToModule2() {
-    if (!updateKeithProgress()) {
-        showToast('⚠️ الرجاء إكمال جميع أسئلة اختبار كيث الخمسة قبل المتابعة.', true);
-        return;
-    }
-    if (!updateLeylaProgress()) {
-        showToast('⚠️ الرجاء إكمال جميع أنشطة اختبار ليلى الستة قبل المتابعة.', true);
-        return;
-    }
-    
-    saveAnswersToLocal();
-    sendModule1DataToSheet();
-    localStorage.setItem('module1_completed' + storageSuffix, 'true');
-    showToast('✅ جاري حفظ تقدمك...');
-    
-    setTimeout(() => {
-        window.location.href = 'module2.html';
-    }, 500);
-}
-
-// Event Listeners
-document.getElementById('playAudioHookBtn').addEventListener('click', () => {
-    document.getElementById('audioTranscript').innerHTML = "🎙️ إحاطة: أنت تقود في اليمن، السودان، سوريا، العراق، غزة، أفغانستان، الكونغو، الساحل، أو أوكرانيا. بحلول الساعة ٧:٣٠ صباحاً اليوم، قد تواجه نقصاً في الوقود، أو تعطل مركبة، أو اعتقال مترجم، أو حرارة شديدة، أو فيضاناً مفاجئاً. هذه الإحاطة ليست تحفيزية. إنها استراتيجية.";
-});
-
-document.querySelectorAll('.poll-item').forEach(item => {
-    item.addEventListener('click', function() { this.classList.toggle('selected'); saveAnswersToLocal(); });
-});
-
-document.getElementById('submitPollBtn').addEventListener('click', () => {
-    let count = document.querySelectorAll('.poll-item.selected').length;
-    let fb = document.getElementById('pollFeedback');
-    fb.innerHTML = `لقد اخترت ${count} معوق(ات). شكراً لمشاركتك!`;
-    fb.style.display = 'block';
-    saveAnswersToLocal();
-});
-
-document.querySelectorAll('#q1 .quiz-option, #q4 .quiz-option').forEach(opt => {
-    opt.addEventListener('click', function() {
-        this.parentElement.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
-        this.classList.add('selected');
-        saveAnswersToLocal();
-        updateKeithProgress();
-    });
-});
-
-document.getElementById('submitKeithQuiz').addEventListener('click', () => {
-    let q1Val = document.querySelector('#q1 .quiz-option.selected')?.getAttribute('data-val');
-    let fb1 = document.getElementById('fb1');
-    fb1.style.display = 'block';
-    if (q1Val === 'B') fb1.innerHTML = '✅ إجابة صحيحة. ب) اعتقد أن القواعد من مكان آمن وهادئ (نيويورك) ستعمل دون تغيير في منطقة أزمات متغيرة (اليمن).';
-    else fb1.innerHTML = '❌ الإجابة الصحيحة هي ب: اعتقد أن القواعد من مكان آمن وهادئ (نيويورك) ستعمل دون تغيير في منطقة أزمات متغيرة (اليمن).';
-
-    let q4Val = document.querySelector('#q4 .quiz-option.selected')?.getAttribute('data-val');
-    let fb4 = document.getElementById('fb4');
-    fb4.style.display = 'block';
-    fb4.innerHTML = q4Val === 'false' ? '✅ إجابة صحيحة. الخبرة التقنية وحدها لا تكفي.' : '❌ خطأ. الخبرة التقنية ضرورية ولكنها غير كافية.';
-    document.getElementById('keithDiagnosis').style.display = 'block';
-
-    let q2txt = document.getElementById('q2answer').value.trim();
-    let fb2 = document.getElementById('fb2');
-    fb2.style.display = 'block';
-    if (!isValidText(q2txt)) fb2.innerHTML = '⚠️ إجابتك قصيرة جداً. ';
-    else fb2.innerHTML = '📝 تم حفظ تأملك. ';
-    showModelAnswer('fb2', '"إيجاد طريقة" هي تهرب من المسؤولية القيادية. القائد التكيفي يسأل: "ما الذي يجب أن نغيره في القواعد لحماية الناس هنا؟"');
-
-    let q3txt = document.getElementById('q3answer').value.trim();
-    let fb3 = document.getElementById('fb3');
-    fb3.style.display = 'block';
-    if (!isValidText(q3txt)) fb3.innerHTML = '⚠️ الرجاء تقديم سؤال محدد. ';
-    else fb3.innerHTML = '✅ سؤال جيد. ';
-    showModelAnswer('fb3', '"لو أخبرك الفريق المحلي أن إجراءات التشغيل القياسية ستعرض حياتهم للخطر، فما هي خطوتك الأولى؟"');
-
-    let q5txt = document.getElementById('q5answer').value.trim();
-    let fb5 = document.getElementById('fb5');
-    fb5.style.display = 'block';
-    fb5.innerHTML = q5txt ? '📘 شكراً لمشاركتك.' : '💡 مشاركة مثال حقيقي تساعد في ترسيخ الدرس.';
-    
-    saveAnswersToLocal();
-    updateKeithProgress();
-});
-
-document.querySelectorAll('#leylaQ1 .quiz-option').forEach(opt => {
-    opt.addEventListener('click', function() {
-        document.querySelectorAll('#leylaQ1 .quiz-option').forEach(o => o.classList.remove('selected'));
-        this.classList.add('selected');
-        saveAnswersToLocal();
-        updateLeylaProgress();
-    });
-});
-
-document.querySelectorAll('#leylaQ6 .quiz-option').forEach(opt => {
-    opt.addEventListener('click', function() {
-        document.querySelectorAll('#leylaQ6 .quiz-option').forEach(o => o.classList.remove('selected'));
-        this.classList.add('selected');
-        saveAnswersToLocal();
-        updateLeylaProgress();
-    });
-});
-
-document.getElementById('filterAnswer').addEventListener('input', function() {
-    saveAnswersToLocal();
-    updateLeylaProgress();
-});
-
-document.querySelectorAll('.match-option').forEach(opt => {
-    opt.addEventListener('click', function() {
-        const parent = this.parentElement;
-        parent.querySelectorAll('.match-option').forEach(o => o.classList.remove('selected'));
-        this.classList.add('selected');
-        saveMatchSelections();
-        updateLeylaProgress();
-        saveAnswersToLocal();
-    });
-});
-
-document.getElementById('checkMatchesBtn').addEventListener('click', () => {
-    const blameSelected = document.querySelector('[data-action="blame"] .match-option.selected');
-    const waitHQSelected = document.querySelector('[data-action="waitHQ"] .match-option.selected');
-    const negotiateSelected = document.querySelector('[data-action="negotiate"] .match-option.selected');
-    
-    const blameVal = blameSelected?.getAttribute('data-outcome');
-    const waitHQVal = waitHQSelected?.getAttribute('data-outcome');
-    const negotiateVal = negotiateSelected?.getAttribute('data-outcome');
-    
-    const blameCorrect = (blameVal === 'C');
-    const waitHQCorrect = (waitHQVal === 'B');
-    const negotiateCorrect = (negotiateVal === 'A');
-    
-    document.getElementById('blameFeedback').innerHTML = blameCorrect ? '✅ صحيح! اللوم يؤدي إلى الفشل (يدمر ثقة الفريق ويترك المركبات عالقة).' : '❌ اللوم يؤدي إلى الفشل. (النتيجة ج)';
-    document.getElementById('blameFeedback').className = `match-result ${blameCorrect ? 'correct' : 'incorrect'}`;
-    document.getElementById('blameFeedback').style.display = 'block';
-    
-    document.getElementById('waitHQFeedback').innerHTML = waitHQCorrect ? '✅ صحيح! انتظار المكتب الرئيسي يسبب وقت انتظار أطول (نافذة استجابة ممتدة).' : '❌ انتظار المكتب الرئيسي يسبب وقت انتظار أطول. (النتيجة ب)';
-    document.getElementById('waitHQFeedback').className = `match-result ${waitHQCorrect ? 'correct' : 'incorrect'}`;
-    document.getElementById('waitHQFeedback').style.display = 'block';
-    
-    document.getElementById('negotiateFeedback').innerHTML = negotiateCorrect ? '✅ صحيح! التفاوض هو نجاح تكيفي (يستخدم الشبكات المحلية الموثوقة لتوصيل المساعدات المنقذة للحياة فوراً).' : '❌ التفاوض هو نجاح تكيفي. (النتيجة أ)';
-    document.getElementById('negotiateFeedback').className = `match-result ${negotiateCorrect ? 'correct' : 'incorrect'}`;
-    document.getElementById('negotiateFeedback').style.display = 'block';
-    
-    const matchFeedback = document.getElementById('matchFeedback');
-    matchFeedback.innerHTML = '<strong>✅ اكتمل التحقق من المطابقات!</strong><br>اللوم = ❌ فشل<br>انتظار المكتب الرئيسي = ⏳ وقت انتظار أطول<br>التفاوض = ✅ نجاح تكيفي';
-    matchFeedback.style.display = 'block';
-    
-    saveAnswersToLocal();
-    updateLeylaProgress();
-});
-
-document.querySelectorAll('.branch-choice').forEach(choice => {
-    choice.addEventListener('click', function() {
-        document.querySelectorAll('.branch-choice').forEach(c => c.classList.remove('selected'));
-        this.classList.add('selected');
-        
-        let branchOutcome = document.getElementById('branchOutcome');
-        let choiceVal = this.getAttribute('data-choice');
-        if (choiceVal === 'C') branchOutcome.innerHTML = '<div class="success-outcome" style="padding:1rem;"><strong>✅ نجاح تكيفي:</strong> جمع المعرفة المحلية أولاً. هذا ما فعلته ليلى.</div>';
-        else if (choiceVal === 'B') branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>⏳ وقت انتظار أطول:</strong> نظراً لعدم وجود بيانات ميدانية، يحتاج المكتب الرئيسي إلى وقت إضافي للتحقق من المخاطر، مما يوقف عملياتك مؤقتاً.</div>';
-        else branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ فشل:</strong> اللوم يوقف التواصل ويخفي المشاكل. ثقة الفريق تُدمر، والمركبات تبقى عالقة.</div>';
-        branchOutcome.style.display = 'block';
-        saveAnswersToLocal();
-        updateLeylaProgress();
-    });
-});
-
-document.querySelectorAll('.hotspot-item').forEach(item => {
-    item.addEventListener('click', function() {
-        document.querySelectorAll('.hotspot-item').forEach(i => i.classList.remove('selected'));
-        this.classList.add('selected');
-        saveAnswersToLocal();
-        updateLeylaProgress();
-    });
-});
-
-document.querySelectorAll('.check-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        const checkId = this.getAttribute('data-check');
-        
-        if (checkId === 'leylaQ1') {
-            let leylaQ1 = document.querySelector('#leylaQ1 .quiz-option.selected')?.getAttribute('data-val');
-            let fb1 = document.getElementById('leylaFb1');
-            fb1.style.display = 'block';
-            if (leylaQ1 === 'C') {
-                fb1.innerHTML = '✅ صحيح! القادة التكيفيون يجمعون المعرفة المحلية أولاً.';
-                fb1.className = 'feedback feedback-correct';
-            } else {
-                fb1.innerHTML = '❌ الإجابة الصحيحة هي ج: اسأل الفريق المحلي عما نجح من قبل.';
-                fb1.className = 'feedback feedback-incorrect';
-                showModelAnswer('leylaFb1', 'ليلى ستسأل الفريق المحلي أولاً.');
-            }
-        }
-        else if (checkId === 'filterQuestion') {
-            let filterVal = document.getElementById('filterAnswer').value.trim();
-            let filterFb = document.getElementById('filterFb');
-            filterFb.style.display = 'block';
-            if (!isValidText(filterVal)) {
-                filterFb.innerHTML = '⚠️ التصفية مهمة جداً. ';
-                filterFb.className = 'feedback feedback-incorrect';
-                showModelAnswer('filterFb', 'قم تقييم المخاطر، وتوثيقها كاستثناء لإنقاذ الأرواح، وتبرير ذلك للمتبرع بوثائق دقيقة.');
-            } else {
-                filterFb.innerHTML = '✅ غريزة تصفية جيدة. ';
-                filterFb.className = 'feedback feedback-correct';
-                showModelAnswer('filterFb', 'قم تقييم المخاطر، وتوثيقها كاستثناء لإنقاذ الأرواح، وتبرير ذلك للمتبرع بوثائق دقيقة.');
-            }
-        }
-        else if (checkId === 'criteriaQuestion') {
-            let criteriaVal = document.querySelector('#leylaQ6 .quiz-option.selected')?.getAttribute('data-val');
-            let criteriaFb = document.getElementById('criteriaFb');
-            criteriaFb.style.display = 'block';
-            if (criteriaVal === 'B') {
-                criteriaFb.innerHTML = '✅ صحيح. إنقاذ الأرواح + الامتثال القابل للتبرير.';
-                criteriaFb.className = 'feedback feedback-correct';
-            } else {
-                criteriaFb.innerHTML = '❌ الإجابة الصحيحة هي ب: عندما تكون حياة الناس على المحك فوراً.';
-                criteriaFb.className = 'feedback feedback-incorrect';
-            }
-        }
-        saveAnswersToLocal();
-        updateLeylaProgress();
-    });
-});
-
-document.getElementById('submitLeylaQuiz').addEventListener('click', () => {
-    let selectedHotspot = document.querySelector('.hotspot-item.selected')?.getAttribute('data-hotspot');
-    let hotspotFb = document.getElementById('hotspotFeedback');
-    if (selectedHotspot === 'hand') {
-        hotspotFb.innerHTML = '✅ صحيح! العلاقات هي أقوى عملة.';
-        hotspotFb.className = 'feedback feedback-correct';
-    } else if (selectedHotspot) {
-        hotspotFb.innerHTML = '❌ ليس صحيحاً. ستلجأ ليلى إلى الموظفين المحليين أولاً.';
-        hotspotFb.className = 'feedback feedback-incorrect';
-    } else {
-        hotspotFb.innerHTML = '⚠️ الرجاء النقر على أحد الخيارات الثلاثة أعلاه.';
-        hotspotFb.className = 'feedback feedback-incorrect';
-    }
-    hotspotFb.style.display = 'block';
-    
-    document.getElementById('realityCheckDiv').style.display = 'block';
-    document.getElementById('coreTakeawayDiv').style.display = 'block';
-    
-    let finalFeedback = document.getElementById('leylaQuizFeedback');
-    finalFeedback.innerHTML = '📚 عمل رائع! القادة التكيفيون يجمعون المعرفة المحلية أولاً دائماً.';
-    finalFeedback.className = 'feedback feedback-correct';
-    finalFeedback.style.display = 'block';
-    
-    saveAnswersToLocal();
-    updateLeylaProgress();
-});
-
-document.getElementById('continueToModule2Btn').addEventListener('click', goToModule2);
-document.getElementById('backToIntroBtn').addEventListener('click', () => {
-    window.location.href = 'intro.html';
-});
-document.getElementById('resetDataLink').addEventListener('click', () => { 
-    if (confirm('هل تريد إعادة ضبط جميع بيانات الوحدة؟ لا يمكن التراجع عن هذا.')) {
-        localStorage.clear();
-        location.reload();
-    }
-});
-
-loadSavedAnswers();
-</script>
-</body>
-</html>
+                <strong>ج.</strong> عقد اجتماع فوري مع موظفيك المحلي
