@@ -308,6 +308,74 @@
             font-style: italic;
             font-size: 0.85rem;
         }
+
+        /* ========== MOBILE RESPONSIVE TEXT IMPROVEMENTS ========== */
+        p {
+            text-align: justify;
+            word-wrap: break-word;
+        }
+        li {
+            text-align: justify;
+            word-wrap: break-word;
+        }
+        .scenario-card p, .scenario-card {
+            text-align: justify;
+        }
+        .logistics-card p, .logistics-card {
+            text-align: justify;
+        }
+        .crisis-card p, .crisis-card {
+            text-align: justify;
+        }
+        .pocket-card p {
+            text-align: justify;
+        }
+        .growth-reflection p {
+            text-align: justify;
+        }
+        .protocol-tip {
+            text-align: center;
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 0;
+            }
+            .course-card {
+                margin: 0.5rem;
+                padding: 1.2rem;
+            }
+            p, li, .scenario-card p, .logistics-card p, .crisis-card p {
+                font-size: 0.9rem;
+                line-height: 1.55;
+            }
+            .module-title {
+                font-size: 1.1rem;
+            }
+            h2 {
+                font-size: 1.1rem;
+            }
+            .scenario-card, .logistics-card, .crisis-card {
+                padding: 0.8rem;
+            }
+            button {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+            .option-row {
+                padding: 0.4rem;
+            }
+            .option-text {
+                font-size: 0.85rem;
+            }
+            .form-group input, .form-group textarea {
+                font-size: 0.85rem;
+                padding: 0.6rem;
+            }
+            .pocket-card {
+                padding: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
