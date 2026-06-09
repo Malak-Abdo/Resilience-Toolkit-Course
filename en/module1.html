@@ -325,6 +325,70 @@
             text-align: center;
             font-weight: bold;
         }
+
+        /* ========== MOBILE RESPONSIVE TEXT IMPROVEMENTS ========== */
+        p {
+            text-align: justify;
+            word-wrap: break-word;
+        }
+        li {
+            text-align: justify;
+            word-wrap: break-word;
+        }
+        .scenario-card p, .scenario-card {
+            text-align: justify;
+        }
+        .quote-box {
+            text-align: justify;
+        }
+        .highlight-box p {
+            text-align: justify;
+        }
+        .reality-check {
+            text-align: justify;
+        }
+        .key-message {
+            text-align: center;
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 0;
+            }
+            .course-card {
+                margin: 0.5rem;
+                padding: 1.2rem;
+            }
+            p, li, .scenario-card p, .feedback p, .match-feedback p {
+                font-size: 0.9rem;
+                line-height: 1.55;
+            }
+            .quiz-option {
+                font-size: 0.75rem;
+                padding: 0.3rem 0.7rem;
+            }
+            .module-title {
+                font-size: 1.1rem;
+            }
+            h2 {
+                font-size: 1.1rem;
+            }
+            .scenario-card {
+                padding: 0.8rem;
+            }
+            .match-option {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.5rem;
+                min-width: 80px;
+            }
+            button {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+            .check-btn {
+                padding: 0.4rem 0.8rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -725,28 +789,7 @@ function getUserData() {
         } catch(e) {}
     }
     
-    // 6. Check sessionStorage - NO SUFFIX
-    try {
-        let sessionUser = sessionStorage.getItem('current_user');
-        if (sessionUser) {
-            let p = JSON.parse(sessionUser);
-            if (p && p.name && p.name !== 'Guest' && p.name.trim() !== '') {
-                name = p.name.trim();
-                email = (p.email || 'guest@example.com').trim();
-                position = (p.position || 'Not specified').trim();
-                console.log('✅ Found from sessionStorage (no suffix):', name);
-                
-                // Save with suffix
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name, email, position };
-            }
-        }
-    } catch(e) {}
-    
-    // 7. Finally, try WITH suffix (for returning users)
+    // 6. Finally, try WITH suffix (for returning users)
     n = localStorage.getItem('course_user_name' + storageSuffix);
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim() !== '') {
         name = n.trim();
@@ -756,7 +799,7 @@ function getUserData() {
         return { name, email, position };
     }
     
-    // 8. Try currentUser with suffix
+    // 7. Try currentUser with suffix
     try {
         let currentUser = localStorage.getItem('currentUser' + storageSuffix);
         if (currentUser) {
