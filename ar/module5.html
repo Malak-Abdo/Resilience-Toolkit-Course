@@ -17,6 +17,29 @@
             line-height: 1.45;
             padding: 0 0 2rem 0;
         }
+        /* ===== تحسينات النص ===== */
+        p, li, .scenario-card, .commitment-box, .reminder-note, .hint-note,
+        .form-group label, .feedback {
+            text-align: justify;
+            word-wrap: break-word;
+        }
+        /* ===== تنسيق الجداول الأصلي ===== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        th, td {
+            border: 1px solid #E2E9F2;
+            padding: 0.75rem;
+            text-align: right;
+            vertical-align: top;
+        }
+        th {
+            background: #F0F7F4;
+            font-weight: 700;
+            color: #1A6B5A;
+        }
         .course-card {
             max-width: 680px;
             margin: 1rem auto;
@@ -31,6 +54,38 @@
                 margin: 0.8rem;
                 padding: 1.5rem 1.2rem;
                 border-radius: 28px;
+            }
+        }
+        /* ===== تحسينات الجوال ===== */
+        @media (max-width: 480px) {
+            body {
+                font-size: 0.9rem;
+            }
+            .mindset-grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+            .mindset-card {
+                min-height: 120px;
+                padding: 0.8rem;
+            }
+            .module-title {
+                font-size: 1.1rem;
+            }
+            h2 {
+                font-size: 1rem;
+            }
+            .form-group input, .form-group textarea, select {
+                font-size: 0.85rem;
+                padding: 0.6rem;
+            }
+            button {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+            th, td {
+                padding: 0.5rem;
+                font-size: 0.8rem;
             }
         }
         .header-tag {
@@ -129,22 +184,6 @@
         }
         .hidden-content {
             display: none;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1rem 0;
-        }
-        th, td {
-            border: 1px solid #E2E9F2;
-            padding: 0.75rem;
-            text-align: right;
-            vertical-align: top;
-        }
-        th {
-            background: #F0F7F4;
-            font-weight: 700;
-            color: #1A6B5A;
         }
         button {
             background: #1A6B5A;
@@ -248,11 +287,6 @@
             margin-top: 1rem;
             width: 100%;
         }
-        @media (max-width: 480px) {
-            .mindset-grid {
-                grid-template-columns: 1fr;
-            }
-        }
         .toast-notification {
             position: fixed;
             bottom: 20px;
@@ -325,26 +359,30 @@
     
     <h2>حلقة العادة (المحفز → الروتين → المكافأة)</h2>
     <p><em>من منهج ماكينزي</em></p>
-    <table class="adaptive-table">
+    <table>
         <thead>
-            <tr><th>العنصر</th><th>ماذا يعني</th><th>مثال</th> </thead>
+            <tr><th>العنصر</th><th>ماذا يعني</th><th>مثال</th>
+            </tr>
+        </thead>
         <tbody>
-            <tr><td><strong>المحفز</strong> </div><td>ما يبدأ العادة</div><td>"يصل مقياس الحرارة إلى ٤٥ درجة مئوية الساعة ٩ صباحاً"</div> </tr>
-            <tr><td><strong>الروتين</strong> </div><td>السلوك التلقائي</div><td>"أسأل: ما المهام الحرجة التي يمكن إنجازها قبل الساعة ١١ صباحاً؟"</div> </tr>
-            <tr><td><strong>المكافأة</strong> </div><td>ما تشعر به</div><td>"السيطرة. فريقي آمن. العمل لا يزال مستمراً."</div> </tr>
+            <tr><td><strong>المحفز</strong></td><td>ما يبدأ العادة</td><td>"يصل مقياس الحرارة إلى ٤٥ درجة مئوية الساعة ٩ صباحاً"</td></tr>
+            <tr><td><strong>الروتين</strong></td><td>السلوك التلقائي</td><td>"أسأل: ما المهام الحرجة التي يمكن إنجازها قبل الساعة ١١ صباحاً؟"</td></tr>
+            <tr><td><strong>المكافأة</strong></td><td>ما تشعر به</td><td>"السيطرة. فريقي آمن. العمل لا يزال مستمراً."</td></tr>
         </tbody>
-      </table>
+    </table>
     
     <h2>مثال: حلقة عادة مكتملة</h2>
-    <table class="adaptive-table">
+    <table>
         <thead>
-            <tr><th>الأزمة</th><th>المحفز</th><th>الروتين</th><th>المكافأة</th> </thead>
+            <tr><th>الأزمة</th><th>المحفز</th><th>الروتين</th><th>المكافأة</th>
+            </tr>
+        </thead>
         <tbody>
-            <tr><td>نقص الوقود</div><td>"مقياس الوقود يصل إلى الصفر"</div><td>"أسأل: ما الذي يعمل بدون وقود؟"</div><td>"المبادرة. لسنا عالقين."</div> </tr>
-            <tr><td>مغادرة موظف</div><td>"يقدم موظف رئيسي استقالته"</div><td>"أسأل: من يستطيع القيام بجزء من هذه المهمة؟"</div><td>"الفضول. ليس اليأس."</div> </tr>
-            <tr><td>حرارة شديدة</div><td>"يصل مقياس الحرارة إلى ٤٥ درجة مئوية الساعة ٩ صباحاً"</div><td>"أسأل: ما الذي يمكننا إنجازه قبل الساعة ١١ صباحاً؟"</div><td>"السيطرة. فريقي آمن."</div> </tr>
+            <tr><td>نقص الوقود</td><td>"مقياس الوقود يصل إلى الصفر"</td><td>"أسأل: ما الذي يعمل بدون وقود؟"</td><td>"المبادرة. لسنا عالقين."</td></tr>
+            <tr><td>مغادرة موظف</td><td>"يقدم موظف رئيسي استقالته"</td><td>"أسأل: من يستطيع القيام بجزء من هذه المهمة؟"</td><td>"الفضول. ليس اليأس."</td></tr>
+            <tr><td>حرارة شديدة</td><td>"يصل مقياس الحرارة إلى ٤٥ درجة مئوية الساعة ٩ صباحاً"</td><td>"أسأل: ما الذي يمكننا إنجازه قبل الساعة ١١ صباحاً؟"</td><td>"السيطرة. فريقي آمن."</td></tr>
         </tbody>
-      </table>
+    </table>
     
     <div class="section-header">
         <h2 style="margin: 0; border-right: none; padding-right: 0;">📝 دورك الآن: بناء عادتك</h2>
@@ -430,7 +468,7 @@ const storageSuffix = '_ar';
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
 
 // ============================================
-// IMPROVED getUserData() - Looks for data WITHOUT suffix first (from registration)
+// IMPROVED getUserData()
 // ============================================
 function getUserData() {
     let name = '';
@@ -439,9 +477,6 @@ function getUserData() {
     
     console.log('🔍 Searching for user data in module5.html...');
     
-    // FIRST: Try to get user data WITHOUT suffix (from registration page)
-    
-    // 1. Check currentUser first - NO SUFFIX
     try {
         let currentUser = localStorage.getItem('currentUser');
         if (currentUser) {
@@ -452,7 +487,6 @@ function getUserData() {
                 position = (user.position || '').trim();
                 console.log('✅ Found from currentUser (no suffix):', name);
                 
-                // Save with suffix for future use
                 localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(user));
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
@@ -463,7 +497,6 @@ function getUserData() {
         }
     } catch(e) { console.error('Error parsing currentUser:', e); }
     
-    // 2. Check users array - NO SUFFIX
     try {
         let users = JSON.parse(localStorage.getItem('users') || '[]');
         if (Array.isArray(users) && users.length > 0) {
@@ -474,7 +507,6 @@ function getUserData() {
                 position = (lastUser.position || '').trim();
                 console.log('✅ Found from users array (no suffix):', name);
                 
-                // Save with suffix
                 localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(lastUser));
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
@@ -485,7 +517,6 @@ function getUserData() {
         }
     } catch(e) { console.error('Error parsing users:', e); }
     
-    // 3. Check individual fields - NO SUFFIX
     let n = localStorage.getItem('course_user_name');
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
         name = n.trim();
@@ -493,7 +524,6 @@ function getUserData() {
         position = (localStorage.getItem('course_user_position') || '').trim();
         console.log('✅ Found from individual fields (no suffix):', name);
         
-        // Save with suffix
         localStorage.setItem('course_user_name' + storageSuffix, name);
         localStorage.setItem('course_user_email' + storageSuffix, email);
         localStorage.setItem('course_user_position' + storageSuffix, position);
@@ -501,7 +531,6 @@ function getUserData() {
         return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
     }
     
-    // 4. Check course_user object - NO SUFFIX
     let user = localStorage.getItem('course_user');
     if (user) {
         try { 
@@ -512,7 +541,6 @@ function getUserData() {
                 position = (p.position || '').trim();
                 console.log('✅ Found from course_user (no suffix):', name);
                 
-                // Save with suffix
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
                 localStorage.setItem('course_user_position' + storageSuffix, position);
@@ -522,7 +550,6 @@ function getUserData() {
         } catch(e) {}
     }
     
-    // 5. Check resilience_users array - NO SUFFIX
     let users = localStorage.getItem('resilience_users');
     if (users) {
         try { 
@@ -535,7 +562,6 @@ function getUserData() {
                         position = (p[i].position || '').trim();
                         console.log('✅ Found from resilience_users (no suffix):', name);
                         
-                        // Save with suffix
                         localStorage.setItem('course_user_name' + storageSuffix, name);
                         localStorage.setItem('course_user_email' + storageSuffix, email);
                         localStorage.setItem('course_user_position' + storageSuffix, position);
@@ -547,7 +573,6 @@ function getUserData() {
         } catch(e) {}
     }
     
-    // 6. Finally, try WITH suffix (for returning users)
     n = localStorage.getItem('course_user_name' + storageSuffix);
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
         name = n.trim();
@@ -557,7 +582,6 @@ function getUserData() {
         return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
     }
     
-    // 7. Try currentUser with suffix
     try {
         let currentUser = localStorage.getItem('currentUser' + storageSuffix);
         if (currentUser) {
@@ -576,16 +600,13 @@ function getUserData() {
     return { name: 'زائر', email: 'guest@example.com', position: 'غير محدد' };
 }
 
-// Display user name in badge
 const currentUser = getUserData();
 const userBadge = document.getElementById('userBadge');
 if (userBadge) {
     if (currentUser.name !== 'زائر') {
         userBadge.innerText = `👤 ${currentUser.name}`;
-        console.log('✅ User badge updated with:', currentUser.name);
     } else {
         userBadge.innerText = `👤 متعلم`;
-        console.log('⚠️ No user name found, showing default');
     }
 }
 
@@ -665,9 +686,6 @@ function updateCommitProgress() {
     return completed === 2;
 }
 
-// ============================================
-// SAVE FUNCTIONS
-// ============================================
 function saveModule5DataToLocal() {
     const crisis = crisisSelect.value === 'أخرى' ? (otherCrisisInput ? otherCrisisInput.value : '') : crisisSelect.value;
     const data = {
@@ -765,7 +783,7 @@ function goToNextModule() {
     
     sendModule5DataToSheet(function(success) {
         if (success) {
-            console.log('✅ تم إرسال بيانات الوحدة ٥ بنجاح إلى جوجل شيت');
+            console.log('✅ تم إرسال بيانات الوحدة ٥ بنجاح');
         } else {
             console.log('⚠️ فشل الإرسال ولكن تم حفظ البيانات محلياً');
         }
@@ -775,9 +793,6 @@ function goToNextModule() {
     });
 }
 
-// ============================================
-// PDF DOWNLOAD FUNCTION
-// ============================================
 function downloadCommitmentsAsPDF() {
     const userName = getUserData().name;
     const unlearnCommitment = document.getElementById('unlearnHabit').value.trim();
@@ -822,9 +837,9 @@ function downloadCommitmentsAsPDF() {
             <h2>⚙️ عادتي التنفيذية الجديدة</h2>
             <div class="badge">
                 <p><strong>الأزمة المستهدفة:</strong> ${crisis}</p>
-                <p><strong>المحفز (العلامة التي تبدأ العادة):</strong> ${cue}</p>
-                <p><strong>الروتين (السلوك التلقائي):</strong> ${routine}</p>
-                <p><strong>المكافأة (توفير الطاقة الذهنية وتقليل التوتر):</strong> ${reward}</p>
+                <p><strong>المحفز:</strong> ${cue}</p>
+                <p><strong>الروتين:</strong> ${routine}</p>
+                <p><strong>المكافأة:</strong> ${reward}</p>
             </div>
             
             <h2>🔄 التزامي بالتخلي عن العادة</h2>
