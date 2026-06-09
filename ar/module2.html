@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
     <title>الوحدة ٢ · حزمة أدوات المرونة</title>
     <style>
+        /* ===== RESET & GLOBAL ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif;
@@ -13,6 +14,81 @@
             line-height: 1.45;
             padding: 0 0 2rem 0;
         }
+        /* ---------- إضافة تحسينات النص ---------- */
+        p, li, blockquote, .scenario-card, .generator-scenario, .manager-quote, .observation-list, .outcome-box, .mindset-card, .quiz-card, .sentence-box, .intro-text .highlight {
+            text-align: justify;
+            word-wrap: break-word;
+        }
+        li {
+            text-align: justify;
+            word-wrap: break-word;
+        }
+        /* صناديق الاقتباس والإبراز */
+        .scenario-card, .generator-scenario, .highlight, .sentence-box, .manager-quote, .observation-list, .outcome-box {
+            text-align: justify;
+            word-wrap: break-word;
+        }
+        /* شاشات صغيرة جداً */
+        @media (max-width: 480px) {
+            body {
+                font-size: 0.9rem;
+            }
+            .course-card {
+                margin: 0.6rem;
+                padding: 1.2rem 1rem;
+                border-radius: 28px;
+            }
+            .module-title {
+                font-size: 1.1rem;
+            }
+            h2 {
+                font-size: 1rem;
+                margin-top: 1.2rem;
+            }
+            .mindset-grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+            .mindset-card {
+                min-height: 120px;
+                padding: 0.8rem;
+            }
+            .quiz-option {
+                padding: 0.6rem 0.8rem;
+                gap: 0.6rem;
+            }
+            .quiz-option .option-text {
+                font-size: 0.85rem;
+            }
+            .quiz-card {
+                padding: 1.2rem;
+            }
+            button, .check-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+            }
+            .modal-content {
+                padding: 1.2rem;
+                width: 95%;
+            }
+            .result-item {
+                flex-wrap: wrap;
+                gap: 0.4rem;
+            }
+            .result-badge {
+                min-width: 80px;
+            }
+            .header-tag {
+                font-size: 0.7rem;
+            }
+            .user-badge {
+                font-size: 0.65rem;
+            }
+            .module-time {
+                font-size: 0.7rem;
+            }
+        }
+        /* باقي التصميم الأصلي المحسن */
         .course-card {
             max-width: 680px;
             margin: 1rem auto;
@@ -227,11 +303,6 @@
             from { opacity: 0; transform: translateX(-50%) translateY(20px); }
             to { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
-        @media (max-width: 480px) {
-            .mindset-grid { grid-template-columns: 1fr; }
-            .quiz-option { padding: 0.6rem 0.8rem; }
-            .modal-content { padding: 1.2rem; width: 95%; }
-        }
         .intro-text p { margin-bottom: 1rem; line-height: 1.6; }
         .intro-text .highlight {
             background: #F0F7F4; padding: 1rem; border-radius: 12px;
@@ -280,7 +351,7 @@
     </style>
 </head>
 <body>
-        <!-- ========== كود التحقق ========== -->
+    <!-- التحقق من التسجيل -->
     <script>
         const userLang = localStorage.getItem('userLanguage') || 'en';
         const messages = {
@@ -293,7 +364,7 @@
             window.location.href = t.redirect;
         }
     </script>
-    <!-- ================================= -->
+    
 <div class="course-card">
     <div class="header-tag">
         <span>حزمة أدوات المرونة</span>
@@ -334,7 +405,6 @@
         لقد افترض "أنا قمت بهذا من قبل. أعرف أنه سوف ينجح هنا أيضاً." – لكن هذه العقلية تشكل خطراً في بيئة متقلبة مثل اليمن.
     </div>
     
-    <!-- مثال المولد الكهربائي -->
     <div class="generator-scenario">
         <strong>📋 مثال المولد الكهربائي: افتراض الخبير في الواقع</strong><br><br>
         <strong>أنت قائد العمليات.</strong> مديرك يخطط لمكتب جديد في منطقة نزاع.<br><br>
@@ -405,7 +475,7 @@
             <tr><td>الجمود</td><td>النمو</td><td>"من يمتلك الكفاءة ذات الصلة؟"</td></tr>
             <tr><td>الخبير</td><td>المبتدئ</td><td>"ما الافتراضات التي تغيرت؟"</td></tr>
         </tbody>
-      </table>
+    </table>
     
     <div class="quiz-section">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
@@ -414,9 +484,7 @@
         </div>
         
         <div class="quiz-card">
-            <div class="quiz-question">
-                <strong>❓ السؤال ١: أي عقلية كان يُظهرها المدير؟</strong>
-            </div>
+            <div class="quiz-question"><strong>❓ السؤال ١: أي عقلية كان يُظهرها المدير؟</strong></div>
             <div class="quiz-options-grid" data-q="manager">
                 <div class="quiz-option" data-val="الضحية"><span class="option-marker">○</span><span class="option-text">الضحية</span></div>
                 <div class="quiz-option" data-val="الندرة"><span class="option-marker">○</span><span class="option-text">الندرة</span></div>
@@ -428,9 +496,7 @@
         </div>
         
         <div class="quiz-card">
-            <div class="quiz-question">
-                <strong>❓ السؤال ٢: ما هو تحول العقلية الذي يحتاج المدير إلى إجرائه؟</strong>
-            </div>
+            <div class="quiz-question"><strong>❓ السؤال ٢: ما هو تحول العقلية الذي يحتاج المدير إلى إجرائه؟</strong></div>
             <div class="quiz-options-grid" data-q="shift">
                 <div class="quiz-option" data-val="الضحية ← المبادر"><span class="option-marker">○</span><span class="option-text">الضحية ← المبادر</span></div>
                 <div class="quiz-option" data-val="الندرة ← الوفرة"><span class="option-marker">○</span><span class="option-text">الندرة ← الوفرة</span></div>
@@ -442,9 +508,7 @@
         </div>
         
         <div class="quiz-card">
-            <div class="quiz-question">
-                <strong>❓ السؤال ٣: ماذا يجب أن يقول المدير للفريق الآن؟ (المساءلة)</strong>
-            </div>
+            <div class="quiz-question"><strong>❓ السؤال ٣: ماذا يجب أن يقول المدير للفريق الآن؟ (المساءلة)</strong></div>
             <div class="quiz-options-grid" data-q="account">
                 <div class="quiz-option" data-val="الميزانية كانت محددة سابقاً. لا شيء كان بإمكاني فعله."><span class="option-marker">○</span><span class="option-text">"الميزانية كانت محددة سابقاً. لا شيء كان بإمكاني فعله."</span></div>
                 <div class="quiz-option" data-val="كان على الفريق إخباري."><span class="option-marker">○</span><span class="option-text">"كان على الفريق إخباري."</span></div>
@@ -473,26 +537,9 @@
                 <h3 style="margin-bottom: 0;">📖 المساءلة تحت الضغط</h3>
                 <button id="closeModalBtnTop" class="close-icon">✕</button>
             </div>
-            <div class="deep-dive-box">
-                <p><strong>🔑 الحقيقة الأساسية:</strong></p>
-                <p>في البيئات المستقرة، المساءلة تعني تحقيق الأهداف. في بيئات الأزمات، المساءلة تعني <strong>الاعتراف بالخطأ</strong> قبل إيجاد الحل.</p>
-            </div>
-            <div class="deep-dive-box">
-                <p><strong>💡 لماذا هذا مهم؟</strong></p>
-                <p>عندما يقول القائد "لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي"، يحدث ثلاثة أشياء:</p>
-                <ul style="margin-right: 1.5rem; margin-top: 0.5rem;">
-                    <li>✅ تُحفظ الثقة — يشعر الفريق بالأمان</li>
-                    <li>✅ التعلم يحل محل اللوم — تتحرك الطاقة إلى الأمام</li>
-                    <li>✅ تزداد السلامة النفسية — يتحدث الناس بسرعة إذا وجدوا خطأ</li>
-                </ul>
-            </div>
-            <div class="deep-dive-box" style="position: relative;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                    <p><strong>🌟 تطبيق في العالم الحقيقي:</strong></p>
-                    <button id="closeModalBtnBeside" class="close-beside">✕ إغلاق</button>
-                </div>
-                <p>في مناطق النزاع، القادة الذين يعترفون بعدم اليقين يبنون <strong>فرقاً أقوى</strong> من أولئك الذين يدّعون امتلاك جميع الإجابات.</p>
-            </div>
+            <div><p><strong>🔑 الحقيقة الأساسية:</strong> في البيئات المستقرة، المساءلة تعني تحقيق الأهداف. في بيئات الأزمات، المساءلة تعني <strong>الاعتراف بالخطأ</strong> قبل إيجاد الحل.</p></div>
+            <div><p><strong>💡 لماذا هذا مهم؟</strong> عندما يقول القائد "لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي"، يحدث ثلاثة أشياء: ✅ تُحفظ الثقة — يشعر الفريق بالأمان، ✅ التعلم يحل محل اللوم، ✅ تزداد السلامة النفسية.</p></div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;"><p><strong>🌟 تطبيق واقعي:</strong> في مناطق النزاع، القادة الذين يعترفون بعدم اليقين يبنون فرقاً أقوى.</p><button id="closeModalBtnBeside" class="close-beside">✕ إغلاق</button></div>
             <button class="modal-close-btn" id="closeModalBtn">فهمت → إغلاق</button>
         </div>
     </div>
@@ -507,439 +554,140 @@
 </div>
 
 <script>
-// ============================================
-// LANGUAGE SUFFIX FOR LOCALSTORAGE
-// ============================================
-const storageSuffix = '_ar';
-
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxweIz6xAlU39r3vH_DUImmGrdKkpc09ogedZYoCXY0AUj8j4PWK-QN9vYNfSqBEhKkLA/exec';
-
-// ============================================
-// IMPROVED getUserData() - Looks for data WITHOUT suffix first (from registration)
-// ============================================
-function getUserData() {
-    let name = '';
-    let email = '';
-    let position = '';
+    const storageSuffix = '_ar';
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxweIz6xAlU39r3vH_DUImmGrdKkpc09ogedZYoCXY0AUj8j4PWK-QN9vYNfSqBEhKkLA/exec';
     
-    console.log('🔍 Searching for user data in module2.html...');
-    
-    // FIRST: Try to get user data WITHOUT suffix (from registration page)
-    
-    // 1. Check currentUser first - NO SUFFIX
-    try {
-        let currentUser = localStorage.getItem('currentUser');
-        if (currentUser) {
-            let user = JSON.parse(currentUser);
-            if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر' && user.name.trim() !== '') {
-                name = user.name.trim();
-                email = (user.email || '').trim();
-                position = (user.position || '').trim();
-                console.log('✅ Found from currentUser (no suffix):', name);
-                
-                // Save with suffix for future use
-                localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(user));
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
-        }
-    } catch(e) { console.error('Error parsing currentUser:', e); }
-    
-    // 2. Check users array - NO SUFFIX
-    try {
-        let users = JSON.parse(localStorage.getItem('users') || '[]');
-        if (Array.isArray(users) && users.length > 0) {
-            let lastUser = users[users.length - 1];
-            if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name !== 'زائر' && lastUser.name.trim() !== '') {
-                name = lastUser.name.trim();
-                email = (lastUser.email || '').trim();
-                position = (lastUser.position || '').trim();
-                console.log('✅ Found from users array (no suffix):', name);
-                
-                // Save with suffix
-                localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(lastUser));
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
-        }
-    } catch(e) { console.error('Error parsing users:', e); }
-    
-    // 3. Check individual fields - NO SUFFIX
-    let n = localStorage.getItem('course_user_name');
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
-        name = n.trim();
-        email = (localStorage.getItem('course_user_email') || '').trim();
-        position = (localStorage.getItem('course_user_position') || '').trim();
-        console.log('✅ Found from individual fields (no suffix):', name);
-        
-        // Save with suffix
-        localStorage.setItem('course_user_name' + storageSuffix, name);
-        localStorage.setItem('course_user_email' + storageSuffix, email);
-        localStorage.setItem('course_user_position' + storageSuffix, position);
-        
+    function getUserData() {
+        let name = '', email = '', position = '';
+        try { let cu = localStorage.getItem('currentUser'); if(cu){ let u=JSON.parse(cu); if(u&&u.name&&u.name!=='Guest'){ name=u.name.trim(); email=u.email||''; position=u.position||''; } } } catch(e){}
+        if(!name) try { let users=JSON.parse(localStorage.getItem('users')||'[]'); if(users.length){ let lu=users[users.length-1]; if(lu.name&&lu.name!=='Guest'){ name=lu.name.trim(); email=lu.email||''; position=lu.position||''; } } } catch(e){}
+        if(!name) name = localStorage.getItem('course_user_name') || '';
+        if(!name || name==='Guest') name = localStorage.getItem('course_user_name'+storageSuffix) || 'زائر';
+        if(name==='زائر') console.log('⚠️ استخدام اسم زائر');
         return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
     }
+    const currentUser = getUserData();
+    const badge = document.getElementById('userBadge');
+    if(badge) badge.innerText = currentUser.name !== 'زائر' ? `👤 ${currentUser.name}` : `👤 متعلم`;
     
-    // 4. Check course_user object - NO SUFFIX
-    let user = localStorage.getItem('course_user');
-    if (user) {
-        try { 
-            let p = JSON.parse(user); 
-            if (p && p.name && p.name !== 'Guest' && p.name !== 'زائر' && p.name.trim() !== '') {
-                name = p.name.trim();
-                email = (p.email || '').trim();
-                position = (p.position || '').trim();
-                console.log('✅ Found from course_user (no suffix):', name);
-                
-                // Save with suffix
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
-        } catch(e) {}
+    function showToast(msg, isErr=false){ let t=document.createElement('div'); t.className='toast-notification'; t.style.background=isErr?'#C0392B':'#1A6B5A'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),3000); }
+    function updateQuizProgress(){
+        let c=0; if(document.querySelector('[data-q="manager"] .quiz-option.selected')) c++;
+        if(document.querySelector('[data-q="shift"] .quiz-option.selected')) c++;
+        if(document.querySelector('[data-q="account"] .quiz-option.selected')) c++;
+        let prog=document.getElementById('quizProgress');
+        if(prog){ prog.textContent=`${c}/٣ تم الإجابة`; prog.className=c===3?'progress-badge progress-complete':'progress-badge'; }
+        return c===3;
     }
-    
-    // 5. Check resilience_users array - NO SUFFIX
-    let users = localStorage.getItem('resilience_users');
-    if (users) {
-        try { 
-            let p = JSON.parse(users); 
-            if (Array.isArray(p) && p.length > 0) {
-                for (let i = p.length - 1; i >= 0; i--) {
-                    if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'زائر' && p[i].name.trim() !== '') {
-                        name = p[i].name.trim();
-                        email = (p[i].email || '').trim();
-                        position = (p[i].position || '').trim();
-                        console.log('✅ Found from resilience_users (no suffix):', name);
-                        
-                        // Save with suffix
-                        localStorage.setItem('course_user_name' + storageSuffix, name);
-                        localStorage.setItem('course_user_email' + storageSuffix, email);
-                        localStorage.setItem('course_user_position' + storageSuffix, position);
-                        
-                        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-                    }
+    function collectAnswers(){
+        let mgr=document.querySelector('[data-q="manager"] .quiz-option.selected')?.getAttribute('data-val')||'لم يجب';
+        let shift=document.querySelector('[data-q="shift"] .quiz-option.selected')?.getAttribute('data-val')||'لم يجب';
+        let acc=document.querySelector('[data-q="account"] .quiz-option.selected')?.getAttribute('data-val')||'لم يجب';
+        let flips=[]; document.querySelectorAll('.mindset-card.flipped').forEach(c=>flips.push(c.dataset.mindset));
+        return { manager_mindset:mgr, mindset_shift:shift, accountability:acc, victim_flipped:flips.includes('victim')?'نعم':'لا', scarcity_flipped:flips.includes('scarcity')?'نعم':'لا', panic_flipped:flips.includes('panic')?'نعم':'لا', fixed_flipped:flips.includes('fixed')?'نعم':'لا', expert_flipped:flips.includes('expert')?'نعم':'لا', flipped_cards_summary:flips.join(', ')||'لا شيء' };
+    }
+    function saveAnswersLocal(){ localStorage.setItem('module2_answers'+storageSuffix, JSON.stringify({...collectAnswers(), lastUpdated:new Date().toISOString()})); }
+    function sendToSheet(){
+        let user=getUserData();
+        let ans=collectAnswers();
+        let xhr=new XMLHttpRequest();
+        xhr.open('POST',GOOGLE_SCRIPT_URL,true);
+        xhr.setRequestHeader('Content-Type','text/plain;charset=utf-8');
+        xhr.send(JSON.stringify({ module:'Module 2', action:'completed', language:'ar', userName:user.name, userEmail:user.email, userPosition:user.position, timestamp:new Date().toISOString(), answers:ans }));
+    }
+    function goToModule3(){
+        if(!document.querySelector('[data-q="manager"] .quiz-option.selected') || !document.querySelector('[data-q="shift"] .quiz-option.selected') || !document.querySelector('[data-q="account"] .quiz-option.selected')){
+            showToast('⚠️ الرجاء الإجابة على جميع الأسئلة الثلاثة قبل الانتقال.', true); return;
+        }
+        saveAnswersLocal(); sendToSheet(); localStorage.setItem('module2_completed'+storageSuffix,'true'); showToast('جاري حفظ تقدمك...');
+        setTimeout(()=>{ window.location.href='module3.html'; },500);
+    }
+    function displayResults(){
+        let q1=document.querySelector('[data-q="manager"] .quiz-option.selected')?.getAttribute('data-val');
+        let q2=document.querySelector('[data-q="shift"] .quiz-option.selected')?.getAttribute('data-val');
+        let q3=document.querySelector('[data-q="account"] .quiz-option.selected')?.getAttribute('data-val');
+        let c1=q1==='الضحية', c2=q2==='الضحية ← المبادر', c3=q3==='لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي.';
+        let total=(c1?1:0)+(c2?1:0)+(c3?1:0);
+        let cont=document.getElementById('resultsSummaryContainer');
+        cont.style.display='block';
+        cont.innerHTML=`<h4>📋 نتائج اختبارك · ${total}/٣ صحيح</h4>
+        <div class="result-item"><span class="result-badge">س١: العقلية</span> <span>${escapeHtml(q1||'لم يجب')}</span> <span class="result-status ${c1?'status-correct':'status-incorrect'}">${c1?'✓ صحيح':'✗ خطأ'}</span></div>
+        <div class="result-item"><span class="result-badge">س٢: التحول</span> <span>${escapeHtml(q2||'لم يجب')}</span> <span class="result-status ${c2?'status-correct':'status-incorrect'}">${c2?'✓ صحيح':'✗ خطأ'}</span></div>
+        <div class="result-item"><span class="result-badge">س٣: المساءلة</span> <span>${escapeHtml(q3||'لم يجب')}</span> <span class="result-status ${c3?'status-correct':'status-incorrect'}">${c3?'✓ صحيح':'✗ خطأ'}</span></div>
+        <div style="margin-top:12px; font-size:0.75rem;">💡 الإجابات الصحيحة: الضحية | الضحية ← المبادر | الجملة التي تعترف بالخطأ.</div>`;
+        cont.scrollIntoView({behavior:'smooth'});
+    }
+    function escapeHtml(s){ if(!s) return ''; return s.replace(/[&<>]/g,function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+    function bindQuizEvents(){
+        document.querySelectorAll('[data-q="manager"] .quiz-option, [data-q="shift"] .quiz-option, [data-q="account"] .quiz-option').forEach(opt=>{
+            opt.addEventListener('click',()=>{
+                let parent=opt.parentElement;
+                parent.querySelectorAll('.quiz-option').forEach(o=>{ o.classList.remove('selected'); let m=o.querySelector('.option-marker'); if(m) m.textContent='○'; });
+                opt.classList.add('selected'); let mark=opt.querySelector('.option-marker'); if(mark) mark.textContent='●';
+                let card=opt.closest('.quiz-card');
+                if(card && card.querySelector('[data-q="manager"]')){
+                    let val=opt.dataset.val, fb=document.getElementById('managerFb1'), correct=(val==='الضحية');
+                    fb.className=`quiz-feedback ${correct?'correct':'incorrect'}`;
+                    fb.innerHTML=correct?'✅ <strong>صحيح!</strong> كان المدير يُظهر عقلية الضحية.' : '❌ <strong>خطأ.</strong> الإجابة الصحيحة هي "الضحية".';
+                    fb.style.display='block';
+                } else if(card && card.querySelector('[data-q="shift"]')){
+                    let val=opt.dataset.val, fb=document.getElementById('managerFb2'), correct=(val==='الضحية ← المبادر');
+                    fb.className=`quiz-feedback ${correct?'correct':'incorrect'}`;
+                    fb.innerHTML=correct?'✅ <strong>صحيح!</strong> التحول إلى المبادر.' : '❌ <strong>خطأ.</strong> التحول الصحيح هو "الضحية ← المبادر".';
+                    fb.style.display='block';
+                } else if(card && card.querySelector('[data-q="account"]')){
+                    let val=opt.dataset.val, correct=(val==='لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي.'), fb=document.getElementById('accountabilityFeedback');
+                    fb.className=`quiz-feedback ${correct?'correct':'incorrect'}`;
+                    fb.innerHTML=correct?'✅ <strong>صحيح!</strong> المساءلة تعني الاعتراف بالخطأ.' : '❌ <strong>خطأ.</strong> الإجابة الصحيحة هي الاعتراف بالخطأ.';
+                    fb.style.display='block';
                 }
-            }
-        } catch(e) {}
-    }
-    
-    // 6. Finally, try WITH suffix (for returning users)
-    n = localStorage.getItem('course_user_name' + storageSuffix);
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
-        name = n.trim();
-        email = (localStorage.getItem('course_user_email' + storageSuffix) || '').trim();
-        position = (localStorage.getItem('course_user_position' + storageSuffix) || '').trim();
-        console.log('✅ Found from individual fields (with suffix):', name);
-        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-    }
-    
-    // 7. Try currentUser with suffix
-    try {
-        let currentUser = localStorage.getItem('currentUser' + storageSuffix);
-        if (currentUser) {
-            let user = JSON.parse(currentUser);
-            if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر' && user.name.trim() !== '') {
-                name = user.name.trim();
-                email = (user.email || '').trim();
-                position = (user.position || '').trim();
-                console.log('✅ Found from currentUser (with suffix):', name);
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
-        }
-    } catch(e) {}
-    
-    console.log('⚠️ No user data found, using default');
-    return { name: 'زائر', email: 'guest@example.com', position: 'غير محدد' };
-}
-
-// Display user name in badge
-const currentUser = getUserData();
-const userBadge = document.getElementById('userBadge');
-if (userBadge) {
-    if (currentUser.name !== 'زائر') {
-        userBadge.innerText = `👤 ${currentUser.name}`;
-        console.log('✅ User badge updated with:', currentUser.name);
-    } else {
-        userBadge.innerText = `👤 متعلم`;
-        console.log('⚠️ No user name found, showing default');
-    }
-}
-
-function showToast(message, isError = false) {
-    const existing = document.querySelector('.toast-notification');
-    if (existing) existing.remove();
-    const toast = document.createElement('div');
-    toast.className = 'toast-notification';
-    toast.style.background = isError ? '#C0392B' : '#1A6B5A';
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    setTimeout(() => { if (toast) toast.remove(); }, 3000);
-}
-
-function updateQuizProgress() {
-    const q1Answered = document.querySelector('[data-q="manager"] .quiz-option.selected') !== null;
-    const q2Answered = document.querySelector('[data-q="shift"] .quiz-option.selected') !== null;
-    const q3Answered = document.querySelector('[data-q="account"] .quiz-option.selected') !== null;
-    
-    let answeredCount = 0;
-    if (q1Answered) answeredCount++;
-    if (q2Answered) answeredCount++;
-    if (q3Answered) answeredCount++;
-    
-    const progressSpan = document.getElementById('quizProgress');
-    if (progressSpan) {
-        progressSpan.textContent = `${answeredCount}/٣ تم الإجابة`;
-        if (answeredCount === 3) {
-            progressSpan.className = 'progress-badge progress-complete';
-        } else {
-            progressSpan.className = 'progress-badge';
-        }
-    }
-    
-    return answeredCount === 3;
-}
-
-function collectAllAnswers() {
-    let managerMindset = '', mindsetShift = '', accountability = '';
-    let flippedCards = [];
-    const selMgr = document.querySelector('[data-q="manager"] .quiz-option.selected');
-    if (selMgr) managerMindset = selMgr.getAttribute('data-val');
-    const selShift = document.querySelector('[data-q="shift"] .quiz-option.selected');
-    if (selShift) mindsetShift = selShift.getAttribute('data-val');
-    const selAcct = document.querySelector('[data-q="account"] .quiz-option.selected');
-    if (selAcct) accountability = selAcct.getAttribute('data-val');
-    document.querySelectorAll('.mindset-card').forEach(card => {
-        if (card.classList.contains('flipped')) flippedCards.push(card.getAttribute('data-mindset') || 'unknown');
-    });
-    return { 
-        manager_mindset: managerMindset || 'لم يجب', 
-        mindset_shift: mindsetShift || 'لم يجب', 
-        accountability: accountability || 'لم يجب', 
-        victim_flipped: flippedCards.includes('victim') ? 'نعم' : 'لا', 
-        scarcity_flipped: flippedCards.includes('scarcity') ? 'نعم' : 'لا', 
-        panic_flipped: flippedCards.includes('panic') ? 'نعم' : 'لا', 
-        fixed_flipped: flippedCards.includes('fixed') ? 'نعم' : 'لا', 
-        expert_flipped: flippedCards.includes('expert') ? 'نعم' : 'لا', 
-        flipped_cards_summary: flippedCards.join(', ') || 'لا شيء' 
-    };
-}
-
-function saveAnswersToLocal() { 
-    localStorage.setItem('module2_answers' + storageSuffix, JSON.stringify({ ...collectAllAnswers(), lastUpdated: new Date().toISOString() })); 
-}
-
-function sendModule2DataToSheet() {
-    const userData = getUserData();
-    const answers = collectAllAnswers();
-    const payload = { 
-        module: 'Module 2', 
-        action: 'completed',
-        language: 'ar', 
-        userName: userData.name,
-        userEmail: userData.email,
-        userPosition: userData.position,
-        timestamp: new Date().toISOString(), 
-        answers: answers 
-    };
-    console.log('📤 جاري إرسال بيانات الوحدة ٢ للمستخدم:', userData.name);
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', GOOGLE_SCRIPT_URL, true);
-    xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
-    xhr.send(JSON.stringify(payload));
-}
-
-function goToModule3() {
-    const q1Answered = document.querySelector('[data-q="manager"] .quiz-option.selected') !== null;
-    const q2Answered = document.querySelector('[data-q="shift"] .quiz-option.selected') !== null;
-    const q3Answered = document.querySelector('[data-q="account"] .quiz-option.selected') !== null;
-    
-    if (!q1Answered || !q2Answered || !q3Answered) {
-        showToast('⚠️ الرجاء الإجابة على جميع الأسئلة الثلاثة قبل الانتقال إلى الوحدة ٣.', true);
-        return;
-    }
-    
-    saveAnswersToLocal();
-    sendModule2DataToSheet();
-    localStorage.setItem('module2_completed' + storageSuffix, 'true');
-    showToast('جاري حفظ تقدمك...');
-    
-    setTimeout(() => {
-        window.location.href = 'module3.html';
-    }, 500);
-}
-
-function displayResultsSummary() {
-    const q1Selected = document.querySelector('[data-q="manager"] .quiz-option.selected');
-    const q2Selected = document.querySelector('[data-q="shift"] .quiz-option.selected');
-    const q3Selected = document.querySelector('[data-q="account"] .quiz-option.selected');
-    
-    const q1Answer = q1Selected ? q1Selected.getAttribute('data-val') : null;
-    const q2Answer = q2Selected ? q2Selected.getAttribute('data-val') : null;
-    const q3Answer = q3Selected ? q3Selected.getAttribute('data-val') : null;
-    
-    const isQ1Correct = (q1Answer === 'الضحية');
-    const isQ2Correct = (q2Answer === 'الضحية ← المبادر');
-    const isQ3Correct = (q3Answer === 'لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي.');
-    
-    const totalCorrect = (isQ1Correct ? 1 : 0) + (isQ2Correct ? 1 : 0) + (isQ3Correct ? 1 : 0);
-    
-    const q1Display = q1Answer ? q1Answer : 'لم يجب';
-    const q2Display = q2Answer ? q2Answer : 'لم يجب';
-    const q3Display = q3Answer ? q3Answer : 'لم يجب';
-    
-    const container = document.getElementById('resultsSummaryContainer');
-    container.style.display = 'block';
-    container.innerHTML = `
-        <h4>📋 نتائج اختبارك · ${totalCorrect}/٣ صحيح</h4>
-        <div class="result-item"><span class="result-badge">س١: العقلية</span> <span>${escapeHtml(q1Display)}</span> <span class="result-status ${isQ1Correct ? 'status-correct' : 'status-incorrect'}">${isQ1Correct ? '✓ صحيح' : '✗ خطأ'}</span></div>
-        <div class="result-item"><span class="result-badge">س٢: التحول</span> <span>${escapeHtml(q2Display)}</span> <span class="result-status ${isQ2Correct ? 'status-correct' : 'status-incorrect'}">${isQ2Correct ? '✓ صحيح' : '✗ خطأ'}</span></div>
-        <div class="result-item"><span class="result-badge">س٣: المساءلة</span> <span>${escapeHtml(q3Display)}</span> <span class="result-status ${isQ3Correct ? 'status-correct' : 'status-incorrect'}">${isQ3Correct ? '✓ صحيح' : '✗ خطأ'}</span></div>
-        <div style="margin-top: 12px; font-size:0.75rem; color:#4B6F86;">💡 الإجابات الصحيحة: الضحية | الضحية ← المبادر | "لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي."</div>
-    `;
-    container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-
-function escapeHtml(str) { 
-    if (!str) return ''; 
-    return str.replace(/[&<>]/g, function(m) { 
-        if (m === '&') return '&amp;'; 
-        if (m === '<') return '&lt;'; 
-        if (m === '>') return '&gt;'; 
-        return m; 
-    }); 
-}
-
-function bindEvents() {
-    document.querySelectorAll('[data-q="manager"] .quiz-option, [data-q="shift"] .quiz-option, [data-q="account"] .quiz-option').forEach(opt => {
-        opt.addEventListener('click', () => {
-            const parent = opt.parentElement;
-            parent.querySelectorAll('.quiz-option').forEach(o => { 
-                o.classList.remove('selected'); 
-                const m = o.querySelector('.option-marker'); 
-                if (m) m.textContent = '○'; 
+                saveAnswersLocal(); updateQuizProgress();
             });
-            opt.classList.add('selected'); 
-            const marker = opt.querySelector('.option-marker'); 
-            if (marker) marker.textContent = '●';
-            
-            const qParent = opt.closest('.quiz-card');
-            if (qParent && qParent.querySelector('[data-q="manager"]')) {
-                const selectedVal = opt.getAttribute('data-val');
-                const fbDiv = document.getElementById('managerFb1');
-                const isCorrect = (selectedVal === 'الضحية');
-                fbDiv.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
-                fbDiv.innerHTML = isCorrect ? '✅ <strong>صحيح!</strong> كان المدير يُظهر عقلية الضحية — التركيز على ما هو مستحيل.' : '❌ <strong>خطأ.</strong> الإجابة الصحيحة هي "الضحية". العبارة تعكس إطار الضحية.';
-                fbDiv.style.display = 'block';
-            } else if (qParent && qParent.querySelector('[data-q="shift"]')) {
-                const selectedVal = opt.getAttribute('data-val');
-                const fbDiv = document.getElementById('managerFb2');
-                const isCorrect = (selectedVal === 'الضحية ← المبادر');
-                fbDiv.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
-                fbDiv.innerHTML = isCorrect ? '✅ <strong>صحيح!</strong> التحول من الضحية إلى المبادر — سؤال "ما الإجراءات التي لا تزال ممكنة؟"' : '❌ <strong>خطأ.</strong> التحول الصحيح هو "الضحية ← المبادر".';
-                fbDiv.style.display = 'block';
-            } else if (qParent && qParent.querySelector('[data-q="account"]')) {
-                const selectedVal = opt.getAttribute('data-val');
-                const correctVal = "لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي.";
-                const fbDiv = document.getElementById('accountabilityFeedback');
-                const isCorrect = (selectedVal === correctVal);
-                fbDiv.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
-                fbDiv.innerHTML = isCorrect ? '✅ <strong>صحيح!</strong> المساءلة الحقيقية تعني الاعتراف بالخطأ.' : '❌ <strong>خطأ.</strong> الإجابة الصحيحة هي: "لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي."';
-                fbDiv.style.display = 'block';
-            }
-            
-            saveAnswersToLocal();
-            updateQuizProgress();
         });
-    });
-    
-    document.querySelectorAll('.mindset-card').forEach(card => {
-        card.addEventListener('click', function() {
-            this.classList.toggle('flipped');
-            const front = this.querySelector('.mindset-front');
-            const back = this.querySelector('.mindset-back');
-            if (this.classList.contains('flipped')) { 
-                if (front) front.classList.add('hidden-content'); 
-                if (back) back.classList.remove('hidden-content'); 
-            } else { 
-                if (front) front.classList.remove('hidden-content'); 
-                if (back) back.classList.add('hidden-content'); 
-            }
-            saveAnswersToLocal();
+        document.querySelectorAll('.mindset-card').forEach(card=>{
+            card.addEventListener('click',function(){
+                this.classList.toggle('flipped');
+                let front=this.querySelector('.mindset-front'), back=this.querySelector('.mindset-back');
+                if(this.classList.contains('flipped')){ if(front) front.classList.add('hidden-content'); if(back) back.classList.remove('hidden-content'); }
+                else{ if(front) front.classList.remove('hidden-content'); if(back) back.classList.add('hidden-content'); }
+                saveAnswersLocal();
+            });
         });
-    });
-}
-
-function loadSavedAnswers() {
-    const saved = localStorage.getItem('module2_answers' + storageSuffix);
-    if (saved) {
-        try {
-            const data = JSON.parse(saved);
-            if (data.manager_mindset && data.manager_mindset !== 'لم يجب') {
-                const opts = document.querySelectorAll('[data-q="manager"] .quiz-option');
-                opts.forEach(opt => { if (opt.getAttribute('data-val') === data.manager_mindset) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
-            }
-            if (data.mindset_shift && data.mindset_shift !== 'لم يجب') {
-                const opts = document.querySelectorAll('[data-q="shift"] .quiz-option');
-                opts.forEach(opt => { if (opt.getAttribute('data-val') === data.mindset_shift) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
-            }
-            if (data.accountability && data.accountability !== 'لم يجب') {
-                const opts = document.querySelectorAll('[data-q="account"] .quiz-option');
-                opts.forEach(opt => { if (opt.getAttribute('data-val') === data.accountability) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
-            }
-        } catch(e) { console.warn(e); }
     }
-    updateQuizProgress();
-}
-
-function setupModal() {
-    const modal = document.getElementById('deepDiveModal');
-    const openBtn = document.getElementById('deepDiveBtn');
-    const closeBtns = ['closeModalBtn', 'closeModalBtnBeside', 'closeModalBtnTop'];
-    function openModal() { modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
-    function closeModal() { modal.classList.remove('active'); document.body.style.overflow = ''; }
-    if (openBtn) openBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
-    closeBtns.forEach(id => { const btn = document.getElementById(id); if (btn) btn.addEventListener('click', closeModal); });
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    loadSavedAnswers();
-    bindEvents();
-    setupModal();
-    
-    const checkBtn = document.getElementById('checkResultsBtn');
-    if (checkBtn) {
-        checkBtn.addEventListener('click', () => { displayResultsSummary(); });
+    function loadSaved(){
+        let saved=localStorage.getItem('module2_answers'+storageSuffix);
+        if(saved){
+            try{
+                let d=JSON.parse(saved);
+                if(d.manager_mindset && d.manager_mindset!=='لم يجب'){
+                    let opt=Array.from(document.querySelectorAll('[data-q="manager"] .quiz-option')).find(o=>o.dataset.val===d.manager_mindset);
+                    if(opt){ opt.classList.add('selected'); let m=opt.querySelector('.option-marker'); if(m) m.textContent='●'; }
+                }
+                if(d.mindset_shift && d.mindset_shift!=='لم يجب'){
+                    let opt=Array.from(document.querySelectorAll('[data-q="shift"] .quiz-option')).find(o=>o.dataset.val===d.mindset_shift);
+                    if(opt){ opt.classList.add('selected'); let m=opt.querySelector('.option-marker'); if(m) m.textContent='●'; }
+                }
+                if(d.accountability && d.accountability!=='لم يجب'){
+                    let opt=Array.from(document.querySelectorAll('[data-q="account"] .quiz-option')).find(o=>o.dataset.val===d.accountability);
+                    if(opt){ opt.classList.add('selected'); let m=opt.querySelector('.option-marker'); if(m) m.textContent='●'; }
+                }
+            }catch(e){}
+        }
+        updateQuizProgress();
     }
-    
-    const continueBtn = document.getElementById('continueToModule3Btn');
-    if (continueBtn) {
-        continueBtn.addEventListener('click', goToModule3);
+    function setupModal(){
+        let modal=document.getElementById('deepDiveModal'), open=document.getElementById('deepDiveBtn'), closeBtns=['closeModalBtn','closeModalBtnBeside','closeModalBtnTop'];
+        if(open) open.addEventListener('click',(e)=>{ e.preventDefault(); modal.classList.add('active'); document.body.style.overflow='hidden'; });
+        closeBtns.forEach(id=>{ let btn=document.getElementById(id); if(btn) btn.addEventListener('click',()=>{ modal.classList.remove('active'); document.body.style.overflow=''; }); });
+        modal.addEventListener('click',(e)=>{ if(e.target===modal){ modal.classList.remove('active'); document.body.style.overflow=''; } });
     }
-    
-    document.getElementById('backToModule1Btn').addEventListener('click', () => { 
-        window.location.href = 'module1.html'; 
+    document.addEventListener('DOMContentLoaded',()=>{
+        loadSaved(); bindQuizEvents(); setupModal();
+        document.getElementById('checkResultsBtn')?.addEventListener('click',displayResults);
+        document.getElementById('continueToModule3Btn')?.addEventListener('click',goToModule3);
+        document.getElementById('backToModule1Btn')?.addEventListener('click',()=>{ window.location.href='module1.html'; });
+        document.getElementById('resetDataLink')?.addEventListener('click',(e)=>{ e.preventDefault(); if(confirm('هل تريد إعادة ضبط جميع بيانات الوحدة؟')){ localStorage.removeItem('module2_answers'+storageSuffix); localStorage.removeItem('module2_completed'+storageSuffix); location.reload(); } });
     });
-    
-    document.getElementById('resetDataLink').addEventListener('click', (e) => { 
-        e.preventDefault(); 
-        if (confirm('هل تريد إعادة ضبط جميع بيانات الوحدة؟ لا يمكن التراجع عن هذا.')) { 
-            localStorage.removeItem('module2_answers' + storageSuffix); 
-            localStorage.removeItem('module2_completed' + storageSuffix); 
-            location.reload(); 
-        } 
-    });
-});
 </script>
 </body>
 </html>
