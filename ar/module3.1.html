@@ -17,6 +17,12 @@
             line-height: 1.45;
             padding: 0 0 2rem 0;
         }
+        /* ===== تحسينات النص ===== */
+        p, li, .scenario-card, .mindset-card, .safe-section, .safe-step, 
+        .sentence-box, .tip-note, .hint-box, .feedback-message {
+            text-align: justify;
+            word-wrap: break-word;
+        }
         .course-card {
             max-width: 720px;
             margin: 1rem auto;
@@ -248,9 +254,35 @@
                 transform: translateX(-50%) translateY(0);
             }
         }
+        /* ===== تحسينات الجوال ===== */
         @media (max-width: 480px) {
+            body {
+                font-size: 0.9rem;
+            }
             .mindset-grid {
                 grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+            .mindset-card {
+                min-height: 110px;
+                padding: 0.8rem;
+            }
+            .safe-step {
+                padding: 0.6rem;
+            }
+            textarea, input {
+                font-size: 0.85rem;
+                padding: 0.6rem;
+            }
+            .module-title {
+                font-size: 1.1rem;
+            }
+            h2 {
+                font-size: 1rem;
+            }
+            .check-btn {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.75rem;
             }
         }
         .progress-badge {
@@ -463,7 +495,7 @@ const storageSuffix = '_ar';
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
 
 // ============================================
-// IMPROVED getUserData() - Looks for data WITHOUT suffix first (from registration)
+// IMPROVED getUserData()
 // ============================================
 function getUserData() {
     let name = '';
@@ -472,9 +504,6 @@ function getUserData() {
     
     console.log('🔍 Searching for user data in module3.1.html...');
     
-    // FIRST: Try to get user data WITHOUT suffix (from registration page)
-    
-    // 1. Check currentUser first - NO SUFFIX
     try {
         let currentUser = localStorage.getItem('currentUser');
         if (currentUser) {
@@ -485,7 +514,6 @@ function getUserData() {
                 position = (user.position || '').trim();
                 console.log('✅ Found from currentUser (no suffix):', name);
                 
-                // Save with suffix for future use
                 localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(user));
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
@@ -496,7 +524,6 @@ function getUserData() {
         }
     } catch(e) { console.error('Error parsing currentUser:', e); }
     
-    // 2. Check users array - NO SUFFIX
     try {
         let users = JSON.parse(localStorage.getItem('users') || '[]');
         if (Array.isArray(users) && users.length > 0) {
@@ -507,7 +534,6 @@ function getUserData() {
                 position = (lastUser.position || '').trim();
                 console.log('✅ Found from users array (no suffix):', name);
                 
-                // Save with suffix
                 localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(lastUser));
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
@@ -518,7 +544,6 @@ function getUserData() {
         }
     } catch(e) { console.error('Error parsing users:', e); }
     
-    // 3. Check individual fields - NO SUFFIX
     let n = localStorage.getItem('course_user_name');
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
         name = n.trim();
@@ -526,7 +551,6 @@ function getUserData() {
         position = (localStorage.getItem('course_user_position') || '').trim();
         console.log('✅ Found from individual fields (no suffix):', name);
         
-        // Save with suffix
         localStorage.setItem('course_user_name' + storageSuffix, name);
         localStorage.setItem('course_user_email' + storageSuffix, email);
         localStorage.setItem('course_user_position' + storageSuffix, position);
@@ -534,7 +558,6 @@ function getUserData() {
         return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
     }
     
-    // 4. Check course_user object - NO SUFFIX
     let user = localStorage.getItem('course_user');
     if (user) {
         try { 
@@ -545,7 +568,6 @@ function getUserData() {
                 position = (p.position || '').trim();
                 console.log('✅ Found from course_user (no suffix):', name);
                 
-                // Save with suffix
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
                 localStorage.setItem('course_user_position' + storageSuffix, position);
@@ -555,7 +577,6 @@ function getUserData() {
         } catch(e) {}
     }
     
-    // 5. Check resilience_users array - NO SUFFIX
     let users = localStorage.getItem('resilience_users');
     if (users) {
         try { 
@@ -568,7 +589,6 @@ function getUserData() {
                         position = (p[i].position || '').trim();
                         console.log('✅ Found from resilience_users (no suffix):', name);
                         
-                        // Save with suffix
                         localStorage.setItem('course_user_name' + storageSuffix, name);
                         localStorage.setItem('course_user_email' + storageSuffix, email);
                         localStorage.setItem('course_user_position' + storageSuffix, position);
@@ -580,7 +600,6 @@ function getUserData() {
         } catch(e) {}
     }
     
-    // 6. Finally, try WITH suffix (for returning users)
     n = localStorage.getItem('course_user_name' + storageSuffix);
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
         name = n.trim();
@@ -590,7 +609,6 @@ function getUserData() {
         return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
     }
     
-    // 7. Try currentUser with suffix
     try {
         let currentUser = localStorage.getItem('currentUser' + storageSuffix);
         if (currentUser) {
