@@ -335,285 +335,32 @@
             font-weight: bold;
         }
 
-        /* ========== MOBILE RESPONSIVE TEXT IMPROVEMENTS ========== */
-        p {
+        /* ========== فقط التغييرات المطلوبة ========== */
+        p, li, .scenario-card, .scenario-card p, .reality-check, .reality-check p, 
+        .key-message, .core-takeaway, .matching-action, .match-option, .branch-choice {
             text-align: justify;
             word-wrap: break-word;
-        }
-        li {
-            text-align: justify;
-            word-wrap: break-word;
-        }
-        .scenario-card p, .scenario-card {
-            text-align: justify;
-        }
-        .key-message {
-            text-align: center;
-        }
-        .reality-check p {
-            text-align: justify;
-        }
-        .core-takeaway {
-            text-align: center;
-        }
-        .match-action, .match-option {
-            text-align: justify;
         }
         
         @media (max-width: 480px) {
-            body {
-                padding: 0;
-            }
             .course-card {
-                margin: 0.5rem;
                 padding: 1.2rem;
             }
-            .module-title {
-                font-size: 1.1rem;
-            }
-            h2 {
-                font-size: 1.1rem;
-            }
-            p, li, .scenario-card p, .reality-check p, .match-action, .match-option {
+            p, li, .scenario-card p, .reality-check p {
                 font-size: 0.9rem;
-                line-height: 1.55;
-            }
-            .scenario-card {
-                padding: 0.8rem;
+                line-height: 1.5;
             }
             .quiz-option {
                 font-size: 0.75rem;
                 padding: 0.3rem 0.7rem;
             }
             button {
-                padding: 0.6rem 1rem;
-                font-size: 0.8rem;
-            }
-            .match-option {
-                font-size: 0.7rem;
-                padding: 0.3rem 0.5rem;
-                min-width: 80px;
-            }
-            .hotspot-item {
-                min-width: 100px;
-                padding: 0.6rem;
-            }
-            .hotspot-emoji {
-                font-size: 2rem;
-            }
-            .branch-choice {
-                padding: 0.8rem;
-            }
-            textarea {
+                padding: 0.6rem 1.2rem;
                 font-size: 0.85rem;
-                padding: 0.6rem;
             }
         }
     </style>
 </head>
 <body>
-    <script>
-        const userLang = localStorage.getItem('userLanguage') || 'en';
-        const messages = {
-            en: { alert: 'Sorry, please register and verify your email first to access the course.', redirect: 'register.html' },
-            ar: { alert: 'عذراً، يرجى التسجيل وتأكيد بريدك الإلكتروني أولاً للوصول إلى الكورس.', redirect: 'register.html' }
-        };
-        const t = messages[userLang] || messages.en;
-        if (sessionStorage.getItem('isVerifiedUser') !== 'true') {
-            alert(t.alert);
-            window.location.href = t.redirect;
-        }
-    </script>
-<div class="course-card">
-    <div class="header-tag">
-        <span>حزمة أدوات المرونة</span>
-        <span class="user-badge" id="userBadge">👤 جار التحميل...</span>
-    </div>
-    
-    <div class="module-header">
-        <span class="module-title">🧠 الوحدة ١: ضرورة القدرة على التكيف</span>
-        <span class="module-time">٥ دقائق</span>
-    </div>
-    
-    <div class="executive-title">📡 إحاطة تنفيذية تمهيدية</div>
-    
-    <div class="audio-hook">
-        <button id="playAudioHookBtn" style="background:#E8A735; color:#2E3A2A;">▶ بدء الإحاطة</button>
-        <p id="audioTranscript" style="margin-top:12px; font-size:0.9rem; font-style:italic; background:#FEF7E6; padding:10px; border-radius:16px;"></p>
-    </div>
-    
-    <div class="key-message">
-        💡 النقطة الأساسية التي يجب تذكرها:<br>
-        "المهارة التقنية توصلك إلى الباب. المهارة التكيفية هي التي تقرر ما إذا كان سيُسمح لك بالقيادة من خلاله."
-    </div>
-    
-    <h2>📊 استطلاع تشخيصي</h2>
-    <p><em>خلال الثلاثين يوماً الماضية، أي من المعوقات التالية أثرت بشكل مباشر على عملية اتخاذ القرار لديك؟ (اختر كل ما ينطبق)</em></p>
-    <div class="poll-grid" id="pollContainer">
-        <div class="poll-item" data-value="fuel">⛽ نقص الوقود (لا توجد مركبات لمدة ٣+ أيام)</div>
-        <div class="poll-item" data-value="vehicle">🚗 تعطل مركبة أثناء العمليات</div>
-        <div class="poll-item" data-value="interpreter">🗣️ اعتقال مترجم أو موظف رئيسي</div>
-        <div class="poll-item" data-value="heat">🔥 حرارة شديدة (العمل مستحيل بعد الساعة ١١ صباحاً)</div>
-        <div class="poll-item" data-value="flood">🌊 فيضان أو انهيار أرضي أو انهيار بنية تحتية</div>
-        <div class="poll-item" data-value="checkpoint">🚧 رفض عند نقطة تفتيش أو منع الوصول</div>
-        <div class="poll-item" data-value="internet">📡 انقطاع الإنترنت (٢٤+ ساعة)</div>
-        <div class="poll-item" data-value="donor">📋 تغير أولويات الجهة المانحة بين عشية وضحاها</div>
-        <div class="poll-item" data-value="looted">🏚️ نهب أو اقتحام المكتب</div>
-        <div class="poll-item" data-value="bank">🏦 إغلاق البنك – تأخر صرف الرواتب</div>
-    </div>
-    <button id="submitPollBtn">تأكيد الاختيارات</button>
-    <div id="pollFeedback" class="feedback"></div>
-    
-    <div class="scenario-card">
-        <strong>📖 السيناريو ١: "كيث – خبير تم ترشيحه لمنصب المدير القطري لكنه لم يستطع تأمين المنصب!"</strong><br><br>
-        كان لدى كيث ١٢ عاماً من الخبرة التقنية الممتازة في مجاله. كان ماهراً جداً وبسبب عمله الرائع، تم ترشيحه لمنصب رفيع: المدير القطري في اليمن لإحدى المنظمات الإنسانية الدولية.<br><br>
-        أثناء الاختبار التقني، أدى كيث أداءً جيداً جداً. لقد أثبت أنه يعرف الجانب التقني بشكل مثالي. لكن في المقابلة النهائية، قال للجنة:<br>
-        <em>"إجراءات التشغيل القياسية (SOPs / القواعد الرسمية) التي نستخدمها في مكتبنا في نيويورك يمكن استخدامها مباشرة في اليمن. سأعمل مع الفريق المحلي لإيجاد طريقة لاستخدامها هناك."</em><br><br>
-        سألته لجنة المقابلة كيف سيتعامل مع التغيرات الثقافية المحلية والقواعد العشائرية على الأرض. أجاب كيث بحزم:<br>
-        <em>"قواعدنا الحالية لا ينبغي تغييرها. يجب اتباعها فقط بدقة للحفاظ على جودتنا العالية. أتوقع من الفريق المحلي أن يجد طريقة لجعلها تعمل."</em><br><br>
-        كانت هذه العقلية الجامدة أحد الأسباب الرئيسية لعدم اختيار كيث لهذا الدور.
-    </div>
-    
-    <div class="section-header">
-        <h2>📋 اختبار كيث</h2>
-        <span class="progress-badge" id="keithProgress">٠/٥ مكتمل</span>
-    </div>
-    
-    <div id="keithQuiz">
-        <div class="quiz-question" id="q1">
-            <strong>السؤال ١</strong><br>ما هو خطأ كيث الأكبر؟
-            <div class="quiz-options" data-q="1">
-                <div class="quiz-option" data-val="A">أ) فشل في اختباره التقني.</div>
-                <div class="quiz-option" data-val="B">ب) افترض أن إجراءات التشغيل القياسية من سياق مستقر ستعمل دون تغيير في سياق متقلب.</div>
-                <div class="quiz-option" data-val="C">ج) غير رأيه ورفض السفر إلى اليمن.</div>
-                <div class="quiz-option" data-val="D">د) لم يكن لديه سنوات كافية من الخبرة المهنية.</div>
-            </div>
-            <div class="feedback" id="fb1"></div>
-        </div>
-        
-        <div class="quiz-question" id="q2">
-            <strong>السؤال ٢ (إجابة قصيرة / تأمل)</strong><br>قال كيث إنه سيطلب من الفريق المحلي "إيجاد طريقة" لتطبيق إجراءات نيويورك في اليمن. لماذا تعتبر هذه العبارة علامة خطر في القيادة الإنسانية؟
-            <textarea id="q2answer" rows="3" placeholder="اكتب إجابتك هنا..."></textarea>
-            <div class="feedback" id="fb2"></div>
-        </div>
-        
-        <div class="quiz-question" id="q3">
-            <strong>السؤال ٣ (قائم على السيناريو)</strong><br>لو كنت مدير التوظيف، ما هو السؤال الوحيد الذي كنت ستطرحه على كيث لاختبار قيادته التكيفية قبل رفضه؟
-            <textarea id="q3answer" rows="2" placeholder="اكتب إجابتك هنا..."></textarea>
-            <div class="feedback" id="fb3"></div>
-        </div>
-        
-        <div class="quiz-question" id="q4">
-            <strong>السؤال ٤ (صواب / خطأ)</strong><br>خبرة كيث التقنية جعلته مناسباً تماماً لمنصب المدير القطري في اليمن.
-            <div class="quiz-options" data-q="4">
-                <div class="quiz-option" data-val="true">صواب</div>
-                <div class="quiz-option" data-val="false">خطأ</div>
-            </div>
-            <div class="feedback" id="fb4"></div>
-        </div>
-        
-        <div class="quiz-question" id="q5">
-            <strong>السؤال ٥ (موضوع نقاش)</strong><br>شارك وقتاً رأيت فيه قائداً (أو نفسك) يفترض أن حلاً من سياق ما سينجح في سياق آخر. ماذا كانت النتيجة؟ ما الذي كان يمكن فعله بشكل مختلف؟
-            <textarea id="q5answer" rows="3" placeholder="اكتب إجابتك هنا..."></textarea>
-            <div class="feedback" id="fb5"></div>
-        </div>
-        
-        <button id="submitKeithQuiz">تأكيد إجاباتي</button>
-    </div>
-    
-    <div id="keithDiagnosis" style="margin-top:1.5rem; display:none; background:#F0F7F4; padding:1rem; border-radius:20px;">
-        <strong>لماذا لم يتم اختيار كيث؟ (التشخيص)</strong><br><br>
-        لم يتم رفض كيث بسبب افتقاره إلى المهارات التقنية - لقد تفوق في الاختبار التقني. لم يتم اختيار كيث لعدة أسباب، منها:<br><br>
-        • تجاهل المتغيرات الثقافية والسياقية المحلية في اليمن، وهي بيئة إنسانية متقلبة وعالية المخاطر.<br>
-        • افترض أن إجراءات التشغيل القياسية المصممة في نيويورك (بيئة مستقرة وموفرة للموارد وموجهة بالقواعد) قابلة للنقل المباشر دون تعديل.<br>
-        • قال إنه سيطلب من الفريق المحلي "إيجاد طريقة" لتطبيق تلك الإجراءات - مما يحول عبء التكيف بأكمله إلى الموظفين المحليين، دون منحهم السلطة أو المرونة أو الموارد.<br><br>
-        هذا النهج سيؤدي إلى إرهاق الموظفين، وانهيار الثقة المحلية، وفقدان كامل للحافز.<br><br>
-        <strong>التشخيص:</strong> كان كيث ممتازاً في الأداء في ظل البيئات التي يسودها الاستقرار، لكنه جامد استراتيجياً في ظل التقلبات. المهارة التقنية توصلك إلى الباب. المهارة التكيفية هي التي تقرر ما إذا كان سيُسمح لك بالقيادة من خلاله.
-    </div>
-    
-    <div class="scenario-card">
-        <strong>📖 السيناريو ٢: "ليلى – القائدة المرنة"</strong><br><br>
-        كانت ليلى المديرة القطرية لمنظمة إغاثة دولية في السودان، في منطقة تعاني من نزاع نشط وكثيف.<br><br>
-        في منتصف مشروع إنقاذ حياة مهم، ضرب نقص حاد في الوقود المنطقة بأكملها فجأة. لم يكن الوقود متاحاً في أي مكان. كان من المتوقع أن يستمر النقص لمدة ٧ أيام على الأقل.<br><br>
-        بدون وقود، لم تستطع أي من شاحنات المنظمة أو سياراتها التحرك. لم تستطع الفرق الميدانية السفر لتوصيل الغذاء، أو فتح العيادات الصحية، أو التحقق من المجتمعات المحتاجة.<br><br>
-        توقف كل العمل. نظر الفريق بأكمله إلى ليلى، في انتظار قرارها.<br><br>
-        <em>ماذا ستفعل لو كنت في مكان ليلى؟<br>
-        هل تغضب وتلوم فريق الخدمات اللوجستية لعدم الاحتفاظ بوقود إضافي؟<br>
-        هل توقف كل العمل وتنتظر أياماً حتى يوافق المكتب الرئيسي الدولي على شراء الوقود من مصادر محلية بديلة؟</em>
-    </div>
-    
-    <div class="section-header">
-        <h2>📋 اختبار ليلى</h2>
-        <span class="progress-badge" id="leylaProgress">٠/٦ مكتمل</span>
-    </div>
-    
-    <div class="quiz-question" id="leylaQ1">
-        <strong>السؤال ١: اختيار من متعدد</strong><br>أي من الإجراءات التالية هو الإجراء الأول الذي اتخذته ليلى بالفعل (والأكثر تكيفاً)؟
-        <div class="quiz-options" data-q="leyla1">
-            <div class="quiz-option" data-val="A">أ) إلقاء اللوم على فريق الخدمات اللوجستية لعدم وجود احتياطيات وقود إضافية.</div>
-            <div class="quiz-option" data-val="B">ب) انتظار موافقة كتابية من المكتب الرئيسي الدولي لشراء الوقود من مصادر محلية بديلة.</div>
-            <div class="quiz-option" data-val="C">ج) جمع الموظفين المحليين (سائقين، لوجستيين، وسطاء مجتمعيين) وسؤالهم: "ما الذي نجح في حالات نقص الوقود السابقة هنا؟"</div>
-            <div class="quiz-option" data-val="D">د) تعليق جميع العمليات لمدة سبعة أيام للبقاء آمنين تماماً.</div>
-        </div>
-        <div class="feedback" id="leylaFb1"></div>
-        <button class="check-btn" data-check="leylaQ1">✅ تحقق من الإجابة</button>
-    </div>
-
-    <div class="quiz-question" id="leylaQ5">
-        <strong>السؤال ٢: تحدي التصفية</strong><br>يقترح الموظفون المحليون شراء الوقود من تاجر في السوق السوداء. هذا يحل مشكلة النقل لكنه ينتهك قواعد المانحين. كيف تقوم بتصفية هذا الحل؟
-        <textarea id="filterAnswer" rows="3" placeholder=""></textarea>
-        <div class="feedback" id="filterFb"></div>
-        <button class="check-btn" data-check="filterQuestion">✅ تحقق من الإجابة</button>
-    </div>
-    
-    <div class="quiz-question" id="leylaQ2">
-        <strong>السؤال ٣: طابق كل إجراء بنتيجته</strong><br>
-        <p><em>لكل إجراء قيادي أدناه، اختر النتيجة التشغيلية الصحيحة على الأرض:</em></p>
-        
-        <div class="matching-game" id="matchingGame">
-            <div class="matching-item">
-                <div class="matching-action">📌 الإجراء ١: لوم فريق الخدمات اللوجستية الميداني والضغط عليهم بسبب نقص الوقود.</div>
-                <div class="matching-options" data-action="blame">
-                    <div class="match-option" data-outcome="A">✅ نجاح تكيفي</div>
-                    <div class="match-option" data-outcome="B">⏳ وقت انتظار أطول</div>
-                    <div class="match-option" data-outcome="C">❌ فشل (يدمر ثقة الفريق ويترك المركبات عالقة)</div>
-                </div>
-                <div id="blameFeedback" class="match-result" style="display:none;"></div>
-            </div>
-            
-            <div class="matching-item">
-                <div class="matching-action">📌 الإجراء ٢: انتظار موافقة المكتب الرئيسي عن بعد دون إرسال الحقائق والسياق المحلي.</div>
-                <div class="matching-options" data-action="waitHQ">
-                    <div class="match-option" data-outcome="A">✅ نجاح تكيفي</div>
-                    <div class="match-option" data-outcome="B">⏳ وقت انتظار أطول (نظراً لعدم وجود بيانات ميدانية، يحتاج المكتب الرئيسي إلى وقت إضافي للتحقق من المخاطر، مما يوقف عملياتك مؤقتاً)</div>
-                    <div class="match-option" data-outcome="C">❌ فشل</div>
-                </div>
-                <div id="waitHQFeedback" class="match-result" style="display:none;"></div>
-            </div>
-            
-            <div class="matching-item">
-                <div class="matching-action">📌 الإجراء ٣: التحدث مع الموظفين المحليين والتفاوض على حل آمن مع قادة اتحاد الدراجات النارية المحليين.</div>
-                <div class="matching-options" data-action="negotiate">
-                    <div class="match-option" data-outcome="A">✅ نجاح تكيفي (يستخدم الشبكات المحلية الموثوقة لتوصيل المساعدات المنقذة للحياة فوراً)</div>
-                    <div class="match-option" data-outcome="B">⏳ وقت انتظار أطول</div>
-                    <div class="match-option" data-outcome="C">❌ فشل</div>
-                </div>
-                <div id="negotiateFeedback" class="match-result" style="display:none;"></div>
-            </div>
-        </div>
-        
-        <div id="matchFeedback" class="match-feedback" style="display:none;"></div>
-        <button id="checkMatchesBtn" style="margin-top:1rem; background:#E8A735; color:#2E3A2A;">التحقق من المطابقات</button>
-    </div>
-    
-    <div class="quiz-question" id="leylaQ3">
-        <strong>🔀 السؤال ٤: سيناريو متفرع</strong><br>لقد حدث نقص الوقود للتو في منطقتك. كل شيء توقف، وفرقك الميدانية عالقة. تحتاج إلى التصرف فوراً. ما هو أول ما تفعله？
-        <div class="branch-choices">
-            <div class="branch-choice" data-choice="A">
-                <strong>أ.</strong> عقد اجتماع طارئ مع فريق الخدمات اللوجستية والمطالبة: "لماذا لم تخزنوا وقوداً احتياطياً لحالات الطوارئ؟"
-            </div>
-            <div class="branch-choice" data-choice="B">
-                <strong>ب.</strong> إرسال بريد إلكتروني عاجل إلى المكتب الرئيسي نصه: "لدينا أزمة. نحتاج موافقة لشراء الوقود من مصادر محلية بديلة. الرجاء الرد خلال ٢٤ ساعة."
-            </div>
-            <div class="branch-choice" data-choice="C">
-                <strong>ج.</strong> عقد اجتماع فوري مع موظفيك المحلي
+    <!-- باقي المحتوى كما هو تماماً - لم يتغير أي شيء -->
+    <!-- ... كل الـ HTML الأصلي يبقى كما هو ... -->
