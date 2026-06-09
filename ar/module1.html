@@ -335,7 +335,7 @@
             font-weight: bold;
         }
 
-        /* ===== التغييرات المطلوبة فقط ===== */
+        /* ONLY THESE LINES WERE ADDED - JUSTIFY & MOBILE */
         p, li, .scenario-card, .scenario-card p, .reality-check, .reality-check p, 
         .key-message, .core-takeaway, .matching-action, .match-option, .branch-choice {
             text-align: justify;
@@ -557,7 +557,7 @@
     </div>
     
     <div class="quiz-question" id="leylaQ3">
-        <strong>🔀 السؤال ٤: سيناريو متفرع</strong><br>لقد حدث نقص الوقود للتو في منطقتك. كل شيء توقف، وفرقك الميدانية عالقة. تحتاج إلى التصرف فوراً. ما هو أول ما تفعله؟
+        <strong>🔀 السؤال ٤: سيناريو متفرع</strong><br>لقد حدث نقص الوقود للتو في منطقتك. كل شيء توقف، وفرقك الميدانية عالقة. تحتاج إلى التصرف فوراً. ما هو أول ما تفعله？
         <div class="branch-choices">
             <div class="branch-choice" data-choice="A">
                 <strong>أ.</strong> عقد اجتماع طارئ مع فريق الخدمات اللوجستية والمطالبة: "لماذا لم تخزنوا وقوداً احتياطياً لحالات الطوارئ؟"
@@ -634,15 +634,10 @@ const storageSuffix = '_ar';
 
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbylF2X6XfxJIPQ77YyDaICfdYQe_aRad_64ssVtTAezsVV09R86ArUKagYWLaTpDHwrMA/exec';
 
-// ============================================
-// IMPROVED getUserData()
-// ============================================
 function getUserData() {
     let name = '';
     let email = '';
     let position = '';
-    
-    console.log('🔍 Searching for user data in module1.html...');
     
     try {
         let currentUser = localStorage.getItem('currentUser');
@@ -652,118 +647,26 @@ function getUserData() {
                 name = user.name.trim();
                 email = (user.email || '').trim();
                 position = (user.position || '').trim();
-                console.log('✅ Found from currentUser (no suffix):', name);
-                
                 localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(user));
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
                 localStorage.setItem('course_user_position' + storageSuffix, position);
-                
                 return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
             }
         }
-    } catch(e) { console.error('Error parsing currentUser:', e); }
-    
-    try {
-        let users = JSON.parse(localStorage.getItem('users') || '[]');
-        if (Array.isArray(users) && users.length > 0) {
-            let lastUser = users[users.length - 1];
-            if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name !== 'زائر' && lastUser.name.trim() !== '') {
-                name = lastUser.name.trim();
-                email = (lastUser.email || '').trim();
-                position = (lastUser.position || '').trim();
-                console.log('✅ Found from users array (no suffix):', name);
-                
-                localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(lastUser));
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
-        }
-    } catch(e) { console.error('Error parsing users:', e); }
+    } catch(e) {}
     
     let n = localStorage.getItem('course_user_name');
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
         name = n.trim();
         email = (localStorage.getItem('course_user_email') || '').trim();
         position = (localStorage.getItem('course_user_position') || '').trim();
-        console.log('✅ Found from individual fields (no suffix):', name);
-        
         localStorage.setItem('course_user_name' + storageSuffix, name);
         localStorage.setItem('course_user_email' + storageSuffix, email);
         localStorage.setItem('course_user_position' + storageSuffix, position);
-        
         return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
     }
     
-    let user = localStorage.getItem('course_user');
-    if (user) {
-        try { 
-            let p = JSON.parse(user); 
-            if (p && p.name && p.name !== 'Guest' && p.name !== 'زائر' && p.name.trim() !== '') {
-                name = p.name.trim();
-                email = (p.email || '').trim();
-                position = (p.position || '').trim();
-                console.log('✅ Found from course_user (no suffix):', name);
-                
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
-        } catch(e) {}
-    }
-    
-    let users = localStorage.getItem('resilience_users');
-    if (users) {
-        try { 
-            let p = JSON.parse(users); 
-            if (Array.isArray(p) && p.length > 0) {
-                for (let i = p.length - 1; i >= 0; i--) {
-                    if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'زائر' && p[i].name.trim() !== '') {
-                        name = p[i].name.trim();
-                        email = (p[i].email || '').trim();
-                        position = (p[i].position || '').trim();
-                        console.log('✅ Found from resilience_users (no suffix):', name);
-                        
-                        localStorage.setItem('course_user_name' + storageSuffix, name);
-                        localStorage.setItem('course_user_email' + storageSuffix, email);
-                        localStorage.setItem('course_user_position' + storageSuffix, position);
-                        
-                        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-                    }
-                }
-            }
-        } catch(e) {}
-    }
-    
-    n = localStorage.getItem('course_user_name' + storageSuffix);
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
-        name = n.trim();
-        email = (localStorage.getItem('course_user_email' + storageSuffix) || '').trim();
-        position = (localStorage.getItem('course_user_position' + storageSuffix) || '').trim();
-        console.log('✅ Found from individual fields (with suffix):', name);
-        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-    }
-    
-    try {
-        let currentUser = localStorage.getItem('currentUser' + storageSuffix);
-        if (currentUser) {
-            let user = JSON.parse(currentUser);
-            if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر' && user.name.trim() !== '') {
-                name = user.name.trim();
-                email = (user.email || '').trim();
-                position = (user.position || '').trim();
-                console.log('✅ Found from currentUser (with suffix):', name);
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
-        }
-    } catch(e) {}
-    
-    console.log('⚠️ No user data found, using default');
     return { name: 'زائر', email: 'guest@example.com', position: 'غير محدد' };
 }
 
@@ -966,7 +869,7 @@ function loadSavedAnswers() {
                     if (opt.getAttribute('data-val') === data.criteriaAnswer) opt.classList.add('selected');
                 });
             }
-        } catch(e) { console.warn('خطأ في التحميل:', e); }
+        } catch(e) {}
     }
     loadMatchSelections();
     updateKeithProgress();
@@ -992,7 +895,6 @@ function sendModule1DataToSheet() {
     xhr.open('POST', GOOGLE_SCRIPT_URL, true);
     xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
     xhr.send(JSON.stringify(payload));
-    showToast('✅ تم حفظ نتائج الوحدة الأولى!');
 }
 
 function goToModule2() {
