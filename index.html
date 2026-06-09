@@ -1,577 +1,265 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Register · Resilience Toolkit</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-            background: linear-gradient(145deg, #146B5C 0%, #0E4F44 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-        }
-        .card {
-            background: #FFFFFF;
-            border-radius: 56px;
-            padding: 2rem;
-            max-width: 550px;
-            width: 100%;
-            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.25);
-        }
-        h1 { color: #0C2E3B; font-size: 1.9rem; margin: 0.5rem 0 0.5rem; font-weight: 700; text-align: center; }
-        h2 { color: #1A4E44; font-size: 1rem; margin-bottom: 1.5rem; text-align: center; font-weight: normal; }
-        .input-group { margin: 0.8rem 0; text-align: left; }
-        label { font-size: 0.85rem; font-weight: 600; color: #1A4E44; display: block; margin-bottom: 0.25rem; }
-        input, select {
-            width: 100%;
-            padding: 0.85rem 1.2rem;
-            border: 2px solid #E2E9F2;
-            border-radius: 60px;
-            font-size: 1rem;
-            background: #FEFEFE;
-            font-family: inherit;
-            transition: border 0.2s;
-        }
-        input:focus, select:focus { outline: none; border-color: #1A6B5A; box-shadow: 0 0 0 3px rgba(26, 107, 90, 0.2); }
-        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        button {
-            width: 100%;
-            background: #1A6B5A;
-            color: white;
-            padding: 0.9rem;
-            border: none;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            margin: 1rem 0 0.5rem;
-            transition: all 0.2s;
-        }
-        button:hover { background: #0F5446; }
-        button:active { transform: scale(0.97); }
-        .error-box, .success-box, .info-box {
-            padding: 0.7rem;
-            border-radius: 40px;
-            margin-top: 0.9rem;
-            font-size: 0.85rem;
-            display: none;
-            text-align: center;
-        }
-        .error-box { background: #FFEBEE; color: #B33A3A; }
-        .success-box { background: #1A6B5A; color: white; }
-        .info-box { background: #E0F2E9; color: #146B5C; }
-        .footer-note { font-size: 0.7rem; color: #7C8B9A; margin-top: 1.5rem; text-align: center; }
-        
-        .section { transition: all 0.3s ease; }
-        .hidden { display: none !important; }
-        
-        .resend-link { text-align: center; margin-top: 0.8rem; font-size: 0.8rem; }
-        .resend-link a { color: #1A6B5A; text-decoration: none; cursor: pointer; font-weight: 600; }
-        .resend-link a:hover { text-decoration: underline; }
-        .back-link { text-align: center; margin-top: 1rem; }
-        .back-link a { color: #7C8B9A; text-decoration: none; font-size: 0.8rem; cursor: pointer; }
-        .language-switch { text-align: right; margin-bottom: 1rem; }
-        .lang-btn {
-            background: none;
-            border: 1px solid #E2E9F2;
-            color: #1A4E44;
-            font-size: 0.75rem;
-            padding: 0.3rem 0.8rem;
-            margin: 0;
-            width: auto;
-            display: inline-block;
-        }
-        .lang-btn:hover { background: #E0F2E9; transform: none; }
-        
-        /* Style for Other input field */
-        .other-input {
-            margin-top: 0.5rem;
-            display: none;
-        }
-        .other-input.show {
-            display: block;
-        }
-        .required-star {
-            color: #e74c3c;
-            margin-left: 3px;
-        }
-    </style>
-</head>
-<body>
-<div class="card">
-    <div class="language-switch">
-        <button class="lang-btn" id="langEnBtn">🇬🇧 English</button>
-        <button class="lang-btn" id="langArBtn">🇸🇦 العربية</button>
-    </div>
-    <div style="text-align: center; font-size: 2.5rem;">🏔️</div>
-    <h1 id="title">The Resilience Toolkit</h1>
-    <h2 id="subtitle">Create your account to begin</h2>
+// ============================================
+// RESILIENCE TOOLKIT - OTP VERSION (No Password)
+// SIMPLE & CLEAN EMAILS - NO JUSTIFY, NO STRANGE SPACING
+// ============================================
 
-    <!-- SECTION 1: REGISTRATION FORM -->
-    <div id="registrationSection" class="section">
-        <div class="input-group">
-            <label id="nameLabel">👤 Full Name <span class="required-star">*</span></label>
-            <input type="text" id="fullName" placeholder="e.g., Ahmed Al-Mansouri" autocomplete="name">
-        </div>
-        <div class="input-group">
-            <label id="emailLabel">📧 Email <span class="required-star">*</span></label>
-            <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
-        </div>
-        <div class="row-2">
-            <div class="input-group">
-                <label id="positionLabel">💼 Position / Title <span class="required-star">*</span></label>
-                <select id="position">
-                    <option value="">-- Select Position --</option>
-                    <option value="Executive Director">Executive Director</option>
-                    <option value="Program Manager">Program Manager</option>
-                    <option value="Project Coordinator">Project Coordinator</option>
-                    <option value="Humanitarian Advisor">Humanitarian Advisor</option>
-                    <option value="Country Director">Country Director</option>
-                    <option value="Operations Manager">Operations Manager</option>
-                    <option value="Field Coordinator">Field Coordinator</option>
-                    <option value="Monitoring & Evaluation Officer">Monitoring & Evaluation Officer</option>
-                    <option value="Logistics Coordinator">Logistics Coordinator</option>
-                    <option value="Finance Manager">Finance Manager</option>
-                    <option value="HR Manager">HR Manager</option>
-                    <option value="Communications Officer">Communications Officer</option>
-                    <option value="Advocacy Specialist">Advocacy Specialist</option>
-                    <option value="Protection Officer">Protection Officer</option>
-                    <option value="Emergency Response Coordinator">Emergency Response Coordinator</option>
-                    <option value="Community Engagement Lead">Community Engagement Lead</option>
-                    <option value="Consultant">Consultant</option>
-                    <option value="Other">Other</option>
-                </select>
-                <div id="positionOtherGroup" class="other-input">
-                    <input type="text" id="positionOther" placeholder="Please specify your position">
-                </div>
-            </div>
-            <div class="input-group">
-                <label id="countryLabel">🌍 Country <span class="required-star">*</span></label>
-                <select id="country">
-                    <option value="">-- Select Country --</option>
-                    <option value="Afghanistan">Afghanistan</option>
-                    <option value="Algeria">Algeria</option>
-                    <option value="Bahrain">Bahrain</option>
-                    <option value="Chad">Chad</option>
-                    <option value="Comoros">Comoros</option>
-                    <option value="Djibouti">Djibouti</option>
-                    <option value="Egypt">Egypt</option>
-                    <option value="Eritrea">Eritrea</option>
-                    <option value="Ethiopia">Ethiopia</option>
-                    <option value="Iran">Iran</option>
-                    <option value="Iraq">Iraq</option>
-                    <option value="Jordan">Jordan</option>
-                    <option value="Kuwait">Kuwait</option>
-                    <option value="Lebanon">Lebanon</option>
-                    <option value="Libya">Libya</option>
-                    <option value="Mauritania">Mauritania</option>
-                    <option value="Morocco">Morocco</option>
-                    <option value="Oman">Oman</option>
-                    <option value="Pakistan">Pakistan</option>
-                    <option value="Palestine">Palestine</option>
-                    <option value="Qatar">Qatar</option>
-                    <option value="Saudi Arabia">Saudi Arabia</option>
-                    <option value="Somalia">Somalia</option>
-                    <option value="Sudan">Sudan</option>
-                    <option value="Syria">Syria</option>
-                    <option value="Tunisia">Tunisia</option>
-                    <option value="Turkey">Turkey</option>
-                    <option value="United Arab Emirates">United Arab Emirates</option>
-                    <option value="Yemen">Yemen</option>
-                    <option value="Other">Other</option>
-                </select>
-                <div id="countryOtherGroup" class="other-input">
-                    <input type="text" id="countryOther" placeholder="Please specify your country">
-                </div>
-            </div>
-        </div>
-        <div class="row-2">
-            <div class="input-group">
-                <label id="orgLabel">🏢 Organization <span class="required-star">*</span></label>
-                <input type="text" id="organization" placeholder="Organization name">
-            </div>
-            <div class="input-group">
-                <label id="langLabel">🌐 Language <span class="required-star">*</span></label>
-                <select id="language">
-                    <option value="en">English</option>
-                    <option value="ar">العربية</option>
-                </select>
-            </div>
-        </div>
-        <div class="input-group">
-            <label id="linkedinLabel">🔗 LinkedIn Profile (optional)</label>
-            <input type="url" id="linkedin" placeholder="https://linkedin.com/in/yourprofile">
-        </div>
-        <button id="sendCodeBtn">📨 Send Verification Code</button>
-        <div id="registerMessage" class="error-box"></div>
-    </div>
+const SPREADSHEET_ID = '1lBkQnF3Aa6SOtPErgPMa779plM3Rd2CDs2SNZrPJcBY';
+const SHEET_NAME = 'Resilience course Users Data';
 
-    <!-- SECTION 2: OTP VERIFICATION -->
-    <div id="otpSection" class="section hidden">
-        <div class="input-group">
-            <label id="otpLabel">🔐 Verification Code <span class="required-star">*</span></label>
-            <input type="text" id="otpCode" placeholder="Enter 6-digit code" maxlength="6" autocomplete="off">
-        </div>
-        <button id="verifyBtn">✓ Verify & Start Course</button>
-        <div class="resend-link">
-            <a id="resendLink">⟳ Didn't receive code? Resend</a>
-        </div>
-        <div class="back-link">
-            <a id="backLink">← Back to registration</a>
-        </div>
-        <div id="otpMessage" class="error-box"></div>
-    </div>
+function doPost(e) {
+  try {
+    let data = {};
+    if (e && e.parameter) {
+      for (let key in e.parameter) {
+        data[key] = e.parameter[key];
+      }
+    }
+    
+    Logger.log('📥 Received: ' + JSON.stringify(data));
+    
+    const action = data.action;
+    
+    if (action === 'sendWelcomeWithCode') {
+      if (!data.email) {
+        Logger.log('❌ No email!');
+        return ContentService.createTextOutput(JSON.stringify({ success: false, error: 'No email' }));
+      }
+      return sendOTPEmail(data.email, data.name, data.code, data.language);
+    } 
+    else if (action === 'register') {
+      saveToSheet(data);
+      return ContentService.createTextOutput(JSON.stringify({ success: true }));
+    }
+    
+    return ContentService.createTextOutput(JSON.stringify({ success: true }));
+    
+  } catch(error) {
+    Logger.log('❌ Error: ' + error.toString());
+    return ContentService.createTextOutput(JSON.stringify({ success: false, error: error.toString() }));
+  }
+}
 
-    <div class="footer-note" id="footerNote">⚡ Free access for humanitarian leaders</div>
-</div>
+function sendOTPEmail(email, name, code, language) {
+  const userName = name || 'Leader';
+  const userLang = language || 'en';
+  
+  Logger.log('📧 Sending to: ' + email + ' | Code: ' + code + ' | Lang: ' + userLang);
+  
+  if (userLang === 'ar') {
+    return sendArabicOTPEmail(email, userName, code);
+  } else {
+    return sendEnglishOTPEmail(email, userName, code);
+  }
+}
 
-<script>
-    // ========== CONFIGURATION ==========
-    const YOUR_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby9q7bkNWeXRuDsf64ZRirgRpontnnpE93_Yg-qzAQ7-HhHAh7w1CEU6434Ig9hrsAv/exec';
+// ============================================
+// ARABIC EMAIL - CLEAN & SIMPLE (NO STRANGE SPACING)
+// ============================================
+function sendArabicOTPEmail(email, name, code) {
+  const subject = "🏔️ مجموعة أدوات المرونة | Humanitarian Valley";
+  
+  const htmlBody = '<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+    '<style>' +
+    'body { font-family: Arial, sans-serif; background: #EAEFED; padding: 20px; margin: 0; }' +
+    '.email-container { max-width: 550px; margin: 0 auto; background: white; border-radius: 24px; padding: 25px; }' +
+    'p { font-size: 15px; line-height: 1.5; margin-bottom: 12px; color: #333; }' +
+    'h1 { color: #0C3E35; font-size: 24px; text-align: center; margin-bottom: 5px; }' +
+    '.subtitle { color: #1A6B5A; text-align: center; font-size: 15px; margin-bottom: 20px; }' +
+    '.highlight-box { background: #E8F5E9; padding: 18px; border-radius: 16px; margin: 20px 0; }' +
+    '.code-box { background: #E8F5E9; text-align: center; padding: 20px; border-radius: 16px; margin: 20px 0; border: 2px dashed #146B5C; }' +
+    '.code-number { font-size: 36px; font-weight: bold; color: #146B5C; letter-spacing: 5px; }' +
+    '.note-box { background: #FFF3E0; padding: 12px; border-radius: 12px; margin: 15px 0; }' +
+    '.signature { margin-top: 25px; padding-top: 15px; border-top: 1px solid #ddd; }' +
+    '.small-text { font-size: 11px; color: #888; text-align: center; margin-top: 20px; }' +
+    '@media only screen and (max-width: 480px) { .email-container { padding: 18px; } p { font-size: 14px; } h1 { font-size: 20px; } .code-number { font-size: 28px; letter-spacing: 3px; } }' +
+    '</style>' +
+    '</head>' +
+    '<body>' +
+    '<div class="email-container">' +
+    '<div style="text-align: center; font-size: 48px;">🏔️</div>' +
+    '<h1>مجموعة أدوات المرونة</h1>' +
+    '<div class="subtitle">للقادة في قلب الأزمة</div>' +
+    '<p style="font-weight: bold;">عزيزي ' + name + '،</p>' +
+    '<p>دعني أكون صادقاً معك.</p>' +
+    '<p>لقد بدأ عصر الذكاء الاصطناعي بالفعل، وبات بإمكانه الآن إنجاز المهام التقنية المعقدة في جزء بسيط من الوقت. لقد تغيرت طريقة عملنا بشكل أسرع مما توقعه أي منا، مما يعني أن المهارات التقنية وحدها لم تعد كافية. وفي البيئات الهشة عالية المخاطر، تُعد القدرة البشرية على التكيف هي العامل الحاسم الحقيقي للنجاح.</p>' +
+    '<p>إنك لا تعمل في بيئة عمل طبيعية؛ بل تعمل في بيئة هشة، بيئة غالباً ما يطغى عليها النزاع وعدم اليقين.</p>' +
+    '<p>في البيئات المستقرة، يواجه القادة ضغطاً أساسياً واحداً: <strong>السرعة</strong>. التحرك بشكل أسرع، والتكيف بشكل أعجل. هذا هو مقياس النجاح لديهم.</p>' +
+    '<p>ولكن في بيئتك <strong>أنت</strong>، فإنك تواجه ثلاثة ضغوط قاسية في آن واحد:</p>' +
+    '<p>⚡ <strong>ضغط السرعة:</strong> لأن النتائج مطلوبة الآن.</p>' +
+    '<p>💥 <strong>انهيار القواعد:</strong> حكومات تتغير بين عشية وضحاها، وزراء يختفون، الأنظمة تفشل، وتعم الفوضى.</p>' +
+    '<p>📚 <strong>مواكبة التعلم:</strong> التكيف اللحظي مع التقنيات الجديدة مع البقاء في جاهزية تامة للأزمة القادمة.</p>' +
+    '<p>تستيقظ أحياناً لتجد أن كل ما بنيته قد تلاشى، وتُجبر على إعادة البناء من الصفر. مراراً.. وتكراراً.</p>' +
+    '<p><strong>إذن، كيف يتحرك بعض القادة بشكل أسرع ويحافظون على ثباتهم، حتى في مناطق النزاع؟</strong></p>' +
+    '<p>ليس لأنهم أذكى منك، ولا لأن لديهم متسعاً أكبر من الوقت؛ بل لأنهم يسخرون أطراً وأدوات لم تتعرف عليها بعد.</p>' +
+    '<p>هذا هو بالضبط ما سنغطيه في هذه الدورة. لقد صُممت هذه الأدوات لمساعدتك على تحقيق تقدم سريع ومرونة استراتيجية — دون أن تستنزف نفسك.</p>' +
+    '<p style="font-weight: bold; color: #146B5C;">🌍 هذه الفرصة متاحة لـ 100 قائد فقط على مستوى العالم.</p>' +
+    '<p>هذه الدورة ليست للجميع. إنها مخصصة حصرياً لأولئك الذين يحتاجون إلى السرعة والمرونة الاستراتيجية في نفس الوقت. إنها للقادة الذين يتطلعون إلى بناء عقلية استثنائية مقاومة للأزمات.</p>' +
+    '<p style="font-weight: bold;">ما الذي ستتقنه في هذه الدورة المكثفة (30 دقيقة)؟</p>' +
+    '<p>✅ <strong>إطار S.A.F.E:</strong> كيفية تحليل الأزمات والتعافي منها استراتيجياً.<br>' +
+    '✅ <strong>تحول الـ 60 ثانية:</strong> بروتوكول مصغر لإعادة ضبط عقليتك في أوج الأزمة.<br>' +
+    '✅ <strong>نوايا التعلم مقابل أهداف الأداء:</strong> لماذا قد تخذلك أهدافك الحالية.<br>' +
+    '✅ <strong>مرونة الفريق:</strong> كيف تحافظ على استمرارية عمل فريقك عندما يختفي الحافز تماماً.<br>' +
+    '✅ <strong>بروتوكول السابعة صباحاً (7 AM):</strong> روتيني الصباحي الشخصي للبيئات عالية المخاطر.<br>' +
+    '✅ <strong>سيناريوهات اتخاذ القرار:</strong> كيف تتوقف عن الإفراط في التفكير وتبدأ في التنفيذ فوراً.</p>' +
+    '<div class="highlight-box">' +
+    '<p style="font-weight: bold;">🎁 ميزة إضافية حصريّة: الانضمام إلى مجتمع "وادي العمل الإنساني" (Humanitarian Valley)</p>' +
+    '<p>بإكمالك لهذه الدورة، لن تكتسب المعرفة فحسب — بل ستصبح مؤهلاً للحصول على مقعد في <strong>وادي العمل الإنساني</strong>، حيث ستتلقى استمارة التسجيل مباشرة فور انتهائك.</p>' +
+    '<p>هذه الشبكة الحصرية والمنقحة هي المكان الذي نشارك فيه:</p>' +
+    '<p>🤝 <strong>فرص رفيعة المستوى:</strong> وظائف حصرية وأدوار تطوعية استراتيجية.<br>' +
+    '🌍 <strong>شبكة زملاء خاصة:</strong> مجتمع معتمد من القادة الذين يرفضون الانكسار أمام بيئاتهم، تماماً مثلك.</p>' +
+    '<div class="note-box">' +
+    '<p>📌 <strong>ملاحظة مهمة:</strong> هذا مجتمع خاص ومنقح بعناية. يُمنح حق الوصول فقط لأولئك الذين يكملون مجموعة الأدوات ويثبتون استعدادهم للنمو ودعم الآخرين. سيتم التواصل شخصياً مع القادة الذين يتم اختيارهم.</p>' +
+    '</div>' +
+    '</div>' +
+    '<p>دعنا نحول هذه الفوضى إلى نمو استراتيجي مستدام.</p>' +
+    '<div class="signature">' +
+    '<p>مع أطيب تمنياتي،</p>' +
+    '<p><strong>ملاك عبده</strong><br>المدير التنفيذي، وادي العمل الإنساني (Humanitarian Valley)<br>خبيرة العمليات الاستراتيجية والقيادة<br>موظف سابق في المنظمات الدولية والأمم المتحدة – اليمن</p>' +
+    '</div>' +
+    '<div class="code-box">' +
+    '<div class="code-number">' + code + '</div>' +
+    '<p style="margin-top: 10px;">⏰ ستنتهي صلاحية هذا الرمز خلال <strong>10 دقائق</strong></p>' +
+    '<p>📌 لا حاجة لكلمة مرور. فقط أدخل الرمز أعلاه وابدأ التعلم فوراً.</p>' +
+    '</div>' +
+    '<div class="small-text">🏔️ حقيبة أدوات المرونة | وادي العمل الإنساني (Humanitarian Valley)</div>' +
+    '</div>' +
+    '</body></html>';
+  
+  try {
+    MailApp.sendEmail({
+      to: email,
+      subject: subject,
+      htmlBody: htmlBody
+    });
+    Logger.log('✅ Arabic email sent to: ' + email);
+    return ContentService.createTextOutput(JSON.stringify({ success: true }));
+  } catch(error) {
+    Logger.log('❌ Email error: ' + error);
+    return ContentService.createTextOutput(JSON.stringify({ success: false, error: error.toString() }));
+  }
+}
+
+// ============================================
+// ENGLISH EMAIL - CLEAN & SIMPLE (NO STRANGE SPACING)
+// ============================================
+function sendEnglishOTPEmail(email, name, code) {
+  const subject = "🏔️ The Resilience Toolkit | Humanitarian Valley";
+  
+  const htmlBody = '<!DOCTYPE html><html dir="ltr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+    '<style>' +
+    'body { font-family: Arial, sans-serif; background: #EAEFED; padding: 20px; margin: 0; }' +
+    '.email-container { max-width: 550px; margin: 0 auto; background: white; border-radius: 24px; padding: 25px; }' +
+    'p { font-size: 15px; line-height: 1.5; margin-bottom: 12px; color: #333; }' +
+    'h1 { color: #0C3E35; font-size: 24px; text-align: center; margin-bottom: 5px; }' +
+    '.subtitle { color: #1A6B5A; text-align: center; font-size: 15px; margin-bottom: 20px; }' +
+    '.highlight-box { background: #E8F5E9; padding: 18px; border-radius: 16px; margin: 20px 0; }' +
+    '.code-box { background: #E8F5E9; text-align: center; padding: 20px; border-radius: 16px; margin: 20px 0; border: 2px dashed #146B5C; }' +
+    '.code-number { font-size: 36px; font-weight: bold; color: #146B5C; letter-spacing: 5px; }' +
+    '.note-box { background: #FFF3E0; padding: 12px; border-radius: 12px; margin: 15px 0; }' +
+    '.signature { margin-top: 25px; padding-top: 15px; border-top: 1px solid #ddd; }' +
+    '.small-text { font-size: 11px; color: #888; text-align: center; margin-top: 20px; }' +
+    '@media only screen and (max-width: 480px) { .email-container { padding: 18px; } p { font-size: 14px; } h1 { font-size: 20px; } .code-number { font-size: 28px; letter-spacing: 3px; } }' +
+    '</style>' +
+    '</head>' +
+    '<body>' +
+    '<div class="email-container">' +
+    '<div style="text-align: center; font-size: 48px;">🏔️</div>' +
+    '<h1>The Resilience Toolkit</h1>' +
+    '<div class="subtitle">For Leaders in the Heart of the Crisis</div>' +
+    '<p style="font-weight: bold;">Dear ' + name + ',</p>' +
+    '<p>Let me be honest with you.</p>' +
+    '<p>The AI era is here, and it can now execute complex technical work in a fraction of the time. The way we work has shifted faster than any of us expected, meaning technical skills alone are no longer enough. In fragile, high-stakes environments, human adaptability is the real game-changer.</p>' +
+    '<p>You do not operate in a normal workplace. You are working in a fragile environment—one often defined by conflict and unpredictability.</p>' +
+    '<p>In stable environments, leaders face primarily one pressure: speed. Move faster, adapt quicker. That is their measure of success.</p>' +
+    '<p>But in your environment, you face three brutal pressures at the exact same time:</p>' +
+    '<p>⚡ <strong>The Pressure of Speed:</strong> Because results are demanded now.</p>' +
+    '<p>💥 <strong>The Collapse of Rules:</strong> Governments change overnight. Ministers disappear. Systems fail, and chaos takes over.</p>' +
+    '<p>📚 <strong>The Demand to Learn:</strong> Adapting instantly to new technologies while remaining ready for the next crisis.</p>' +
+    '<p>You wake up, and sometimes everything you built is gone. You are forced to rebuild from zero. Again. And again.</p>' +
+    '<p><strong>So, how do some leaders move faster and stay grounded, even in conflict zones?</strong></p>' +
+    '<p>It\'s not because they are smarter than you, and it\'s not because they have more time. It is because they leverage frameworks and tools you haven\'t been introduced to yet.</p>' +
+    '<p>That is exactly what we will cover in this course. These tools are designed to help you make rapid progress and achieve strategic velocity—without burning yourself out.</p>' +
+    '<p style="font-weight: bold; color: #146B5C;">🌍 This opportunity is being offered to only 100 leaders globally.</p>' +
+    '<p>This course is not for everyone. It is strictly for those who need speed and strategic flexibility simultaneously. It is for leaders looking to build an exceptional, crisis-proof mindset.</p>' +
+    '<p style="font-weight: bold;">What will you master in this concise, 30-minute masterclass?</p>' +
+    '<p>✅ <strong>The S.A.F.E. Framework:</strong> How to analyze crises and recover strategically.<br>' +
+    '✅ <strong>The 60-Second Shift:</strong> A micro-protocol to reset your mindset in the heat of a crisis.<br>' +
+    '✅ <strong>Learning Intentions vs. Performance Goals:</strong> Why your current goals might be failing you.<br>' +
+    '✅ <strong>Team Adaptability:</strong> How to keep your team functioning when motivation completely disappears.<br>' +
+    '✅ <strong>The 7 AM Protocol:</strong> My personal morning routine for high-stakes environments.<br>' +
+    '✅ <strong>Decision Scripts:</strong> How to stop overthinking and start acting.</p>' +
+    '<div class="highlight-box">' +
+    '<p style="font-weight: bold;">🎁 Exclusive Bonus: Access to the "Humanitarian Valley" Community</p>' +
+    '<p>By completing this course, you won\'t just gain knowledge—you will become eligible for a seat in the Humanitarian Valley. You will receive the registration form immediately upon finishing the material.</p>' +
+    '<p>This exclusive, curated network is where we share:</p>' +
+    '<p>🤝 <strong>High-Level Opportunities:</strong> Exclusive job openings and strategic volunteer roles.<br>' +
+    '🌍 <strong>A Private Peer Network:</strong> A vetted community of leaders who, like you, refuse to be broken by their environment.</p>' +
+    '<div class="note-box">' +
+    '<p>📌 <strong>Important Note:</strong> This is a private, curated community. Access is granted only to those who complete the toolkit and prove they are ready to grow and support others. Selected leaders will be contacted personally.</p>' +
+    '</div>' +
+    '</div>' +
+    '<p>Let\'s turn this chaos into sustainable, strategic growth.</p>' +
+    '<div class="signature">' +
+    '<p>Best wishes,</p>' +
+    '<p><strong>Malak Abdo</strong><br>Executive Director, Humanitarian Valley<br>Strategic Operations & Leadership Expert<br>Former International Organizations & UN Staff Member – Yemen</p>' +
+    '</div>' +
+    '<div class="code-box">' +
+    '<div class="code-number">' + code + '</div>' +
+    '<p style="margin-top: 10px;">⏰ This code will expire in <strong>10 minutes</strong></p>' +
+    '<p>📌 No password needed. Just enter the code above and start learning immediately.</p>' +
+    '</div>' +
+    '<div class="small-text">🏔️ The Resilience Toolkit | Humanitarian Valley</div>' +
+    '</div>' +
+    '</body></html>';
+  
+  try {
+    MailApp.sendEmail({
+      to: email,
+      subject: subject,
+      htmlBody: htmlBody
+    });
+    Logger.log('✅ English email sent to: ' + email);
+    return ContentService.createTextOutput(JSON.stringify({ success: true }));
+  } catch(error) {
+    Logger.log('❌ Email error: ' + error);
+    return ContentService.createTextOutput(JSON.stringify({ success: false, error: error.toString() }));
+  }
+}
+
+function saveToSheet(data) {
+  try {
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    let sheet = ss.getSheetByName(SHEET_NAME);
     
-    // State variables
-    let tempUserData = null;
-    let generatedCode = null;
-    let codeExpiry = null;
-    let currentLang = 'en';
-    
-    // Translations for UI
-    const translations = {
-        en: {
-            title: 'The Resilience Toolkit',
-            subtitle: 'Create your account to begin',
-            nameLabel: '👤 Full Name',
-            emailLabel: '📧 Email',
-            positionLabel: '💼 Position / Title',
-            countryLabel: '🌍 Country',
-            orgLabel: '🏢 Organization',
-            langLabel: '🌐 Language',
-            linkedinLabel: '🔗 LinkedIn Profile (optional)',
-            sendBtn: '📨 Send Verification Code',
-            verifyBtn: '✓ Verify & Start Course',
-            otpLabel: '🔐 Verification Code',
-            resendLink: '⟳ Didn\'t receive code? Resend',
-            backLink: '← Back to registration',
-            footerNote: '⚡ Free access for humanitarian leaders',
-            enterName: '❌ Please enter your full name.',
-            enterEmail: '❌ Please enter your email address.',
-            validEmail: '❌ Please enter a valid email address.',
-            enterPosition: '❌ Please select or specify your position.',
-            enterCountry: '❌ Please select or specify your country.',
-            enterOrganization: '❌ Please enter your organization name.',
-            sendingCode: '📨 Sending verification code to your email...',
-            codeSent: '✅ Verification code sent to ',
-            codeSentEnd: '. Please check your inbox (including spam folder).',
-            sendError: '⚠️ Failed to send email. Please try again.',
-            enterCode: '❌ Please enter the verification code.',
-            codeExpired: '⏰ Code expired. Please request a new code.',
-            wrongCode: '❌ Incorrect code. Please try again.',
-            verifying: '✓ Verifying and registering you...',
-            success: '🎉 Registration successful! Redirecting to course...',
-            saveError: '⚠️ Failed to save data. Please contact support.',
-            resending: '📨 Resending verification code...',
-            codeResent: '✅ New code sent to '
-        },
-        ar: {
-            title: 'منصة المرونة',
-            subtitle: 'سجل حسابك لتبدأ الرحلة',
-            nameLabel: '👤 الاسم الكامل',
-            emailLabel: '📧 البريد الإلكتروني',
-            positionLabel: '💼 المسمى الوظيفي',
-            countryLabel: '🌍 الدولة',
-            orgLabel: '🏢 المنظمة',
-            langLabel: '🌐 اللغة',
-            linkedinLabel: '🔗 رابط لينكد إن (اختياري)',
-            sendBtn: '📨 إرسال كود التفعيل',
-            verifyBtn: '✓ تأكيد وبدء الكورس',
-            otpLabel: '🔐 كود التفعيل',
-            resendLink: '⟳ لم يصلني الكود؟ إعادة إرسال',
-            backLink: '← العودة للتسجيل',
-            footerNote: '⚡ دخول مجاني للقادة الإنسانيين',
-            enterName: '❌ الرجاء إدخال الاسم الكامل',
-            enterEmail: '❌ الرجاء إدخال البريد الإلكتروني',
-            validEmail: '❌ الرجاء إدخال بريد إلكتروني صحيح',
-            enterPosition: '❌ الرجاء اختيار أو كتابة المسمى الوظيفي',
-            enterCountry: '❌ الرجاء اختيار أو كتابة الدولة',
-            enterOrganization: '❌ الرجاء إدخال اسم المنظمة',
-            sendingCode: '📨 جاري إرسال كود التفعيل إلى بريدك...',
-            codeSent: '✅ تم إرسال كود التفعيل إلى ',
-            codeSentEnd: '. الرجاء التحقق من بريدك الوارد',
-            sendError: '⚠️ فشل إرسال البريد. الرجاء المحاولة مرة أخرى',
-            enterCode: '❌ الرجاء إدخال كود التفعيل',
-            codeExpired: '⏰ انتهت صلاحية الكود. الرجاء طلب كود جديد',
-            wrongCode: '❌ الكود غير صحيح. الرجاء المحاولة مرة أخرى',
-            verifying: '✓ جاري تأكيد تسجيلك...',
-            success: '🎉 تم التسجيل بنجاح! جاري تحويلك إلى الكورس...',
-            saveError: '⚠️ فشل حفظ البيانات. الرجاء التواصل مع الدعم',
-            resending: '📨 جاري إعادة إرسال كود التفعيل...',
-            codeResent: '✅ تم إعادة إرسال الكود إلى '
-        }
-    };
-    
-    // Handle Other option for Position
-    function setupOtherOption(selectId, otherInputId) {
-        const select = document.getElementById(selectId);
-        const otherGroup = document.getElementById(otherInputId + 'Group');
-        const otherInput = document.getElementById(otherInputId);
-        
-        if (!select || !otherGroup || !otherInput) return;
-        
-        function checkOther() {
-            if (select.value === 'Other') {
-                otherGroup.classList.add('show');
-                otherInput.required = true;
-                otherInput.focus();
-            } else {
-                otherGroup.classList.remove('show');
-                otherInput.required = false;
-                otherInput.value = '';
-            }
-        }
-        
-        select.addEventListener('change', checkOther);
-        checkOther();
+    if (!sheet) {
+      sheet = ss.insertSheet(SHEET_NAME);
+      const headers = ['Date', 'Name', 'Email', 'Country', 'Position', 'Organization', 'LinkedIn', 'Language', 'Status', 'Timestamp'];
+      sheet.appendRow(headers);
+      sheet.getRange(1, 1, 1, headers.length).setFontWeight('bold').setBackground('#1A6B5A').setFontColor('#FFFFFF');
+      sheet.setFrozenRows(1);
     }
     
-    // Get value from select with Other support
-    function getSelectValueWithOther(selectId, otherInputId) {
-        const select = document.getElementById(selectId);
-        const otherInput = document.getElementById(otherInputId);
-        
-        if (select.value === 'Other') {
-            return otherInput.value.trim() || '';
-        }
-        return select.value;
-    }
+    sheet.appendRow([
+      new Date().toLocaleString(),
+      data.name,
+      data.email,
+      data.country,
+      data.position,
+      data.organization || 'Not specified',
+      data.linkedin || '',
+      data.language || 'en',
+      'Verified with OTP',
+      new Date().toISOString()
+    ]);
     
-    function updateLanguage() {
-        const t = translations[currentLang];
-        document.getElementById('title').textContent = t.title;
-        document.getElementById('subtitle').textContent = t.subtitle;
-        document.getElementById('nameLabel').innerHTML = t.nameLabel + ' <span class="required-star">*</span>';
-        document.getElementById('emailLabel').innerHTML = t.emailLabel + ' <span class="required-star">*</span>';
-        document.getElementById('positionLabel').innerHTML = t.positionLabel + ' <span class="required-star">*</span>';
-        document.getElementById('countryLabel').innerHTML = t.countryLabel + ' <span class="required-star">*</span>';
-        document.getElementById('orgLabel').innerHTML = t.orgLabel + ' <span class="required-star">*</span>';
-        document.getElementById('langLabel').innerHTML = t.langLabel + ' <span class="required-star">*</span>';
-        document.getElementById('linkedinLabel').textContent = t.linkedinLabel;
-        document.getElementById('sendCodeBtn').textContent = t.sendBtn;
-        document.getElementById('verifyBtn').textContent = t.verifyBtn;
-        document.getElementById('otpLabel').innerHTML = t.otpLabel + ' <span class="required-star">*</span>';
-        document.getElementById('resendLink').textContent = t.resendLink;
-        document.getElementById('backLink').textContent = t.backLink;
-        document.getElementById('footerNote').textContent = t.footerNote;
-        
-        document.getElementById('fullName').placeholder = currentLang === 'en' ? 'e.g., Ahmed Al-Mansouri' : 'مثال: أحمد المنصوري';
-        document.getElementById('email').placeholder = currentLang === 'en' ? 'you@example.com' : 'example@domain.com';
-        document.getElementById('organization').placeholder = currentLang === 'en' ? 'Organization name' : 'اسم المنظمة';
-        document.getElementById('otpCode').placeholder = currentLang === 'en' ? 'Enter 6-digit code' : 'أدخل الكود المكون من 6 أرقام';
-        document.getElementById('positionOther').placeholder = currentLang === 'en' ? 'Please specify your position' : 'الرجاء كتابة المسمى الوظيفي';
-        document.getElementById('countryOther').placeholder = currentLang === 'en' ? 'Please specify your country' : 'الرجاء كتابة اسم الدولة';
-    }
-    
-    function generateCode() {
-        return Math.floor(100000 + Math.random() * 900000).toString();
-    }
-    
-    // Send OTP Email
-    async function sendWelcomeEmailWithCode(email, name, code, language) {
-        const formData = new FormData();
-        formData.append('action', 'sendWelcomeWithCode');
-        formData.append('email', email);
-        formData.append('name', name);
-        formData.append('code', code);
-        formData.append('language', language);
-        
-        try {
-            await fetch(YOUR_SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: formData
-            });
-            return true;
-        } catch (error) {
-            console.error('Failed to send email:', error);
-            return false;
-        }
-    }
-    
-    async function saveToGoogleSheets(userData) {
-        const formData = new FormData();
-        formData.append('action', 'register');
-        formData.append('name', userData.name);
-        formData.append('email', userData.email);
-        formData.append('country', userData.country);
-        formData.append('position', userData.position);
-        formData.append('organization', userData.organization || '');
-        formData.append('linkedin', userData.linkedin || '');
-        formData.append('language', userData.language || 'en');
-        formData.append('verified', 'true');
-        formData.append('timestamp', new Date().toISOString());
-        
-        try {
-            await fetch(YOUR_SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: formData
-            });
-            return true;
-        } catch (error) {
-            console.error('Failed to save data:', error);
-            return false;
-        }
-    }
-    
-    function showMessage(element, text, type) {
-        element.textContent = text;
-        element.className = type;
-        element.style.display = 'block';
-        setTimeout(() => { element.style.display = 'none'; }, 5000);
-    }
-    
-    // STEP 1: Send Verification Code
-    async function sendCode() {
-        const name = document.getElementById('fullName').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const position = getSelectValueWithOther('position', 'positionOther');
-        const country = getSelectValueWithOther('country', 'countryOther');
-        const organization = document.getElementById('organization').value.trim();
-        const linkedin = document.getElementById('linkedin').value.trim();
-        const language = document.getElementById('language').value;
-        
-        const messageDiv = document.getElementById('registerMessage');
-        const t = translations[currentLang];
-        
-        if (!name) { showMessage(messageDiv, t.enterName, 'error-box'); return; }
-        if (!email) { showMessage(messageDiv, t.enterEmail, 'error-box'); return; }
-        if (!email.includes('@')) { showMessage(messageDiv, t.validEmail, 'error-box'); return; }
-        if (!position) { showMessage(messageDiv, t.enterPosition, 'error-box'); return; }
-        if (!country) { showMessage(messageDiv, t.enterCountry, 'error-box'); return; }
-        if (!organization) { showMessage(messageDiv, t.enterOrganization, 'error-box'); return; }
-        
-        tempUserData = { name, email, position, country, organization, linkedin: linkedin || '', language };
-        
-        generatedCode = generateCode();
-        codeExpiry = Date.now() + 10 * 60 * 1000;
-        
-        console.log('📧 Verification code:', generatedCode);
-        console.log('🌐 Language selected:', language);
-        
-        showMessage(messageDiv, t.sendingCode, 'info-box');
-        
-        const emailSent = await sendWelcomeEmailWithCode(email, name, generatedCode, language);
-        
-        if (emailSent) {
-            showMessage(messageDiv, t.codeSent + email + t.codeSentEnd, 'success-box');
-            document.getElementById('registrationSection').classList.add('hidden');
-            document.getElementById('otpSection').classList.remove('hidden');
-            document.getElementById('otpCode').value = '';
-            document.getElementById('otpMessage').style.display = 'none';
-        } else {
-            showMessage(messageDiv, t.sendError, 'error-box');
-        }
-    }
-    
-    // STEP 2: Verify Code - Redirects based on selected language
-    async function verifyCode() {
-        const enteredCode = document.getElementById('otpCode').value.trim();
-        const messageDiv = document.getElementById('otpMessage');
-        const t = translations[currentLang];
-        
-        if (!enteredCode) { showMessage(messageDiv, t.enterCode, 'error-box'); return; }
-        if (Date.now() > codeExpiry) { showMessage(messageDiv, t.codeExpired, 'error-box'); return; }
-        if (enteredCode !== generatedCode) { showMessage(messageDiv, t.wrongCode, 'error-box'); return; }
-        
-        showMessage(messageDiv, t.verifying, 'info-box');
-        
-        const saved = await saveToGoogleSheets(tempUserData);
-        
-        if (saved) {
-            showMessage(messageDiv, t.success, 'success-box');
-            
-            // 1. إضافة بطاقة الدخول للمستخدم
-            sessionStorage.setItem('isVerifiedUser', 'true');
-            
-            // حفظ جميع بيانات المستخدم
-            localStorage.setItem('currentUser', JSON.stringify({
-                email: tempUserData.email,
-                name: tempUserData.name,
-                position: tempUserData.position,
-                country: tempUserData.country,
-                organization: tempUserData.organization,
-                language: tempUserData.language,
-                loggedIn: true,
-                loginTime: new Date().toISOString()
-            }));
-            
-            // ✅ حفظ اللغة المختارة للاستخدام في الصفحات الأخرى
-            localStorage.setItem('userLanguage', tempUserData.language);
-            
-            // ✅ التحويل حسب اللغة المختارة
-            const selectedLanguage = tempUserData.language; // 'en' or 'ar'
-            const redirectUrl = selectedLanguage === 'ar' ? 'ar/pre-assessment.html' : 'en/pre-assessment.html';
-            
-            setTimeout(() => { 
-                window.location.href = redirectUrl; 
-            }, 2000);
-        } else {
-            showMessage(messageDiv, t.saveError, 'error-box');
-        }
-    }
-    
-    // Resend Code
-    async function resendCode() {
-        if (!tempUserData) return;
-        
-        const messageDiv = document.getElementById('otpMessage');
-        const t = translations[currentLang];
-        
-        generatedCode = generateCode();
-        codeExpiry = Date.now() + 10 * 60 * 1000;
-        
-        console.log('📧 New verification code:', generatedCode);
-        showMessage(messageDiv, t.resending, 'info-box');
-        
-        const emailSent = await sendWelcomeEmailWithCode(tempUserData.email, tempUserData.name, generatedCode, tempUserData.language);
-        
-        if (emailSent) {
-            showMessage(messageDiv, t.codeResent + tempUserData.email, 'success-box');
-        } else {
-            showMessage(messageDiv, t.sendError, 'error-box');
-        }
-    }
-    
-    function backToRegistration() {
-        document.getElementById('registrationSection').classList.remove('hidden');
-        document.getElementById('otpSection').classList.add('hidden');
-        document.getElementById('otpCode').value = '';
-        document.getElementById('registerMessage').style.display = 'none';
-        document.getElementById('otpMessage').style.display = 'none';
-    }
-    
-    // Initialize Other option handlers
-    setupOtherOption('position', 'positionOther');
-    setupOtherOption('country', 'countryOther');
-    
-    // Event listeners
-    document.getElementById('sendCodeBtn').onclick = sendCode;
-    document.getElementById('verifyBtn').onclick = verifyCode;
-    document.getElementById('resendLink').onclick = resendCode;
-    document.getElementById('backLink').onclick = backToRegistration;
-    
-    document.getElementById('langEnBtn').onclick = () => { currentLang = 'en'; updateLanguage(); };
-    document.getElementById('langArBtn').onclick = () => { currentLang = 'ar'; updateLanguage(); };
-    
-    document.getElementById('email').addEventListener('keypress', (e) => { if (e.key === 'Enter') sendCode(); });
-    document.getElementById('otpCode').addEventListener('keypress', (e) => { if (e.key === 'Enter') verifyCode(); });
-    
-    updateLanguage();
-    console.log('✅ Registration page ready - Redirects based on language selection');
-</script>
-</body>
-</html>
+    Logger.log('✅ Saved to sheet: ' + data.email);
+    return true;
+  } catch(error) {
+    Logger.log('❌ Sheet error: ' + error);
+    return false;
+  }
+}
+
+function doGet() {
+  return ContentService.createTextOutput('✅ Resilience Toolkit OTP Script Active - Clean & Simple emails');
+}
