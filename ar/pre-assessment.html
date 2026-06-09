@@ -118,8 +118,11 @@
         }
         button {
             background: #1A6B5A; border: none; color: white;
-            font-weight: 600; padding: 0.7rem 1.5rem; border-radius: 60px;
-            font-size: 0.9rem; cursor: pointer; transition: all 0.2s;
+            font-weight: 600; padding: 0.7rem 1.5rem;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
         }
         button:disabled { opacity: 0.5; cursor: not-allowed; }
         .secondary { background: #E8A735; color: #2E3A2A; }
@@ -178,6 +181,85 @@
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateX(-50%) translateY(20px); }
             to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        /* ========== MOBILE RESPONSIVE TEXT IMPROVEMENTS ========== */
+        p {
+            text-align: justify;
+            word-wrap: break-word;
+        }
+        li {
+            text-align: justify;
+            word-wrap: break-word;
+        }
+        .assessment-header p, .assessment-header .description {
+            text-align: justify;
+        }
+        .results-box p, .welcome-message p {
+            text-align: justify;
+        }
+        .option-text, .option-sub {
+            text-align: justify;
+        }
+        .question p {
+            text-align: justify;
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 0;
+            }
+            .course-card {
+                margin: 0.5rem;
+                padding: 1.2rem;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            .subhead {
+                font-size: 0.85rem;
+            }
+            p, li, .description, .option-text, .option-sub {
+                font-size: 0.9rem;
+                line-height: 1.55;
+            }
+            .question {
+                padding: 0.8rem;
+            }
+            .option {
+                padding: 0.4rem;
+            }
+            .option-text {
+                font-size: 0.85rem;
+            }
+            .option-sub {
+                font-size: 0.7rem;
+            }
+            .scale-item {
+                font-size: 0.7rem;
+                min-width: 55px;
+                padding: 0.3rem 0;
+            }
+            .scale-label {
+                font-size: 0.55rem;
+            }
+            .check-option {
+                font-size: 0.8rem;
+                padding: 0.3rem 0.7rem;
+            }
+            button {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+            .results-box {
+                padding: 1rem;
+            }
+            .badge-icon {
+                font-size: 2.5rem;
+            }
+            .welcome-message {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
