@@ -253,7 +253,13 @@
         }
         .branch-choice:hover { background: #F0F6FD; border-color: #E8A735; }
         .branch-choice.selected { background: #E8F5E9; border-color: #1A6B5A; }
-        .branch-outcome { margin-top: 1rem; padding: 1rem; border-radius: 16px; background: #F0F7F4; }
+        .branch-outcome { 
+            margin-top: 1rem; 
+            padding: 1rem; 
+            border-radius: 16px; 
+            background: #F0F7F4;
+            display: none;
+        }
         .success-outcome { background: #E8F5E9; border-left: 5px solid #1A6B5A; }
         .failure-outcome { background: #FFEBEE; border-left: 5px solid #D32F2F; }
         .footer-note { font-size: 0.7rem; text-align: center; color: #8BA0B8; margin-top: 1.5rem; }
@@ -326,7 +332,6 @@
             font-weight: bold;
         }
 
-        /* ========== MOBILE RESPONSIVE TEXT IMPROVEMENTS ========== */
         p {
             text-align: justify;
             word-wrap: break-word;
@@ -603,8 +608,7 @@
                 <strong>C.</strong> Call an immediate meeting with your local staff (drivers, guards, assistants) and ask: "Who remembers how people here found fuel during the last major shortage?"
             </div>
         </div>
-        <div id="branchOutcome" class="branch-outcome" style="display:none;"></div>
-        <!-- ✅ NEW: Check Answer button for Branching Scenario -->
+        <div id="branchOutcome" class="branch-outcome"></div>
         <button class="check-btn" data-check="branchQuestion">✅ Check Answer</button>
     </div>
 
@@ -883,7 +887,9 @@ function updateLeylaProgress() {
     const negotiateSelected = document.querySelector('[data-action="negotiate"] .match-option.selected');
     if (blameSelected && waitHQSelected && negotiateSelected) completed++;
     
-    if (document.getElementById('branchOutcome').style.display === 'block') completed++;
+    const branchOutcome = document.getElementById('branchOutcome');
+    if (branchOutcome.style.display === 'block' && branchOutcome.innerHTML.trim() !== '') completed++;
+    
     if (document.querySelector('#leylaQ6 .quiz-option.selected')) completed++;
     if (document.querySelector('.hotspot-item.selected')) completed++;
     document.getElementById('leylaProgress').innerText = `${completed}/6 completed`;
@@ -928,11 +934,12 @@ function loadMatchSelections() {
 }
 
 // ============================================
-// NEW: Send data immediately when "Check Answer" is pressed
+// SEND DATA - Creates NEW ROW only when answers change
 // ============================================
 function sendPartialModule1Data() {
     const userData = getUserData();
     
+    // Get current answers
     let selectedConstraints = [];
     document.querySelectorAll('.poll-item.selected').forEach(item => {
         selectedConstraints.push(item.getAttribute('data-value'));
@@ -954,7 +961,7 @@ function sendPartialModule1Data() {
     
     let branchChoice = 'Not selected';
     const branchOutcomeDiv = document.getElementById('branchOutcome');
-    if (branchOutcomeDiv.style.display === 'block') {
+    if (branchOutcomeDiv.style.display === 'block' && branchOutcomeDiv.innerHTML.trim() !== '') {
         const branchText = branchOutcomeDiv.innerText;
         if (branchText.includes('Adaptive Success')) branchChoice = 'C';
         else if (branchText.includes('Extended Response Window')) branchChoice = 'B';
@@ -976,6 +983,63 @@ function sendPartialModule1Data() {
     else if (hotspotFormatted === 'rulebook') hotspotFormatted = '📖 Rulebook (SOP Manual)';
     else if (hotspotFormatted === 'satphone') hotspotFormatted = '📡 Satellite Phone (Call HQ)';
     
+    // Build current answers object
+    const currentAnswers = {
+        pollConstraints: selectedConstraints.join(', ') || 'None',
+        keithQ1: keithQ1,
+        keithQ2: keithQ2,
+        keithQ3: keithQ3,
+        keithQ4: keithQ4Formatted,
+        keithQ5: keithQ5,
+        leylaQ1: leylaQ1,
+        filterAnswer: filterAnswer,
+        criteriaAnswer: criteriaFormatted,
+        dragBlame: dragBlame,
+        dragWaitHQ: dragWaitHQ,
+        dragNegotiate: dragNegotiate,
+        branchChoice: branchChoice,
+        hotspotChoice: hotspotFormatted
+    };
+    
+    // ✅ CHECK FOR CHANGES - Compare with previous answers
+    const lastSentAnswers = JSON.parse(localStorage.getItem('module1_last_sent_answers' + storageSuffix) || '{}');
+    
+    let anyAnswerChanged = false;
+    let changedFields = [];
+    
+    // Compare each field
+    for (let key in currentAnswers) {
+        if (lastSentAnswers[key] !== undefined) {
+            if (currentAnswers[key] !== lastSentAnswers[key]) {
+                anyAnswerChanged = true;
+                changedFields.push(key);
+            }
+        }
+    }
+    
+    // ✅ If no changes and we already have previous answers, skip sending
+    if (!anyAnswerChanged && Object.keys(lastSentAnswers).length > 0) {
+        console.log('⏭️ No changes detected, skipping send');
+        return; // EXIT - don't send data
+    }
+    
+    // ✅ If we get here, there ARE changes - send the data (will create NEW row)
+    const isComplete = (
+        keithQ1 !== 'Not answered' &&
+        keithQ2.length > 3 &&
+        keithQ3.length > 3 &&
+        keithQ4 !== 'Not answered' &&
+        keithQ5.length > 3 &&
+        leylaQ1 !== 'Not answered' &&
+        filterAnswer.length > 3 &&
+        criteriaAnswer !== 'Not answered' &&
+        dragBlame !== 'Not matched' &&
+        dragWaitHQ !== 'Not matched' &&
+        dragNegotiate !== 'Not matched' &&
+        branchChoice !== 'Not selected' &&
+        hotspotChoice !== 'Not selected'
+    );
+    
     const payload = {
         module: 'Module 1',
         action: 'partial',
@@ -984,25 +1048,12 @@ function sendPartialModule1Data() {
         userEmail: userData.email,
         userPosition: userData.position,
         timestamp: new Date().toISOString(),
-        answers: {
-            pollConstraints: selectedConstraints.join(', ') || 'None',
-            keithQ1: keithQ1,
-            keithQ2: keithQ2,
-            keithQ3: keithQ3,
-            keithQ4: keithQ4Formatted,
-            keithQ5: keithQ5,
-            leylaQ1: leylaQ1,
-            filterAnswer: filterAnswer,
-            criteriaAnswer: criteriaFormatted,
-            dragBlame: dragBlame,
-            dragWaitHQ: dragWaitHQ,
-            dragNegotiate: dragNegotiate,
-            branchChoice: branchChoice,
-            hotspotChoice: hotspotFormatted
-        }
+        answers: currentAnswers,
+        changedFields: changedFields,
+        isComplete: isComplete
     };
     
-    console.log('📤 Sending partial Module 1 data (Check Answer triggered):', payload);
+    console.log('📤 Sending changed data - NEW ROW will be created:', payload);
     
     fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
@@ -1011,10 +1062,17 @@ function sendPartialModule1Data() {
     })
     .then(response => response.json())
     .then(data => {
-        console.log('✅ Partial data sent successfully:', data);
+        console.log('✅ Data sent successfully, NEW ROW created:', data);
+        // Save current answers as "last sent"
+        localStorage.setItem('module1_last_sent_answers' + storageSuffix, JSON.stringify(currentAnswers));
+        if (changedFields.length > 0) {
+            showToast(`🔄 Changes saved (${changedFields.join(', ')})`);
+        } else {
+            showToast('✅ Answers saved');
+        }
     })
     .catch(error => {
-        console.warn('⚠️ Could not send partial data:', error);
+        console.warn('⚠️ Could not send data:', error);
         // Try XHR fallback
         const xhr = new XMLHttpRequest();
         xhr.open('POST', GOOGLE_SCRIPT_URL, true);
@@ -1024,7 +1082,7 @@ function sendPartialModule1Data() {
 }
 
 // ============================================
-// UPDATED sendModule1DataToSheet - MATCHES NEW APPS SCRIPT COLUMNS
+// UPDATED sendModule1DataToSheet - Final completion
 // ============================================
 function sendModule1DataToSheet() {
     const userData = getUserData();
@@ -1050,7 +1108,7 @@ function sendModule1DataToSheet() {
     
     let branchChoice = 'Not selected';
     const branchOutcomeDiv = document.getElementById('branchOutcome');
-    if (branchOutcomeDiv.style.display === 'block') {
+    if (branchOutcomeDiv.style.display === 'block' && branchOutcomeDiv.innerHTML.trim() !== '') {
         const branchText = branchOutcomeDiv.innerText;
         if (branchText.includes('Adaptive Success')) branchChoice = 'C';
         else if (branchText.includes('Extended Response Window')) branchChoice = 'B';
@@ -1082,10 +1140,11 @@ function sendModule1DataToSheet() {
             dragNegotiate: dragNegotiate,
             branchChoice: branchChoice,
             hotspotChoice: hotspotChoice
-        }
+        },
+        isComplete: true
     };
     
-    console.log('📤 Sending Module 1 data:', payload);
+    console.log('📤 Sending Module 1 data (Completed):', payload);
     
     return new Promise((resolve) => {
         fetch(GOOGLE_SCRIPT_URL, {
@@ -1326,27 +1385,22 @@ document.getElementById('checkMatchesBtn').addEventListener('click', () => {
     updateLeylaProgress();
 });
 
+// ============================================
+// BRANCHING SCENARIO - ONLY SHOWS ON CHECK ANSWER
+// ============================================
 document.querySelectorAll('.branch-choice').forEach(choice => {
     choice.addEventListener('click', function() {
         document.querySelectorAll('.branch-choice').forEach(c => c.classList.remove('selected'));
         this.classList.add('selected');
-        
-        let branchOutcome = document.getElementById('branchOutcome');
-        let choiceVal = this.getAttribute('data-choice');
-        if (choiceVal === 'C') branchOutcome.innerHTML = '<div class="success-outcome" style="padding:1rem;"><strong>✅ Adaptive Success:</strong> Gather local knowledge first. This is what Leyla did.</div>';
-        else if (choiceVal === 'B') branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>⏳ Extended Response Window:</strong> Lacking field data, HQ must take extra time to verify risks, which pauses your operations.</div>';
-        else branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ Failure:</strong> Blaming shuts down communication and hides problems. Team trust is destroyed, and vehicles remain stuck.</div>';
-        branchOutcome.style.display = 'block';
         saveAnswersToLocal();
         updateLeylaProgress();
     });
 });
 
-// ✅ NEW: Check Answer for Branching Scenario (Question 4)
+// ✅ Check Answer for Branching Scenario (Question 4)
 document.querySelector('[data-check="branchQuestion"]')?.addEventListener('click', function() {
     const selectedBranch = document.querySelector('.branch-choice.selected');
     const branchOutcome = document.getElementById('branchOutcome');
-    const branchFeedback = document.getElementById('branchOutcome');
     
     if (!selectedBranch) {
         branchOutcome.innerHTML = '<div style="padding:1rem; background:#FFF3E0; border-radius:12px;"><strong>⚠️ Please select an option above first.</strong></div>';
@@ -1355,12 +1409,10 @@ document.querySelector('[data-check="branchQuestion"]')?.addEventListener('click
     }
     
     const choiceVal = selectedBranch.getAttribute('data-choice');
-    let isCorrect = false;
     let feedbackHTML = '';
     
     if (choiceVal === 'C') {
         feedbackHTML = '<div class="success-outcome" style="padding:1rem;"><strong>✅ Correct! Adaptive Success:</strong> Gather local knowledge first. This is what Leyla did.</div>';
-        isCorrect = true;
     } else if (choiceVal === 'B') {
         feedbackHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ Extended Response Window:</strong> Lacking field data, HQ must take extra time to verify risks, which pauses your operations.</div>';
     } else {
@@ -1373,7 +1425,7 @@ document.querySelector('[data-check="branchQuestion"]')?.addEventListener('click
     saveAnswersToLocal();
     updateLeylaProgress();
     
-    // ✅ SEND DATA IMMEDIATELY
+    // ✅ SEND DATA IMMEDIATELY - Creates NEW ROW if changed
     sendPartialModule1Data();
 });
 
@@ -1387,7 +1439,7 @@ document.querySelectorAll('.hotspot-item').forEach(item => {
 });
 
 // ============================================
-// UPDATED: Check Answer buttons - NOW SENDS DATA IMMEDIATELY
+// CHECK ANSWER BUTTONS - Send data immediately
 // ============================================
 document.querySelectorAll('.check-btn').forEach(btn => {
     btn.addEventListener('click', function() {
@@ -1439,7 +1491,7 @@ document.querySelectorAll('.check-btn').forEach(btn => {
             sendPartialModule1Data();
         }
         else if (checkId === 'branchQuestion') {
-            // This is handled above separately - skip to avoid duplication
+            // Handled above - skip to avoid duplication
             return;
         }
         saveAnswersToLocal();
@@ -1483,6 +1535,7 @@ document.getElementById('resetDataLink').addEventListener('click', () => {
         localStorage.removeItem('module1_answers' + storageSuffix);
         localStorage.removeItem('module1_match_selections' + storageSuffix);
         localStorage.removeItem('module1_completed' + storageSuffix);
+        localStorage.removeItem('module1_last_sent_answers' + storageSuffix);
         location.reload();
     }
 });
