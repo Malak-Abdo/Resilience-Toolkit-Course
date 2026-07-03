@@ -678,7 +678,7 @@ const storageSuffix = '_en';
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz005VULVTu8ZaGFs52GPKCKyPDOICQf_0EFzkF2-BjLFzSL3X6R0KX8DfXndV7rlEvkw/exec';
 
 // ============================================
-// IMPROVED getUserData() - Looks for data WITHOUT suffix first (from registration)
+// IMPROVED getUserData()
 // ============================================
 function getUserData() {
     let name = 'Guest';
@@ -687,9 +687,6 @@ function getUserData() {
     
     console.log('🔍 Searching for user data in module1-en.html...');
     
-    // FIRST: Try to get user data WITHOUT suffix (from registration page)
-    
-    // 1. Check currentUser first - NO SUFFIX
     try {
         let currentUser = localStorage.getItem('currentUser');
         if (currentUser) {
@@ -700,7 +697,6 @@ function getUserData() {
                 position = (user.position || '').trim() || 'Not specified';
                 console.log('✅ Found from currentUser (no suffix):', name);
                 
-                // Save with suffix for future use
                 localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(user));
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
@@ -711,7 +707,6 @@ function getUserData() {
         }
     } catch(e) { console.error('Error parsing currentUser:', e); }
     
-    // 2. Check users array - NO SUFFIX
     try {
         let users = JSON.parse(localStorage.getItem('users') || '[]');
         if (Array.isArray(users) && users.length > 0) {
@@ -722,7 +717,6 @@ function getUserData() {
                 position = (lastUser.position || '').trim() || 'Not specified';
                 console.log('✅ Found from users array (no suffix):', name);
                 
-                // Save with suffix
                 localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(lastUser));
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
@@ -733,7 +727,6 @@ function getUserData() {
         }
     } catch(e) { console.error('Error parsing users:', e); }
     
-    // 3. Check individual fields - NO SUFFIX
     let n = localStorage.getItem('course_user_name');
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'Your Name' && n.trim() !== '') {
         name = n.trim();
@@ -741,7 +734,6 @@ function getUserData() {
         position = (localStorage.getItem('course_user_position') || 'Not specified').trim();
         console.log('✅ Found from individual fields (no suffix):', name);
         
-        // Save with suffix
         localStorage.setItem('course_user_name' + storageSuffix, name);
         localStorage.setItem('course_user_email' + storageSuffix, email);
         localStorage.setItem('course_user_position' + storageSuffix, position);
@@ -749,7 +741,6 @@ function getUserData() {
         return { name, email, position };
     }
     
-    // 4. Check course_user object - NO SUFFIX
     let user = localStorage.getItem('course_user');
     if (user) {
         try { 
@@ -760,7 +751,6 @@ function getUserData() {
                 position = (p.position || 'Not specified').trim();
                 console.log('✅ Found from course_user (no suffix):', name);
                 
-                // Save with suffix
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
                 localStorage.setItem('course_user_position' + storageSuffix, position);
@@ -770,7 +760,6 @@ function getUserData() {
         } catch(e) {}
     }
     
-    // 5. Check resilience_users array - NO SUFFIX
     let users = localStorage.getItem('resilience_users');
     if (users) {
         try { 
@@ -783,7 +772,6 @@ function getUserData() {
                         position = (p[i].position || 'Not specified').trim();
                         console.log('✅ Found from resilience_users (no suffix):', name);
                         
-                        // Save with suffix
                         localStorage.setItem('course_user_name' + storageSuffix, name);
                         localStorage.setItem('course_user_email' + storageSuffix, email);
                         localStorage.setItem('course_user_position' + storageSuffix, position);
@@ -795,7 +783,6 @@ function getUserData() {
         } catch(e) {}
     }
     
-    // 6. Finally, try WITH suffix (for returning users)
     n = localStorage.getItem('course_user_name' + storageSuffix);
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim() !== '') {
         name = n.trim();
@@ -805,7 +792,6 @@ function getUserData() {
         return { name, email, position };
     }
     
-    // 7. Try currentUser with suffix
     try {
         let currentUser = localStorage.getItem('currentUser' + storageSuffix);
         if (currentUser) {
@@ -824,7 +810,7 @@ function getUserData() {
     return { name: 'Guest', email: 'guest@example.com', position: 'Not specified' };
 }
 
-// Display user name in badge (silently, no prompts)
+// Display user name in badge
 const currentUser = getUserData();
 const userBadge = document.getElementById('userBadge');
 if (userBadge) {
@@ -934,12 +920,30 @@ function loadMatchSelections() {
 }
 
 // ============================================
-// SEND DATA - Creates NEW ROW only when answers change
+// تهيئة تاريخ التغييرات
+// ============================================
+function initializeHistoryTracking() {
+    if (!localStorage.getItem('module1_history_data' + storageSuffix)) {
+        const questionKeys = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10', 'q11', 'q12', 'q13'];
+        const historyData = {};
+        questionKeys.forEach(key => {
+            historyData[key] = {
+                history: '',
+                changes: 0,
+                lastValue: ''
+            };
+        });
+        localStorage.setItem('module1_history_data' + storageSuffix, JSON.stringify(historyData));
+        console.log('✅ تم تهيئة تاريخ التغييرات');
+    }
+}
+
+// ============================================
+// SEND DATA - تحديث نفس الصف مع تاريخ التغييرات
 // ============================================
 function sendPartialModule1Data() {
     const userData = getUserData();
     
-    // Get current answers
     let selectedConstraints = [];
     document.querySelectorAll('.poll-item.selected').forEach(item => {
         selectedConstraints.push(item.getAttribute('data-value'));
@@ -970,7 +974,6 @@ function sendPartialModule1Data() {
     
     let hotspotChoice = document.querySelector('.hotspot-item.selected')?.getAttribute('data-hotspot') || 'Not selected';
     
-    // Format values
     let keithQ4Formatted = keithQ4;
     if (keithQ4Formatted === 'false') keithQ4Formatted = 'False';
     else if (keithQ4Formatted === 'true') keithQ4Formatted = 'True';
@@ -983,47 +986,82 @@ function sendPartialModule1Data() {
     else if (hotspotFormatted === 'rulebook') hotspotFormatted = '📖 Rulebook (SOP Manual)';
     else if (hotspotFormatted === 'satphone') hotspotFormatted = '📡 Satellite Phone (Call HQ)';
     
-    // Build current answers object
     const currentAnswers = {
-        pollConstraints: selectedConstraints.join(', ') || 'None',
-        keithQ1: keithQ1,
-        keithQ2: keithQ2,
-        keithQ3: keithQ3,
-        keithQ4: keithQ4Formatted,
-        keithQ5: keithQ5,
-        leylaQ1: leylaQ1,
-        filterAnswer: filterAnswer,
-        criteriaAnswer: criteriaFormatted,
-        dragBlame: dragBlame,
-        dragWaitHQ: dragWaitHQ,
-        dragNegotiate: dragNegotiate,
-        branchChoice: branchChoice,
-        hotspotChoice: hotspotFormatted
+        poll: selectedConstraints.join(', ') || 'None',
+        q1: keithQ1,
+        q2: keithQ2,
+        q3: keithQ3,
+        q4: keithQ4Formatted,
+        q5: keithQ5,
+        q6: leylaQ1,
+        q7: filterAnswer,
+        q8: criteriaFormatted,
+        q9: dragBlame,
+        q10: dragWaitHQ,
+        q11: dragNegotiate,
+        q12: branchChoice,
+        q13: hotspotFormatted
     };
     
-    // ✅ CHECK FOR CHANGES - Compare with previous answers
-    const lastSentAnswers = JSON.parse(localStorage.getItem('module1_last_sent_answers' + storageSuffix) || '{}');
+    let historyData = JSON.parse(localStorage.getItem('module1_history_data' + storageSuffix) || '{}');
     
-    let anyAnswerChanged = false;
+    if (Object.keys(historyData).length === 0) {
+        const questionKeys = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10', 'q11', 'q12', 'q13'];
+        questionKeys.forEach(key => {
+            historyData[key] = { history: '', changes: 0, lastValue: '' };
+        });
+    }
+    
+    let totalChanges = 0;
+    let hasAnyChange = false;
     let changedFields = [];
     
-    // Compare each field
-    for (let key in currentAnswers) {
-        if (lastSentAnswers[key] !== undefined) {
-            if (currentAnswers[key] !== lastSentAnswers[key]) {
-                anyAnswerChanged = true;
-                changedFields.push(key);
+    const questionMap = {
+        q1: 'Q1_Keith', q2: 'Q2_RedFlag', q3: 'Q3_Adaptive', q4: 'Q4_Technical',
+        q5: 'Q5_Experience', q6: 'Q6_Leyla', q7: 'Q7_Filter', q8: 'Q8_Protocol',
+        q9: 'Q9_Match1', q10: 'Q10_Match2', q11: 'Q11_Match3', q12: 'Q12_Branch', q13: 'Q13_Hotspot'
+    };
+    
+    for (let key in questionMap) {
+        const currentValue = currentAnswers[key] || '';
+        const lastValue = historyData[key]?.lastValue || '';
+        const currentHistory = historyData[key]?.history || '';
+        const currentChanges = historyData[key]?.changes || 0;
+        
+        if (currentValue && currentValue !== 'Not answered' && currentValue !== 'Not matched' && currentValue !== 'Not selected' && currentValue !== 'None') {
+            if (lastValue && lastValue !== currentValue) {
+                historyData[key] = {
+                    history: currentHistory ? currentHistory + '→' + currentValue : currentValue,
+                    changes: currentChanges + 1,
+                    lastValue: currentValue
+                };
+                hasAnyChange = true;
+                changedFields.push(questionMap[key]);
+                totalChanges += (currentChanges + 1);
+            } else if (!lastValue) {
+                historyData[key] = {
+                    history: currentValue,
+                    changes: 0,
+                    lastValue: currentValue
+                };
+                hasAnyChange = true;
+                changedFields.push(questionMap[key] + ' (NEW)');
             }
         }
     }
     
-    // ✅ If no changes and we already have previous answers, skip sending
-    if (!anyAnswerChanged && Object.keys(lastSentAnswers).length > 0) {
-        console.log('⏭️ No changes detected, skipping send');
-        return; // EXIT - don't send data
+    let totalChangesCount = 0;
+    for (let key in historyData) {
+        totalChangesCount += historyData[key]?.changes || 0;
     }
     
-    // ✅ If we get here, there ARE changes - send the data (will create NEW row)
+    localStorage.setItem('module1_history_data' + storageSuffix, JSON.stringify(historyData));
+    
+    if (!hasAnyChange) {
+        console.log('⏭️ لا توجد تغييرات، تخطي الإرسال');
+        return;
+    }
+    
     const isComplete = (
         keithQ1 !== 'Not answered' &&
         keithQ2.length > 3 &&
@@ -1049,11 +1087,13 @@ function sendPartialModule1Data() {
         userPosition: userData.position,
         timestamp: new Date().toISOString(),
         answers: currentAnswers,
+        history: historyData,
         changedFields: changedFields,
+        totalChanges: totalChangesCount,
         isComplete: isComplete
     };
     
-    console.log('📤 Sending changed data - NEW ROW will be created:', payload);
+    console.log('📤 إرسال البيانات مع تاريخ التغييرات:', payload);
     
     fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
@@ -1062,18 +1102,12 @@ function sendPartialModule1Data() {
     })
     .then(response => response.json())
     .then(data => {
-        console.log('✅ Data sent successfully, NEW ROW created:', data);
-        // Save current answers as "last sent"
+        console.log('✅ تم إرسال البيانات بنجاح:', data);
         localStorage.setItem('module1_last_sent_answers' + storageSuffix, JSON.stringify(currentAnswers));
-        if (changedFields.length > 0) {
-            showToast(`🔄 Changes saved (${changedFields.join(', ')})`);
-        } else {
-            showToast('✅ Answers saved');
-        }
+        showToast(`✅ تم الحفظ - التغييرات: ${totalChangesCount}`);
     })
     .catch(error => {
-        console.warn('⚠️ Could not send data:', error);
-        // Try XHR fallback
+        console.warn('⚠️ خطأ في الإرسال:', error);
         const xhr = new XMLHttpRequest();
         xhr.open('POST', GOOGLE_SCRIPT_URL, true);
         xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
@@ -1397,7 +1431,7 @@ document.querySelectorAll('.branch-choice').forEach(choice => {
     });
 });
 
-// ✅ Check Answer for Branching Scenario (Question 4)
+// Check Answer for Branching Scenario (Question 4)
 document.querySelector('[data-check="branchQuestion"]')?.addEventListener('click', function() {
     const selectedBranch = document.querySelector('.branch-choice.selected');
     const branchOutcome = document.getElementById('branchOutcome');
@@ -1425,7 +1459,6 @@ document.querySelector('[data-check="branchQuestion"]')?.addEventListener('click
     saveAnswersToLocal();
     updateLeylaProgress();
     
-    // ✅ SEND DATA IMMEDIATELY - Creates NEW ROW if changed
     sendPartialModule1Data();
 });
 
@@ -1457,7 +1490,6 @@ document.querySelectorAll('.check-btn').forEach(btn => {
                 fb1.className = 'feedback feedback-incorrect';
                 showModelAnswer('leylaFb1', 'Leyla would ask local staff first.');
             }
-            // ✅ SEND DATA IMMEDIATELY
             sendPartialModule1Data();
         }
         else if (checkId === 'filterQuestion') {
@@ -1473,7 +1505,6 @@ document.querySelectorAll('.check-btn').forEach(btn => {
                 filterFb.className = 'feedback feedback-correct';
                 showModelAnswer('filterFb', 'Assess risk, document as life-saving exception, justify with accurate documentation to the donor.');
             }
-            // ✅ SEND DATA IMMEDIATELY
             sendPartialModule1Data();
         }
         else if (checkId === 'criteriaQuestion') {
@@ -1487,11 +1518,9 @@ document.querySelectorAll('.check-btn').forEach(btn => {
                 criteriaFb.innerHTML = '❌ The correct answer is B: When immediate life-saving is at stake.';
                 criteriaFb.className = 'feedback feedback-incorrect';
             }
-            // ✅ SEND DATA IMMEDIATELY
             sendPartialModule1Data();
         }
         else if (checkId === 'branchQuestion') {
-            // Handled above - skip to avoid duplication
             return;
         }
         saveAnswersToLocal();
@@ -1536,11 +1565,13 @@ document.getElementById('resetDataLink').addEventListener('click', () => {
         localStorage.removeItem('module1_match_selections' + storageSuffix);
         localStorage.removeItem('module1_completed' + storageSuffix);
         localStorage.removeItem('module1_last_sent_answers' + storageSuffix);
+        localStorage.removeItem('module1_history_data' + storageSuffix);
         location.reload();
     }
 });
 
 loadSavedAnswers();
+initializeHistoryTracking();
 </script>
 </body>
 </html>
