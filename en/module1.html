@@ -604,6 +604,8 @@
             </div>
         </div>
         <div id="branchOutcome" class="branch-outcome" style="display:none;"></div>
+        <!-- ✅ NEW: Check Answer button for Branching Scenario -->
+        <button class="check-btn" data-check="branchQuestion">✅ Check Answer</button>
     </div>
 
     <div class="quiz-question" id="leylaQ6">
@@ -669,53 +671,7 @@ const storageSuffix = '_en';
 // ============================================
 // GOOGLE SHEETS WEB APP URL
 // ============================================
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsij2qCMk4FsQC6ffOV4u2Mdp6RBB-K-Ni0zSJal4gzNUYsQ0bv0zZN0ZFoI3QG6ohpA/exec';
-
-// ============================================
-// ANSWER TRACKING SYSTEM - Tracks both initial and changed answers
-// ============================================
-const answerTracker = {
-    pollConstraints: { initial: [], current: [], changes: [] },
-    keithQ1: { initial: null, current: null, changes: [] },
-    keithQ2: { initial: null, current: null, changes: [] },
-    keithQ3: { initial: null, current: null, changes: [] },
-    keithQ4: { initial: null, current: null, changes: [] },
-    keithQ5: { initial: null, current: null, changes: [] },
-    leylaQ1: { initial: null, current: null, changes: [] },
-    filterAnswer: { initial: null, current: null, changes: [] },
-    criteriaAnswer: { initial: null, current: null, changes: [] },
-    matchBlame: { initial: null, current: null, changes: [] },
-    matchWaitHQ: { initial: null, current: null, changes: [] },
-    matchNegotiate: { initial: null, current: null, changes: [] },
-    branchChoice: { initial: null, current: null, changes: [] },
-    hotspotChoice: { initial: null, current: null, changes: [] }
-};
-
-function trackAnswer(questionId, newValue) {
-    const tracker = answerTracker[questionId];
-    if (!tracker) return;
-    
-    if (tracker.initial === null || (Array.isArray(tracker.initial) && tracker.initial.length === 0)) {
-        tracker.initial = newValue;
-        tracker.current = newValue;
-        tracker.changes = [newValue];
-    } else if (JSON.stringify(tracker.current) !== JSON.stringify(newValue)) {
-        tracker.current = newValue;
-        tracker.changes.push(newValue);
-    }
-}
-
-function getTrackedAnswers() {
-    const result = {};
-    for (const [key, value] of Object.entries(answerTracker)) {
-        result[key] = {
-            initial: value.initial,
-            current: value.current,
-            changes: value.changes
-        };
-    }
-    return result;
-}
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbylF2X6XfxJIPQ77YyDaICfdYQe_aRad_64ssVtTAezsVV09R86ArUKagYWLaTpDHwrMA/exec';
 
 // ============================================
 // IMPROVED getUserData() - Looks for data WITHOUT suffix first (from registration)
@@ -941,21 +897,9 @@ function saveMatchSelections() {
     const waitHQOpt = document.querySelector('[data-action="waitHQ"] .match-option.selected');
     const negotiateOpt = document.querySelector('[data-action="negotiate"] .match-option.selected');
     
-    if (blameOpt) {
-        const val = blameOpt.getAttribute('data-outcome');
-        matchSelections.blame = val;
-        trackAnswer('matchBlame', val);
-    }
-    if (waitHQOpt) {
-        const val = waitHQOpt.getAttribute('data-outcome');
-        matchSelections.waitHQ = val;
-        trackAnswer('matchWaitHQ', val);
-    }
-    if (negotiateOpt) {
-        const val = negotiateOpt.getAttribute('data-outcome');
-        matchSelections.negotiate = val;
-        trackAnswer('matchNegotiate', val);
-    }
+    if (blameOpt) matchSelections.blame = blameOpt.getAttribute('data-outcome');
+    if (waitHQOpt) matchSelections.waitHQ = waitHQOpt.getAttribute('data-outcome');
+    if (negotiateOpt) matchSelections.negotiate = negotiateOpt.getAttribute('data-outcome');
     
     localStorage.setItem('module1_match_selections' + storageSuffix, JSON.stringify(matchSelections));
 }
@@ -984,11 +928,106 @@ function loadMatchSelections() {
 }
 
 // ============================================
-// UPDATED sendModule1DataToSheet - With Status Parameter
+// NEW: Send data immediately when "Check Answer" is pressed
 // ============================================
-function sendModule1DataToSheet(status = 'In Progress') {
+function sendPartialModule1Data() {
     const userData = getUserData();
-    const tracked = getTrackedAnswers();
+    
+    let selectedConstraints = [];
+    document.querySelectorAll('.poll-item.selected').forEach(item => {
+        selectedConstraints.push(item.getAttribute('data-value'));
+    });
+    
+    let keithQ1 = document.querySelector('#q1 .quiz-option.selected')?.getAttribute('data-val') || 'Not answered';
+    let keithQ2 = document.getElementById('q2answer')?.value.trim() || 'Not answered';
+    let keithQ3 = document.getElementById('q3answer')?.value.trim() || 'Not answered';
+    let keithQ4 = document.querySelector('#q4 .quiz-option.selected')?.getAttribute('data-val') || 'Not answered';
+    let keithQ5 = document.getElementById('q5answer')?.value.trim() || 'Not answered';
+    
+    let leylaQ1 = document.querySelector('#leylaQ1 .quiz-option.selected')?.getAttribute('data-val') || 'Not answered';
+    let filterAnswer = document.getElementById('filterAnswer')?.value.trim() || 'Not answered';
+    let criteriaAnswer = document.querySelector('#leylaQ6 .quiz-option.selected')?.getAttribute('data-val') || 'Not answered';
+    
+    let dragBlame = matchSelections.blame || 'Not matched';
+    let dragWaitHQ = matchSelections.waitHQ || 'Not matched';
+    let dragNegotiate = matchSelections.negotiate || 'Not matched';
+    
+    let branchChoice = 'Not selected';
+    const branchOutcomeDiv = document.getElementById('branchOutcome');
+    if (branchOutcomeDiv.style.display === 'block') {
+        const branchText = branchOutcomeDiv.innerText;
+        if (branchText.includes('Adaptive Success')) branchChoice = 'C';
+        else if (branchText.includes('Extended Response Window')) branchChoice = 'B';
+        else if (branchText.includes('Failure')) branchChoice = 'A';
+    }
+    
+    let hotspotChoice = document.querySelector('.hotspot-item.selected')?.getAttribute('data-hotspot') || 'Not selected';
+    
+    // Format values
+    let keithQ4Formatted = keithQ4;
+    if (keithQ4Formatted === 'false') keithQ4Formatted = 'False';
+    else if (keithQ4Formatted === 'true') keithQ4Formatted = 'True';
+    
+    let criteriaFormatted = criteriaAnswer;
+    if (criteriaFormatted === 'B') criteriaFormatted = 'B) When immediate life-saving is at stake AND compliance can be justified post-fact';
+    
+    let hotspotFormatted = hotspotChoice;
+    if (hotspotFormatted === 'hand') hotspotFormatted = '🤝 Local Staff Member\'s Hand';
+    else if (hotspotFormatted === 'rulebook') hotspotFormatted = '📖 Rulebook (SOP Manual)';
+    else if (hotspotFormatted === 'satphone') hotspotFormatted = '📡 Satellite Phone (Call HQ)';
+    
+    const payload = {
+        module: 'Module 1',
+        action: 'partial',
+        language: 'en',
+        userName: userData.name,
+        userEmail: userData.email,
+        userPosition: userData.position,
+        timestamp: new Date().toISOString(),
+        answers: {
+            pollConstraints: selectedConstraints.join(', ') || 'None',
+            keithQ1: keithQ1,
+            keithQ2: keithQ2,
+            keithQ3: keithQ3,
+            keithQ4: keithQ4Formatted,
+            keithQ5: keithQ5,
+            leylaQ1: leylaQ1,
+            filterAnswer: filterAnswer,
+            criteriaAnswer: criteriaFormatted,
+            dragBlame: dragBlame,
+            dragWaitHQ: dragWaitHQ,
+            dragNegotiate: dragNegotiate,
+            branchChoice: branchChoice,
+            hotspotChoice: hotspotFormatted
+        }
+    };
+    
+    console.log('📤 Sending partial Module 1 data (Check Answer triggered):', payload);
+    
+    fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('✅ Partial data sent successfully:', data);
+    })
+    .catch(error => {
+        console.warn('⚠️ Could not send partial data:', error);
+        // Try XHR fallback
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+        xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+        xhr.send(JSON.stringify(payload));
+    });
+}
+
+// ============================================
+// UPDATED sendModule1DataToSheet - MATCHES NEW APPS SCRIPT COLUMNS
+// ============================================
+function sendModule1DataToSheet() {
+    const userData = getUserData();
     
     let selectedConstraints = [];
     document.querySelectorAll('.poll-item.selected').forEach(item => {
@@ -1043,27 +1082,10 @@ function sendModule1DataToSheet(status = 'In Progress') {
             dragNegotiate: dragNegotiate,
             branchChoice: branchChoice,
             hotspotChoice: hotspotChoice
-        },
-        tracking: {
-            pollConstraints: tracked.pollConstraints,
-            keithQ1: tracked.keithQ1,
-            keithQ2: tracked.keithQ2,
-            keithQ3: tracked.keithQ3,
-            keithQ4: tracked.keithQ4,
-            keithQ5: tracked.keithQ5,
-            leylaQ1: tracked.leylaQ1,
-            filterAnswer: tracked.filterAnswer,
-            criteriaAnswer: tracked.criteriaAnswer,
-            matchBlame: tracked.matchBlame,
-            matchWaitHQ: tracked.matchWaitHQ,
-            matchNegotiate: tracked.matchNegotiate,
-            branchChoice: tracked.branchChoice,
-            hotspotChoice: tracked.hotspotChoice
-        },
-        status: status
+        }
     };
     
-    console.log('📤 Sending Module 1 data (Status: ' + status + '):', payload);
+    console.log('📤 Sending Module 1 data:', payload);
     
     return new Promise((resolve) => {
         fetch(GOOGLE_SCRIPT_URL, {
@@ -1071,7 +1093,7 @@ function sendModule1DataToSheet(status = 'In Progress') {
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(payload)
         })
-        .then(() => { console.log('✅ Module 1 data sent (Status: ' + status + ')'); resolve(true); })
+        .then(() => { console.log('✅ Module 1 data sent'); resolve(true); })
         .catch(() => {
             const xhr = new XMLHttpRequest();
             xhr.open('POST', GOOGLE_SCRIPT_URL, true);
@@ -1102,7 +1124,6 @@ function saveAnswersToLocal() {
     });
     localStorage.setItem('module1_answers' + storageSuffix, JSON.stringify(answers));
     saveMatchSelections();
-    localStorage.setItem('module1_tracking' + storageSuffix, JSON.stringify(answerTracker));
 }
 
 function loadSavedAnswers() {
@@ -1161,9 +1182,9 @@ async function goToModule2() {
     saveAnswersToLocal();
     showToast('💾 Saving your answers...');
     
-    await sendModule1DataToSheet('Completed');
+    await sendModule1DataToSheet();
     localStorage.setItem('module1_completed' + storageSuffix, 'true');
-    showToast('✅ Module completed! Redirecting...');
+    showToast('✅ Progress saved! Redirecting...');
     
     setTimeout(() => { window.location.href = 'module2.html'; }, 800);
 }
@@ -1174,15 +1195,7 @@ document.getElementById('playAudioHookBtn').addEventListener('click', () => {
 });
 
 document.querySelectorAll('.poll-item').forEach(item => {
-    item.addEventListener('click', function() {
-        this.classList.toggle('selected');
-        const selectedValues = [];
-        document.querySelectorAll('.poll-item.selected').forEach(el => {
-            selectedValues.push(el.getAttribute('data-value'));
-        });
-        trackAnswer('pollConstraints', selectedValues.join(','));
-        saveAnswersToLocal();
-    });
+    item.addEventListener('click', function() { this.classList.toggle('selected'); saveAnswersToLocal(); });
 });
 
 document.getElementById('submitPollBtn').addEventListener('click', () => {
@@ -1196,15 +1209,12 @@ document.querySelectorAll('#q1 .quiz-option, #q4 .quiz-option').forEach(opt => {
     opt.addEventListener('click', function() {
         this.parentElement.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
         this.classList.add('selected');
-        const qId = this.closest('.quiz-options').getAttribute('data-q');
-        if (qId === '1') trackAnswer('keithQ1', this.getAttribute('data-val'));
-        else if (qId === '4') trackAnswer('keithQ4', this.getAttribute('data-val'));
         saveAnswersToLocal();
         updateKeithProgress();
     });
 });
 
-document.getElementById('submitKeithQuiz').addEventListener('click', async () => {
+document.getElementById('submitKeithQuiz').addEventListener('click', () => {
     let q1Val = document.querySelector('#q1 .quiz-option.selected')?.getAttribute('data-val');
     let fb1 = document.getElementById('fb1');
     fb1.style.display = 'block';
@@ -1247,16 +1257,12 @@ document.getElementById('submitKeithQuiz').addEventListener('click', async () =>
     document.getElementById('keithDiagnosis').style.display = 'block';
     saveAnswersToLocal();
     updateKeithProgress();
-    
-    await sendModule1DataToSheet('In Progress');
-    showToast('📊 Keith Quiz answers saved');
 });
 
 document.querySelectorAll('#leylaQ1 .quiz-option').forEach(opt => {
     opt.addEventListener('click', function() {
         document.querySelectorAll('#leylaQ1 .quiz-option').forEach(o => o.classList.remove('selected'));
         this.classList.add('selected');
-        trackAnswer('leylaQ1', this.getAttribute('data-val'));
         saveAnswersToLocal();
         updateLeylaProgress();
     });
@@ -1266,15 +1272,12 @@ document.querySelectorAll('#leylaQ6 .quiz-option').forEach(opt => {
     opt.addEventListener('click', function() {
         document.querySelectorAll('#leylaQ6 .quiz-option').forEach(o => o.classList.remove('selected'));
         this.classList.add('selected');
-        trackAnswer('criteriaAnswer', this.getAttribute('data-val'));
         saveAnswersToLocal();
         updateLeylaProgress();
     });
 });
 
 document.getElementById('filterAnswer').addEventListener('input', function() {
-    const val = this.value.trim();
-    if (val.length > 3) trackAnswer('filterAnswer', val);
     saveAnswersToLocal();
     updateLeylaProgress();
 });
@@ -1290,7 +1293,7 @@ document.querySelectorAll('.match-option').forEach(opt => {
     });
 });
 
-document.getElementById('checkMatchesBtn').addEventListener('click', async () => {
+document.getElementById('checkMatchesBtn').addEventListener('click', () => {
     const blameSelected = document.querySelector('[data-action="blame"] .match-option.selected');
     const waitHQSelected = document.querySelector('[data-action="waitHQ"] .match-option.selected');
     const negotiateSelected = document.querySelector('[data-action="negotiate"] .match-option.selected');
@@ -1321,9 +1324,6 @@ document.getElementById('checkMatchesBtn').addEventListener('click', async () =>
     
     saveAnswersToLocal();
     updateLeylaProgress();
-    
-    await sendModule1DataToSheet('In Progress');
-    showToast('📊 Match answers saved');
 });
 
 document.querySelectorAll('.branch-choice').forEach(choice => {
@@ -1333,7 +1333,6 @@ document.querySelectorAll('.branch-choice').forEach(choice => {
         
         let branchOutcome = document.getElementById('branchOutcome');
         let choiceVal = this.getAttribute('data-choice');
-        trackAnswer('branchChoice', choiceVal);
         if (choiceVal === 'C') branchOutcome.innerHTML = '<div class="success-outcome" style="padding:1rem;"><strong>✅ Adaptive Success:</strong> Gather local knowledge first. This is what Leyla did.</div>';
         else if (choiceVal === 'B') branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>⏳ Extended Response Window:</strong> Lacking field data, HQ must take extra time to verify risks, which pauses your operations.</div>';
         else branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ Failure:</strong> Blaming shuts down communication and hides problems. Team trust is destroyed, and vehicles remain stuck.</div>';
@@ -1343,18 +1342,55 @@ document.querySelectorAll('.branch-choice').forEach(choice => {
     });
 });
 
+// ✅ NEW: Check Answer for Branching Scenario (Question 4)
+document.querySelector('[data-check="branchQuestion"]')?.addEventListener('click', function() {
+    const selectedBranch = document.querySelector('.branch-choice.selected');
+    const branchOutcome = document.getElementById('branchOutcome');
+    const branchFeedback = document.getElementById('branchOutcome');
+    
+    if (!selectedBranch) {
+        branchOutcome.innerHTML = '<div style="padding:1rem; background:#FFF3E0; border-radius:12px;"><strong>⚠️ Please select an option above first.</strong></div>';
+        branchOutcome.style.display = 'block';
+        return;
+    }
+    
+    const choiceVal = selectedBranch.getAttribute('data-choice');
+    let isCorrect = false;
+    let feedbackHTML = '';
+    
+    if (choiceVal === 'C') {
+        feedbackHTML = '<div class="success-outcome" style="padding:1rem;"><strong>✅ Correct! Adaptive Success:</strong> Gather local knowledge first. This is what Leyla did.</div>';
+        isCorrect = true;
+    } else if (choiceVal === 'B') {
+        feedbackHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ Extended Response Window:</strong> Lacking field data, HQ must take extra time to verify risks, which pauses your operations.</div>';
+    } else {
+        feedbackHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ Failure:</strong> Blaming shuts down communication and hides problems. Team trust is destroyed, and vehicles remain stuck.</div>';
+    }
+    
+    branchOutcome.innerHTML = feedbackHTML;
+    branchOutcome.style.display = 'block';
+    
+    saveAnswersToLocal();
+    updateLeylaProgress();
+    
+    // ✅ SEND DATA IMMEDIATELY
+    sendPartialModule1Data();
+});
+
 document.querySelectorAll('.hotspot-item').forEach(item => {
     item.addEventListener('click', function() {
         document.querySelectorAll('.hotspot-item').forEach(i => i.classList.remove('selected'));
         this.classList.add('selected');
-        trackAnswer('hotspotChoice', this.getAttribute('data-hotspot'));
         saveAnswersToLocal();
         updateLeylaProgress();
     });
 });
 
+// ============================================
+// UPDATED: Check Answer buttons - NOW SENDS DATA IMMEDIATELY
+// ============================================
 document.querySelectorAll('.check-btn').forEach(btn => {
-    btn.addEventListener('click', async function() {
+    btn.addEventListener('click', function() {
         const checkId = this.getAttribute('data-check');
         
         if (checkId === 'leylaQ1') {
@@ -1369,6 +1405,8 @@ document.querySelectorAll('.check-btn').forEach(btn => {
                 fb1.className = 'feedback feedback-incorrect';
                 showModelAnswer('leylaFb1', 'Leyla would ask local staff first.');
             }
+            // ✅ SEND DATA IMMEDIATELY
+            sendPartialModule1Data();
         }
         else if (checkId === 'filterQuestion') {
             let filterVal = document.getElementById('filterAnswer').value.trim();
@@ -1383,6 +1421,8 @@ document.querySelectorAll('.check-btn').forEach(btn => {
                 filterFb.className = 'feedback feedback-correct';
                 showModelAnswer('filterFb', 'Assess risk, document as life-saving exception, justify with accurate documentation to the donor.');
             }
+            // ✅ SEND DATA IMMEDIATELY
+            sendPartialModule1Data();
         }
         else if (checkId === 'criteriaQuestion') {
             let criteriaVal = document.querySelector('#leylaQ6 .quiz-option.selected')?.getAttribute('data-val');
@@ -1395,17 +1435,19 @@ document.querySelectorAll('.check-btn').forEach(btn => {
                 criteriaFb.innerHTML = '❌ The correct answer is B: When immediate life-saving is at stake.';
                 criteriaFb.className = 'feedback feedback-incorrect';
             }
+            // ✅ SEND DATA IMMEDIATELY
+            sendPartialModule1Data();
         }
-        
+        else if (checkId === 'branchQuestion') {
+            // This is handled above separately - skip to avoid duplication
+            return;
+        }
         saveAnswersToLocal();
         updateLeylaProgress();
-        
-        await sendModule1DataToSheet('In Progress');
-        showToast('📊 Progress saved');
     });
 });
 
-document.getElementById('submitLeylaQuiz').addEventListener('click', async () => {
+document.getElementById('submitLeylaQuiz').addEventListener('click', () => {
     let selectedHotspot = document.querySelector('.hotspot-item.selected')?.getAttribute('data-hotspot');
     let hotspotFb = document.getElementById('hotspotFeedback');
     if (selectedHotspot === 'hand') {
@@ -1430,9 +1472,6 @@ document.getElementById('submitLeylaQuiz').addEventListener('click', async () =>
     
     saveAnswersToLocal();
     updateLeylaProgress();
-    
-    await sendModule1DataToSheet('In Progress');
-    showToast('📊 Leyla Quiz answers saved');
 });
 
 document.getElementById('continueToModule2Btn').addEventListener('click', goToModule2);
@@ -1444,7 +1483,6 @@ document.getElementById('resetDataLink').addEventListener('click', () => {
         localStorage.removeItem('module1_answers' + storageSuffix);
         localStorage.removeItem('module1_match_selections' + storageSuffix);
         localStorage.removeItem('module1_completed' + storageSuffix);
-        localStorage.removeItem('module1_tracking' + storageSuffix);
         location.reload();
     }
 });
