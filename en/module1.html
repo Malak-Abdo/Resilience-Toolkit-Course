@@ -984,9 +984,9 @@ function loadMatchSelections() {
 }
 
 // ============================================
-// UPDATED sendModule1DataToSheet - MATCHES NEW APPS SCRIPT COLUMNS
+// UPDATED sendModule1DataToSheet - With Status Parameter
 // ============================================
-function sendModule1DataToSheet() {
+function sendModule1DataToSheet(status = 'In Progress') {
     const userData = getUserData();
     const tracked = getTrackedAnswers();
     
@@ -1059,10 +1059,11 @@ function sendModule1DataToSheet() {
             matchNegotiate: tracked.matchNegotiate,
             branchChoice: tracked.branchChoice,
             hotspotChoice: tracked.hotspotChoice
-        }
+        },
+        status: status
     };
     
-    console.log('📤 Sending Module 1 data:', payload);
+    console.log('📤 Sending Module 1 data (Status: ' + status + '):', payload);
     
     return new Promise((resolve) => {
         fetch(GOOGLE_SCRIPT_URL, {
@@ -1070,7 +1071,7 @@ function sendModule1DataToSheet() {
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(payload)
         })
-        .then(() => { console.log('✅ Module 1 data sent'); resolve(true); })
+        .then(() => { console.log('✅ Module 1 data sent (Status: ' + status + ')'); resolve(true); })
         .catch(() => {
             const xhr = new XMLHttpRequest();
             xhr.open('POST', GOOGLE_SCRIPT_URL, true);
@@ -1160,9 +1161,9 @@ async function goToModule2() {
     saveAnswersToLocal();
     showToast('💾 Saving your answers...');
     
-    await sendModule1DataToSheet();
+    await sendModule1DataToSheet('Completed');
     localStorage.setItem('module1_completed' + storageSuffix, 'true');
-    showToast('✅ Progress saved! Redirecting...');
+    showToast('✅ Module completed! Redirecting...');
     
     setTimeout(() => { window.location.href = 'module2.html'; }, 800);
 }
@@ -1203,7 +1204,7 @@ document.querySelectorAll('#q1 .quiz-option, #q4 .quiz-option').forEach(opt => {
     });
 });
 
-document.getElementById('submitKeithQuiz').addEventListener('click', () => {
+document.getElementById('submitKeithQuiz').addEventListener('click', async () => {
     let q1Val = document.querySelector('#q1 .quiz-option.selected')?.getAttribute('data-val');
     let fb1 = document.getElementById('fb1');
     fb1.style.display = 'block';
@@ -1246,6 +1247,9 @@ document.getElementById('submitKeithQuiz').addEventListener('click', () => {
     document.getElementById('keithDiagnosis').style.display = 'block';
     saveAnswersToLocal();
     updateKeithProgress();
+    
+    await sendModule1DataToSheet('In Progress');
+    showToast('📊 Keith Quiz answers saved');
 });
 
 document.querySelectorAll('#leylaQ1 .quiz-option').forEach(opt => {
@@ -1286,7 +1290,7 @@ document.querySelectorAll('.match-option').forEach(opt => {
     });
 });
 
-document.getElementById('checkMatchesBtn').addEventListener('click', () => {
+document.getElementById('checkMatchesBtn').addEventListener('click', async () => {
     const blameSelected = document.querySelector('[data-action="blame"] .match-option.selected');
     const waitHQSelected = document.querySelector('[data-action="waitHQ"] .match-option.selected');
     const negotiateSelected = document.querySelector('[data-action="negotiate"] .match-option.selected');
@@ -1317,6 +1321,9 @@ document.getElementById('checkMatchesBtn').addEventListener('click', () => {
     
     saveAnswersToLocal();
     updateLeylaProgress();
+    
+    await sendModule1DataToSheet('In Progress');
+    showToast('📊 Match answers saved');
 });
 
 document.querySelectorAll('.branch-choice').forEach(choice => {
@@ -1347,7 +1354,7 @@ document.querySelectorAll('.hotspot-item').forEach(item => {
 });
 
 document.querySelectorAll('.check-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
+    btn.addEventListener('click', async function() {
         const checkId = this.getAttribute('data-check');
         
         if (checkId === 'leylaQ1') {
@@ -1389,12 +1396,16 @@ document.querySelectorAll('.check-btn').forEach(btn => {
                 criteriaFb.className = 'feedback feedback-incorrect';
             }
         }
+        
         saveAnswersToLocal();
         updateLeylaProgress();
+        
+        await sendModule1DataToSheet('In Progress');
+        showToast('📊 Progress saved');
     });
 });
 
-document.getElementById('submitLeylaQuiz').addEventListener('click', () => {
+document.getElementById('submitLeylaQuiz').addEventListener('click', async () => {
     let selectedHotspot = document.querySelector('.hotspot-item.selected')?.getAttribute('data-hotspot');
     let hotspotFb = document.getElementById('hotspotFeedback');
     if (selectedHotspot === 'hand') {
@@ -1419,6 +1430,9 @@ document.getElementById('submitLeylaQuiz').addEventListener('click', () => {
     
     saveAnswersToLocal();
     updateLeylaProgress();
+    
+    await sendModule1DataToSheet('In Progress');
+    showToast('📊 Leyla Quiz answers saved');
 });
 
 document.getElementById('continueToModule2Btn').addEventListener('click', goToModule2);
