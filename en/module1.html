@@ -672,6 +672,52 @@ const storageSuffix = '_en';
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbylF2X6XfxJIPQ77YyDaICfdYQe_aRad_64ssVtTAezsVV09R86ArUKagYWLaTpDHwrMA/exec';
 
 // ============================================
+// ANSWER TRACKING SYSTEM - Tracks both initial and changed answers
+// ============================================
+const answerTracker = {
+    pollConstraints: { initial: [], current: [], changes: [] },
+    keithQ1: { initial: null, current: null, changes: [] },
+    keithQ2: { initial: null, current: null, changes: [] },
+    keithQ3: { initial: null, current: null, changes: [] },
+    keithQ4: { initial: null, current: null, changes: [] },
+    keithQ5: { initial: null, current: null, changes: [] },
+    leylaQ1: { initial: null, current: null, changes: [] },
+    filterAnswer: { initial: null, current: null, changes: [] },
+    criteriaAnswer: { initial: null, current: null, changes: [] },
+    matchBlame: { initial: null, current: null, changes: [] },
+    matchWaitHQ: { initial: null, current: null, changes: [] },
+    matchNegotiate: { initial: null, current: null, changes: [] },
+    branchChoice: { initial: null, current: null, changes: [] },
+    hotspotChoice: { initial: null, current: null, changes: [] }
+};
+
+function trackAnswer(questionId, newValue) {
+    const tracker = answerTracker[questionId];
+    if (!tracker) return;
+    
+    if (tracker.initial === null || (Array.isArray(tracker.initial) && tracker.initial.length === 0)) {
+        tracker.initial = newValue;
+        tracker.current = newValue;
+        tracker.changes = [newValue];
+    } else if (JSON.stringify(tracker.current) !== JSON.stringify(newValue)) {
+        tracker.current = newValue;
+        tracker.changes.push(newValue);
+    }
+}
+
+function getTrackedAnswers() {
+    const result = {};
+    for (const [key, value] of Object.entries(answerTracker)) {
+        result[key] = {
+            initial: value.initial,
+            current: value.current,
+            changes: value.changes
+        };
+    }
+    return result;
+}
+
+// ============================================
 // IMPROVED getUserData() - Looks for data WITHOUT suffix first (from registration)
 // ============================================
 function getUserData() {
@@ -895,9 +941,21 @@ function saveMatchSelections() {
     const waitHQOpt = document.querySelector('[data-action="waitHQ"] .match-option.selected');
     const negotiateOpt = document.querySelector('[data-action="negotiate"] .match-option.selected');
     
-    if (blameOpt) matchSelections.blame = blameOpt.getAttribute('data-outcome');
-    if (waitHQOpt) matchSelections.waitHQ = waitHQOpt.getAttribute('data-outcome');
-    if (negotiateOpt) matchSelections.negotiate = negotiateOpt.getAttribute('data-outcome');
+    if (blameOpt) {
+        const val = blameOpt.getAttribute('data-outcome');
+        matchSelections.blame = val;
+        trackAnswer('matchBlame', val);
+    }
+    if (waitHQOpt) {
+        const val = waitHQOpt.getAttribute('data-outcome');
+        matchSelections.waitHQ = val;
+        trackAnswer('matchWaitHQ', val);
+    }
+    if (negotiateOpt) {
+        const val = negotiateOpt.getAttribute('data-outcome');
+        matchSelections.negotiate = val;
+        trackAnswer('matchNegotiate', val);
+    }
     
     localStorage.setItem('module1_match_selections' + storageSuffix, JSON.stringify(matchSelections));
 }
@@ -930,6 +988,7 @@ function loadMatchSelections() {
 // ============================================
 function sendModule1DataToSheet() {
     const userData = getUserData();
+    const tracked = getTrackedAnswers();
     
     let selectedConstraints = [];
     document.querySelectorAll('.poll-item.selected').forEach(item => {
@@ -984,6 +1043,22 @@ function sendModule1DataToSheet() {
             dragNegotiate: dragNegotiate,
             branchChoice: branchChoice,
             hotspotChoice: hotspotChoice
+        },
+        tracking: {
+            pollConstraints: tracked.pollConstraints,
+            keithQ1: tracked.keithQ1,
+            keithQ2: tracked.keithQ2,
+            keithQ3: tracked.keithQ3,
+            keithQ4: tracked.keithQ4,
+            keithQ5: tracked.keithQ5,
+            leylaQ1: tracked.leylaQ1,
+            filterAnswer: tracked.filterAnswer,
+            criteriaAnswer: tracked.criteriaAnswer,
+            matchBlame: tracked.matchBlame,
+            matchWaitHQ: tracked.matchWaitHQ,
+            matchNegotiate: tracked.matchNegotiate,
+            branchChoice: tracked.branchChoice,
+            hotspotChoice: tracked.hotspotChoice
         }
     };
     
@@ -1026,6 +1101,7 @@ function saveAnswersToLocal() {
     });
     localStorage.setItem('module1_answers' + storageSuffix, JSON.stringify(answers));
     saveMatchSelections();
+    localStorage.setItem('module1_tracking' + storageSuffix, JSON.stringify(answerTracker));
 }
 
 function loadSavedAnswers() {
@@ -1097,7 +1173,15 @@ document.getElementById('playAudioHookBtn').addEventListener('click', () => {
 });
 
 document.querySelectorAll('.poll-item').forEach(item => {
-    item.addEventListener('click', function() { this.classList.toggle('selected'); saveAnswersToLocal(); });
+    item.addEventListener('click', function() {
+        this.classList.toggle('selected');
+        const selectedValues = [];
+        document.querySelectorAll('.poll-item.selected').forEach(el => {
+            selectedValues.push(el.getAttribute('data-value'));
+        });
+        trackAnswer('pollConstraints', selectedValues.join(','));
+        saveAnswersToLocal();
+    });
 });
 
 document.getElementById('submitPollBtn').addEventListener('click', () => {
@@ -1111,6 +1195,9 @@ document.querySelectorAll('#q1 .quiz-option, #q4 .quiz-option').forEach(opt => {
     opt.addEventListener('click', function() {
         this.parentElement.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
         this.classList.add('selected');
+        const qId = this.closest('.quiz-options').getAttribute('data-q');
+        if (qId === '1') trackAnswer('keithQ1', this.getAttribute('data-val'));
+        else if (qId === '4') trackAnswer('keithQ4', this.getAttribute('data-val'));
         saveAnswersToLocal();
         updateKeithProgress();
     });
@@ -1165,6 +1252,7 @@ document.querySelectorAll('#leylaQ1 .quiz-option').forEach(opt => {
     opt.addEventListener('click', function() {
         document.querySelectorAll('#leylaQ1 .quiz-option').forEach(o => o.classList.remove('selected'));
         this.classList.add('selected');
+        trackAnswer('leylaQ1', this.getAttribute('data-val'));
         saveAnswersToLocal();
         updateLeylaProgress();
     });
@@ -1174,12 +1262,15 @@ document.querySelectorAll('#leylaQ6 .quiz-option').forEach(opt => {
     opt.addEventListener('click', function() {
         document.querySelectorAll('#leylaQ6 .quiz-option').forEach(o => o.classList.remove('selected'));
         this.classList.add('selected');
+        trackAnswer('criteriaAnswer', this.getAttribute('data-val'));
         saveAnswersToLocal();
         updateLeylaProgress();
     });
 });
 
 document.getElementById('filterAnswer').addEventListener('input', function() {
+    const val = this.value.trim();
+    if (val.length > 3) trackAnswer('filterAnswer', val);
     saveAnswersToLocal();
     updateLeylaProgress();
 });
@@ -1235,6 +1326,7 @@ document.querySelectorAll('.branch-choice').forEach(choice => {
         
         let branchOutcome = document.getElementById('branchOutcome');
         let choiceVal = this.getAttribute('data-choice');
+        trackAnswer('branchChoice', choiceVal);
         if (choiceVal === 'C') branchOutcome.innerHTML = '<div class="success-outcome" style="padding:1rem;"><strong>✅ Adaptive Success:</strong> Gather local knowledge first. This is what Leyla did.</div>';
         else if (choiceVal === 'B') branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>⏳ Extended Response Window:</strong> Lacking field data, HQ must take extra time to verify risks, which pauses your operations.</div>';
         else branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ Failure:</strong> Blaming shuts down communication and hides problems. Team trust is destroyed, and vehicles remain stuck.</div>';
@@ -1248,6 +1340,7 @@ document.querySelectorAll('.hotspot-item').forEach(item => {
     item.addEventListener('click', function() {
         document.querySelectorAll('.hotspot-item').forEach(i => i.classList.remove('selected'));
         this.classList.add('selected');
+        trackAnswer('hotspotChoice', this.getAttribute('data-hotspot'));
         saveAnswersToLocal();
         updateLeylaProgress();
     });
@@ -1337,6 +1430,7 @@ document.getElementById('resetDataLink').addEventListener('click', () => {
         localStorage.removeItem('module1_answers' + storageSuffix);
         localStorage.removeItem('module1_match_selections' + storageSuffix);
         localStorage.removeItem('module1_completed' + storageSuffix);
+        localStorage.removeItem('module1_tracking' + storageSuffix);
         location.reload();
     }
 });
