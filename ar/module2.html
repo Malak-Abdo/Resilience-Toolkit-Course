@@ -554,140 +554,590 @@
 </div>
 
 <script>
-    const storageSuffix = '_ar';
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxweIz6xAlU39r3vH_DUImmGrdKkpc09ogedZYoCXY0AUj8j4PWK-QN9vYNfSqBEhKkLA/exec';
+// ============================================
+// LANGUAGE SUFFIX FOR LOCALSTORAGE
+// ============================================
+const storageSuffix = '_ar';
+
+// ============================================
+// GOOGLE SHEETS WEB APP URL
+// ============================================
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxweIz6xAlU39r3vH_DUImmGrdKkpc09ogedZYoCXY0AUj8j4PWK-QN9vYNfSqBEhKkLA/exec';
+
+// ============================================
+// IMPROVED getUserData()
+// ============================================
+function getUserData() {
+    let name = 'زائر';
+    let email = 'guest@example.com';
+    let position = 'غير محدد';
     
-    function getUserData() {
-        let name = '', email = '', position = '';
-        try { let cu = localStorage.getItem('currentUser'); if(cu){ let u=JSON.parse(cu); if(u&&u.name&&u.name!=='Guest'){ name=u.name.trim(); email=u.email||''; position=u.position||''; } } } catch(e){}
-        if(!name) try { let users=JSON.parse(localStorage.getItem('users')||'[]'); if(users.length){ let lu=users[users.length-1]; if(lu.name&&lu.name!=='Guest'){ name=lu.name.trim(); email=lu.email||''; position=lu.position||''; } } } catch(e){}
-        if(!name) name = localStorage.getItem('course_user_name') || '';
-        if(!name || name==='Guest') name = localStorage.getItem('course_user_name'+storageSuffix) || 'زائر';
-        if(name==='زائر') console.log('⚠️ استخدام اسم زائر');
-        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-    }
-    const currentUser = getUserData();
-    const badge = document.getElementById('userBadge');
-    if(badge) badge.innerText = currentUser.name !== 'زائر' ? `👤 ${currentUser.name}` : `👤 متعلم`;
+    try {
+        let currentUser = localStorage.getItem('currentUser');
+        if (currentUser) {
+            let user = JSON.parse(currentUser);
+            if (user && user.name && user.name !== 'Guest' && user.name.trim() !== '') {
+                name = user.name.trim();
+                email = (user.email || '').trim() || 'guest@example.com';
+                position = (user.position || '').trim() || 'غير محدد';
+                localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(user));
+                localStorage.setItem('course_user_name' + storageSuffix, name);
+                localStorage.setItem('course_user_email' + storageSuffix, email);
+                localStorage.setItem('course_user_position' + storageSuffix, position);
+                return { name, email, position };
+            }
+        }
+    } catch(e) {}
     
-    function showToast(msg, isErr=false){ let t=document.createElement('div'); t.className='toast-notification'; t.style.background=isErr?'#C0392B':'#1A6B5A'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),3000); }
-    function updateQuizProgress(){
-        let c=0; if(document.querySelector('[data-q="manager"] .quiz-option.selected')) c++;
-        if(document.querySelector('[data-q="shift"] .quiz-option.selected')) c++;
-        if(document.querySelector('[data-q="account"] .quiz-option.selected')) c++;
-        let prog=document.getElementById('quizProgress');
-        if(prog){ prog.textContent=`${c}/٣ تم الإجابة`; prog.className=c===3?'progress-badge progress-complete':'progress-badge'; }
-        return c===3;
+    let n = localStorage.getItem('course_user_name');
+    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
+        name = n.trim();
+        email = (localStorage.getItem('course_user_email') || '').trim() || 'guest@example.com';
+        position = (localStorage.getItem('course_user_position') || '').trim() || 'غير محدد';
+        localStorage.setItem('course_user_name' + storageSuffix, name);
+        localStorage.setItem('course_user_email' + storageSuffix, email);
+        localStorage.setItem('course_user_position' + storageSuffix, position);
+        return { name, email, position };
     }
-    function collectAnswers(){
-        let mgr=document.querySelector('[data-q="manager"] .quiz-option.selected')?.getAttribute('data-val')||'لم يجب';
-        let shift=document.querySelector('[data-q="shift"] .quiz-option.selected')?.getAttribute('data-val')||'لم يجب';
-        let acc=document.querySelector('[data-q="account"] .quiz-option.selected')?.getAttribute('data-val')||'لم يجب';
-        let flips=[]; document.querySelectorAll('.mindset-card.flipped').forEach(c=>flips.push(c.dataset.mindset));
-        return { manager_mindset:mgr, mindset_shift:shift, accountability:acc, victim_flipped:flips.includes('victim')?'نعم':'لا', scarcity_flipped:flips.includes('scarcity')?'نعم':'لا', panic_flipped:flips.includes('panic')?'نعم':'لا', fixed_flipped:flips.includes('fixed')?'نعم':'لا', expert_flipped:flips.includes('expert')?'نعم':'لا', flipped_cards_summary:flips.join(', ')||'لا شيء' };
+    
+    return { name: 'زائر', email: 'guest@example.com', position: 'غير محدد' };
+}
+
+// Display user name in badge
+const currentUser = getUserData();
+const userBadge = document.getElementById('userBadge');
+if (userBadge) {
+    if (currentUser.name !== 'زائر') {
+        userBadge.innerText = `👤 ${currentUser.name}`;
+    } else {
+        userBadge.innerText = `👤 متعلم`;
     }
-    function saveAnswersLocal(){ localStorage.setItem('module2_answers'+storageSuffix, JSON.stringify({...collectAnswers(), lastUpdated:new Date().toISOString()})); }
-    function sendToSheet(){
-        let user=getUserData();
-        let ans=collectAnswers();
-        let xhr=new XMLHttpRequest();
-        xhr.open('POST',GOOGLE_SCRIPT_URL,true);
-        xhr.setRequestHeader('Content-Type','text/plain;charset=utf-8');
-        xhr.send(JSON.stringify({ module:'Module 2', action:'completed', language:'ar', userName:user.name, userEmail:user.email, userPosition:user.position, timestamp:new Date().toISOString(), answers:ans }));
-    }
-    function goToModule3(){
-        if(!document.querySelector('[data-q="manager"] .quiz-option.selected') || !document.querySelector('[data-q="shift"] .quiz-option.selected') || !document.querySelector('[data-q="account"] .quiz-option.selected')){
-            showToast('⚠️ الرجاء الإجابة على جميع الأسئلة الثلاثة قبل الانتقال.', true); return;
+}
+
+function showToast(message, isError = false) {
+    const existing = document.querySelector('.toast-notification');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.style.background = isError ? '#C0392B' : '#1A6B5A';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => { if (toast) toast.remove(); }, 3000);
+}
+
+function updateQuizProgress() {
+    const q1Answered = document.querySelector('[data-q="manager"] .quiz-option.selected') !== null;
+    const q2Answered = document.querySelector('[data-q="shift"] .quiz-option.selected') !== null;
+    const q3Answered = document.querySelector('[data-q="account"] .quiz-option.selected') !== null;
+    
+    let answeredCount = 0;
+    if (q1Answered) answeredCount++;
+    if (q2Answered) answeredCount++;
+    if (q3Answered) answeredCount++;
+    
+    const progressSpan = document.getElementById('quizProgress');
+    if (progressSpan) {
+        progressSpan.textContent = `${answeredCount}/٣ تم الإجابة`;
+        if (answeredCount === 3) {
+            progressSpan.className = 'progress-badge progress-complete';
+        } else {
+            progressSpan.className = 'progress-badge';
         }
-        saveAnswersLocal(); sendToSheet(); localStorage.setItem('module2_completed'+storageSuffix,'true'); showToast('جاري حفظ تقدمك...');
-        setTimeout(()=>{ window.location.href='module3.html'; },500);
     }
-    function displayResults(){
-        let q1=document.querySelector('[data-q="manager"] .quiz-option.selected')?.getAttribute('data-val');
-        let q2=document.querySelector('[data-q="shift"] .quiz-option.selected')?.getAttribute('data-val');
-        let q3=document.querySelector('[data-q="account"] .quiz-option.selected')?.getAttribute('data-val');
-        let c1=q1==='الضحية', c2=q2==='الضحية ← المبادر', c3=q3==='لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي.';
-        let total=(c1?1:0)+(c2?1:0)+(c3?1:0);
-        let cont=document.getElementById('resultsSummaryContainer');
-        cont.style.display='block';
-        cont.innerHTML=`<h4>📋 نتائج اختبارك · ${total}/٣ صحيح</h4>
-        <div class="result-item"><span class="result-badge">س١: العقلية</span> <span>${escapeHtml(q1||'لم يجب')}</span> <span class="result-status ${c1?'status-correct':'status-incorrect'}">${c1?'✓ صحيح':'✗ خطأ'}</span></div>
-        <div class="result-item"><span class="result-badge">س٢: التحول</span> <span>${escapeHtml(q2||'لم يجب')}</span> <span class="result-status ${c2?'status-correct':'status-incorrect'}">${c2?'✓ صحيح':'✗ خطأ'}</span></div>
-        <div class="result-item"><span class="result-badge">س٣: المساءلة</span> <span>${escapeHtml(q3||'لم يجب')}</span> <span class="result-status ${c3?'status-correct':'status-incorrect'}">${c3?'✓ صحيح':'✗ خطأ'}</span></div>
-        <div style="margin-top:12px; font-size:0.75rem;">💡 الإجابات الصحيحة: الضحية | الضحية ← المبادر | الجملة التي تعترف بالخطأ.</div>`;
-        cont.scrollIntoView({behavior:'smooth'});
-    }
-    function escapeHtml(s){ if(!s) return ''; return s.replace(/[&<>]/g,function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
-    function bindQuizEvents(){
-        document.querySelectorAll('[data-q="manager"] .quiz-option, [data-q="shift"] .quiz-option, [data-q="account"] .quiz-option').forEach(opt=>{
-            opt.addEventListener('click',()=>{
-                let parent=opt.parentElement;
-                parent.querySelectorAll('.quiz-option').forEach(o=>{ o.classList.remove('selected'); let m=o.querySelector('.option-marker'); if(m) m.textContent='○'; });
-                opt.classList.add('selected'); let mark=opt.querySelector('.option-marker'); if(mark) mark.textContent='●';
-                let card=opt.closest('.quiz-card');
-                if(card && card.querySelector('[data-q="manager"]')){
-                    let val=opt.dataset.val, fb=document.getElementById('managerFb1'), correct=(val==='الضحية');
-                    fb.className=`quiz-feedback ${correct?'correct':'incorrect'}`;
-                    fb.innerHTML=correct?'✅ <strong>صحيح!</strong> كان المدير يُظهر عقلية الضحية.' : '❌ <strong>خطأ.</strong> الإجابة الصحيحة هي "الضحية".';
-                    fb.style.display='block';
-                } else if(card && card.querySelector('[data-q="shift"]')){
-                    let val=opt.dataset.val, fb=document.getElementById('managerFb2'), correct=(val==='الضحية ← المبادر');
-                    fb.className=`quiz-feedback ${correct?'correct':'incorrect'}`;
-                    fb.innerHTML=correct?'✅ <strong>صحيح!</strong> التحول إلى المبادر.' : '❌ <strong>خطأ.</strong> التحول الصحيح هو "الضحية ← المبادر".';
-                    fb.style.display='block';
-                } else if(card && card.querySelector('[data-q="account"]')){
-                    let val=opt.dataset.val, correct=(val==='لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي.'), fb=document.getElementById('accountabilityFeedback');
-                    fb.className=`quiz-feedback ${correct?'correct':'incorrect'}`;
-                    fb.innerHTML=correct?'✅ <strong>صحيح!</strong> المساءلة تعني الاعتراف بالخطأ.' : '❌ <strong>خطأ.</strong> الإجابة الصحيحة هي الاعتراف بالخطأ.';
-                    fb.style.display='block';
-                }
-                saveAnswersLocal(); updateQuizProgress();
-            });
-        });
-        document.querySelectorAll('.mindset-card').forEach(card=>{
-            card.addEventListener('click',function(){
-                this.classList.toggle('flipped');
-                let front=this.querySelector('.mindset-front'), back=this.querySelector('.mindset-back');
-                if(this.classList.contains('flipped')){ if(front) front.classList.add('hidden-content'); if(back) back.classList.remove('hidden-content'); }
-                else{ if(front) front.classList.remove('hidden-content'); if(back) back.classList.add('hidden-content'); }
-                saveAnswersLocal();
-            });
-        });
-    }
-    function loadSaved(){
-        let saved=localStorage.getItem('module2_answers'+storageSuffix);
-        if(saved){
-            try{
-                let d=JSON.parse(saved);
-                if(d.manager_mindset && d.manager_mindset!=='لم يجب'){
-                    let opt=Array.from(document.querySelectorAll('[data-q="manager"] .quiz-option')).find(o=>o.dataset.val===d.manager_mindset);
-                    if(opt){ opt.classList.add('selected'); let m=opt.querySelector('.option-marker'); if(m) m.textContent='●'; }
-                }
-                if(d.mindset_shift && d.mindset_shift!=='لم يجب'){
-                    let opt=Array.from(document.querySelectorAll('[data-q="shift"] .quiz-option')).find(o=>o.dataset.val===d.mindset_shift);
-                    if(opt){ opt.classList.add('selected'); let m=opt.querySelector('.option-marker'); if(m) m.textContent='●'; }
-                }
-                if(d.accountability && d.accountability!=='لم يجب'){
-                    let opt=Array.from(document.querySelectorAll('[data-q="account"] .quiz-option')).find(o=>o.dataset.val===d.accountability);
-                    if(opt){ opt.classList.add('selected'); let m=opt.querySelector('.option-marker'); if(m) m.textContent='●'; }
-                }
-            }catch(e){}
-        }
-        updateQuizProgress();
-    }
-    function setupModal(){
-        let modal=document.getElementById('deepDiveModal'), open=document.getElementById('deepDiveBtn'), closeBtns=['closeModalBtn','closeModalBtnBeside','closeModalBtnTop'];
-        if(open) open.addEventListener('click',(e)=>{ e.preventDefault(); modal.classList.add('active'); document.body.style.overflow='hidden'; });
-        closeBtns.forEach(id=>{ let btn=document.getElementById(id); if(btn) btn.addEventListener('click',()=>{ modal.classList.remove('active'); document.body.style.overflow=''; }); });
-        modal.addEventListener('click',(e)=>{ if(e.target===modal){ modal.classList.remove('active'); document.body.style.overflow=''; } });
-    }
-    document.addEventListener('DOMContentLoaded',()=>{
-        loadSaved(); bindQuizEvents(); setupModal();
-        document.getElementById('checkResultsBtn')?.addEventListener('click',displayResults);
-        document.getElementById('continueToModule3Btn')?.addEventListener('click',goToModule3);
-        document.getElementById('backToModule1Btn')?.addEventListener('click',()=>{ window.location.href='module1.html'; });
-        document.getElementById('resetDataLink')?.addEventListener('click',(e)=>{ e.preventDefault(); if(confirm('هل تريد إعادة ضبط جميع بيانات الوحدة؟')){ localStorage.removeItem('module2_answers'+storageSuffix); localStorage.removeItem('module2_completed'+storageSuffix); location.reload(); } });
+    
+    return answeredCount === 3;
+}
+
+function collectAllAnswers() {
+    let managerMindset = '', mindsetShift = '', accountability = '';
+    let flippedCards = [];
+    const selMgr = document.querySelector('[data-q="manager"] .quiz-option.selected');
+    if (selMgr) managerMindset = selMgr.getAttribute('data-val');
+    const selShift = document.querySelector('[data-q="shift"] .quiz-option.selected');
+    if (selShift) mindsetShift = selShift.getAttribute('data-val');
+    const selAcct = document.querySelector('[data-q="account"] .quiz-option.selected');
+    if (selAcct) accountability = selAcct.getAttribute('data-val');
+    document.querySelectorAll('.mindset-card').forEach(card => {
+        if (card.classList.contains('flipped')) flippedCards.push(card.getAttribute('data-mindset') || 'unknown');
     });
+    return { 
+        manager_mindset: managerMindset || 'لم يجب', 
+        mindset_shift: mindsetShift || 'لم يجب', 
+        accountability: accountability || 'لم يجب', 
+        victim_flipped: flippedCards.includes('victim') ? 'نعم' : 'لا', 
+        scarcity_flipped: flippedCards.includes('scarcity') ? 'نعم' : 'لا', 
+        panic_flipped: flippedCards.includes('panic') ? 'نعم' : 'لا', 
+        fixed_flipped: flippedCards.includes('fixed') ? 'نعم' : 'لا', 
+        expert_flipped: flippedCards.includes('expert') ? 'نعم' : 'لا', 
+        flipped_cards_summary: flippedCards.join(', ') || 'لا شيء' 
+    };
+}
+
+function saveAnswersToLocal() { 
+    localStorage.setItem('module2_answers' + storageSuffix, JSON.stringify({ ...collectAllAnswers(), lastUpdated: new Date().toISOString() })); 
+}
+
+// ============================================
+// تهيئة تاريخ التغييرات
+// ============================================
+function initializeHistoryTracking() {
+    if (!localStorage.getItem('module2_history_data' + storageSuffix)) {
+        const questionKeys = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9'];
+        const historyData = {};
+        questionKeys.forEach(key => {
+            historyData[key] = {
+                history: '',
+                changes: 0,
+                lastValue: ''
+            };
+        });
+        localStorage.setItem('module2_history_data' + storageSuffix, JSON.stringify(historyData));
+        console.log('✅ تم تهيئة تاريخ التغييرات لـ Module 2');
+    }
+}
+
+// ============================================
+// SEND DATA IMMEDIATELY - Like Module 1
+// ============================================
+function sendPartialModule2Data() {
+    const userData = getUserData();
+    
+    let flippedCards = [];
+    document.querySelectorAll('.mindset-card').forEach(card => {
+        if (card.classList.contains('flipped')) {
+            flippedCards.push(card.getAttribute('data-mindset') || 'unknown');
+        }
+    });
+    
+    const selMgr = document.querySelector('[data-q="manager"] .quiz-option.selected');
+    const selShift = document.querySelector('[data-q="shift"] .quiz-option.selected');
+    const selAcct = document.querySelector('[data-q="account"] .quiz-option.selected');
+    
+    const managerMindset = selMgr ? selMgr.getAttribute('data-val') : 'لم يجب';
+    const mindsetShift = selShift ? selShift.getAttribute('data-val') : 'لم يجب';
+    const accountability = selAcct ? selAcct.getAttribute('data-val') : 'لم يجب';
+    
+    const currentAnswers = {
+        q1: managerMindset,
+        q2: mindsetShift,
+        q3: accountability,
+        q4: flippedCards.includes('victim') ? 'نعم' : 'لا',
+        q5: flippedCards.includes('scarcity') ? 'نعم' : 'لا',
+        q6: flippedCards.includes('panic') ? 'نعم' : 'لا',
+        q7: flippedCards.includes('fixed') ? 'نعم' : 'لا',
+        q8: flippedCards.includes('expert') ? 'نعم' : 'لا',
+        q9: flippedCards.join(', ') || 'لا شيء'
+    };
+    
+    let historyData = JSON.parse(localStorage.getItem('module2_history_data' + storageSuffix) || '{}');
+    
+    if (Object.keys(historyData).length === 0) {
+        const questionKeys = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9'];
+        questionKeys.forEach(key => {
+            historyData[key] = { history: '', changes: 0, lastValue: '' };
+        });
+    }
+    
+    let totalChanges = 0;
+    let hasAnyChange = false;
+    let changedFields = [];
+    
+    const questionMap = {
+        q1: 'س١_عقلية_المدير', q2: 'س٢_تحول_العقلية', q3: 'س٣_المساءلة',
+        q4: 'س٤_الضحية', q5: 'س٥_الندرة', q6: 'س٦_الذعر',
+        q7: 'س٧_الجمود', q8: 'س٨_الخبير', q9: 'س٩_ملخص_البطاقات'
+    };
+    
+    // ✅ الأسئلة التي لا تعتبر تغييرات أبداً (البطاقات + الملخص)
+    const noChangeKeys = ['q4', 'q5', 'q6', 'q7', 'q8', 'q9'];
+    
+    for (let key in questionMap) {
+        const currentValue = currentAnswers[key] || '';
+        const lastValue = historyData[key]?.lastValue || '';
+        const currentHistory = historyData[key]?.history || '';
+        const currentChanges = historyData[key]?.changes || 0;
+        const isNoChange = noChangeKeys.includes(key);
+        
+        if (currentValue && currentValue !== 'لم يجب' && currentValue !== 'لا شيء') {
+            if (lastValue && lastValue !== currentValue && !isNoChange) {
+                // ✅ تغيير فعلي (فقط للأسئلة Q1, Q2, Q3)
+                historyData[key] = {
+                    history: currentHistory ? currentHistory + '→' + currentValue : currentValue,
+                    changes: currentChanges + 1,
+                    lastValue: currentValue
+                };
+                hasAnyChange = true;
+                changedFields.push(questionMap[key]);
+                totalChanges += (currentChanges + 1);
+            } else if (!lastValue) {
+                // ✅ أول مرة - فقط للأسئلة Q1, Q2, Q3 تعتبر (NEW)
+                historyData[key] = {
+                    history: currentValue,
+                    changes: 0,
+                    lastValue: currentValue
+                };
+                if (!isNoChange) {
+                    hasAnyChange = true;
+                    changedFields.push(questionMap[key] + ' (جديد)');
+                }
+                // ✅ البطاقات (Q4-Q9): لا تعتبر تغييراً أبداً
+            }
+        }
+    }
+    
+    let totalChangesCount = 0;
+    for (let key in historyData) {
+        totalChangesCount += historyData[key]?.changes || 0;
+    }
+    
+    localStorage.setItem('module2_history_data' + storageSuffix, JSON.stringify(historyData));
+    
+    if (!hasAnyChange) {
+        console.log('⏭️ لا توجد تغييرات، تخطي الإرسال');
+        return;
+    }
+    
+    const payload = {
+        module: 'Module 2',
+        action: 'partial',
+        language: 'ar',
+        userName: userData.name,
+        userEmail: userData.email,
+        userPosition: userData.position,
+        timestamp: new Date().toISOString(),
+        answers: currentAnswers,
+        history: historyData,
+        changedFields: changedFields,
+        totalChanges: totalChangesCount,
+        isComplete: false
+    };
+    
+    console.log('📤 إرسال بيانات Module 2 (جزئي):', payload);
+    
+    fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('✅ تم إرسال بيانات Module 2 بنجاح:', data);
+        localStorage.setItem('module2_last_sent_answers' + storageSuffix, JSON.stringify(currentAnswers));
+        showToast(`✅ تم الحفظ - التغييرات: ${totalChangesCount}`);
+    })
+    .catch(error => {
+        console.warn('⚠️ خطأ في الإرسال:', error);
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+        xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+        xhr.send(JSON.stringify(payload));
+    });
+}
+
+// ============================================
+// SEND FINAL DATA - Completed
+// ============================================
+function sendModule2DataToSheet() {
+    const userData = getUserData();
+    
+    let flippedCards = [];
+    document.querySelectorAll('.mindset-card').forEach(card => {
+        if (card.classList.contains('flipped')) {
+            flippedCards.push(card.getAttribute('data-mindset') || 'unknown');
+        }
+    });
+    
+    const selMgr = document.querySelector('[data-q="manager"] .quiz-option.selected');
+    const selShift = document.querySelector('[data-q="shift"] .quiz-option.selected');
+    const selAcct = document.querySelector('[data-q="account"] .quiz-option.selected');
+    
+    const managerMindset = selMgr ? selMgr.getAttribute('data-val') : 'لم يجب';
+    const mindsetShift = selShift ? selShift.getAttribute('data-val') : 'لم يجب';
+    const accountability = selAcct ? selAcct.getAttribute('data-val') : 'لم يجب';
+    
+    const currentAnswers = {
+        q1: managerMindset,
+        q2: mindsetShift,
+        q3: accountability,
+        q4: flippedCards.includes('victim') ? 'نعم' : 'لا',
+        q5: flippedCards.includes('scarcity') ? 'نعم' : 'لا',
+        q6: flippedCards.includes('panic') ? 'نعم' : 'لا',
+        q7: flippedCards.includes('fixed') ? 'نعم' : 'لا',
+        q8: flippedCards.includes('expert') ? 'نعم' : 'لا',
+        q9: flippedCards.join(', ') || 'لا شيء'
+    };
+    
+    let historyData = JSON.parse(localStorage.getItem('module2_history_data' + storageSuffix) || '{}');
+    
+    let totalChangesCount = 0;
+    for (let key in historyData) {
+        totalChangesCount += historyData[key]?.changes || 0;
+    }
+    
+    let changedFields = [];
+    const lastSentAnswers = JSON.parse(localStorage.getItem('module2_last_sent_answers' + storageSuffix) || '{}');
+    for (let key in currentAnswers) {
+        if (lastSentAnswers[key] !== undefined && currentAnswers[key] !== lastSentAnswers[key]) {
+            changedFields.push(key);
+        }
+    }
+    
+    const payload = {
+        module: 'Module 2',
+        action: 'completed',
+        language: 'ar',
+        userName: userData.name,
+        userEmail: userData.email,
+        userPosition: userData.position,
+        timestamp: new Date().toISOString(),
+        answers: currentAnswers,
+        history: historyData,
+        changedFields: changedFields,
+        totalChanges: totalChangesCount,
+        isComplete: true
+    };
+    
+    console.log('📤 Sending Module 2 data (Completed):', payload);
+    
+    return new Promise((resolve) => {
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('✅ Module 2 completed successfully:', data);
+            resolve(true);
+        })
+        .catch(() => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+            xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+            xhr.onload = () => resolve(true);
+            xhr.onerror = () => resolve(false);
+            xhr.send(JSON.stringify(payload));
+        });
+        setTimeout(() => resolve(true), 3000);
+    });
+}
+
+function displayResultsSummary() {
+    const q1Selected = document.querySelector('[data-q="manager"] .quiz-option.selected');
+    const q2Selected = document.querySelector('[data-q="shift"] .quiz-option.selected');
+    const q3Selected = document.querySelector('[data-q="account"] .quiz-option.selected');
+    
+    const q1Answer = q1Selected ? q1Selected.getAttribute('data-val') : null;
+    const q2Answer = q2Selected ? q2Selected.getAttribute('data-val') : null;
+    const q3Answer = q3Selected ? q3Selected.getAttribute('data-val') : null;
+    
+    const isQ1Correct = (q1Answer === 'الضحية');
+    const isQ2Correct = (q2Answer === 'الضحية ← المبادر');
+    const isQ3Correct = (q3Answer === 'لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي.');
+    
+    const totalCorrect = (isQ1Correct ? 1 : 0) + (isQ2Correct ? 1 : 0) + (isQ3Correct ? 1 : 0);
+    
+    const q1Display = q1Answer ? q1Answer : 'لم يجب';
+    const q2Display = q2Answer ? q2Answer : 'لم يجب';
+    const q3Display = q3Answer ? q3Answer : 'لم يجب';
+    
+    const container = document.getElementById('resultsSummaryContainer');
+    container.style.display = 'block';
+    container.innerHTML = `
+        <h4>📋 نتائج اختبارك · ${totalCorrect}/٣ صحيح</h4>
+        <div class="result-item"><span class="result-badge">س١: العقلية</span> <span>${escapeHtml(q1Display)}</span> <span class="result-status ${isQ1Correct ? 'status-correct' : 'status-incorrect'}">${isQ1Correct ? '✓ صحيح' : '✗ خطأ'}</span></div>
+        <div class="result-item"><span class="result-badge">س٢: التحول</span> <span>${escapeHtml(q2Display)}</span> <span class="result-status ${isQ2Correct ? 'status-correct' : 'status-incorrect'}">${isQ2Correct ? '✓ صحيح' : '✗ خطأ'}</span></div>
+        <div class="result-item"><span class="result-badge">س٣: المساءلة</span> <span>${escapeHtml(q3Display)}</span> <span class="result-status ${isQ3Correct ? 'status-correct' : 'status-incorrect'}">${isQ3Correct ? '✓ صحيح' : '✗ خطأ'}</span></div>
+        <div style="margin-top: 12px; font-size:0.75rem;">💡 الإجابات الصحيحة: الضحية | الضحية ← المبادر | "لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي."</div>
+    `;
+    container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function escapeHtml(str) { 
+    if (!str) return ''; 
+    return str.replace(/[&<>]/g, function(m) { 
+        if (m === '&') return '&amp;'; 
+        if (m === '<') return '&lt;'; 
+        if (m === '>') return '&gt;'; 
+        return m; 
+    }); 
+}
+
+function bindEvents() {
+    document.querySelectorAll('[data-q="manager"] .quiz-option, [data-q="shift"] .quiz-option, [data-q="account"] .quiz-option').forEach(opt => {
+        opt.addEventListener('click', () => {
+            const parent = opt.parentElement;
+            parent.querySelectorAll('.quiz-option').forEach(o => { 
+                o.classList.remove('selected'); 
+                const m = o.querySelector('.option-marker'); 
+                if (m) m.textContent = '○'; 
+            });
+            opt.classList.add('selected'); 
+            const marker = opt.querySelector('.option-marker'); 
+            if (marker) marker.textContent = '●';
+            
+            // ✅ إزالة الإجابات النموذجية - فقط إرسال البيانات
+            saveAnswersToLocal();
+            updateQuizProgress();
+            sendPartialModule2Data(); // ✅ إرسال البيانات فوراً
+        });
+    });
+    
+    document.querySelectorAll('.mindset-card').forEach(card => {
+        card.addEventListener('click', function() {
+            this.classList.toggle('flipped');
+            const front = this.querySelector('.mindset-front');
+            const back = this.querySelector('.mindset-back');
+            if (this.classList.contains('flipped')) { 
+                if (front) front.classList.add('hidden-content'); 
+                if (back) back.classList.remove('hidden-content'); 
+            } else { 
+                if (front) front.classList.remove('hidden-content'); 
+                if (back) back.classList.add('hidden-content'); 
+            }
+            saveAnswersToLocal();
+            sendPartialModule2Data();
+        });
+    });
+}
+
+function loadSavedAnswers() {
+    const saved = localStorage.getItem('module2_answers' + storageSuffix);
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            if (data.manager_mindset && data.manager_mindset !== 'لم يجب') {
+                const opts = document.querySelectorAll('[data-q="manager"] .quiz-option');
+                opts.forEach(opt => { if (opt.getAttribute('data-val') === data.manager_mindset) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
+            }
+            if (data.mindset_shift && data.mindset_shift !== 'لم يجب') {
+                const opts = document.querySelectorAll('[data-q="shift"] .quiz-option');
+                opts.forEach(opt => { if (opt.getAttribute('data-val') === data.mindset_shift) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
+            }
+            if (data.accountability && data.accountability !== 'لم يجب') {
+                const opts = document.querySelectorAll('[data-q="account"] .quiz-option');
+                opts.forEach(opt => { if (opt.getAttribute('data-val') === data.accountability) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
+            }
+            if (data.victim_flipped === 'نعم') {
+                const card = document.querySelector('.mindset-card[data-mindset="victim"]');
+                if (card) { card.classList.add('flipped'); const front = card.querySelector('.mindset-front'); const back = card.querySelector('.mindset-back'); if (front) front.classList.add('hidden-content'); if (back) back.classList.remove('hidden-content'); }
+            }
+            if (data.scarcity_flipped === 'نعم') {
+                const card = document.querySelector('.mindset-card[data-mindset="scarcity"]');
+                if (card) { card.classList.add('flipped'); const front = card.querySelector('.mindset-front'); const back = card.querySelector('.mindset-back'); if (front) front.classList.add('hidden-content'); if (back) back.classList.remove('hidden-content'); }
+            }
+            if (data.panic_flipped === 'نعم') {
+                const card = document.querySelector('.mindset-card[data-mindset="panic"]');
+                if (card) { card.classList.add('flipped'); const front = card.querySelector('.mindset-front'); const back = card.querySelector('.mindset-back'); if (front) front.classList.add('hidden-content'); if (back) back.classList.remove('hidden-content'); }
+            }
+            if (data.fixed_flipped === 'نعم') {
+                const card = document.querySelector('.mindset-card[data-mindset="fixed"]');
+                if (card) { card.classList.add('flipped'); const front = card.querySelector('.mindset-front'); const back = card.querySelector('.mindset-back'); if (front) front.classList.add('hidden-content'); if (back) back.classList.remove('hidden-content'); }
+            }
+            if (data.expert_flipped === 'نعم') {
+                const card = document.querySelector('.mindset-card[data-mindset="expert"]');
+                if (card) { card.classList.add('flipped'); const front = card.querySelector('.mindset-front'); const back = card.querySelector('.mindset-back'); if (front) front.classList.add('hidden-content'); if (back) back.classList.remove('hidden-content'); }
+            }
+        } catch(e) { console.warn(e); }
+    }
+    updateQuizProgress();
+}
+
+function setupModal() {
+    const modal = document.getElementById('deepDiveModal');
+    const openBtn = document.getElementById('deepDiveBtn');
+    const closeBtns = ['closeModalBtn', 'closeModalBtnBeside', 'closeModalBtnTop'];
+    function openModal() { modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function closeModal() { modal.classList.remove('active'); document.body.style.overflow = ''; }
+    if (openBtn) openBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+    closeBtns.forEach(id => { const btn = document.getElementById(id); if (btn) btn.addEventListener('click', closeModal); });
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
+}
+
+// ============================================
+// GO TO MODULE 3
+// ============================================
+async function goToModule3() {
+    // ✅ التحقق من الأسئلة
+    const q1Answered = document.querySelector('[data-q="manager"] .quiz-option.selected') !== null;
+    const q2Answered = document.querySelector('[data-q="shift"] .quiz-option.selected') !== null;
+    const q3Answered = document.querySelector('[data-q="account"] .quiz-option.selected') !== null;
+    
+    if (!q1Answered || !q2Answered || !q3Answered) {
+        showToast('⚠️ الرجاء الإجابة على جميع الأسئلة الثلاثة قبل الانتقال.', true);
+        return;
+    }
+    
+    // ✅ التحقق من البطاقات المقلوبة (Module 2)
+    const allCards = document.querySelectorAll('.mindset-card');
+    let flippedCount = 0;
+    
+    allCards.forEach(card => {
+        if (card.classList.contains('flipped')) {
+            flippedCount++;
+        }
+    });
+    
+    if (flippedCount < allCards.length) {
+        showToast(`⚠️ الرجاء قلب جميع البطاقات الخمسة قبل الانتقال. (${flippedCount}/٥ تم قلبها)`, true);
+        return;
+    }
+    
+    // ✅ كل شيء مكتمل → المتابعة إلى Module 3
+    saveAnswersToLocal();
+    showToast('💾 جاري حفظ إجاباتك...');
+    
+    const saved = await sendModule2DataToSheet();
+    
+    if (saved) {
+        localStorage.setItem('module2_completed' + storageSuffix, 'true');
+        showToast('✅ تم حفظ التقدم! جاري التحويل...');
+        
+        setTimeout(() => {
+            window.location.href = 'module3.html';
+        }, 800);
+    } else {
+        localStorage.setItem('module2_completed' + storageSuffix, 'true');
+        showToast('⚠️ تم حفظ التقدم محلياً. جاري الاستمرار...', true);
+        
+        setTimeout(() => {
+            window.location.href = 'module3.html';
+        }, 800);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initializeHistoryTracking();
+    loadSavedAnswers();
+    bindEvents();
+    setupModal();
+    
+    const checkBtn = document.getElementById('checkResultsBtn');
+    if (checkBtn) {
+        checkBtn.addEventListener('click', () => { displayResultsSummary(); });
+    }
+    
+    const continueBtn = document.getElementById('continueToModule3Btn');
+    if (continueBtn) {
+        continueBtn.addEventListener('click', goToModule3);
+    }
+    
+    document.getElementById('backToModule1Btn').addEventListener('click', () => { 
+        window.location.href = 'module1.html'; 
+    });
+    
+    document.getElementById('resetDataLink').addEventListener('click', (e) => { 
+        e.preventDefault(); 
+        if (confirm('هل تريد إعادة ضبط جميع بيانات الوحدة؟ لا يمكن التراجع عن هذا.')) { 
+            localStorage.removeItem('module2_answers' + storageSuffix); 
+            localStorage.removeItem('module2_completed' + storageSuffix);
+            localStorage.removeItem('module2_history_data' + storageSuffix);
+            localStorage.removeItem('module2_last_sent_answers' + storageSuffix);
+            location.reload(); 
+        } 
+    });
+});
 </script>
 </body>
 </html>
