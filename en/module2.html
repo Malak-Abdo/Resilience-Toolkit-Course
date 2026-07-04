@@ -812,7 +812,6 @@ function sendPartialModule2Data() {
     const mindsetShift = selShift ? selShift.getAttribute('data-val') : 'Not answered';
     const accountability = selAcct ? selAcct.getAttribute('data-val') : 'Not answered';
     
-    // Map answers to q1, q2, q3... format for consistency
     const currentAnswers = {
         q1: managerMindset,
         q2: mindsetShift,
@@ -844,7 +843,7 @@ function sendPartialModule2Data() {
         q7: 'Q7_FixedFlipped', q8: 'Q8_ExpertFlipped', q9: 'Q9_AllFlipped'
     };
     
-    // ✅ الأسئلة التي تعتبر بطاقات فليب (لا تعتبر التغيير الأول تغييراً)
+    // ✅ الأسئلة التي تعتبر بطاقات فليب
     const flippedCardKeys = ['q4', 'q5', 'q6', 'q7', 'q8'];
     
     for (let key in questionMap) {
@@ -855,8 +854,19 @@ function sendPartialModule2Data() {
         const isFlippedCard = flippedCardKeys.includes(key);
         
         if (currentValue && currentValue !== 'Not answered' && currentValue !== 'None') {
-            if (lastValue && lastValue !== currentValue) {
-                // ✅ تغيير فعلي (مثلاً Yes → No أو No → Yes بعد أول مرة)
+            // ✅ تحديد ما إذا كانت هذه أول مرة للبطاقة
+            let isFirstTime = false;
+            
+            if (isFlippedCard) {
+                // ✅ إذا كانت lastValue فارغة (أبداً ما قلبت)
+                // أو lastValue === 'No' و currentValue === 'Yes' ولا يوجد History
+                if (!lastValue || (lastValue === 'No' && currentValue === 'Yes' && currentHistory === '')) {
+                    isFirstTime = true;
+                }
+            }
+            
+            if (lastValue && lastValue !== currentValue && !isFirstTime) {
+                // ✅ تغيير فعلي (Yes→No أو No→Yes بعد أول مرة)
                 historyData[key] = {
                     history: currentHistory ? currentHistory + '→' + currentValue : currentValue,
                     changes: currentChanges + 1,
@@ -865,18 +875,19 @@ function sendPartialModule2Data() {
                 hasAnyChange = true;
                 changedFields.push(questionMap[key]);
                 totalChanges += (currentChanges + 1);
-            } else if (!lastValue) {
+            } else if (!lastValue || isFirstTime) {
                 // ✅ أول مرة - للبطاقات لا تعتبر تغييراً
                 historyData[key] = {
                     history: currentValue,
                     changes: 0,
                     lastValue: currentValue
                 };
-                if (!isFlippedCard) {
-                    hasAnyChange = true;
-                    changedFields.push(questionMap[key] + ' (NEW)');
+                if (!isFlippedCard || !isFirstTime) {
+                    if (!isFlippedCard) {
+                        hasAnyChange = true;
+                        changedFields.push(questionMap[key] + ' (NEW)');
+                    }
                 }
-                // ✅ بطاقات الفليب: لا نضيفها كتغيير
             }
         }
     }
