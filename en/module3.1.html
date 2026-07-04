@@ -48,7 +48,6 @@
         .hint-box{background:#FFF8E1;border-left:3px solid #E8A735;padding:0.75rem;margin-top:0.75rem;border-radius:12px;font-size:0.85rem;color:#2C5F7A;display:none}
         .hint-box strong{color:#E8A735}
 
-        /* ========== MOBILE RESPONSIVE TEXT IMPROVEMENTS ========== */
         p {
             text-align: justify;
             word-wrap: break-word;
@@ -253,10 +252,10 @@ const storageSuffix = '_en';
 // ============================================
 // GOOGLE SHEETS WEB APP URL
 // ============================================
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx1UoIkdhmaAq4yHyTxdSF6WFicN2SO_oszQlb0CJhwgf1-tutJwx8_1-7h_D-j0Kiqdw/exec';
 
 // ============================================
-// IMPROVED getUserData() - Looks for data WITHOUT suffix first (from registration)
+// IMPROVED getUserData()
 // ============================================
 function getUserData() {
     let name = 'Guest';
@@ -265,9 +264,6 @@ function getUserData() {
     
     console.log('🔍 Searching for user data in module3.1-en.html...');
     
-    // FIRST: Try to get user data WITHOUT suffix (from registration page)
-    
-    // 1. Check currentUser first - NO SUFFIX
     try {
         let currentUser = localStorage.getItem('currentUser');
         if (currentUser) {
@@ -278,7 +274,6 @@ function getUserData() {
                 position = (user.position || '').trim() || 'Not specified';
                 console.log('✅ Found from currentUser (no suffix):', name);
                 
-                // Save with suffix for future use
                 localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(user));
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
@@ -289,7 +284,6 @@ function getUserData() {
         }
     } catch(e) { console.error('Error parsing currentUser:', e); }
     
-    // 2. Check users array - NO SUFFIX
     try {
         let users = JSON.parse(localStorage.getItem('users') || '[]');
         if (Array.isArray(users) && users.length > 0) {
@@ -300,7 +294,6 @@ function getUserData() {
                 position = (lastUser.position || '').trim() || 'Not specified';
                 console.log('✅ Found from users array (no suffix):', name);
                 
-                // Save with suffix
                 localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(lastUser));
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
@@ -311,7 +304,6 @@ function getUserData() {
         }
     } catch(e) { console.error('Error parsing users:', e); }
     
-    // 3. Check individual fields - NO SUFFIX
     let n = localStorage.getItem('course_user_name');
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'Your Name' && n.trim() !== '') {
         name = n.trim();
@@ -319,7 +311,6 @@ function getUserData() {
         position = (localStorage.getItem('course_user_position') || 'Not specified').trim();
         console.log('✅ Found from individual fields (no suffix):', name);
         
-        // Save with suffix
         localStorage.setItem('course_user_name' + storageSuffix, name);
         localStorage.setItem('course_user_email' + storageSuffix, email);
         localStorage.setItem('course_user_position' + storageSuffix, position);
@@ -327,7 +318,6 @@ function getUserData() {
         return { name, email, position };
     }
     
-    // 4. Check course_user object - NO SUFFIX
     let user = localStorage.getItem('course_user');
     if (user) {
         try { 
@@ -338,7 +328,6 @@ function getUserData() {
                 position = (p.position || 'Not specified').trim();
                 console.log('✅ Found from course_user (no suffix):', name);
                 
-                // Save with suffix
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
                 localStorage.setItem('course_user_position' + storageSuffix, position);
@@ -348,7 +337,6 @@ function getUserData() {
         } catch(e) {}
     }
     
-    // 5. Check resilience_users array - NO SUFFIX
     let users = localStorage.getItem('resilience_users');
     if (users) {
         try { 
@@ -361,7 +349,6 @@ function getUserData() {
                         position = (p[i].position || 'Not specified').trim();
                         console.log('✅ Found from resilience_users (no suffix):', name);
                         
-                        // Save with suffix
                         localStorage.setItem('course_user_name' + storageSuffix, name);
                         localStorage.setItem('course_user_email' + storageSuffix, email);
                         localStorage.setItem('course_user_position' + storageSuffix, position);
@@ -373,7 +360,6 @@ function getUserData() {
         } catch(e) {}
     }
     
-    // 6. Finally, try WITH suffix (for returning users)
     n = localStorage.getItem('course_user_name' + storageSuffix);
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim() !== '') {
         name = n.trim();
@@ -383,7 +369,6 @@ function getUserData() {
         return { name, email, position };
     }
     
-    // 7. Try currentUser with suffix
     try {
         let currentUser = localStorage.getItem('currentUser' + storageSuffix);
         if (currentUser) {
@@ -402,7 +387,7 @@ function getUserData() {
     return { name: 'Guest', email: 'guest@example.com', position: 'Not specified' };
 }
 
-// Display user name in badge (silently)
+// Display user name in badge
 const currentUser = getUserData();
 const userBadge = document.getElementById('userBadge');
 if (userBadge) {
@@ -414,7 +399,7 @@ if (userBadge) {
 }
 console.log('👤 User loaded for Module 3.1:', currentUser.name);
 
-function showToast(message, isError) {
+function showToast(message, isError = false) {
     const existing = document.querySelector('.toast-notification');
     if (existing) existing.remove();
     const toast = document.createElement('div');
@@ -425,20 +410,78 @@ function showToast(message, isError) {
     setTimeout(function() { if (toast) toast.remove(); }, 3000);
 }
 
+// ============================================
+// COLLECT ALL ANSWERS
+// ============================================
+function collectAllAnswers() {
+    var stopReflection = document.getElementById('stopInput') ? document.getElementById('stopInput').value : '';
+    var assessReflection = document.getElementById('assessInput') ? document.getElementById('assessInput').value : '';
+    var findAction = document.getElementById('findInput') ? document.getElementById('findInput').value : '';
+    var executePlan = document.getElementById('executeInput') ? document.getElementById('executeInput').value : '';
+    
+    var flipped = [];
+    document.querySelectorAll('.mindset-card.flipped').forEach(function(card) {
+        var scenario = card.getAttribute('data-scenario') || 'unknown';
+        flipped.push(scenario);
+    });
+    
+    var pauseUsed = false;
+    var pauseBtn = document.getElementById('guidedPauseBtn');
+    if (pauseBtn && pauseBtn.style.background === 'rgb(26, 107, 90)') {
+        pauseUsed = true;
+    }
+    
+    return {
+        q1: stopReflection || 'Not answered',
+        q2: assessReflection || 'Not answered',
+        q3: findAction || 'Not answered',
+        q4: executePlan || 'Not answered',
+        q5: flipped.join(', ') || 'None',
+        q6: pauseUsed ? 'Yes' : 'No'
+    };
+}
+
+function saveAnswersToLocal() {
+    var answers = collectAllAnswers();
+    localStorage.setItem('module3_1_answers' + storageSuffix, JSON.stringify({ ...answers, lastUpdated: new Date().toISOString() }));
+}
+
+// ============================================
+// UPDATE PROGRESS
+// ============================================
 function updateFlipProgress() {
-    const flipped = document.querySelectorAll('.mindset-card.flipped').length;
-    const progressSpan = document.getElementById('flipProgress');
+    var flipped = document.querySelectorAll('.mindset-card.flipped').length;
+    var progressSpan = document.getElementById('flipProgress');
     if (progressSpan) {
         progressSpan.textContent = flipped + '/4 flipped';
-        if (flipped === 4) {
-            progressSpan.className = 'progress-badge progress-complete';
-        } else {
-            progressSpan.className = 'progress-badge';
-        }
+        progressSpan.className = flipped === 4 ? 'progress-badge progress-complete' : 'progress-badge';
     }
     return flipped === 4;
 }
 
+function updateSafeProgress() {
+    var stopInput = document.getElementById('stopInput');
+    var assessInput = document.getElementById('assessInput');
+    var findInput = document.getElementById('findInput');
+    var executeInput = document.getElementById('executeInput');
+    
+    var completed = 0;
+    if (stopInput && stopInput.value.trim()) completed++;
+    if (assessInput && assessInput.value.trim()) completed++;
+    if (findInput && findInput.value.trim()) completed++;
+    if (executeInput && executeInput.value.trim()) completed++;
+    
+    var progressSpan = document.getElementById('safeProgress');
+    if (progressSpan) {
+        progressSpan.textContent = completed + '/4 completed';
+        progressSpan.className = completed === 4 ? 'progress-badge progress-complete' : 'progress-badge';
+    }
+    return completed === 4;
+}
+
+// ============================================
+// FLIP CARDS
+// ============================================
 const flipCards = document.querySelectorAll('.mindset-card');
 flipCards.forEach(function(card) {
     card.addEventListener('click', function(e) {
@@ -454,10 +497,14 @@ flipCards.forEach(function(card) {
             if (back) back.classList.add('hidden-content');
         }
         updateFlipProgress();
-        saveModule31DataToLocal();
+        saveAnswersToLocal();
+        sendPartialModule31Data();
     });
 });
 
+// ============================================
+// GUIDED PAUSE
+// ============================================
 const pauseBtn = document.getElementById('guidedPauseBtn');
 const pauseFeedback = document.getElementById('pauseFeedback');
 let pauseUsed = false;
@@ -477,10 +524,14 @@ if (pauseBtn) {
                 pauseFeedback.innerHTML = "";
             }, 2000);
         }, 2000);
-        saveModule31DataToLocal();
+        saveAnswersToLocal();
+        sendPartialModule31Data();
     });
 }
 
+// ============================================
+// CHECK ANSWER BUTTONS
+// ============================================
 const stopInput = document.getElementById('stopInput');
 const assessInput = document.getElementById('assessInput');
 const findInput = document.getElementById('findInput');
@@ -498,102 +549,97 @@ document.querySelectorAll('.check-btn').forEach(function(btn) {
         if (checkType === 'stop') {
             if (stopInput.value.trim()) {
                 stopHint.style.display = 'block';
+                sendPartialModule31Data();
             } else {
                 showToast('Please write your reflection first.', true);
             }
         } else if (checkType === 'assess') {
             if (assessInput.value.trim()) {
                 assessHint.style.display = 'block';
+                sendPartialModule31Data();
             } else {
                 showToast('Please write your assessment first.', true);
             }
         } else if (checkType === 'find') {
             if (findInput.value.trim()) {
                 findHint.style.display = 'block';
+                sendPartialModule31Data();
             } else {
                 showToast('Please write your action first.', true);
             }
         } else if (checkType === 'execute') {
             if (executeInput.value.trim()) {
                 executeHint.style.display = 'block';
+                sendPartialModule31Data();
             } else {
                 showToast('Please write your execution plan first.', true);
             }
         }
         
-        saveModule31DataToLocal();
+        saveAnswersToLocal();
     });
 });
 
-function updateSafeProgress() {
-    var completed = 0;
-    if (stopInput && stopInput.value.trim()) completed++;
-    if (assessInput && assessInput.value.trim()) completed++;
-    if (findInput && findInput.value.trim()) completed++;
-    if (executeInput && executeInput.value.trim()) completed++;
-    
-    var progressSpan = document.getElementById('safeProgress');
-    if (progressSpan) {
-        progressSpan.textContent = completed + '/4 completed';
-        if (completed === 4) {
-            progressSpan.className = 'progress-badge progress-complete';
-        } else {
-            progressSpan.className = 'progress-badge';
+// ============================================
+// AUTO-SAVE ON INPUT
+// ============================================
+function setupAutoSave() {
+    var inputs = ['stopInput', 'assessInput', 'findInput', 'executeInput'];
+    inputs.forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', function() {
+                saveAnswersToLocal();
+                updateSafeProgress();
+            });
         }
-    }
-    return completed === 4;
-}
-
-function getFlippedCardsStatus() {
-    var flipped = [];
-    document.querySelectorAll('.mindset-card.flipped').forEach(function(card) {
-        var scenario = card.getAttribute('data-scenario') || 'unknown';
-        flipped.push(scenario);
     });
-    return flipped;
 }
 
-function saveModule31DataToLocal() {
-    var data = {
-        stopReflection: stopInput ? stopInput.value : '',
-        assessReflection: assessInput ? assessInput.value : '',
-        findAction: findInput ? findInput.value : '',
-        executePlan: executeInput ? executeInput.value : '',
-        flippedCards: getFlippedCardsStatus(),
-        pauseUsed: pauseUsed,
-        hintsShown: {
-            stop: stopHint ? stopHint.style.display === 'block' : false,
-            assess: assessHint ? assessHint.style.display === 'block' : false,
-            find: findHint ? findHint.style.display === 'block' : false,
-            execute: executeHint ? executeHint.style.display === 'block' : false
-        },
-        lastUpdated: new Date().toISOString()
-    };
-    localStorage.setItem('module3_1_data' + storageSuffix, JSON.stringify(data));
-    updateSafeProgress();
-    updateFlipProgress();
-}
-
-function loadModule31Data() {
-    var saved = localStorage.getItem('module3_1_data' + storageSuffix);
+// ============================================
+// LOAD SAVED ANSWERS
+// ============================================
+function loadSavedAnswers() {
+    var saved = localStorage.getItem('module3_1_answers' + storageSuffix);
     if (saved) {
         try {
             var data = JSON.parse(saved);
-            if (stopInput && data.stopReflection) stopInput.value = data.stopReflection;
-            if (assessInput && data.assessReflection) assessInput.value = data.assessReflection;
-            if (findInput && data.findAction) findInput.value = data.findAction;
-            if (executeInput && data.executePlan) executeInput.value = data.executePlan;
-            if (data.pauseUsed) pauseUsed = true;
-            if (data.hintsShown) {
-                if (data.hintsShown.stop && stopHint) stopHint.style.display = 'block';
-                if (data.hintsShown.assess && assessHint) assessHint.style.display = 'block';
-                if (data.hintsShown.find && findHint) findHint.style.display = 'block';
-                if (data.hintsShown.execute && executeHint) executeHint.style.display = 'block';
+            
+            if (data.q1 && data.q1 !== 'Not answered' && stopInput) {
+                stopInput.value = data.q1;
+                // Show hint if there's content
+                if (stopInput.value.trim()) {
+                    stopHint.style.display = 'block';
+                }
             }
-            if (data.flippedCards && data.flippedCards.length) {
+            if (data.q2 && data.q2 !== 'Not answered' && assessInput) {
+                assessInput.value = data.q2;
+                if (assessInput.value.trim()) {
+                    assessHint.style.display = 'block';
+                }
+            }
+            if (data.q3 && data.q3 !== 'Not answered' && findInput) {
+                findInput.value = data.q3;
+                if (findInput.value.trim()) {
+                    findHint.style.display = 'block';
+                }
+            }
+            if (data.q4 && data.q4 !== 'Not answered' && executeInput) {
+                executeInput.value = data.q4;
+                if (executeInput.value.trim()) {
+                    executeHint.style.display = 'block';
+                }
+            }
+            if (data.q6 === 'Yes') {
+                pauseUsed = true;
+            }
+            
+            // Load flipped cards
+            if (data.q5 && data.q5 !== 'None') {
+                var flippedScenarios = data.q5.split(', ');
                 document.querySelectorAll('.mindset-card').forEach(function(card) {
                     var scenario = card.getAttribute('data-scenario');
-                    if (data.flippedCards.includes(scenario)) {
+                    if (flippedScenarios.includes(scenario)) {
                         if (!card.classList.contains('flipped')) {
                             card.classList.add('flipped');
                             var front = card.querySelector('.mindset-front');
@@ -604,42 +650,194 @@ function loadModule31Data() {
                     }
                 });
             }
+            
             updateSafeProgress();
             updateFlipProgress();
         } catch(e) { console.warn(e); }
     }
 }
 
-if (stopInput) stopInput.addEventListener('input', saveModule31DataToLocal);
-if (assessInput) assessInput.addEventListener('input', saveModule31DataToLocal);
-if (findInput) findInput.addEventListener('input', saveModule31DataToLocal);
-if (executeInput) executeInput.addEventListener('input', saveModule31DataToLocal);
-loadModule31Data();
+// ============================================
+// تهيئة تاريخ التغييرات
+// ============================================
+function initializeHistoryTracking() {
+    if (!localStorage.getItem('module3_1_history_data' + storageSuffix)) {
+        const questionKeys = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6'];
+        const historyData = {};
+        questionKeys.forEach(key => {
+            historyData[key] = {
+                history: '',
+                changes: 0,
+                lastValue: ''
+            };
+        });
+        localStorage.setItem('module3_1_history_data' + storageSuffix, JSON.stringify(historyData));
+        console.log('✅ تم تهيئة تاريخ التغييرات لـ Module 3.1');
+    }
+}
 
 // ============================================
-// SEND DATA TO GOOGLE SHEETS
+// SEND DATA IMMEDIATELY - Like Module 1, 2, 3
 // ============================================
-function sendModule31DataToSheet() {
-    var userData = getUserData();
+function sendPartialModule31Data() {
+    const userData = getUserData();
+    const answers = collectAllAnswers();
     
-    var payload = {
+    const currentAnswers = {
+        q1: answers.q1,
+        q2: answers.q2,
+        q3: answers.q3,
+        q4: answers.q4,
+        q5: answers.q5,
+        q6: answers.q6
+    };
+    
+    let historyData = JSON.parse(localStorage.getItem('module3_1_history_data' + storageSuffix) || '{}');
+    
+    if (Object.keys(historyData).length === 0) {
+        const questionKeys = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6'];
+        questionKeys.forEach(key => {
+            historyData[key] = { history: '', changes: 0, lastValue: '' };
+        });
+    }
+    
+    let totalChanges = 0;
+    let hasAnyChange = false;
+    let changedFields = [];
+    
+    const questionMap = {
+        q1: 'Q1_Stop_Reflection',
+        q2: 'Q2_Assess_Reflection',
+        q3: 'Q3_Find_Action',
+        q4: 'Q4_Execute_Plan',
+        q5: 'Q5_Flipped_Cards',
+        q6: 'Q6_Pause_Used'
+    };
+    
+    for (let key in questionMap) {
+        const currentValue = currentAnswers[key] || '';
+        const lastValue = historyData[key]?.lastValue || '';
+        const currentHistory = historyData[key]?.history || '';
+        const currentChanges = historyData[key]?.changes || 0;
+        
+        if (currentValue && currentValue !== 'Not answered' && currentValue !== 'None') {
+            if (lastValue && lastValue !== currentValue) {
+                historyData[key] = {
+                    history: currentHistory ? currentHistory + '→' + currentValue : currentValue,
+                    changes: currentChanges + 1,
+                    lastValue: currentValue
+                };
+                hasAnyChange = true;
+                changedFields.push(questionMap[key]);
+                totalChanges += (currentChanges + 1);
+            } else if (!lastValue) {
+                historyData[key] = {
+                    history: currentValue,
+                    changes: 0,
+                    lastValue: currentValue
+                };
+                hasAnyChange = true;
+                changedFields.push(questionMap[key] + ' (NEW)');
+            }
+        }
+    }
+    
+    let totalChangesCount = 0;
+    for (let key in historyData) {
+        totalChangesCount += historyData[key]?.changes || 0;
+    }
+    
+    localStorage.setItem('module3_1_history_data' + storageSuffix, JSON.stringify(historyData));
+    
+    if (!hasAnyChange) {
+        console.log('⏭️ No changes detected, skipping send');
+        return;
+    }
+    
+    const payload = {
         module: 'Module 3.1',
+        action: 'partial',
         language: 'en',
         userName: userData.name,
         userEmail: userData.email,
         userPosition: userData.position,
         timestamp: new Date().toISOString(),
-        answers: {
-            safe_stop_reflection: stopInput ? stopInput.value : 'Not answered',
-            safe_assess_reflection: assessInput ? assessInput.value : 'Not answered',
-            safe_find_action: findInput ? findInput.value : 'Not answered',
-            safe_execute_plan: executeInput ? executeInput.value : 'Not answered',
-            flipped_cards: getFlippedCardsStatus().join(', ') || 'None',
-            pause_used: pauseUsed ? 'Yes' : 'No'
-        }
+        answers: currentAnswers,
+        history: historyData,
+        changedFields: changedFields,
+        totalChanges: totalChangesCount,
+        isComplete: false
     };
     
-    console.log('📤 Sending Module 3.1 data for user:', userData.name);
+    console.log('📤 Sending Module 3.1 data (partial):', payload);
+    
+    fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('✅ Module 3.1 data sent successfully:', data);
+        localStorage.setItem('module3_1_last_sent_answers' + storageSuffix, JSON.stringify(currentAnswers));
+        showToast(`✅ Saved - Changes: ${totalChangesCount}`);
+    })
+    .catch(error => {
+        console.warn('⚠️ Error sending data:', error);
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+        xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+        xhr.send(JSON.stringify(payload));
+    });
+}
+
+// ============================================
+// SEND FINAL DATA - Completed
+// ============================================
+function sendModule31DataToSheet() {
+    const userData = getUserData();
+    const answers = collectAllAnswers();
+    
+    const currentAnswers = {
+        q1: answers.q1,
+        q2: answers.q2,
+        q3: answers.q3,
+        q4: answers.q4,
+        q5: answers.q5,
+        q6: answers.q6
+    };
+    
+    let historyData = JSON.parse(localStorage.getItem('module3_1_history_data' + storageSuffix) || '{}');
+    
+    let totalChangesCount = 0;
+    for (let key in historyData) {
+        totalChangesCount += historyData[key]?.changes || 0;
+    }
+    
+    let changedFields = [];
+    const lastSentAnswers = JSON.parse(localStorage.getItem('module3_1_last_sent_answers' + storageSuffix) || '{}');
+    for (let key in currentAnswers) {
+        if (lastSentAnswers[key] !== undefined && currentAnswers[key] !== lastSentAnswers[key]) {
+            changedFields.push(key);
+        }
+    }
+    
+    const payload = {
+        module: 'Module 3.1',
+        action: 'completed',
+        language: 'en',
+        userName: userData.name,
+        userEmail: userData.email,
+        userPosition: userData.position,
+        timestamp: new Date().toISOString(),
+        answers: currentAnswers,
+        history: historyData,
+        changedFields: changedFields,
+        totalChanges: totalChangesCount,
+        isComplete: true
+    };
+    
+    console.log('📤 Sending Module 3.1 data (Completed):', payload);
     
     return new Promise((resolve) => {
         fetch(GOOGLE_SCRIPT_URL, {
@@ -647,7 +845,11 @@ function sendModule31DataToSheet() {
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(payload)
         })
-        .then(() => { console.log('✅ Module 3.1 data sent'); resolve(true); })
+        .then(response => response.json())
+        .then(data => {
+            console.log('✅ Module 3.1 completed successfully:', data);
+            resolve(true);
+        })
         .catch(() => {
             const xhr = new XMLHttpRequest();
             xhr.open('POST', GOOGLE_SCRIPT_URL, true);
@@ -668,29 +870,43 @@ async function goToNextModule() {
     var allSafeCompleted = updateSafeProgress();
     
     if (!allFlipped) {
-        showToast('Please flip and review all 4 reframe cards before continuing.', true);
+        showToast('⚠️ Please flip and review all 4 reframe cards before continuing.', true);
         return;
     }
     
     if (!allSafeCompleted) {
-        showToast('Please complete all 4 S.A.F.E. reflection questions before continuing.', true);
+        showToast('⚠️ Please complete all 4 S.A.F.E. reflection questions before continuing.', true);
         return;
     }
     
-    saveModule31DataToLocal();
-    
+    saveAnswersToLocal();
     showToast('💾 Saving your answers...');
     
-    await sendModule31DataToSheet();
-    localStorage.setItem('module3_1_completed' + storageSuffix, 'true');
-    showToast('✅ Progress saved! Redirecting...');
+    const saved = await sendModule31DataToSheet();
     
-    setTimeout(function() {
-        window.location.href = 'module4.html';
-    }, 800);
+    if (saved) {
+        localStorage.setItem('module3_1_completed' + storageSuffix, 'true');
+        showToast('✅ Progress saved! Redirecting...');
+        setTimeout(function() {
+            window.location.href = 'module4.html';
+        }, 800);
+    } else {
+        localStorage.setItem('module3_1_completed' + storageSuffix, 'true');
+        showToast('⚠️ Progress saved locally. Continuing...', true);
+        setTimeout(function() {
+            window.location.href = 'module4.html';
+        }, 800);
+    }
 }
 
+// ============================================
+// EVENT LISTENERS
+// ============================================
 document.addEventListener('DOMContentLoaded', function() {
+    initializeHistoryTracking();
+    loadSavedAnswers();
+    setupAutoSave();
+    
     var backBtn = document.getElementById('backToModule3Btn');
     if (backBtn) {
         backBtn.addEventListener('click', function() {
@@ -708,8 +924,10 @@ document.addEventListener('DOMContentLoaded', function() {
         resetLink.addEventListener('click', function(e) {
             e.preventDefault();
             if (confirm('Reset all progress in Module 3.1? This cannot be undone.')) {
-                localStorage.removeItem('module3_1_data' + storageSuffix);
+                localStorage.removeItem('module3_1_answers' + storageSuffix);
                 localStorage.removeItem('module3_1_completed' + storageSuffix);
+                localStorage.removeItem('module3_1_history_data' + storageSuffix);
+                localStorage.removeItem('module3_1_last_sent_answers' + storageSuffix);
                 location.reload();
             }
         });
