@@ -1117,11 +1117,13 @@ function sendPartialModule1Data() {
 
 // ============================================
 // ============================================
-// SEND FINAL DATA - نفس تنسيق sendPartialModule1Data
+// ============================================
+// SEND FINAL DATA - فقط تغيير الحالة إلى Completed
 // ============================================
 function sendModule1DataToSheet() {
     const userData = getUserData();
     
+    // ✅ جلب نفس البيانات مثل sendPartialModule1Data
     let selectedConstraints = [];
     document.querySelectorAll('.poll-item.selected').forEach(item => {
         selectedConstraints.push(item.getAttribute('data-value'));
@@ -1200,6 +1202,7 @@ function sendModule1DataToSheet() {
         }
     }
     
+    // ✅ نفس البيانات مع isComplete: true فقط
     const payload = {
         module: 'Module 1',
         action: 'completed',
@@ -1215,7 +1218,7 @@ function sendModule1DataToSheet() {
         isComplete: true
     };
     
-    console.log('📤 Sending Module 1 data (Completed):', payload);
+    console.log('📤 Sending Module 1 data (Completed - same data):', payload);
     
     return new Promise((resolve) => {
         fetch(GOOGLE_SCRIPT_URL, {
@@ -1225,7 +1228,7 @@ function sendModule1DataToSheet() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('✅ Module 1 data sent successfully:', data);
+            console.log('✅ Module 1 completed successfully:', data);
             resolve(true);
         })
         .catch(() => {
