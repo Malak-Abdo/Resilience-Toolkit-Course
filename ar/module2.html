@@ -593,6 +593,7 @@ function updateQuizProgress() {
     return answeredCount === 3;
 }
 
+// ✅ collectAllAnswers - نفس تنسيق الإنجليزية (q1, q2, q3...)
 function collectAllAnswers() {
     let managerMindset = '', mindsetShift = '', accountability = '';
     let flippedCards = [];
@@ -937,6 +938,7 @@ function bindEvents() {
     });
 }
 
+// ✅ loadSavedAnswers - نفس تنسيق الإنجليزية (q1, q2, q3...)
 function loadSavedAnswers() {
     const saved = localStorage.getItem('module2_answers' + storageSuffix);
     if (saved) {
