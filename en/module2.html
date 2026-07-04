@@ -844,14 +844,19 @@ function sendPartialModule2Data() {
         q7: 'Q7_FixedFlipped', q8: 'Q8_ExpertFlipped', q9: 'Q9_AllFlipped'
     };
     
+    // ✅ الأسئلة التي تعتبر بطاقات فليب (لا تعتبر التغيير الأول تغييراً)
+    const flippedCardKeys = ['q4', 'q5', 'q6', 'q7', 'q8'];
+    
     for (let key in questionMap) {
         const currentValue = currentAnswers[key] || '';
         const lastValue = historyData[key]?.lastValue || '';
         const currentHistory = historyData[key]?.history || '';
         const currentChanges = historyData[key]?.changes || 0;
+        const isFlippedCard = flippedCardKeys.includes(key);
         
         if (currentValue && currentValue !== 'Not answered' && currentValue !== 'None') {
             if (lastValue && lastValue !== currentValue) {
+                // ✅ تغيير فعلي (مثلاً Yes → No أو No → Yes بعد أول مرة)
                 historyData[key] = {
                     history: currentHistory ? currentHistory + '→' + currentValue : currentValue,
                     changes: currentChanges + 1,
@@ -861,13 +866,17 @@ function sendPartialModule2Data() {
                 changedFields.push(questionMap[key]);
                 totalChanges += (currentChanges + 1);
             } else if (!lastValue) {
+                // ✅ أول مرة - للبطاقات لا تعتبر تغييراً
                 historyData[key] = {
                     history: currentValue,
                     changes: 0,
                     lastValue: currentValue
                 };
-                hasAnyChange = true;
-                changedFields.push(questionMap[key] + ' (NEW)');
+                if (!isFlippedCard) {
+                    hasAnyChange = true;
+                    changedFields.push(questionMap[key] + ' (NEW)');
+                }
+                // ✅ بطاقات الفليب: لا نضيفها كتغيير
             }
         }
     }
@@ -880,7 +889,7 @@ function sendPartialModule2Data() {
     localStorage.setItem('module2_history_data' + storageSuffix, JSON.stringify(historyData));
     
     if (!hasAnyChange) {
-        console.log('⏭️ لا توجد تغييرات، تخطي الإرسال');
+        console.log('⏭️ No changes detected, skipping send');
         return;
     }
     
@@ -899,7 +908,7 @@ function sendPartialModule2Data() {
         isComplete: false
     };
     
-    console.log('📤 إرسال بيانات Module 2 (جزئي):', payload);
+    console.log('📤 Sending Module 2 data (partial):', payload);
     
     fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
@@ -908,19 +917,18 @@ function sendPartialModule2Data() {
     })
     .then(response => response.json())
     .then(data => {
-        console.log('✅ تم إرسال بيانات Module 2 بنجاح:', data);
+        console.log('✅ Module 2 data sent successfully:', data);
         localStorage.setItem('module2_last_sent_answers' + storageSuffix, JSON.stringify(currentAnswers));
-        showToast(`✅ تم الحفظ - التغييرات: ${totalChangesCount}`);
+        showToast(`✅ Saved - Changes: ${totalChangesCount}`);
     })
     .catch(error => {
-        console.warn('⚠️ خطأ في الإرسال:', error);
+        console.warn('⚠️ Error sending data:', error);
         const xhr = new XMLHttpRequest();
         xhr.open('POST', GOOGLE_SCRIPT_URL, true);
         xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
         xhr.send(JSON.stringify(payload));
     });
 }
-
 // ============================================
 // SEND FINAL DATA - Completed
 // ============================================
@@ -1008,7 +1016,6 @@ function sendModule2DataToSheet() {
         setTimeout(() => resolve(true), 3000);
     });
 }
-
 function displayResultsSummary() {
     const q1Selected = document.querySelector('[data-q="manager"] .quiz-option.selected');
     const q2Selected = document.querySelector('[data-q="shift"] .quiz-option.selected');
