@@ -1116,7 +1116,8 @@ function sendPartialModule1Data() {
 }
 
 // ============================================
-// UPDATED sendModule1DataToSheet - Final completion
+// ============================================
+// SEND FINAL DATA - نفس تنسيق sendPartialModule1Data
 // ============================================
 function sendModule1DataToSheet() {
     const userData = getUserData();
@@ -1151,6 +1152,54 @@ function sendModule1DataToSheet() {
     
     let hotspotChoice = document.querySelector('.hotspot-item.selected')?.getAttribute('data-hotspot') || 'Not selected';
     
+    let keithQ4Formatted = keithQ4;
+    if (keithQ4Formatted === 'false') keithQ4Formatted = 'False';
+    else if (keithQ4Formatted === 'true') keithQ4Formatted = 'True';
+    
+    let criteriaFormatted = criteriaAnswer;
+    if (criteriaFormatted === 'B') criteriaFormatted = 'B) When immediate life-saving is at stake AND compliance can be justified post-fact';
+    
+    let hotspotFormatted = hotspotChoice;
+    if (hotspotFormatted === 'hand') hotspotFormatted = '🤝 Local Staff Member\'s Hand';
+    else if (hotspotFormatted === 'rulebook') hotspotFormatted = '📖 Rulebook (SOP Manual)';
+    else if (hotspotFormatted === 'satphone') hotspotFormatted = '📡 Satellite Phone (Call HQ)';
+    
+    // ✅ نفس تنسيق sendPartialModule1Data
+    const currentAnswers = {
+        poll: selectedConstraints.join(', ') || 'None',
+        q1: keithQ1,
+        q2: keithQ2,
+        q3: keithQ3,
+        q4: keithQ4Formatted,
+        q5: keithQ5,
+        q6: leylaQ1,
+        q7: filterAnswer,
+        q8: criteriaFormatted,
+        q9: dragBlame,
+        q10: dragWaitHQ,
+        q11: dragNegotiate,
+        q12: branchChoice,
+        q13: hotspotFormatted
+    };
+    
+    // ✅ جلب تاريخ التغييرات من localStorage
+    let historyData = JSON.parse(localStorage.getItem('module1_history_data' + storageSuffix) || '{}');
+    
+    // ✅ حساب مجموع التغييرات
+    let totalChangesCount = 0;
+    for (let key in historyData) {
+        totalChangesCount += historyData[key]?.changes || 0;
+    }
+    
+    // ✅ تحديد الحقول التي تغيرت
+    let changedFields = [];
+    const lastSentAnswers = JSON.parse(localStorage.getItem('module1_last_sent_answers' + storageSuffix) || '{}');
+    for (let key in currentAnswers) {
+        if (lastSentAnswers[key] !== undefined && currentAnswers[key] !== lastSentAnswers[key]) {
+            changedFields.push(key);
+        }
+    }
+    
     const payload = {
         module: 'Module 1',
         action: 'completed',
@@ -1159,22 +1208,10 @@ function sendModule1DataToSheet() {
         userEmail: userData.email,
         userPosition: userData.position,
         timestamp: new Date().toISOString(),
-        answers: {
-            pollConstraints: selectedConstraints.join(', ') || 'None',
-            keithQ1: keithQ1,
-            keithQ2: keithQ2,
-            keithQ3: keithQ3,
-            keithQ4: keithQ4,
-            keithQ5: keithQ5,
-            leylaQ1: leylaQ1,
-            filterAnswer: filterAnswer,
-            criteriaAnswer: criteriaAnswer,
-            dragBlame: dragBlame,
-            dragWaitHQ: dragWaitHQ,
-            dragNegotiate: dragNegotiate,
-            branchChoice: branchChoice,
-            hotspotChoice: hotspotChoice
-        },
+        answers: currentAnswers,
+        history: historyData,
+        changedFields: changedFields,
+        totalChanges: totalChangesCount,
         isComplete: true
     };
     
@@ -1186,7 +1223,11 @@ function sendModule1DataToSheet() {
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(payload)
         })
-        .then(() => { console.log('✅ Module 1 data sent'); resolve(true); })
+        .then(response => response.json())
+        .then(data => {
+            console.log('✅ Module 1 data sent successfully:', data);
+            resolve(true);
+        })
         .catch(() => {
             const xhr = new XMLHttpRequest();
             xhr.open('POST', GOOGLE_SCRIPT_URL, true);
@@ -1198,7 +1239,6 @@ function sendModule1DataToSheet() {
         setTimeout(() => resolve(true), 3000);
     });
 }
-
 function saveAnswersToLocal() {
     const answers = {
         pollConstraints: [],
