@@ -1090,7 +1090,7 @@ function sendPartialModule1Data() {
         history: historyData,
         changedFields: changedFields,
         totalChanges: totalChangesCount,
-        isComplete: isComplete
+        isComplete: false
     };
     
     console.log('📤 إرسال البيانات مع تاريخ التغييرات:', payload);
@@ -1116,14 +1116,11 @@ function sendPartialModule1Data() {
 }
 
 // ============================================
-// ============================================
-// ============================================
 // SEND FINAL DATA - فقط تغيير الحالة إلى Completed
 // ============================================
 function sendModule1DataToSheet() {
     const userData = getUserData();
     
-    // ✅ جلب نفس البيانات مثل sendPartialModule1Data
     let selectedConstraints = [];
     document.querySelectorAll('.poll-item.selected').forEach(item => {
         selectedConstraints.push(item.getAttribute('data-value'));
@@ -1184,16 +1181,15 @@ function sendModule1DataToSheet() {
         q13: hotspotFormatted
     };
     
-    // ✅ جلب تاريخ التغييرات من localStorage
+    // ✅ جلب history و totalChanges
     let historyData = JSON.parse(localStorage.getItem('module1_history_data' + storageSuffix) || '{}');
     
-    // ✅ حساب مجموع التغييرات
     let totalChangesCount = 0;
     for (let key in historyData) {
         totalChangesCount += historyData[key]?.changes || 0;
     }
     
-    // ✅ تحديد الحقول التي تغيرت
+    // ✅ تحديد changedFields
     let changedFields = [];
     const lastSentAnswers = JSON.parse(localStorage.getItem('module1_last_sent_answers' + storageSuffix) || '{}');
     for (let key in currentAnswers) {
@@ -1202,7 +1198,6 @@ function sendModule1DataToSheet() {
         }
     }
     
-    // ✅ نفس البيانات مع isComplete: true فقط
     const payload = {
         module: 'Module 1',
         action: 'completed',
@@ -1211,14 +1206,14 @@ function sendModule1DataToSheet() {
         userEmail: userData.email,
         userPosition: userData.position,
         timestamp: new Date().toISOString(),
-        answers: currentAnswers,
-        history: historyData,
+        answers: currentAnswers,        // ✅ نفس التنسيق
+        history: historyData,           // ✅ نفس التاريخ
         changedFields: changedFields,
         totalChanges: totalChangesCount,
-        isComplete: true
+        isComplete: true                // ✅ فقط هذا مختلف (Completed)
     };
     
-    console.log('📤 Sending Module 1 data (Completed - same data):', payload);
+    console.log('📤 Sending Module 1 data (Completed):', payload);
     
     return new Promise((resolve) => {
         fetch(GOOGLE_SCRIPT_URL, {
