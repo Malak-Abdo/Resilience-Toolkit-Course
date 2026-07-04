@@ -252,7 +252,7 @@ const storageSuffix = '_en';
 // ============================================
 // GOOGLE SHEETS WEB APP URL
 // ============================================
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzecn_m3Eld9omRW2fufA3hnOXVTtPRSghl9QywuHgs3uRo1KybPkMYCL3NSD9mScrdaw/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyevLdeAQbhevIBwkVgwOREaRMJuo_xuDhKvB-lTc1Cz1IimLhLavbiAlDUaiR33oWzOg/exec';
 
 // ============================================
 // IMPROVED getUserData()
@@ -677,6 +677,7 @@ function initializeHistoryTracking() {
 }
 
 // ============================================
+// ============================================
 // SEND DATA IMMEDIATELY - Like Module 1, 2, 3
 // ============================================
 function sendPartialModule31Data() {
@@ -714,14 +715,19 @@ function sendPartialModule31Data() {
         q6: 'Q6_Pause_Used'
     };
     
+    // ✅ الأسئلة التي لا تعتبر تغييرات (مثل Module 2)
+    const noChangeKeys = ['q5'];  // ❌ Q5 (Flipped Cards) لا تعتبر تغييراً
+    
     for (let key in questionMap) {
         const currentValue = currentAnswers[key] || '';
         const lastValue = historyData[key]?.lastValue || '';
         const currentHistory = historyData[key]?.history || '';
         const currentChanges = historyData[key]?.changes || 0;
+        const isNoChange = noChangeKeys.includes(key);
         
         if (currentValue && currentValue !== 'Not answered' && currentValue !== 'None') {
-            if (lastValue && lastValue !== currentValue) {
+            if (lastValue && lastValue !== currentValue && !isNoChange) {
+                // ✅ تغيير فعلي (فقط للأسئلة غير الممنوعة)
                 historyData[key] = {
                     history: currentHistory ? currentHistory + '→' + currentValue : currentValue,
                     changes: currentChanges + 1,
@@ -731,13 +737,17 @@ function sendPartialModule31Data() {
                 changedFields.push(questionMap[key]);
                 totalChanges += (currentChanges + 1);
             } else if (!lastValue) {
+                // ✅ أول مرة - فقط للأسئلة غير الممنوعة تعتبر (NEW)
                 historyData[key] = {
                     history: currentValue,
                     changes: 0,
                     lastValue: currentValue
                 };
-                hasAnyChange = true;
-                changedFields.push(questionMap[key] + ' (NEW)');
+                if (!isNoChange) {
+                    hasAnyChange = true;
+                    changedFields.push(questionMap[key] + ' (NEW)');
+                }
+                // ✅ Q5 (Flipped Cards): لا تعتبر تغييراً أبداً
             }
         }
     }
@@ -790,7 +800,6 @@ function sendPartialModule31Data() {
         xhr.send(JSON.stringify(payload));
     });
 }
-
 // ============================================
 // SEND FINAL DATA - Completed
 // ============================================
