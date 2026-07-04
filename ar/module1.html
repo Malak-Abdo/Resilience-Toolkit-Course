@@ -1,3 +1,14 @@
+## ✅ Done! Here is the Arabic version with the same functionality as the English version
+
+I've updated the Arabic version to include all the same features:
+1. ✅ `sendPartialModule1Data()` - sends data immediately when answers change
+2. ✅ `sendModule1DataToSheet()` - changes status to Completed
+3. ✅ Change tracking with history (A→B→C)
+4. ✅ Change count for each question
+5. ✅ Toast notifications only when there's a change
+6. ✅ Same data structure as English version
+
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -258,7 +269,13 @@
         }
         .branch-choice:hover { background: #F0F6FD; border-color: #E8A735; }
         .branch-choice.selected { background: #E8F5E9; border-color: #1A6B5A; }
-        .branch-outcome { margin-top: 1rem; padding: 1rem; border-radius: 16px; background: #F0F7F4; }
+        .branch-outcome { 
+            margin-top: 1rem; 
+            padding: 1rem; 
+            border-radius: 16px; 
+            background: #F0F7F4;
+            display: none;
+        }
         .success-outcome { background: #E8F5E9; border-right: 5px solid #1A6B5A; }
         .failure-outcome { background: #FFEBEE; border-right: 5px solid #D32F2F; }
         .footer-note { font-size: 0.7rem; text-align: center; color: #8BA0B8; margin-top: 1.5rem; }
@@ -335,7 +352,6 @@
             font-weight: bold;
         }
 
-        /* ONLY THESE LINES WERE ADDED - JUSTIFY & MOBILE */
         p, li, .scenario-card, .scenario-card p, .reality-check, .reality-check p, 
         .key-message, .core-takeaway, .matching-action, .match-option, .branch-choice {
             text-align: justify;
@@ -557,7 +573,7 @@
     </div>
     
     <div class="quiz-question" id="leylaQ3">
-        <strong>🔀 السؤال ٤: سيناريو متفرع</strong><br>لقد حدث نقص الوقود للتو في منطقتك. كل شيء توقف، وفرقك الميدانية عالقة. تحتاج إلى التصرف فوراً. ما هو أول ما تفعله？
+        <strong>🔀 السؤال ٤: سيناريو متفرع</strong><br>لقد حدث نقص الوقود للتو في منطقتك. كل شيء توقف، وفرقك الميدانية عالقة. تحتاج إلى التصرف فوراً. ما هو أول ما تفعله؟
         <div class="branch-choices">
             <div class="branch-choice" data-choice="A">
                 <strong>أ.</strong> عقد اجتماع طارئ مع فريق الخدمات اللوجستية والمطالبة: "لماذا لم تخزنوا وقوداً احتياطياً لحالات الطوارئ؟"
@@ -569,7 +585,8 @@
                 <strong>ج.</strong> عقد اجتماع فوري مع موظفيك المحليين (سائقين، حراس، مساعدين) وسؤالهم: "من يتذكر كيف حصل الناس على الوقود هنا أثناء النقص الكبير السابق؟"
             </div>
         </div>
-        <div id="branchOutcome" class="branch-outcome" style="display:none;"></div>
+        <div id="branchOutcome" class="branch-outcome"></div>
+        <button class="check-btn" data-check="branchQuestion">✅ تحقق من الإجابة</button>
     </div>
 
     <div class="quiz-question" id="leylaQ6">
@@ -632,12 +649,18 @@
 // ============================================
 const storageSuffix = '_ar';
 
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbylF2X6XfxJIPQ77YyDaICfdYQe_aRad_64ssVtTAezsVV09R86ArUKagYWLaTpDHwrMA/exec';
+// ============================================
+// GOOGLE SHEETS WEB APP URL
+// ============================================
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwt5SMtOYR4EPBqr0wIBLwYRe6trt0F0C2d_JtxECdKnwNoWGUQKV-sALDm6pRNBVkVlQ/exec';
 
+// ============================================
+// IMPROVED getUserData()
+// ============================================
 function getUserData() {
-    let name = '';
-    let email = '';
-    let position = '';
+    let name = 'زائر';
+    let email = 'guest@example.com';
+    let position = 'غير محدد';
     
     try {
         let currentUser = localStorage.getItem('currentUser');
@@ -645,13 +668,13 @@ function getUserData() {
             let user = JSON.parse(currentUser);
             if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر' && user.name.trim() !== '') {
                 name = user.name.trim();
-                email = (user.email || '').trim();
-                position = (user.position || '').trim();
+                email = (user.email || '').trim() || 'guest@example.com';
+                position = (user.position || '').trim() || 'غير محدد';
                 localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(user));
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
                 localStorage.setItem('course_user_position' + storageSuffix, position);
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
+                return { name, email, position };
             }
         }
     } catch(e) {}
@@ -659,17 +682,18 @@ function getUserData() {
     let n = localStorage.getItem('course_user_name');
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
         name = n.trim();
-        email = (localStorage.getItem('course_user_email') || '').trim();
-        position = (localStorage.getItem('course_user_position') || '').trim();
+        email = (localStorage.getItem('course_user_email') || '').trim() || 'guest@example.com';
+        position = (localStorage.getItem('course_user_position') || '').trim() || 'غير محدد';
         localStorage.setItem('course_user_name' + storageSuffix, name);
         localStorage.setItem('course_user_email' + storageSuffix, email);
         localStorage.setItem('course_user_position' + storageSuffix, position);
-        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
+        return { name, email, position };
     }
     
     return { name: 'زائر', email: 'guest@example.com', position: 'غير محدد' };
 }
 
+// Display user name in badge
 const currentUser = getUserData();
 const userBadge = document.getElementById('userBadge');
 if (userBadge) {
@@ -709,6 +733,7 @@ function showModelAnswer(elementId, modelText) {
     modelDiv.style.display = 'block';
 }
 
+// --- Progress & Answer Logic ---
 function updateKeithProgress() {
     let completed = 0;
     if (document.querySelector('#q1 .quiz-option.selected')) completed++;
@@ -734,7 +759,9 @@ function updateLeylaProgress() {
     const negotiateSelected = document.querySelector('[data-action="negotiate"] .match-option.selected');
     if (blameSelected && waitHQSelected && negotiateSelected) completed++;
     
-    if (document.getElementById('branchOutcome').style.display === 'block') completed++;
+    const branchOutcome = document.getElementById('branchOutcome');
+    if (branchOutcome.style.display === 'block' && branchOutcome.innerHTML.trim() !== '') completed++;
+    
     if (document.querySelector('#leylaQ6 .quiz-option.selected')) completed++;
     if (document.querySelector('.hotspot-item.selected')) completed++;
     
@@ -782,53 +809,320 @@ function loadMatchSelections() {
     }
 }
 
-function collectAllAnswers() {
+// ============================================
+// تهيئة تاريخ التغييرات
+// ============================================
+function initializeHistoryTracking() {
+    if (!localStorage.getItem('module1_history_data' + storageSuffix)) {
+        const questionKeys = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10', 'q11', 'q12', 'q13'];
+        const historyData = {};
+        questionKeys.forEach(key => {
+            historyData[key] = {
+                history: '',
+                changes: 0,
+                lastValue: ''
+            };
+        });
+        localStorage.setItem('module1_history_data' + storageSuffix, JSON.stringify(historyData));
+    }
+}
+
+// ============================================
+// SEND DATA - تحديث نفس الصف مع تاريخ التغييرات
+// ============================================
+function sendPartialModule1Data() {
+    const userData = getUserData();
+    
     let selectedConstraints = [];
     document.querySelectorAll('.poll-item.selected').forEach(item => {
         selectedConstraints.push(item.getAttribute('data-value'));
     });
     
-    let dragBlameValue = '';
-    let dragWaitHQValue = '';
-    let dragNegotiateValue = '';
+    let keithQ1 = document.querySelector('#q1 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب';
+    let keithQ2 = document.getElementById('q2answer')?.value.trim() || 'لم يجب';
+    let keithQ3 = document.getElementById('q3answer')?.value.trim() || 'لم يجب';
+    let keithQ4 = document.querySelector('#q4 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب';
+    let keithQ5 = document.getElementById('q5answer')?.value.trim() || 'لم يجب';
     
-    const blameSelected = document.querySelector('[data-action="blame"] .match-option.selected');
-    const waitHQSelected = document.querySelector('[data-action="waitHQ"] .match-option.selected');
-    const negotiateSelected = document.querySelector('[data-action="negotiate"] .match-option.selected');
+    let leylaQ1 = document.querySelector('#leylaQ1 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب';
+    let filterAnswer = document.getElementById('filterAnswer')?.value.trim() || 'لم يجب';
+    let criteriaAnswer = document.querySelector('#leylaQ6 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب';
     
-    if (blameSelected) dragBlameValue = blameSelected.getAttribute('data-outcome');
-    if (waitHQSelected) dragWaitHQValue = waitHQSelected.getAttribute('data-outcome');
-    if (negotiateSelected) dragNegotiateValue = negotiateSelected.getAttribute('data-outcome');
+    let dragBlame = matchSelections.blame || 'غير مطابق';
+    let dragWaitHQ = matchSelections.waitHQ || 'غير مطابق';
+    let dragNegotiate = matchSelections.negotiate || 'غير مطابق';
     
-    let branchChoiceValue = 'Not selected';
+    let branchChoice = 'غير محدد';
     const branchOutcomeDiv = document.getElementById('branchOutcome');
-    if (branchOutcomeDiv.style.display === 'block') {
+    if (branchOutcomeDiv.style.display === 'block' && branchOutcomeDiv.innerHTML.trim() !== '') {
         const branchText = branchOutcomeDiv.innerText;
-        if (branchText.includes('نجاح تكيفي')) branchChoiceValue = 'C';
-        else if (branchText.includes('وقت انتظار أطول')) branchChoiceValue = 'B';
-        else if (branchText.includes('فشل')) branchChoiceValue = 'A';
+        if (branchText.includes('نجاح تكيفي')) branchChoice = 'C';
+        else if (branchText.includes('وقت انتظار أطول')) branchChoice = 'B';
+        else if (branchText.includes('فشل')) branchChoice = 'A';
     }
     
-    return {
-        pollConstraints: selectedConstraints.join(', ') || 'لا شيء',
-        keithQ1: document.querySelector('#q1 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب',
-        keithQ2: document.getElementById('q2answer')?.value.trim() || '',
-        keithQ3: document.getElementById('q3answer')?.value.trim() || '',
-        keithQ4: document.querySelector('#q4 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب',
-        keithQ5: document.getElementById('q5answer')?.value.trim() || '',
-        leylaQ1: document.querySelector('#leylaQ1 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب',
-        filterAnswer: document.getElementById('filterAnswer')?.value.trim() || '',
-        criteriaAnswer: document.querySelector('#leylaQ6 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب',
-        dragBlame: dragBlameValue,
-        dragWaitHQ: dragWaitHQValue,
-        dragNegotiate: dragNegotiateValue,
-        branchChoice: branchChoiceValue,
-        hotspotChoice: document.querySelector('.hotspot-item.selected')?.getAttribute('data-hotspot') || 'غير محدد'
+    let hotspotChoice = document.querySelector('.hotspot-item.selected')?.getAttribute('data-hotspot') || 'غير محدد';
+    
+    let keithQ4Formatted = keithQ4;
+    if (keithQ4Formatted === 'false') keithQ4Formatted = 'خطأ';
+    else if (keithQ4Formatted === 'true') keithQ4Formatted = 'صواب';
+    
+    let criteriaFormatted = criteriaAnswer;
+    if (criteriaFormatted === 'B') criteriaFormatted = 'ب) عندما تكون حياة الناس على المحك فوراً، ويمكن تبرير الامتثال لاحقاً';
+    
+    let hotspotFormatted = hotspotChoice;
+    if (hotspotFormatted === 'hand') hotspotFormatted = '🤝 يد موظف محلي';
+    else if (hotspotFormatted === 'rulebook') hotspotFormatted = '📖 كتيب القواعد (دليل الإجراءات)';
+    else if (hotspotFormatted === 'satphone') hotspotFormatted = '📡 هاتف الأقمار الصناعية (الاتصال بالمكتب الرئيسي)';
+    
+    const currentAnswers = {
+        poll: selectedConstraints.join(', ') || 'لا شيء',
+        q1: keithQ1,
+        q2: keithQ2,
+        q3: keithQ3,
+        q4: keithQ4Formatted,
+        q5: keithQ5,
+        q6: leylaQ1,
+        q7: filterAnswer,
+        q8: criteriaFormatted,
+        q9: dragBlame,
+        q10: dragWaitHQ,
+        q11: dragNegotiate,
+        q12: branchChoice,
+        q13: hotspotFormatted
     };
+    
+    let historyData = JSON.parse(localStorage.getItem('module1_history_data' + storageSuffix) || '{}');
+    
+    if (Object.keys(historyData).length === 0) {
+        const questionKeys = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10', 'q11', 'q12', 'q13'];
+        questionKeys.forEach(key => {
+            historyData[key] = { history: '', changes: 0, lastValue: '' };
+        });
+    }
+    
+    let totalChanges = 0;
+    let hasAnyChange = false;
+    let changedFields = [];
+    
+    const questionMap = {
+        q1: 'Q1_كيث', q2: 'Q2_علامة_خطر', q3: 'Q3_قيادة_تكيفية', q4: 'Q4_خبرة_تقنية',
+        q5: 'Q5_مشاركة_تجربة', q6: 'Q6_ليلى', q7: 'Q7_تصفية', q8: 'Q8_بروتوكول',
+        q9: 'Q9_مطابقة1', q10: 'Q10_مطابقة2', q11: 'Q11_مطابقة3', q12: 'Q12_متفرع', q13: 'Q13_نقطة_ساخنة'
+    };
+    
+    for (let key in questionMap) {
+        const currentValue = currentAnswers[key] || '';
+        const lastValue = historyData[key]?.lastValue || '';
+        const currentHistory = historyData[key]?.history || '';
+        const currentChanges = historyData[key]?.changes || 0;
+        
+        if (currentValue && currentValue !== 'لم يجب' && currentValue !== 'غير مطابق' && currentValue !== 'غير محدد' && currentValue !== 'لا شيء') {
+            if (lastValue && lastValue !== currentValue) {
+                historyData[key] = {
+                    history: currentHistory ? currentHistory + '→' + currentValue : currentValue,
+                    changes: currentChanges + 1,
+                    lastValue: currentValue
+                };
+                hasAnyChange = true;
+                changedFields.push(questionMap[key]);
+                totalChanges += (currentChanges + 1);
+            } else if (!lastValue) {
+                historyData[key] = {
+                    history: currentValue,
+                    changes: 0,
+                    lastValue: currentValue
+                };
+                hasAnyChange = true;
+                changedFields.push(questionMap[key] + ' (جديد)');
+            }
+        }
+    }
+    
+    let totalChangesCount = 0;
+    for (let key in historyData) {
+        totalChangesCount += historyData[key]?.changes || 0;
+    }
+    
+    localStorage.setItem('module1_history_data' + storageSuffix, JSON.stringify(historyData));
+    
+    if (!hasAnyChange) {
+        console.log('⏭️ لا توجد تغييرات، تخطي الإرسال');
+        return;
+    }
+    
+    const payload = {
+        module: 'Module 1',
+        action: 'partial',
+        language: 'ar',
+        userName: userData.name,
+        userEmail: userData.email,
+        userPosition: userData.position,
+        timestamp: new Date().toISOString(),
+        answers: currentAnswers,
+        history: historyData,
+        changedFields: changedFields,
+        totalChanges: totalChangesCount,
+        isComplete: false
+    };
+    
+    fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('✅ تم إرسال البيانات بنجاح:', data);
+        localStorage.setItem('module1_last_sent_answers' + storageSuffix, JSON.stringify(currentAnswers));
+        showToast(`✅ تم الحفظ - التغييرات: ${totalChangesCount}`);
+    })
+    .catch(error => {
+        console.warn('⚠️ خطأ في الإرسال:', error);
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+        xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+        xhr.send(JSON.stringify(payload));
+    });
+}
+
+// ============================================
+// SEND FINAL DATA - فقط تغيير الحالة إلى Completed
+// ============================================
+function sendModule1DataToSheet() {
+    const userData = getUserData();
+    
+    let selectedConstraints = [];
+    document.querySelectorAll('.poll-item.selected').forEach(item => {
+        selectedConstraints.push(item.getAttribute('data-value'));
+    });
+    
+    let keithQ1 = document.querySelector('#q1 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب';
+    let keithQ2 = document.getElementById('q2answer')?.value.trim() || 'لم يجب';
+    let keithQ3 = document.getElementById('q3answer')?.value.trim() || 'لم يجب';
+    let keithQ4 = document.querySelector('#q4 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب';
+    let keithQ5 = document.getElementById('q5answer')?.value.trim() || 'لم يجب';
+    
+    let leylaQ1 = document.querySelector('#leylaQ1 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب';
+    let filterAnswer = document.getElementById('filterAnswer')?.value.trim() || 'لم يجب';
+    let criteriaAnswer = document.querySelector('#leylaQ6 .quiz-option.selected')?.getAttribute('data-val') || 'لم يجب';
+    
+    let dragBlame = matchSelections.blame || 'غير مطابق';
+    let dragWaitHQ = matchSelections.waitHQ || 'غير مطابق';
+    let dragNegotiate = matchSelections.negotiate || 'غير مطابق';
+    
+    let branchChoice = 'غير محدد';
+    const branchOutcomeDiv = document.getElementById('branchOutcome');
+    if (branchOutcomeDiv.style.display === 'block' && branchOutcomeDiv.innerHTML.trim() !== '') {
+        const branchText = branchOutcomeDiv.innerText;
+        if (branchText.includes('نجاح تكيفي')) branchChoice = 'C';
+        else if (branchText.includes('وقت انتظار أطول')) branchChoice = 'B';
+        else if (branchText.includes('فشل')) branchChoice = 'A';
+    }
+    
+    let hotspotChoice = document.querySelector('.hotspot-item.selected')?.getAttribute('data-hotspot') || 'غير محدد';
+    
+    let keithQ4Formatted = keithQ4;
+    if (keithQ4Formatted === 'false') keithQ4Formatted = 'خطأ';
+    else if (keithQ4Formatted === 'true') keithQ4Formatted = 'صواب';
+    
+    let criteriaFormatted = criteriaAnswer;
+    if (criteriaFormatted === 'B') criteriaFormatted = 'ب) عندما تكون حياة الناس على المحك فوراً، ويمكن تبرير الامتثال لاحقاً';
+    
+    let hotspotFormatted = hotspotChoice;
+    if (hotspotFormatted === 'hand') hotspotFormatted = '🤝 يد موظف محلي';
+    else if (hotspotFormatted === 'rulebook') hotspotFormatted = '📖 كتيب القواعد (دليل الإجراءات)';
+    else if (hotspotFormatted === 'satphone') hotspotFormatted = '📡 هاتف الأقمار الصناعية (الاتصال بالمكتب الرئيسي)';
+    
+    const currentAnswers = {
+        poll: selectedConstraints.join(', ') || 'لا شيء',
+        q1: keithQ1,
+        q2: keithQ2,
+        q3: keithQ3,
+        q4: keithQ4Formatted,
+        q5: keithQ5,
+        q6: leylaQ1,
+        q7: filterAnswer,
+        q8: criteriaFormatted,
+        q9: dragBlame,
+        q10: dragWaitHQ,
+        q11: dragNegotiate,
+        q12: branchChoice,
+        q13: hotspotFormatted
+    };
+    
+    let historyData = JSON.parse(localStorage.getItem('module1_history_data' + storageSuffix) || '{}');
+    
+    let totalChangesCount = 0;
+    for (let key in historyData) {
+        totalChangesCount += historyData[key]?.changes || 0;
+    }
+    
+    let changedFields = [];
+    const lastSentAnswers = JSON.parse(localStorage.getItem('module1_last_sent_answers' + storageSuffix) || '{}');
+    for (let key in currentAnswers) {
+        if (lastSentAnswers[key] !== undefined && currentAnswers[key] !== lastSentAnswers[key]) {
+            changedFields.push(key);
+        }
+    }
+    
+    const payload = {
+        module: 'Module 1',
+        action: 'completed',
+        language: 'ar',
+        userName: userData.name,
+        userEmail: userData.email,
+        userPosition: userData.position,
+        timestamp: new Date().toISOString(),
+        answers: currentAnswers,
+        history: historyData,
+        changedFields: changedFields,
+        totalChanges: totalChangesCount,
+        isComplete: true
+    };
+    
+    console.log('📤 Sending Module 1 data (Completed):', payload);
+    
+    return new Promise((resolve) => {
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('✅ Module 1 completed successfully:', data);
+            resolve(true);
+        })
+        .catch(() => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+            xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+            xhr.onload = () => resolve(true);
+            xhr.onerror = () => resolve(false);
+            xhr.send(JSON.stringify(payload));
+        });
+        setTimeout(() => resolve(true), 3000);
+    });
 }
 
 function saveAnswersToLocal() {
-    localStorage.setItem('module1_answers' + storageSuffix, JSON.stringify(collectAllAnswers()));
+    const answers = {
+        pollConstraints: [],
+        keithQ1: document.querySelector('#q1 .quiz-option.selected')?.getAttribute('data-val') || null,
+        keithQ2: document.getElementById('q2answer').value.trim(),
+        keithQ3: document.getElementById('q3answer').value.trim(),
+        keithQ4: document.querySelector('#q4 .quiz-option.selected')?.getAttribute('data-val') || null,
+        keithQ5: document.getElementById('q5answer').value.trim(),
+        leylaQ1: document.querySelector('#leylaQ1 .quiz-option.selected')?.getAttribute('data-val') || null,
+        filterAnswer: document.getElementById('filterAnswer').value.trim(),
+        criteriaAnswer: document.querySelector('#leylaQ6 .quiz-option.selected')?.getAttribute('data-val') || null,
+        lastUpdated: new Date().toISOString()
+    };
+    document.querySelectorAll('.poll-item.selected').forEach(item => {
+        answers.pollConstraints.push(item.getAttribute('data-value'));
+    });
+    localStorage.setItem('module1_answers' + storageSuffix, JSON.stringify(answers));
     saveMatchSelections();
 }
 
@@ -837,67 +1131,45 @@ function loadSavedAnswers() {
     if (saved) {
         try {
             const data = JSON.parse(saved);
-            if (data.pollConstraints && data.pollConstraints !== 'لا شيء') {
-                const constraints = data.pollConstraints.split(', ');
+            if (data.pollConstraints && data.pollConstraints.length) {
                 document.querySelectorAll('.poll-item').forEach(item => {
-                    if (constraints.includes(item.getAttribute('data-value'))) {
+                    if (data.pollConstraints.includes(item.getAttribute('data-value'))) {
                         item.classList.add('selected');
                     }
                 });
             }
-            if (data.keithQ1 && data.keithQ1 !== 'لم يجب') {
+            if (data.keithQ1) {
                 document.querySelectorAll('#q1 .quiz-option').forEach(opt => {
                     if (opt.getAttribute('data-val') === data.keithQ1) opt.classList.add('selected');
                 });
             }
-            if (data.keithQ2 && data.keithQ2 !== 'لم يجب') document.getElementById('q2answer').value = data.keithQ2;
-            if (data.keithQ3 && data.keithQ3 !== 'لم يجب') document.getElementById('q3answer').value = data.keithQ3;
-            if (data.keithQ4 && data.keithQ4 !== 'لم يجب') {
+            if (data.keithQ2) document.getElementById('q2answer').value = data.keithQ2;
+            if (data.keithQ3) document.getElementById('q3answer').value = data.keithQ3;
+            if (data.keithQ4) {
                 document.querySelectorAll('#q4 .quiz-option').forEach(opt => {
                     if (opt.getAttribute('data-val') === data.keithQ4) opt.classList.add('selected');
                 });
             }
-            if (data.keithQ5 && data.keithQ5 !== 'لم يجب') document.getElementById('q5answer').value = data.keithQ5;
-            if (data.leylaQ1 && data.leylaQ1 !== 'لم يجب') {
+            if (data.keithQ5) document.getElementById('q5answer').value = data.keithQ5;
+            if (data.leylaQ1) {
                 document.querySelectorAll('#leylaQ1 .quiz-option').forEach(opt => {
                     if (opt.getAttribute('data-val') === data.leylaQ1) opt.classList.add('selected');
                 });
             }
             if (data.filterAnswer) document.getElementById('filterAnswer').value = data.filterAnswer;
-            if (data.criteriaAnswer && data.criteriaAnswer !== 'لم يجب') {
+            if (data.criteriaAnswer) {
                 document.querySelectorAll('#leylaQ6 .quiz-option').forEach(opt => {
                     if (opt.getAttribute('data-val') === data.criteriaAnswer) opt.classList.add('selected');
                 });
             }
-        } catch(e) {}
+        } catch(e) { console.warn('Error loading saved answers:', e); }
     }
     loadMatchSelections();
     updateKeithProgress();
     updateLeylaProgress();
 }
 
-function sendModule1DataToSheet() {
-    const user = getUserData();
-    const answers = collectAllAnswers();
-    
-    const payload = {
-        module: 'Module 1',
-        action: 'completed',
-        language: 'ar',
-        userName: user.name,
-        userEmail: user.email,
-        userPosition: user.position,
-        timestamp: new Date().toISOString(),
-        answers: answers
-    };
-    
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', GOOGLE_SCRIPT_URL, true);
-    xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
-    xhr.send(JSON.stringify(payload));
-}
-
-function goToModule2() {
+async function goToModule2() {
     if (!updateKeithProgress()) {
         showToast('⚠️ الرجاء إكمال جميع أسئلة اختبار كيث الخمسة قبل المتابعة.', true);
         return;
@@ -908,16 +1180,16 @@ function goToModule2() {
     }
     
     saveAnswersToLocal();
-    sendModule1DataToSheet();
-    localStorage.setItem('module1_completed' + storageSuffix, 'true');
-    showToast('✅ جاري حفظ تقدمك...');
+    showToast('💾 جاري حفظ إجاباتك...');
     
-    setTimeout(() => {
-        window.location.href = 'module2.html';
-    }, 500);
+    await sendModule1DataToSheet();
+    localStorage.setItem('module1_completed' + storageSuffix, 'true');
+    showToast('✅ تم حفظ التقدم! جاري التحويل...');
+    
+    setTimeout(() => { window.location.href = 'module2.html'; }, 800);
 }
 
-// Event Listeners
+// --- Event Listeners ---
 document.getElementById('playAudioHookBtn').addEventListener('click', () => {
     document.getElementById('audioTranscript').innerHTML = "🎙️ إحاطة: أنت تقود في اليمن، السودان، سوريا، العراق، غزة، أفغانستان، الكونغو، الساحل، أو أوكرانيا. بحلول الساعة ٧:٣٠ صباحاً اليوم، قد تواجه نقصاً في الوقود، أو تعطل مركبة، أو اعتقال مترجم، أو حرارة شديدة، أو فيضاناً مفاجئاً. هذه الإحاطة ليست تحفيزية. إنها استراتيجية.";
 });
@@ -928,10 +1200,10 @@ document.querySelectorAll('.poll-item').forEach(item => {
 
 document.getElementById('submitPollBtn').addEventListener('click', () => {
     let count = document.querySelectorAll('.poll-item.selected').length;
-    let fb = document.getElementById('pollFeedback');
-    fb.innerHTML = `لقد اخترت ${count} معوق(ات). شكراً لمشاركتك!`;
-    fb.style.display = 'block';
+    document.getElementById('pollFeedback').innerHTML = `لقد اخترت ${count} معوق(ات). شكراً لمشاركتك!`;
+    document.getElementById('pollFeedback').style.display = 'block';
     saveAnswersToLocal();
+    sendPartialModule1Data();
 });
 
 document.querySelectorAll('#q1 .quiz-option, #q4 .quiz-option').forEach(opt => {
@@ -950,33 +1222,43 @@ document.getElementById('submitKeithQuiz').addEventListener('click', () => {
     if (q1Val === 'B') fb1.innerHTML = '✅ إجابة صحيحة. ب) اعتقد أن القواعد من مكان آمن وهادئ (نيويورك) ستعمل دون تغيير في منطقة أزمات متغيرة (اليمن).';
     else fb1.innerHTML = '❌ الإجابة الصحيحة هي ب: اعتقد أن القواعد من مكان آمن وهادئ (نيويورك) ستعمل دون تغيير في منطقة أزمات متغيرة (اليمن).';
 
+    let q2Val = document.getElementById('q2answer').value.trim();
+    let fb2 = document.getElementById('fb2');
+    fb2.style.display = 'block';
+    if (!isValidText(q2Val)) {
+        fb2.innerHTML = '⚠️ إجابتك قصيرة جداً. ';
+        showModelAnswer('fb2', '"إيجاد طريقة" هي تهرب من المسؤولية القيادية. القائد التكيفي يسأل: "ما الذي يجب أن نغيره في القواعد لحماية الناس هنا؟"');
+    } else {
+        fb2.innerHTML = '📝 تم حفظ تأملك. ';
+        showModelAnswer('fb2', 'قارن تفكيرك: علامة الخطر هي "التنصل من المسؤولية".');
+    }
+
+    let q3Val = document.getElementById('q3answer').value.trim();
+    let fb3 = document.getElementById('fb3');
+    fb3.style.display = 'block';
+    if (!isValidText(q3Val)) {
+        fb3.innerHTML = '⚠️ الرجاء تقديم سؤال محدد. ';
+        showModelAnswer('fb3', '"لو أخبرك الفريق المحلي أن إجراءات التشغيل القياسية ستعرض حياتهم للخطر، فما هي خطوتك الأولى؟"');
+    } else {
+        fb3.innerHTML = '✅ سؤال جيد. ';
+        showModelAnswer('fb3', 'السؤال المثالي: "ماذا تفعل إذا قال الموظفون المحليون إن إجراءات التشغيل القياسية خطيرة؟"');
+    }
+
     let q4Val = document.querySelector('#q4 .quiz-option.selected')?.getAttribute('data-val');
     let fb4 = document.getElementById('fb4');
     fb4.style.display = 'block';
-    fb4.innerHTML = q4Val === 'false' ? '✅ إجابة صحيحة. الخبرة التقنية وحدها لا تكفي.' : '❌ خطأ. الخبرة التقنية ضرورية ولكنها غير كافية.';
-    document.getElementById('keithDiagnosis').style.display = 'block';
+    if (q4Val === 'false') fb4.innerHTML = '✅ إجابة صحيحة. الخبرة التقنية وحدها لا تكفي.';
+    else fb4.innerHTML = '❌ خطأ. الخبرة التقنية ضرورية ولكنها غير كافية.';
 
-    let q2txt = document.getElementById('q2answer').value.trim();
-    let fb2 = document.getElementById('fb2');
-    fb2.style.display = 'block';
-    if (!isValidText(q2txt)) fb2.innerHTML = '⚠️ إجابتك قصيرة جداً. ';
-    else fb2.innerHTML = '📝 تم حفظ تأملك. ';
-    showModelAnswer('fb2', '"إيجاد طريقة" هي تهرب من المسؤولية القيادية. القائد التكيفي يسأل: "ما الذي يجب أن نغيره في القواعد لحماية الناس هنا؟"');
-
-    let q3txt = document.getElementById('q3answer').value.trim();
-    let fb3 = document.getElementById('fb3');
-    fb3.style.display = 'block';
-    if (!isValidText(q3txt)) fb3.innerHTML = '⚠️ الرجاء تقديم سؤال محدد. ';
-    else fb3.innerHTML = '✅ سؤال جيد. ';
-    showModelAnswer('fb3', '"لو أخبرك الفريق المحلي أن إجراءات التشغيل القياسية ستعرض حياتهم للخطر، فما هي خطوتك الأولى؟"');
-
-    let q5txt = document.getElementById('q5answer').value.trim();
+    let q5Val = document.getElementById('q5answer').value.trim();
     let fb5 = document.getElementById('fb5');
     fb5.style.display = 'block';
-    fb5.innerHTML = q5txt ? '📘 شكراً لمشاركتك.' : '💡 مشاركة مثال حقيقي تساعد في ترسيخ الدرس.';
+    fb5.innerHTML = q5Val ? '📘 شكراً لمشاركتك.' : '💡 مشاركة مثال حقيقي تساعد في ترسيخ الدرس.';
     
+    document.getElementById('keithDiagnosis').style.display = 'block';
     saveAnswersToLocal();
     updateKeithProgress();
+    sendPartialModule1Data();
 });
 
 document.querySelectorAll('#leylaQ1 .quiz-option').forEach(opt => {
@@ -1044,22 +1326,45 @@ document.getElementById('checkMatchesBtn').addEventListener('click', () => {
     
     saveAnswersToLocal();
     updateLeylaProgress();
+    sendPartialModule1Data();
 });
 
 document.querySelectorAll('.branch-choice').forEach(choice => {
     choice.addEventListener('click', function() {
         document.querySelectorAll('.branch-choice').forEach(c => c.classList.remove('selected'));
         this.classList.add('selected');
-        
-        let branchOutcome = document.getElementById('branchOutcome');
-        let choiceVal = this.getAttribute('data-choice');
-        if (choiceVal === 'C') branchOutcome.innerHTML = '<div class="success-outcome" style="padding:1rem;"><strong>✅ نجاح تكيفي:</strong> جمع المعرفة المحلية أولاً. هذا ما فعلته ليلى.</div>';
-        else if (choiceVal === 'B') branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>⏳ وقت انتظار أطول:</strong> نظراً لعدم وجود بيانات ميدانية، يحتاج المكتب الرئيسي إلى وقت إضافي للتحقق من المخاطر، مما يوقف عملياتك مؤقتاً.</div>';
-        else branchOutcome.innerHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ فشل:</strong> اللوم يوقف التواصل ويخفي المشاكل. ثقة الفريق تُدمر، والمركبات تبقى عالقة.</div>';
-        branchOutcome.style.display = 'block';
         saveAnswersToLocal();
         updateLeylaProgress();
     });
+});
+
+document.querySelector('[data-check="branchQuestion"]')?.addEventListener('click', function() {
+    const selectedBranch = document.querySelector('.branch-choice.selected');
+    const branchOutcome = document.getElementById('branchOutcome');
+    
+    if (!selectedBranch) {
+        branchOutcome.innerHTML = '<div style="padding:1rem; background:#FFF3E0; border-radius:12px;"><strong>⚠️ الرجاء اختيار أحد الخيارات أعلاه أولاً.</strong></div>';
+        branchOutcome.style.display = 'block';
+        return;
+    }
+    
+    const choiceVal = selectedBranch.getAttribute('data-choice');
+    let feedbackHTML = '';
+    
+    if (choiceVal === 'C') {
+        feedbackHTML = '<div class="success-outcome" style="padding:1rem;"><strong>✅ صحيح! نجاح تكيفي:</strong> جمع المعرفة المحلية أولاً. هذا ما فعلته ليلى.</div>';
+    } else if (choiceVal === 'B') {
+        feedbackHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ وقت انتظار أطول:</strong> نظراً لعدم وجود بيانات ميدانية، يحتاج المكتب الرئيسي إلى وقت إضافي للتحقق من المخاطر، مما يوقف عملياتك مؤقتاً.</div>';
+    } else {
+        feedbackHTML = '<div class="failure-outcome" style="padding:1rem;"><strong>❌ فشل:</strong> اللوم يوقف التواصل ويخفي المشاكل. ثقة الفريق تُدمر، والمركبات تبقى عالقة.</div>';
+    }
+    
+    branchOutcome.innerHTML = feedbackHTML;
+    branchOutcome.style.display = 'block';
+    
+    saveAnswersToLocal();
+    updateLeylaProgress();
+    sendPartialModule1Data();
 });
 
 document.querySelectorAll('.hotspot-item').forEach(item => {
@@ -1087,6 +1392,7 @@ document.querySelectorAll('.check-btn').forEach(btn => {
                 fb1.className = 'feedback feedback-incorrect';
                 showModelAnswer('leylaFb1', 'ليلى ستسأل الفريق المحلي أولاً.');
             }
+            sendPartialModule1Data();
         }
         else if (checkId === 'filterQuestion') {
             let filterVal = document.getElementById('filterAnswer').value.trim();
@@ -1101,6 +1407,7 @@ document.querySelectorAll('.check-btn').forEach(btn => {
                 filterFb.className = 'feedback feedback-correct';
                 showModelAnswer('filterFb', 'قم تقييم المخاطر، وتوثيقها كاستثناء لإنقاذ الأرواح، وتبرير ذلك للمتبرع بوثائق دقيقة.');
             }
+            sendPartialModule1Data();
         }
         else if (checkId === 'criteriaQuestion') {
             let criteriaVal = document.querySelector('#leylaQ6 .quiz-option.selected')?.getAttribute('data-val');
@@ -1113,6 +1420,10 @@ document.querySelectorAll('.check-btn').forEach(btn => {
                 criteriaFb.innerHTML = '❌ الإجابة الصحيحة هي ب: عندما تكون حياة الناس على المحك فوراً.';
                 criteriaFb.className = 'feedback feedback-incorrect';
             }
+            sendPartialModule1Data();
+        }
+        else if (checkId === 'branchQuestion') {
+            return;
         }
         saveAnswersToLocal();
         updateLeylaProgress();
@@ -1144,6 +1455,7 @@ document.getElementById('submitLeylaQuiz').addEventListener('click', () => {
     
     saveAnswersToLocal();
     updateLeylaProgress();
+    sendPartialModule1Data();
 });
 
 document.getElementById('continueToModule2Btn').addEventListener('click', goToModule2);
@@ -1151,13 +1463,19 @@ document.getElementById('backToIntroBtn').addEventListener('click', () => {
     window.location.href = 'intro.html';
 });
 document.getElementById('resetDataLink').addEventListener('click', () => { 
-    if (confirm('هل تريد إعادة ضبط جميع بيانات الوحدة؟ لا يمكن التراجع عن هذا.')) {
-        localStorage.clear();
+    if(confirm('هل تريد إعادة ضبط جميع بيانات الوحدة؟ لا يمكن التراجع عن هذا.')) {
+        localStorage.removeItem('module1_answers' + storageSuffix);
+        localStorage.removeItem('module1_match_selections' + storageSuffix);
+        localStorage.removeItem('module1_completed' + storageSuffix);
+        localStorage.removeItem('module1_last_sent_answers' + storageSuffix);
+        localStorage.removeItem('module1_history_data' + storageSuffix);
         location.reload();
     }
 });
 
 loadSavedAnswers();
+initializeHistoryTracking();
 </script>
 </body>
 </html>
+```
