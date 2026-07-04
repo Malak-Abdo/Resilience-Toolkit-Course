@@ -606,15 +606,15 @@ function collectAllAnswers() {
         if (card.classList.contains('flipped')) flippedCards.push(card.getAttribute('data-mindset') || 'unknown');
     });
     return { 
-        manager_mindset: managerMindset || 'لم يجب', 
-        mindset_shift: mindsetShift || 'لم يجب', 
-        accountability: accountability || 'لم يجب', 
-        victim_flipped: flippedCards.includes('victim') ? 'Yes' : 'No', 
-        scarcity_flipped: flippedCards.includes('scarcity') ? 'Yes' : 'No', 
-        panic_flipped: flippedCards.includes('panic') ? 'Yes' : 'No', 
-        fixed_flipped: flippedCards.includes('fixed') ? 'Yes' : 'No', 
-        expert_flipped: flippedCards.includes('expert') ? 'Yes' : 'No', 
-        flipped_cards_summary: flippedCards.join(', ') || 'None' 
+        q1: managerMindset || 'لم يجب', 
+        q2: mindsetShift || 'لم يجب', 
+        q3: accountability || 'لم يجب', 
+        q4: flippedCards.includes('victim') ? 'Yes' : 'No', 
+        q5: flippedCards.includes('scarcity') ? 'Yes' : 'No', 
+        q6: flippedCards.includes('panic') ? 'Yes' : 'No', 
+        q7: flippedCards.includes('fixed') ? 'Yes' : 'No', 
+        q8: flippedCards.includes('expert') ? 'Yes' : 'No', 
+        q9: flippedCards.join(', ') || 'None' 
     };
 }
 
@@ -942,35 +942,35 @@ function loadSavedAnswers() {
     if (saved) {
         try {
             const data = JSON.parse(saved);
-            if (data.manager_mindset && data.manager_mindset !== 'لم يجب') {
+            if (data.q1 && data.q1 !== 'لم يجب') {
                 const opts = document.querySelectorAll('[data-q="manager"] .quiz-option');
-                opts.forEach(opt => { if (opt.getAttribute('data-val') === data.manager_mindset) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
+                opts.forEach(opt => { if (opt.getAttribute('data-val') === data.q1) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
             }
-            if (data.mindset_shift && data.mindset_shift !== 'لم يجب') {
+            if (data.q2 && data.q2 !== 'لم يجب') {
                 const opts = document.querySelectorAll('[data-q="shift"] .quiz-option');
-                opts.forEach(opt => { if (opt.getAttribute('data-val') === data.mindset_shift) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
+                opts.forEach(opt => { if (opt.getAttribute('data-val') === data.q2) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
             }
-            if (data.accountability && data.accountability !== 'لم يجب') {
+            if (data.q3 && data.q3 !== 'لم يجب') {
                 const opts = document.querySelectorAll('[data-q="account"] .quiz-option');
-                opts.forEach(opt => { if (opt.getAttribute('data-val') === data.accountability) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
+                opts.forEach(opt => { if (opt.getAttribute('data-val') === data.q3) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
             }
-            if (data.victim_flipped === 'Yes') {
+            if (data.q4 === 'Yes') {
                 const card = document.querySelector('.mindset-card[data-mindset="victim"]');
                 if (card) { card.classList.add('flipped'); const front = card.querySelector('.mindset-front'); const back = card.querySelector('.mindset-back'); if (front) front.classList.add('hidden-content'); if (back) back.classList.remove('hidden-content'); }
             }
-            if (data.scarcity_flipped === 'Yes') {
+            if (data.q5 === 'Yes') {
                 const card = document.querySelector('.mindset-card[data-mindset="scarcity"]');
                 if (card) { card.classList.add('flipped'); const front = card.querySelector('.mindset-front'); const back = card.querySelector('.mindset-back'); if (front) front.classList.add('hidden-content'); if (back) back.classList.remove('hidden-content'); }
             }
-            if (data.panic_flipped === 'Yes') {
+            if (data.q6 === 'Yes') {
                 const card = document.querySelector('.mindset-card[data-mindset="panic"]');
                 if (card) { card.classList.add('flipped'); const front = card.querySelector('.mindset-front'); const back = card.querySelector('.mindset-back'); if (front) front.classList.add('hidden-content'); if (back) back.classList.remove('hidden-content'); }
             }
-            if (data.fixed_flipped === 'Yes') {
+            if (data.q7 === 'Yes') {
                 const card = document.querySelector('.mindset-card[data-mindset="fixed"]');
                 if (card) { card.classList.add('flipped'); const front = card.querySelector('.mindset-front'); const back = card.querySelector('.mindset-back'); if (front) front.classList.add('hidden-content'); if (back) back.classList.remove('hidden-content'); }
             }
-            if (data.expert_flipped === 'Yes') {
+            if (data.q8 === 'Yes') {
                 const card = document.querySelector('.mindset-card[data-mindset="expert"]');
                 if (card) { card.classList.add('flipped'); const front = card.querySelector('.mindset-front'); const back = card.querySelector('.mindset-back'); if (front) front.classList.add('hidden-content'); if (back) back.classList.remove('hidden-content'); }
             }
