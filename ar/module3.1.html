@@ -17,7 +17,6 @@
             line-height: 1.45;
             padding: 0 0 2rem 0;
         }
-        /* ===== تحسينات النص ===== */
         p, li, .scenario-card, .mindset-card, .safe-section, .safe-step, 
         .sentence-box, .tip-note, .hint-box, .feedback-message {
             text-align: justify;
@@ -254,7 +253,6 @@
                 transform: translateX(-50%) translateY(0);
             }
         }
-        /* ===== تحسينات الجوال ===== */
         @media (max-width: 480px) {
             body {
                 font-size: 0.9rem;
@@ -492,151 +490,54 @@ const storageSuffix = '_ar';
 // ============================================
 // GOOGLE SHEETS WEB APP URL
 // ============================================
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx1UoIkdhmaAq4yHyTxdSF6WFicN2SO_oszQlb0CJhwgf1-tutJwx8_1-7h_D-j0Kiqdw/exec';
 
 // ============================================
 // IMPROVED getUserData()
 // ============================================
 function getUserData() {
-    let name = '';
-    let email = '';
-    let position = '';
-    
-    console.log('🔍 Searching for user data in module3.1.html...');
+    let name = 'زائر';
+    let email = 'guest@example.com';
+    let position = 'غير محدد';
     
     try {
         let currentUser = localStorage.getItem('currentUser');
         if (currentUser) {
             let user = JSON.parse(currentUser);
-            if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر' && user.name.trim() !== '') {
+            if (user && user.name && user.name !== 'Guest' && user.name.trim() !== '') {
                 name = user.name.trim();
-                email = (user.email || '').trim();
-                position = (user.position || '').trim();
-                console.log('✅ Found from currentUser (no suffix):', name);
-                
+                email = (user.email || '').trim() || 'guest@example.com';
+                position = (user.position || '').trim() || 'غير محدد';
                 localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(user));
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
                 localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
-        }
-    } catch(e) { console.error('Error parsing currentUser:', e); }
-    
-    try {
-        let users = JSON.parse(localStorage.getItem('users') || '[]');
-        if (Array.isArray(users) && users.length > 0) {
-            let lastUser = users[users.length - 1];
-            if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name !== 'زائر' && lastUser.name.trim() !== '') {
-                name = lastUser.name.trim();
-                email = (lastUser.email || '').trim();
-                position = (lastUser.position || '').trim();
-                console.log('✅ Found from users array (no suffix):', name);
-                
-                localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(lastUser));
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
-        }
-    } catch(e) { console.error('Error parsing users:', e); }
-    
-    let n = localStorage.getItem('course_user_name');
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
-        name = n.trim();
-        email = (localStorage.getItem('course_user_email') || '').trim();
-        position = (localStorage.getItem('course_user_position') || '').trim();
-        console.log('✅ Found from individual fields (no suffix):', name);
-        
-        localStorage.setItem('course_user_name' + storageSuffix, name);
-        localStorage.setItem('course_user_email' + storageSuffix, email);
-        localStorage.setItem('course_user_position' + storageSuffix, position);
-        
-        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-    }
-    
-    let user = localStorage.getItem('course_user');
-    if (user) {
-        try { 
-            let p = JSON.parse(user); 
-            if (p && p.name && p.name !== 'Guest' && p.name !== 'زائر' && p.name.trim() !== '') {
-                name = p.name.trim();
-                email = (p.email || '').trim();
-                position = (p.position || '').trim();
-                console.log('✅ Found from course_user (no suffix):', name);
-                
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
-        } catch(e) {}
-    }
-    
-    let users = localStorage.getItem('resilience_users');
-    if (users) {
-        try { 
-            let p = JSON.parse(users); 
-            if (Array.isArray(p) && p.length > 0) {
-                for (let i = p.length - 1; i >= 0; i--) {
-                    if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'زائر' && p[i].name.trim() !== '') {
-                        name = p[i].name.trim();
-                        email = (p[i].email || '').trim();
-                        position = (p[i].position || '').trim();
-                        console.log('✅ Found from resilience_users (no suffix):', name);
-                        
-                        localStorage.setItem('course_user_name' + storageSuffix, name);
-                        localStorage.setItem('course_user_email' + storageSuffix, email);
-                        localStorage.setItem('course_user_position' + storageSuffix, position);
-                        
-                        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-                    }
-                }
-            }
-        } catch(e) {}
-    }
-    
-    n = localStorage.getItem('course_user_name' + storageSuffix);
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
-        name = n.trim();
-        email = (localStorage.getItem('course_user_email' + storageSuffix) || '').trim();
-        position = (localStorage.getItem('course_user_position' + storageSuffix) || '').trim();
-        console.log('✅ Found from individual fields (with suffix):', name);
-        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-    }
-    
-    try {
-        let currentUser = localStorage.getItem('currentUser' + storageSuffix);
-        if (currentUser) {
-            let user = JSON.parse(currentUser);
-            if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر' && user.name.trim() !== '') {
-                name = user.name.trim();
-                email = (user.email || '').trim();
-                position = (user.position || '').trim();
-                console.log('✅ Found from currentUser (with suffix):', name);
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
+                return { name, email, position };
             }
         }
     } catch(e) {}
     
-    console.log('⚠️ No user data found, using default');
+    let n = localStorage.getItem('course_user_name');
+    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
+        name = n.trim();
+        email = (localStorage.getItem('course_user_email') || '').trim() || 'guest@example.com';
+        position = (localStorage.getItem('course_user_position') || '').trim() || 'غير محدد';
+        localStorage.setItem('course_user_name' + storageSuffix, name);
+        localStorage.setItem('course_user_email' + storageSuffix, email);
+        localStorage.setItem('course_user_position' + storageSuffix, position);
+        return { name, email, position };
+    }
+    
     return { name: 'زائر', email: 'guest@example.com', position: 'غير محدد' };
 }
 
-// عرض اسم المستخدم
 const currentUser = getUserData();
 const userBadge = document.getElementById('userBadge');
 if (userBadge) {
     if (currentUser.name !== 'زائر') {
         userBadge.innerText = `👤 ${currentUser.name}`;
-        console.log('✅ User badge updated with:', currentUser.name);
     } else {
         userBadge.innerText = `👤 متعلم`;
-        console.log('⚠️ No user name found, showing default');
     }
 }
 
@@ -652,29 +553,89 @@ function showToast(message, isError = false) {
 }
 
 // ============================================
-// بطاقات التقليب
+// COLLECT ALL ANSWERS
+// ============================================
+function collectAllAnswers() {
+    var stopInput = document.getElementById('stopInput');
+    var assessInput = document.getElementById('assessInput');
+    var findInput = document.getElementById('findInput');
+    var executeInput = document.getElementById('executeInput');
+    
+    var stopReflection = stopInput ? stopInput.value : '';
+    var assessReflection = assessInput ? assessInput.value : '';
+    var findAction = findInput ? findInput.value : '';
+    var executePlan = executeInput ? executeInput.value : '';
+    
+    var flipped = [];
+    document.querySelectorAll('.mindset-card.flipped').forEach(function(card) {
+        var scenario = card.getAttribute('data-scenario') || 'unknown';
+        flipped.push(scenario);
+    });
+    
+    var pauseUsed = false;
+    var pauseBtn = document.getElementById('guidedPauseBtn');
+    if (pauseBtn && pauseBtn.style.background === 'rgb(26, 107, 90)') {
+        pauseUsed = true;
+    }
+    
+    return {
+        q1: stopReflection || 'لم يجب',
+        q2: assessReflection || 'لم يجب',
+        q3: findAction || 'لم يجب',
+        q4: executePlan || 'لم يجب',
+        q5: flipped.join(', ') || 'لا شيء',
+        q6: pauseUsed ? 'Yes' : 'No'
+    };
+}
+
+function saveAnswersToLocal() {
+    var answers = collectAllAnswers();
+    localStorage.setItem('module3_1_answers' + storageSuffix, JSON.stringify({ ...answers, lastUpdated: new Date().toISOString() }));
+}
+
+// ============================================
+// UPDATE PROGRESS
 // ============================================
 function updateFlipProgress() {
-    const flipped = document.querySelectorAll('.mindset-card.flipped').length;
-    const progressSpan = document.getElementById('flipProgress');
+    var flipped = document.querySelectorAll('.mindset-card.flipped').length;
+    var progressSpan = document.getElementById('flipProgress');
     if (progressSpan) {
-        progressSpan.textContent = `${flipped}/٤ تم التقليب`;
-        if (flipped === 4) {
-            progressSpan.className = 'progress-badge progress-complete';
-        } else {
-            progressSpan.className = 'progress-badge';
-        }
+        progressSpan.textContent = flipped + '/٤ تم التقليب';
+        progressSpan.className = flipped === 4 ? 'progress-badge progress-complete' : 'progress-badge';
     }
     return flipped === 4;
 }
 
+function updateSafeProgress() {
+    var stopInput = document.getElementById('stopInput');
+    var assessInput = document.getElementById('assessInput');
+    var findInput = document.getElementById('findInput');
+    var executeInput = document.getElementById('executeInput');
+    
+    var completed = 0;
+    if (stopInput && stopInput.value.trim()) completed++;
+    if (assessInput && assessInput.value.trim()) completed++;
+    if (findInput && findInput.value.trim()) completed++;
+    if (executeInput && executeInput.value.trim()) completed++;
+    
+    var progressSpan = document.getElementById('safeProgress');
+    if (progressSpan) {
+        progressSpan.textContent = completed + '/٤ مكتمل';
+        progressSpan.className = completed === 4 ? 'progress-badge progress-complete' : 'progress-badge';
+    }
+    return completed === 4;
+}
+
+// ============================================
+// FLIP CARDS
+// ============================================
 const flipCards = document.querySelectorAll('.mindset-card');
-flipCards.forEach(card => {
+flipCards.forEach(function(card) {
     card.addEventListener('click', function(e) {
         e.stopPropagation();
         this.classList.toggle('flipped');
-        const front = this.querySelector('.mindset-front');
-        const back = this.querySelector('.mindset-back');
+        var front = this.querySelector('.mindset-front');
+        var back = this.querySelector('.mindset-back');
         if (this.classList.contains('flipped')) {
             if (front) front.classList.add('hidden-content');
             if (back) back.classList.remove('hidden-content');
@@ -683,38 +644,40 @@ flipCards.forEach(card => {
             if (back) back.classList.add('hidden-content');
         }
         updateFlipProgress();
-        saveModule31DataToLocal();
+        saveAnswersToLocal();
+        sendPartialModule31Data();
     });
 });
 
 // ============================================
-// التنفس الموجه
+// GUIDED PAUSE
 // ============================================
 const pauseBtn = document.getElementById('guidedPauseBtn');
 const pauseFeedback = document.getElementById('pauseFeedback');
 let pauseUsed = false;
 
 if (pauseBtn) {
-    pauseBtn.addEventListener('click', () => {
+    pauseBtn.addEventListener('click', function() {
         pauseUsed = true;
         pauseBtn.style.background = "#1A6B5A";
         pauseBtn.style.color = "white";
         pauseBtn.innerText = "🌬️ شهيق... احبس... زفير...";
         pauseFeedback.innerHTML = "✨ رائع. لقد قمت للتو بتنشيط جهازك العصبي السمبتاوي. ✨";
-        setTimeout(() => {
+        setTimeout(function() {
             pauseBtn.style.background = "#E8F5E9";
             pauseBtn.style.color = "#1E2F3E";
             pauseBtn.innerText = "🌬️ اضغط هنا لتوجيه التنفس (١٥ ثانية)";
-            setTimeout(() => {
+            setTimeout(function() {
                 pauseFeedback.innerHTML = "";
             }, 2000);
         }, 2000);
-        saveModule31DataToLocal();
+        saveAnswersToLocal();
+        sendPartialModule31Data();
     });
 }
 
 // ============================================
-// أزرار التحقق والتلميحات
+// CHECK ANSWER BUTTONS
 // ============================================
 const stopInput = document.getElementById('stopInput');
 const assessInput = document.getElementById('assessInput');
@@ -726,167 +689,337 @@ const assessHint = document.getElementById('assessHint');
 const findHint = document.getElementById('findHint');
 const executeHint = document.getElementById('executeHint');
 
-document.querySelectorAll('.check-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const checkType = btn.getAttribute('data-check');
+document.querySelectorAll('.check-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        var checkType = btn.getAttribute('data-check');
         
         if (checkType === 'stop') {
             if (stopInput.value.trim()) {
                 stopHint.style.display = 'block';
+                sendPartialModule31Data();
             } else {
                 showToast('الرجاء كتابة تأملك أولاً.', true);
             }
         } else if (checkType === 'assess') {
             if (assessInput.value.trim()) {
                 assessHint.style.display = 'block';
+                sendPartialModule31Data();
             } else {
                 showToast('الرجاء كتابة تقييمك أولاً.', true);
             }
         } else if (checkType === 'find') {
             if (findInput.value.trim()) {
                 findHint.style.display = 'block';
+                sendPartialModule31Data();
             } else {
                 showToast('الرجاء كتابة إجراءك أولاً.', true);
             }
         } else if (checkType === 'execute') {
             if (executeInput.value.trim()) {
                 executeHint.style.display = 'block';
+                sendPartialModule31Data();
             } else {
                 showToast('الرجاء كتابة خطة تنفيذك أولاً.', true);
             }
         }
         
-        saveModule31DataToLocal();
+        saveAnswersToLocal();
     });
 });
 
 // ============================================
-// تتبع التقدم
+// AUTO-SAVE ON INPUT
 // ============================================
-function updateSafeProgress() {
-    let completed = 0;
-    if (stopInput && stopInput.value.trim()) completed++;
-    if (assessInput && assessInput.value.trim()) completed++;
-    if (findInput && findInput.value.trim()) completed++;
-    if (executeInput && executeInput.value.trim()) completed++;
-    
-    const progressSpan = document.getElementById('safeProgress');
-    if (progressSpan) {
-        progressSpan.textContent = `${completed}/٤ مكتمل`;
-        if (completed === 4) {
-            progressSpan.className = 'progress-badge progress-complete';
-        } else {
-            progressSpan.className = 'progress-badge';
+function setupAutoSave() {
+    var inputs = ['stopInput', 'assessInput', 'findInput', 'executeInput'];
+    inputs.forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', function() {
+                saveAnswersToLocal();
+                updateSafeProgress();
+            });
         }
-    }
-    return completed === 4;
-}
-
-function getFlippedCardsStatus() {
-    const flipped = [];
-    document.querySelectorAll('.mindset-card.flipped').forEach(card => {
-        const scenario = card.getAttribute('data-scenario') || 'unknown';
-        flipped.push(scenario);
     });
-    return flipped;
 }
 
-function saveModule31DataToLocal() {
-    const data = {
-        stopReflection: stopInput ? stopInput.value : '',
-        assessReflection: assessInput ? assessInput.value : '',
-        findAction: findInput ? findInput.value : '',
-        executePlan: executeInput ? executeInput.value : '',
-        flippedCards: getFlippedCardsStatus(),
-        pauseUsed: pauseUsed,
-        hintsShown: {
-            stop: stopHint ? stopHint.style.display === 'block' : false,
-            assess: assessHint ? assessHint.style.display === 'block' : false,
-            find: findHint ? findHint.style.display === 'block' : false,
-            execute: executeHint ? executeHint.style.display === 'block' : false
-        },
-        lastUpdated: new Date().toISOString()
-    };
-    localStorage.setItem('module3_1_data' + storageSuffix, JSON.stringify(data));
-    updateSafeProgress();
-    updateFlipProgress();
-}
-
-function loadModule31Data() {
-    const saved = localStorage.getItem('module3_1_data' + storageSuffix);
+// ============================================
+// LOAD SAVED ANSWERS
+// ============================================
+function loadSavedAnswers() {
+    var saved = localStorage.getItem('module3_1_answers' + storageSuffix);
     if (saved) {
         try {
-            const data = JSON.parse(saved);
-            if (stopInput && data.stopReflection) stopInput.value = data.stopReflection;
-            if (assessInput && data.assessReflection) assessInput.value = data.assessReflection;
-            if (findInput && data.findAction) findInput.value = data.findAction;
-            if (executeInput && data.executePlan) executeInput.value = data.executePlan;
-            if (data.pauseUsed) pauseUsed = true;
-            if (data.hintsShown) {
-                if (data.hintsShown.stop && stopHint) stopHint.style.display = 'block';
-                if (data.hintsShown.assess && assessHint) assessHint.style.display = 'block';
-                if (data.hintsShown.find && findHint) findHint.style.display = 'block';
-                if (data.hintsShown.execute && executeHint) executeHint.style.display = 'block';
+            var data = JSON.parse(saved);
+            
+            if (data.q1 && data.q1 !== 'لم يجب' && stopInput) {
+                stopInput.value = data.q1;
+                if (stopInput.value.trim()) {
+                    stopHint.style.display = 'block';
+                }
             }
-            if (data.flippedCards && data.flippedCards.length) {
-                document.querySelectorAll('.mindset-card').forEach(card => {
-                    const scenario = card.getAttribute('data-scenario');
-                    if (data.flippedCards.includes(scenario)) {
+            if (data.q2 && data.q2 !== 'لم يجب' && assessInput) {
+                assessInput.value = data.q2;
+                if (assessInput.value.trim()) {
+                    assessHint.style.display = 'block';
+                }
+            }
+            if (data.q3 && data.q3 !== 'لم يجب' && findInput) {
+                findInput.value = data.q3;
+                if (findInput.value.trim()) {
+                    findHint.style.display = 'block';
+                }
+            }
+            if (data.q4 && data.q4 !== 'لم يجب' && executeInput) {
+                executeInput.value = data.q4;
+                if (executeInput.value.trim()) {
+                    executeHint.style.display = 'block';
+                }
+            }
+            if (data.q6 === 'Yes') {
+                pauseUsed = true;
+            }
+            
+            if (data.q5 && data.q5 !== 'لا شيء') {
+                var flippedScenarios = data.q5.split(', ');
+                document.querySelectorAll('.mindset-card').forEach(function(card) {
+                    var scenario = card.getAttribute('data-scenario');
+                    if (flippedScenarios.includes(scenario)) {
                         if (!card.classList.contains('flipped')) {
                             card.classList.add('flipped');
-                            const front = card.querySelector('.mindset-front');
-                            const back = card.querySelector('.mindset-back');
+                            var front = card.querySelector('.mindset-front');
+                            var back = card.querySelector('.mindset-back');
                             if (front) front.classList.add('hidden-content');
                             if (back) back.classList.remove('hidden-content');
                         }
                     }
                 });
             }
+            
             updateSafeProgress();
             updateFlipProgress();
         } catch(e) { console.warn(e); }
     }
 }
 
-if (stopInput) stopInput.addEventListener('input', saveModule31DataToLocal);
-if (assessInput) assessInput.addEventListener('input', saveModule31DataToLocal);
-if (findInput) findInput.addEventListener('input', saveModule31DataToLocal);
-if (executeInput) executeInput.addEventListener('input', saveModule31DataToLocal);
-loadModule31Data();
+// ============================================
+// تهيئة تاريخ التغييرات
+// ============================================
+function initializeHistoryTracking() {
+    if (!localStorage.getItem('module3_1_history_data' + storageSuffix)) {
+        const questionKeys = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6'];
+        const historyData = {};
+        questionKeys.forEach(key => {
+            historyData[key] = {
+                history: '',
+                changes: 0,
+                lastValue: ''
+            };
+        });
+        localStorage.setItem('module3_1_history_data' + storageSuffix, JSON.stringify(historyData));
+        console.log('✅ تم تهيئة تاريخ التغييرات لـ Module 3.1');
+    }
+}
 
 // ============================================
-// إرسال البيانات إلى Google Sheets
+// SEND DATA IMMEDIATELY - Like Module 1, 2, 3
 // ============================================
-function sendModule31DataToSheet() {
+function sendPartialModule31Data() {
     const userData = getUserData();
+    const answers = collectAllAnswers();
+    
+    const currentAnswers = {
+        q1: answers.q1,
+        q2: answers.q2,
+        q3: answers.q3,
+        q4: answers.q4,
+        q5: answers.q5,
+        q6: answers.q6
+    };
+    
+    let historyData = JSON.parse(localStorage.getItem('module3_1_history_data' + storageSuffix) || '{}');
+    
+    if (Object.keys(historyData).length === 0) {
+        const questionKeys = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6'];
+        questionKeys.forEach(key => {
+            historyData[key] = { history: '', changes: 0, lastValue: '' };
+        });
+    }
+    
+    let totalChanges = 0;
+    let hasAnyChange = false;
+    let changedFields = [];
+    
+    const questionMap = {
+        q1: 'س١_توقف_وتنفس',
+        q2: 'س٢_تقييم_الواقع',
+        q3: 'س٣_أصغر_إجراء',
+        q4: 'س٤_نفذ_وقيم',
+        q5: 'س٥_بطاقات_التقليب',
+        q6: 'س٦_التنفس_الموجه'
+    };
+    
+    // ✅ الأسئلة التي لا تعتبر تغييرات (مثل Module 2)
+    const noChangeKeys = ['q5'];  // ❌ Q5 (Flipped Cards) لا تعتبر تغييراً
+    
+    for (let key in questionMap) {
+        const currentValue = currentAnswers[key] || '';
+        const lastValue = historyData[key]?.lastValue || '';
+        const currentHistory = historyData[key]?.history || '';
+        const currentChanges = historyData[key]?.changes || 0;
+        const isNoChange = noChangeKeys.includes(key);
+        
+        if (currentValue && currentValue !== 'لم يجب' && currentValue !== 'لا شيء') {
+            if (lastValue && lastValue !== currentValue && !isNoChange) {
+                historyData[key] = {
+                    history: currentHistory ? currentHistory + '→' + currentValue : currentValue,
+                    changes: currentChanges + 1,
+                    lastValue: currentValue
+                };
+                hasAnyChange = true;
+                changedFields.push(questionMap[key]);
+                totalChanges += (currentChanges + 1);
+            } else if (!lastValue) {
+                historyData[key] = {
+                    history: currentValue,
+                    changes: 0,
+                    lastValue: currentValue
+                };
+                if (!isNoChange) {
+                    hasAnyChange = true;
+                    changedFields.push(questionMap[key] + ' (جديد)');
+                }
+                // ✅ Q5 (Flipped Cards): لا تعتبر تغييراً أبداً
+            }
+        }
+    }
+    
+    let totalChangesCount = 0;
+    for (let key in historyData) {
+        totalChangesCount += historyData[key]?.changes || 0;
+    }
+    
+    localStorage.setItem('module3_1_history_data' + storageSuffix, JSON.stringify(historyData));
+    
+    if (!hasAnyChange) {
+        console.log('⏭️ لا توجد تغييرات، تخطي الإرسال');
+        return;
+    }
+    
     const payload = {
         module: 'Module 3.1',
+        action: 'partial',
         language: 'ar',
         userName: userData.name,
         userEmail: userData.email,
         userPosition: userData.position,
         timestamp: new Date().toISOString(),
-        answers: {
-            safe_stop_reflection: stopInput ? stopInput.value : 'لم يجب',
-            safe_assess_reflection: assessInput ? assessInput.value : 'لم يجب',
-            safe_find_action: findInput ? findInput.value : 'لم يجب',
-            safe_execute_plan: executeInput ? executeInput.value : 'لم يجب',
-            flipped_cards: getFlippedCardsStatus().join(', ') || 'لا شيء',
-            pause_used: pauseUsed ? 'نعم' : 'لا'
-        }
+        answers: currentAnswers,
+        history: historyData,
+        changedFields: changedFields,
+        totalChanges: totalChangesCount,
+        isComplete: false
     };
     
-    console.log('📤 جاري إرسال بيانات الوحدة ٣.١ للمستخدم:', userData.name);
+    console.log('📤 إرسال بيانات Module 3.1 (جزئي):', payload);
     
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', GOOGLE_SCRIPT_URL, true);
-    xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
-    xhr.send(JSON.stringify(payload));
+    fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('✅ تم إرسال بيانات Module 3.1 بنجاح:', data);
+        localStorage.setItem('module3_1_last_sent_answers' + storageSuffix, JSON.stringify(currentAnswers));
+        showToast(`✅ تم الحفظ - التغييرات: ${totalChangesCount}`);
+    })
+    .catch(error => {
+        console.warn('⚠️ خطأ في الإرسال:', error);
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+        xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+        xhr.send(JSON.stringify(payload));
+    });
 }
 
-function goToNextModule() {
-    const allFlipped = updateFlipProgress();
-    const allSafeCompleted = updateSafeProgress();
+// ============================================
+// SEND FINAL DATA - Completed
+// ============================================
+function sendModule31DataToSheet() {
+    const userData = getUserData();
+    const answers = collectAllAnswers();
+    
+    const currentAnswers = {
+        q1: answers.q1,
+        q2: answers.q2,
+        q3: answers.q3,
+        q4: answers.q4,
+        q5: answers.q5,
+        q6: answers.q6
+    };
+    
+    let historyData = JSON.parse(localStorage.getItem('module3_1_history_data' + storageSuffix) || '{}');
+    
+    let totalChangesCount = 0;
+    for (let key in historyData) {
+        totalChangesCount += historyData[key]?.changes || 0;
+    }
+    
+    let changedFields = [];
+    const lastSentAnswers = JSON.parse(localStorage.getItem('module3_1_last_sent_answers' + storageSuffix) || '{}');
+    for (let key in currentAnswers) {
+        if (lastSentAnswers[key] !== undefined && currentAnswers[key] !== lastSentAnswers[key]) {
+            changedFields.push(key);
+        }
+    }
+    
+    const payload = {
+        module: 'Module 3.1',
+        action: 'completed',
+        language: 'ar',
+        userName: userData.name,
+        userEmail: userData.email,
+        userPosition: userData.position,
+        timestamp: new Date().toISOString(),
+        answers: currentAnswers,
+        history: historyData,
+        changedFields: changedFields,
+        totalChanges: totalChangesCount,
+        isComplete: true
+    };
+    
+    console.log('📤 إرسال بيانات Module 3.1 (مكتمل):', payload);
+    
+    return new Promise((resolve) => {
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('✅ Module 3.1 completed successfully:', data);
+            resolve(true);
+        })
+        .catch(() => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+            xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+            xhr.onload = () => resolve(true);
+            xhr.onerror = () => resolve(false);
+            xhr.send(JSON.stringify(payload));
+        });
+        setTimeout(() => resolve(true), 3000);
+    });
+}
+
+// ============================================
+// GO TO NEXT MODULE
+// ============================================
+async function goToNextModule() {
+    var allFlipped = updateFlipProgress();
+    var allSafeCompleted = updateSafeProgress();
     
     if (!allFlipped) {
         showToast('⚠️ الرجاء تقليب جميع البطاقات الأربعة قبل الانتقال إلى الوحدة ٤.', true);
@@ -898,39 +1031,55 @@ function goToNextModule() {
         return;
     }
     
-    saveModule31DataToLocal();
-    sendModule31DataToSheet();
-    localStorage.setItem('module3_1_completed' + storageSuffix, 'true');
-    showToast('جاري حفظ تقدمك...');
+    saveAnswersToLocal();
+    showToast('💾 جاري حفظ إجاباتك...');
     
-    setTimeout(() => {
-        window.location.href = 'module4.html';
-    }, 500);
+    const saved = await sendModule31DataToSheet();
+    
+    if (saved) {
+        localStorage.setItem('module3_1_completed' + storageSuffix, 'true');
+        showToast('✅ تم حفظ التقدم! جاري التحويل...');
+        setTimeout(function() {
+            window.location.href = 'module4.html';
+        }, 800);
+    } else {
+        localStorage.setItem('module3_1_completed' + storageSuffix, 'true');
+        showToast('⚠️ تم حفظ التقدم محلياً. جاري الاستمرار...', true);
+        setTimeout(function() {
+            window.location.href = 'module4.html';
+        }, 800);
+    }
 }
 
 // ============================================
-// التنقل
+// EVENT LISTENERS
 // ============================================
-document.addEventListener('DOMContentLoaded', () => {
-    const backBtn = document.getElementById('backToModule3Btn');
+document.addEventListener('DOMContentLoaded', function() {
+    initializeHistoryTracking();
+    loadSavedAnswers();
+    setupAutoSave();
+    
+    var backBtn = document.getElementById('backToModule3Btn');
     if (backBtn) {
-        backBtn.addEventListener('click', () => {
+        backBtn.addEventListener('click', function() {
             window.location.href = 'module3.html';
         });
     }
     
-    const nextBtn = document.getElementById('nextToModule4Btn');
+    var nextBtn = document.getElementById('nextToModule4Btn');
     if (nextBtn) {
         nextBtn.addEventListener('click', goToNextModule);
     }
     
-    const resetLink = document.getElementById('resetDataLink');
+    var resetLink = document.getElementById('resetDataLink');
     if (resetLink) {
-        resetLink.addEventListener('click', (e) => {
+        resetLink.addEventListener('click', function(e) {
             e.preventDefault();
             if (confirm('هل تريد إعادة ضبط جميع بيانات الوحدة ٣.١؟ لا يمكن التراجع عن هذا.')) {
-                localStorage.removeItem('module3_1_data' + storageSuffix);
+                localStorage.removeItem('module3_1_answers' + storageSuffix);
                 localStorage.removeItem('module3_1_completed' + storageSuffix);
+                localStorage.removeItem('module3_1_history_data' + storageSuffix);
+                localStorage.removeItem('module3_1_last_sent_answers' + storageSuffix);
                 location.reload();
             }
         });
