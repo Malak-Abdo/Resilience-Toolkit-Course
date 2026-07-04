@@ -860,7 +860,7 @@ function sendPartialModule31Data() {
     };
     
     // ✅ الأسئلة التي لا تعتبر تغييرات (مثل Module 2)
-    const noChangeKeys = ['q5'];  // ❌ Q5 (Flipped Cards) لا تعتبر تغييراً
+    const noChangeKeys = ['q5','q6'];  // ❌ Q5 (Flipped Cards) لا تعتبر تغييراً
     
     for (let key in questionMap) {
         const currentValue = currentAnswers[key] || '';
