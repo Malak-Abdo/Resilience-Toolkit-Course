@@ -1219,9 +1219,8 @@ document.getElementById('submitKeithQuiz').addEventListener('click', () => {
         showModelAnswer('fb2', '"إيجاد طريقة" هي تهرب من المسؤولية القيادية. القائد التكيفي يسأل: "ما الذي يجب أن نغيره في القواعد لحماية الناس هنا؟"');
     } else {
         fb2.innerHTML = '📝 تم حفظ تأملك. ';
-        showModelAnswer('fb2', 'قارن تفكيرك: علامة الخطر هي "التنصل من المسؤولية".');
+        showModelAnswer('fb2', 'قارن تفكيرك: علامة الخطر هي عدم المرونة والتكيف مع السياق المختلف. القائد التكيفي يسأل: "ما الذي يجب أن نغيره في القواعد لحماية الناس هنا؟"');  // ← هذا هو التغيير
     }
-
     let q3Val = document.getElementById('q3answer').value.trim();
     let fb3 = document.getElementById('fb3');
     fb3.style.display = 'block';
