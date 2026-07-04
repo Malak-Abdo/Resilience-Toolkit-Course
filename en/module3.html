@@ -346,7 +346,6 @@
             color: #2C5F7A;
         }
 
-        /* ========== MOBILE RESPONSIVE TEXT IMPROVEMENTS ========== */
         p {
             text-align: justify;
             word-wrap: break-word;
@@ -573,10 +572,10 @@ const storageSuffix = '_en';
 // ============================================
 // GOOGLE SHEETS WEB APP URL
 // ============================================
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwYI4XZ3_w2Mn1tNsBt6B0ldu9g5nRRb_M6hn98VzK-1ymOWGlrePTLfK8tuLwZN12Zug/exec';
 
 // ============================================
-// IMPROVED getUserData() - Looks for data WITHOUT suffix first (from registration)
+// IMPROVED getUserData()
 // ============================================
 function getUserData() {
     let name = 'Guest';
@@ -585,9 +584,6 @@ function getUserData() {
     
     console.log('🔍 Searching for user data in module3-en.html...');
     
-    // FIRST: Try to get user data WITHOUT suffix (from registration page)
-    
-    // 1. Check currentUser first - NO SUFFIX
     try {
         let currentUser = localStorage.getItem('currentUser');
         if (currentUser) {
@@ -598,7 +594,6 @@ function getUserData() {
                 position = (user.position || '').trim() || 'Not specified';
                 console.log('✅ Found from currentUser (no suffix):', name);
                 
-                // Save with suffix for future use
                 localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(user));
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
@@ -609,7 +604,6 @@ function getUserData() {
         }
     } catch(e) { console.error('Error parsing currentUser:', e); }
     
-    // 2. Check users array - NO SUFFIX
     try {
         let users = JSON.parse(localStorage.getItem('users') || '[]');
         if (Array.isArray(users) && users.length > 0) {
@@ -620,7 +614,6 @@ function getUserData() {
                 position = (lastUser.position || '').trim() || 'Not specified';
                 console.log('✅ Found from users array (no suffix):', name);
                 
-                // Save with suffix
                 localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(lastUser));
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
@@ -631,7 +624,6 @@ function getUserData() {
         }
     } catch(e) { console.error('Error parsing users:', e); }
     
-    // 3. Check individual fields - NO SUFFIX
     let n = localStorage.getItem('course_user_name');
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'Your Name' && n.trim() !== '') {
         name = n.trim();
@@ -639,7 +631,6 @@ function getUserData() {
         position = (localStorage.getItem('course_user_position') || 'Not specified').trim();
         console.log('✅ Found from individual fields (no suffix):', name);
         
-        // Save with suffix
         localStorage.setItem('course_user_name' + storageSuffix, name);
         localStorage.setItem('course_user_email' + storageSuffix, email);
         localStorage.setItem('course_user_position' + storageSuffix, position);
@@ -647,7 +638,6 @@ function getUserData() {
         return { name, email, position };
     }
     
-    // 4. Check course_user object - NO SUFFIX
     let user = localStorage.getItem('course_user');
     if (user) {
         try { 
@@ -658,7 +648,6 @@ function getUserData() {
                 position = (p.position || 'Not specified').trim();
                 console.log('✅ Found from course_user (no suffix):', name);
                 
-                // Save with suffix
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
                 localStorage.setItem('course_user_position' + storageSuffix, position);
@@ -668,7 +657,6 @@ function getUserData() {
         } catch(e) {}
     }
     
-    // 5. Check resilience_users array - NO SUFFIX
     let users = localStorage.getItem('resilience_users');
     if (users) {
         try { 
@@ -681,7 +669,6 @@ function getUserData() {
                         position = (p[i].position || 'Not specified').trim();
                         console.log('✅ Found from resilience_users (no suffix):', name);
                         
-                        // Save with suffix
                         localStorage.setItem('course_user_name' + storageSuffix, name);
                         localStorage.setItem('course_user_email' + storageSuffix, email);
                         localStorage.setItem('course_user_position' + storageSuffix, position);
@@ -693,7 +680,6 @@ function getUserData() {
         } catch(e) {}
     }
     
-    // 6. Finally, try WITH suffix (for returning users)
     n = localStorage.getItem('course_user_name' + storageSuffix);
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim() !== '') {
         name = n.trim();
@@ -703,7 +689,6 @@ function getUserData() {
         return { name, email, position };
     }
     
-    // 7. Try currentUser with suffix
     try {
         let currentUser = localStorage.getItem('currentUser' + storageSuffix);
         if (currentUser) {
@@ -722,7 +707,6 @@ function getUserData() {
     return { name: 'Guest', email: 'guest@example.com', position: 'Not specified' };
 }
 
-// Display user name in badge (silently)
 const currentUser = getUserData();
 const userBadge = document.getElementById('userBadge');
 if (userBadge) {
@@ -755,36 +739,52 @@ stepCards.forEach(card => {
     if (card.getAttribute('data-step') === '1') card.classList.add('active');
 });
 
-// Quiz state
-let answers = { first: null, smallest: null, assess: null, shift: null };
+// ============================================
+// COLLECT ANSWERS
+// ============================================
+function collectAllAnswers() {
+    const selFirst = document.querySelector('[data-q="first"] .quiz-option-item.selected');
+    const selSmallest = document.querySelector('[data-q="smallest"] .quiz-option-item.selected');
+    const selAssess = document.querySelector('[data-q="assess"] .quiz-option-item.selected');
+    const selShift = document.querySelector('[data-q="shift"] .quiz-option-item.selected');
+    
+    const first = selFirst ? selFirst.getAttribute('data-val') : 'Not answered';
+    const smallest = selSmallest ? selSmallest.getAttribute('data-val') : 'Not answered';
+    const assess = selAssess ? selAssess.getAttribute('data-val') : 'Not answered';
+    const shift = selShift ? selShift.getAttribute('data-val') : 'Not answered';
+    
+    return { first, smallest, assess, shift };
+}
 
-function updateProgress() {
+function saveAnswersToLocal() {
+    const answers = collectAllAnswers();
+    localStorage.setItem('module3_answers' + storageSuffix, JSON.stringify({ ...answers, lastUpdated: new Date().toISOString() }));
+}
+
+function updateQuizProgress() {
+    const answers = collectAllAnswers();
     let answered = 0;
-    if (answers.first) answered++;
-    if (answers.smallest) answered++;
-    if (answers.assess) answered++;
-    if (answers.shift) answered++;
+    if (answers.first !== 'Not answered') answered++;
+    if (answers.smallest !== 'Not answered') answered++;
+    if (answers.assess !== 'Not answered') answered++;
+    if (answers.shift !== 'Not answered') answered++;
     
     const progressSpan = document.getElementById('quizProgress');
     if (progressSpan) {
         progressSpan.textContent = `${answered}/4 answered`;
-        if (answered === 4) {
-            progressSpan.className = 'progress-badge progress-complete';
-        } else {
-            progressSpan.className = 'progress-badge';
-        }
+        progressSpan.className = answered === 4 ? 'progress-badge progress-complete' : 'progress-badge';
     }
     return answered === 4;
 }
 
-// Bind option clicks
-function bindOptionClick(selector, key) {
+// ============================================
+// BIND OPTION CLICKS
+// ============================================
+function bindOptionClick(selector) {
     const group = document.querySelector(selector);
     if (!group) return;
     group.querySelectorAll('.quiz-option-item').forEach(opt => {
         opt.addEventListener('click', () => {
-            const val = opt.getAttribute('data-val');
-            answers[key] = val;
             group.querySelectorAll('.quiz-option-item').forEach(o => {
                 o.classList.remove('selected');
                 const marker = o.querySelector('.quiz-option-marker');
@@ -794,18 +794,21 @@ function bindOptionClick(selector, key) {
             const marker = opt.querySelector('.quiz-option-marker');
             if (marker) marker.textContent = '●';
             
-            localStorage.setItem('module3_answers' + storageSuffix, JSON.stringify(answers));
-            updateProgress();
+            saveAnswersToLocal();
+            updateQuizProgress();
+            sendPartialModule3Data();
         });
     });
 }
 
-bindOptionClick('[data-q="first"]', 'first');
-bindOptionClick('[data-q="smallest"]', 'smallest');
-bindOptionClick('[data-q="assess"]', 'assess');
-bindOptionClick('[data-q="shift"]', 'shift');
+bindOptionClick('[data-q="first"]');
+bindOptionClick('[data-q="smallest"]');
+bindOptionClick('[data-q="assess"]');
+bindOptionClick('[data-q="shift"]');
 
-// Show static feedback when check button is clicked
+// ============================================
+// SHOW STATIC FEEDBACK
+// ============================================
 function showStaticFeedback(fbId, isCorrect, message, hintText) {
     const fb = document.getElementById(fbId);
     if (fb) {
@@ -818,7 +821,9 @@ function showStaticFeedback(fbId, isCorrect, message, hintText) {
     }
 }
 
-// Check Answer buttons
+// ============================================
+// CHECK ANSWER BUTTONS
+// ============================================
 document.querySelectorAll('.check-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         const qNum = btn.getAttribute('data-q');
@@ -831,8 +836,9 @@ document.querySelectorAll('.check-btn').forEach(btn => {
             } else if (selectedVal) {
                 showStaticFeedback('fb1', false, 'The correct answer is "Stop and breathe".', 'The first step is to interrupt the panic response.');
             } else {
-                showStaticFeedback('fb1', false, 'Please select an answer first. The correct answer is "Stop and breathe".', 'The first step is to interrupt the panic response.');
+                showStaticFeedback('fb1', false, 'Please select an answer first.', 'The first step is to interrupt the panic response.');
             }
+            sendPartialModule3Data();
         }
         else if (qNum === '2') {
             const selected = document.querySelector('[data-q="smallest"] .quiz-option-item.selected');
@@ -844,6 +850,7 @@ document.querySelectorAll('.check-btn').forEach(btn => {
             } else {
                 showStaticFeedback('fb2', false, 'Please select an answer first.', 'The smallest feasible action is something you CAN do right now.');
             }
+            sendPartialModule3Data();
         }
         else if (qNum === '3') {
             const selected = document.querySelector('[data-q="assess"] .quiz-option-item.selected');
@@ -855,6 +862,7 @@ document.querySelectorAll('.check-btn').forEach(btn => {
             } else {
                 showStaticFeedback('fb3', false, 'Please select an answer first.', 'Crisis brains inflate threats and ignore available resources.');
             }
+            sendPartialModule3Data();
         }
         else if (qNum === '4') {
             const selected = document.querySelector('[data-q="shift"] .quiz-option-item.selected');
@@ -866,57 +874,215 @@ document.querySelectorAll('.check-btn').forEach(btn => {
             } else {
                 showStaticFeedback('fb4', false, 'Please select an answer first.', 'The S.A.F.E. Framework targets the Panic and Paralysis mindset.');
             }
+            sendPartialModule3Data();
         }
     });
 });
 
-// Load saved answers
-const savedAnswers = localStorage.getItem('module3_answers' + storageSuffix);
-if (savedAnswers) {
-    try {
-        const data = JSON.parse(savedAnswers);
-        answers = data;
-        for (let [key, val] of Object.entries(data)) {
-            if (val) {
-                let selector = '';
-                if (key === 'first') selector = '[data-q="first"]';
-                else if (key === 'smallest') selector = '[data-q="smallest"]';
-                else if (key === 'assess') selector = '[data-q="assess"]';
-                else if (key === 'shift') selector = '[data-q="shift"]';
-                const opt = document.querySelector(`${selector} .quiz-option-item[data-val="${val}"]`);
-                if (opt) {
-                    opt.classList.add('selected');
-                    const marker = opt.querySelector('.quiz-option-marker');
-                    if (marker) marker.textContent = '●';
+// ============================================
+// LOAD SAVED ANSWERS
+// ============================================
+function loadSavedAnswers() {
+    const saved = localStorage.getItem('module3_answers' + storageSuffix);
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            const mapping = {
+                first: '[data-q="first"]',
+                smallest: '[data-q="smallest"]',
+                assess: '[data-q="assess"]',
+                shift: '[data-q="shift"]'
+            };
+            for (let [key, selector] of Object.entries(mapping)) {
+                if (data[key] && data[key] !== 'Not answered') {
+                    const opt = document.querySelector(`${selector} .quiz-option-item[data-val="${data[key]}"]`);
+                    if (opt) {
+                        opt.classList.add('selected');
+                        const marker = opt.querySelector('.quiz-option-marker');
+                        if (marker) marker.textContent = '●';
+                    }
                 }
             }
-        }
-        updateProgress();
-    } catch(e) {}
+        } catch(e) {}
+    }
+    updateQuizProgress();
 }
 
 // ============================================
-// SEND DATA TO GOOGLE SHEETS
+// تهيئة تاريخ التغييرات
 // ============================================
-function sendModule3DataToSheet() {
+function initializeHistoryTracking() {
+    if (!localStorage.getItem('module3_history_data' + storageSuffix)) {
+        const questionKeys = ['q1', 'q2', 'q3', 'q4'];
+        const historyData = {};
+        questionKeys.forEach(key => {
+            historyData[key] = {
+                history: '',
+                changes: 0,
+                lastValue: ''
+            };
+        });
+        localStorage.setItem('module3_history_data' + storageSuffix, JSON.stringify(historyData));
+        console.log('✅ تم تهيئة تاريخ التغييرات لـ Module 3');
+    }
+}
+
+// ============================================
+// SEND DATA IMMEDIATELY - Like Module 1 & 2
+// ============================================
+function sendPartialModule3Data() {
     const userData = getUserData();
+    const answers = collectAllAnswers();
+    
+    const currentAnswers = {
+        q1: answers.first,
+        q2: answers.smallest,
+        q3: answers.assess,
+        q4: answers.shift
+    };
+    
+    let historyData = JSON.parse(localStorage.getItem('module3_history_data' + storageSuffix) || '{}');
+    
+    if (Object.keys(historyData).length === 0) {
+        const questionKeys = ['q1', 'q2', 'q3', 'q4'];
+        questionKeys.forEach(key => {
+            historyData[key] = { history: '', changes: 0, lastValue: '' };
+        });
+    }
+    
+    let totalChanges = 0;
+    let hasAnyChange = false;
+    let changedFields = [];
+    
+    const questionMap = {
+        q1: 'Q1_SAFE_First_Step',
+        q2: 'Q2_Smallest_Action',
+        q3: 'Q3_Assess_Reality',
+        q4: 'Q4_Mindset_Shift'
+    };
+    
+    for (let key in questionMap) {
+        const currentValue = currentAnswers[key] || '';
+        const lastValue = historyData[key]?.lastValue || '';
+        const currentHistory = historyData[key]?.history || '';
+        const currentChanges = historyData[key]?.changes || 0;
+        
+        if (currentValue && currentValue !== 'Not answered') {
+            if (lastValue && lastValue !== currentValue) {
+                historyData[key] = {
+                    history: currentHistory ? currentHistory + '→' + currentValue : currentValue,
+                    changes: currentChanges + 1,
+                    lastValue: currentValue
+                };
+                hasAnyChange = true;
+                changedFields.push(questionMap[key]);
+                totalChanges += (currentChanges + 1);
+            } else if (!lastValue) {
+                historyData[key] = {
+                    history: currentValue,
+                    changes: 0,
+                    lastValue: currentValue
+                };
+                hasAnyChange = true;
+                changedFields.push(questionMap[key] + ' (NEW)');
+            }
+        }
+    }
+    
+    let totalChangesCount = 0;
+    for (let key in historyData) {
+        totalChangesCount += historyData[key]?.changes || 0;
+    }
+    
+    localStorage.setItem('module3_history_data' + storageSuffix, JSON.stringify(historyData));
+    
+    if (!hasAnyChange) {
+        console.log('⏭️ No changes detected, skipping send');
+        return;
+    }
     
     const payload = {
         module: 'Module 3',
+        action: 'partial',
         language: 'en',
         userName: userData.name,
         userEmail: userData.email,
         userPosition: userData.position,
         timestamp: new Date().toISOString(),
-        answers: {
-            q1_safe_first_step: answers.first || 'Not answered',
-            q2_smallest_feasible_action: answers.smallest || 'Not answered',
-            q3_assess_reality: answers.assess || 'Not answered',
-            q4_mindset_shift: answers.shift || 'Not answered'
-        }
+        answers: currentAnswers,
+        history: historyData,
+        changedFields: changedFields,
+        totalChanges: totalChangesCount,
+        isComplete: false
     };
     
-    console.log('📤 Sending Module 3 data:', payload);
+    console.log('📤 Sending Module 3 data (partial):', payload);
+    
+    fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('✅ Module 3 data sent successfully:', data);
+        localStorage.setItem('module3_last_sent_answers' + storageSuffix, JSON.stringify(currentAnswers));
+        showToast(`✅ Saved - Changes: ${totalChangesCount}`);
+    })
+    .catch(error => {
+        console.warn('⚠️ Error sending data:', error);
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+        xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+        xhr.send(JSON.stringify(payload));
+    });
+}
+
+// ============================================
+// SEND FINAL DATA - Completed
+// ============================================
+function sendModule3DataToSheet() {
+    const userData = getUserData();
+    const answers = collectAllAnswers();
+    
+    const currentAnswers = {
+        q1: answers.first,
+        q2: answers.smallest,
+        q3: answers.assess,
+        q4: answers.shift
+    };
+    
+    let historyData = JSON.parse(localStorage.getItem('module3_history_data' + storageSuffix) || '{}');
+    
+    let totalChangesCount = 0;
+    for (let key in historyData) {
+        totalChangesCount += historyData[key]?.changes || 0;
+    }
+    
+    let changedFields = [];
+    const lastSentAnswers = JSON.parse(localStorage.getItem('module3_last_sent_answers' + storageSuffix) || '{}');
+    for (let key in currentAnswers) {
+        if (lastSentAnswers[key] !== undefined && currentAnswers[key] !== lastSentAnswers[key]) {
+            changedFields.push(key);
+        }
+    }
+    
+    const payload = {
+        module: 'Module 3',
+        action: 'completed',
+        language: 'en',
+        userName: userData.name,
+        userEmail: userData.email,
+        userPosition: userData.position,
+        timestamp: new Date().toISOString(),
+        answers: currentAnswers,
+        history: historyData,
+        changedFields: changedFields,
+        totalChanges: totalChangesCount,
+        isComplete: true
+    };
+    
+    console.log('📤 Sending Module 3 data (Completed):', payload);
     
     return new Promise((resolve) => {
         fetch(GOOGLE_SCRIPT_URL, {
@@ -924,7 +1090,11 @@ function sendModule3DataToSheet() {
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(payload)
         })
-        .then(() => { console.log('✅ Module 3 data sent'); resolve(true); })
+        .then(response => response.json())
+        .then(data => {
+            console.log('✅ Module 3 completed successfully:', data);
+            resolve(true);
+        })
         .catch(() => {
             const xhr = new XMLHttpRequest();
             xhr.open('POST', GOOGLE_SCRIPT_URL, true);
@@ -941,38 +1111,53 @@ function sendModule3DataToSheet() {
 // GO TO NEXT MODULE
 // ============================================
 async function goToNextModule() {
-    const allAnswered = updateProgress();
+    const allAnswered = updateQuizProgress();
     
     if (!allAnswered) {
         showToast('⚠️ Please answer all 4 questions before continuing to Module 3.1.', true);
         return;
     }
     
-    localStorage.setItem('module3_answers' + storageSuffix, JSON.stringify(answers));
-    localStorage.setItem('module3_completed' + storageSuffix, 'true');
-    
+    saveAnswersToLocal();
     showToast('💾 Saving your answers...');
     
-    await sendModule3DataToSheet();
-    showToast('✅ Progress saved! Redirecting...');
+    const saved = await sendModule3DataToSheet();
     
-    setTimeout(() => { window.location.href = 'module3.1.html'; }, 800);
+    if (saved) {
+        localStorage.setItem('module3_completed' + storageSuffix, 'true');
+        showToast('✅ Progress saved! Redirecting...');
+        setTimeout(() => { window.location.href = 'module3.1.html'; }, 800);
+    } else {
+        localStorage.setItem('module3_completed' + storageSuffix, 'true');
+        showToast('⚠️ Progress saved locally. Continuing...', true);
+        setTimeout(() => { window.location.href = 'module3.1.html'; }, 800);
+    }
 }
 
-// Back button now works correctly
+// ============================================
+// EVENT LISTENERS
+// ============================================
 document.getElementById('backToModule2Btn')?.addEventListener('click', () => {
     window.location.href = 'module2.html';
 });
+
 document.getElementById('nextToModule4Btn')?.addEventListener('click', goToNextModule);
+
 document.getElementById('resetDataLink')?.addEventListener('click', () => { 
-    if(confirm('Reset Module 3 progress?')) { 
-        localStorage.removeItem('module3_answers' + storageSuffix); 
+    if(confirm('Reset Module 3 progress? This cannot be undone.')) { 
+        localStorage.removeItem('module3_answers' + storageSuffix);
         localStorage.removeItem('module3_completed' + storageSuffix);
+        localStorage.removeItem('module3_history_data' + storageSuffix);
+        localStorage.removeItem('module3_last_sent_answers' + storageSuffix);
         location.reload(); 
     } 
 });
 
-updateProgress();
+// ============================================
+// INITIALIZE
+// ============================================
+loadSavedAnswers();
+initializeHistoryTracking();
 </script>
 </body>
 </html>
