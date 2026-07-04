@@ -1051,51 +1051,24 @@ function escapeHtml(str) {
 }
 
 function bindEvents() {
-    document.querySelectorAll('[data-q="manager"] .quiz-option, [data-q="shift"] .quiz-option, [data-q="account"] .quiz-option').forEach(opt => {
-        opt.addEventListener('click', () => {
-            const parent = opt.parentElement;
-            parent.querySelectorAll('.quiz-option').forEach(o => { 
-                o.classList.remove('selected'); 
-                const m = o.querySelector('.option-marker'); 
-                if (m) m.textContent = '○'; 
-            });
-            opt.classList.add('selected'); 
-            const marker = opt.querySelector('.option-marker'); 
-            if (marker) marker.textContent = '●';
-            
-            const qParent = opt.closest('.quiz-card');
-            if (qParent && qParent.querySelector('[data-q="manager"]')) {
-                const selectedVal = opt.getAttribute('data-val');
-                const fbDiv = document.getElementById('managerFb1');
-                const isCorrect = (selectedVal === 'Victim');
-                fbDiv.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
-                fbDiv.innerHTML = isCorrect ? '✅ <strong>Correct!</strong> The manager is exhibiting the Victim mindset — focusing on what\'s impossible.' : '❌ <strong>Incorrect.</strong> The correct answer is "Victim". The statement reflects a victim frame.';
-                fbDiv.style.display = 'block';
-                sendPartialModule2Data();
-            } else if (qParent && qParent.querySelector('[data-q="shift"]')) {
-                const selectedVal = opt.getAttribute('data-val');
-                const fbDiv = document.getElementById('managerFb2');
-                const isCorrect = (selectedVal === 'Victim → Agent');
-                fbDiv.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
-                fbDiv.innerHTML = isCorrect ? '✅ <strong>Correct!</strong> Shift from Victim to Agent — asking "What actions remain possible?"' : '❌ <strong>Incorrect.</strong> The correct shift is "Victim → Agent".';
-                fbDiv.style.display = 'block';
-                sendPartialModule2Data();
-            } else if (qParent && qParent.querySelector('[data-q="account"]')) {
-                const selectedVal = opt.getAttribute('data-val');
-                const correctVal = "I made an assumption. I was wrong. That is on me.";
-                const fbDiv = document.getElementById('accountabilityFeedback');
-                const isCorrect = (selectedVal === correctVal);
-                fbDiv.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
-                fbDiv.innerHTML = isCorrect ? '✅ <strong>Correct!</strong> True accountability means owning the mistake.' : '❌ <strong>Incorrect.</strong> The correct answer is: "I made an assumption. I was wrong. That is on me."';
-                fbDiv.style.display = 'block';
-                sendPartialModule2Data();
-            }
-            
-            saveAnswersToLocal();
-            updateQuizProgress();
+   document.querySelectorAll('[data-q="manager"] .quiz-option, [data-q="shift"] .quiz-option, [data-q="account"] .quiz-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+        const parent = opt.parentElement;
+        parent.querySelectorAll('.quiz-option').forEach(o => { 
+            o.classList.remove('selected'); 
+            const m = o.querySelector('.option-marker'); 
+            if (m) m.textContent = '○'; 
         });
+        opt.classList.add('selected'); 
+        const marker = opt.querySelector('.option-marker'); 
+        if (marker) marker.textContent = '●';
+        
+        // ✅ إزالة الإجابات النموذجية - فقط إرسال البيانات
+        saveAnswersToLocal();
+        updateQuizProgress();
+        sendPartialModule2Data(); // ✅ إرسال البيانات فوراً
     });
-    
+});
     document.querySelectorAll('.mindset-card').forEach(card => {
         card.addEventListener('click', function() {
             this.classList.toggle('flipped');
