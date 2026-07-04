@@ -1291,11 +1291,13 @@ document.querySelectorAll('.poll-item').forEach(item => {
     item.addEventListener('click', function() { this.classList.toggle('selected'); saveAnswersToLocal(); });
 });
 
+// ✅ ADDED: sendPartialModule1Data() to Submit Poll
 document.getElementById('submitPollBtn').addEventListener('click', () => {
     let count = document.querySelectorAll('.poll-item.selected').length;
     document.getElementById('pollFeedback').innerHTML = `You selected ${count} constraint(s). Thank you!`;
     document.getElementById('pollFeedback').style.display = 'block';
     saveAnswersToLocal();
+    sendPartialModule1Data(); // ✅ إرسال البيانات فوراً
 });
 
 document.querySelectorAll('#q1 .quiz-option, #q4 .quiz-option').forEach(opt => {
@@ -1307,6 +1309,7 @@ document.querySelectorAll('#q1 .quiz-option, #q4 .quiz-option').forEach(opt => {
     });
 });
 
+// ✅ ADDED: sendPartialModule1Data() to Submit Keith Quiz
 document.getElementById('submitKeithQuiz').addEventListener('click', () => {
     let q1Val = document.querySelector('#q1 .quiz-option.selected')?.getAttribute('data-val');
     let fb1 = document.getElementById('fb1');
@@ -1350,6 +1353,7 @@ document.getElementById('submitKeithQuiz').addEventListener('click', () => {
     document.getElementById('keithDiagnosis').style.display = 'block';
     saveAnswersToLocal();
     updateKeithProgress();
+    sendPartialModule1Data(); // ✅ إرسال البيانات فوراً
 });
 
 document.querySelectorAll('#leylaQ1 .quiz-option').forEach(opt => {
@@ -1386,6 +1390,7 @@ document.querySelectorAll('.match-option').forEach(opt => {
     });
 });
 
+// ✅ ADDED: sendPartialModule1Data() to Check Matches
 document.getElementById('checkMatchesBtn').addEventListener('click', () => {
     const blameSelected = document.querySelector('[data-action="blame"] .match-option.selected');
     const waitHQSelected = document.querySelector('[data-action="waitHQ"] .match-option.selected');
@@ -1417,6 +1422,7 @@ document.getElementById('checkMatchesBtn').addEventListener('click', () => {
     
     saveAnswersToLocal();
     updateLeylaProgress();
+    sendPartialModule1Data(); // ✅ إرسال البيانات فوراً
 });
 
 // ============================================
@@ -1528,6 +1534,7 @@ document.querySelectorAll('.check-btn').forEach(btn => {
     });
 });
 
+// ✅ ADDED: sendPartialModule1Data() to Submit Leyla Quiz
 document.getElementById('submitLeylaQuiz').addEventListener('click', () => {
     let selectedHotspot = document.querySelector('.hotspot-item.selected')?.getAttribute('data-hotspot');
     let hotspotFb = document.getElementById('hotspotFeedback');
@@ -1553,6 +1560,7 @@ document.getElementById('submitLeylaQuiz').addEventListener('click', () => {
     
     saveAnswersToLocal();
     updateLeylaProgress();
+    sendPartialModule1Data(); // ✅ إرسال البيانات فوراً
 });
 
 document.getElementById('continueToModule2Btn').addEventListener('click', goToModule2);
