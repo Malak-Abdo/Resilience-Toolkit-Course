@@ -266,7 +266,6 @@
             border-left: 3px solid #D32F2F;
         }
 
-        /* ========== MOBILE RESPONSIVE TEXT IMPROVEMENTS ========== */
         p {
             text-align: justify;
             word-wrap: break-word;
@@ -459,11 +458,11 @@
         <thead>
             <tr><th>Limiting Frame</th><th>Adaptive Frame</th><th>Reframe Question</th> </thead>
         <tbody>
-            <tr><td>Victim</div><td>Agent</div><td>"What actions remain possible?"</div> </tr>
-            <tr><td>Scarcity</div><td>Abundance</div><td>"What is the smallest feasible action?"</div> </tr>
-            <tr><td>Panic</div><td>Curious</div><td>"What is the highest-priority threat?"</div> </tr>
-            <tr><td>Fixed</div><td>Growth</div><td>"Who possesses relevant competence?"</div> </tr>
-            <tr><td>Expert</div><td>Beginner</div><td>"What assumptions have changed?"</div> </tr>
+            <tr><td>Victim</td><td>Agent</td><td>"What actions remain possible?"</td> </tr>
+            <tr><td>Scarcity</td><td>Abundance</td><td>"What is the smallest feasible action?"</td> </tr>
+            <tr><td>Panic</td><td>Curious</td><td>"What is the highest-priority threat?"</td> </tr>
+            <tr><td>Fixed</td><td>Growth</td><td>"Who possesses relevant competence?"</td> </tr>
+            <tr><td>Expert</td><td>Beginner</td><td>"What assumptions have changed?"</td> </tr>
         </tbody>
       </table>
     
@@ -573,12 +572,12 @@
 const storageSuffix = '_en';
 
 // ============================================
-// GOOGLE SHEETS WEB APP URL - SAME AS MODULE 1
+// GOOGLE SHEETS WEB APP URL
 // ============================================
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbylF2X6XfxJIPQ77YyDaICfdYQe_aRad_64ssVtTAezsVV09R86ArUKagYWLaTpDHwrMA/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwt5SMtOYR4EPBqr0wIBLwYRe6trt0F0C2d_JtxECdKnwNoWGUQKV-sALDm6pRNBVkVlQ/exec';
 
 // ============================================
-// IMPROVED getUserData() - Looks for data WITHOUT suffix first (from registration)
+// IMPROVED getUserData()
 // ============================================
 function getUserData() {
     let name = 'Guest';
@@ -587,9 +586,6 @@ function getUserData() {
     
     console.log('🔍 Searching for user data in module2-en.html...');
     
-    // FIRST: Try to get user data WITHOUT suffix (from registration page)
-    
-    // 1. Check currentUser first - NO SUFFIX
     try {
         let currentUser = localStorage.getItem('currentUser');
         if (currentUser) {
@@ -600,7 +596,6 @@ function getUserData() {
                 position = (user.position || '').trim() || 'Not specified';
                 console.log('✅ Found from currentUser (no suffix):', name);
                 
-                // Save with suffix for future use
                 localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(user));
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
@@ -611,7 +606,6 @@ function getUserData() {
         }
     } catch(e) { console.error('Error parsing currentUser:', e); }
     
-    // 2. Check users array - NO SUFFIX
     try {
         let users = JSON.parse(localStorage.getItem('users') || '[]');
         if (Array.isArray(users) && users.length > 0) {
@@ -622,7 +616,6 @@ function getUserData() {
                 position = (lastUser.position || '').trim() || 'Not specified';
                 console.log('✅ Found from users array (no suffix):', name);
                 
-                // Save with suffix
                 localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(lastUser));
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
@@ -633,7 +626,6 @@ function getUserData() {
         }
     } catch(e) { console.error('Error parsing users:', e); }
     
-    // 3. Check individual fields - NO SUFFIX
     let n = localStorage.getItem('course_user_name');
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'Your Name' && n.trim() !== '') {
         name = n.trim();
@@ -641,7 +633,6 @@ function getUserData() {
         position = (localStorage.getItem('course_user_position') || 'Not specified').trim();
         console.log('✅ Found from individual fields (no suffix):', name);
         
-        // Save with suffix
         localStorage.setItem('course_user_name' + storageSuffix, name);
         localStorage.setItem('course_user_email' + storageSuffix, email);
         localStorage.setItem('course_user_position' + storageSuffix, position);
@@ -649,7 +640,6 @@ function getUserData() {
         return { name, email, position };
     }
     
-    // 4. Check course_user object - NO SUFFIX
     let user = localStorage.getItem('course_user');
     if (user) {
         try { 
@@ -660,7 +650,6 @@ function getUserData() {
                 position = (p.position || 'Not specified').trim();
                 console.log('✅ Found from course_user (no suffix):', name);
                 
-                // Save with suffix
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
                 localStorage.setItem('course_user_position' + storageSuffix, position);
@@ -670,7 +659,6 @@ function getUserData() {
         } catch(e) {}
     }
     
-    // 5. Check resilience_users array - NO SUFFIX
     let users = localStorage.getItem('resilience_users');
     if (users) {
         try { 
@@ -683,7 +671,6 @@ function getUserData() {
                         position = (p[i].position || 'Not specified').trim();
                         console.log('✅ Found from resilience_users (no suffix):', name);
                         
-                        // Save with suffix
                         localStorage.setItem('course_user_name' + storageSuffix, name);
                         localStorage.setItem('course_user_email' + storageSuffix, email);
                         localStorage.setItem('course_user_position' + storageSuffix, position);
@@ -695,7 +682,6 @@ function getUserData() {
         } catch(e) {}
     }
     
-    // 6. Finally, try WITH suffix (for returning users)
     n = localStorage.getItem('course_user_name' + storageSuffix);
     if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim() !== '') {
         name = n.trim();
@@ -705,7 +691,6 @@ function getUserData() {
         return { name, email, position };
     }
     
-    // 7. Try currentUser with suffix
     try {
         let currentUser = localStorage.getItem('currentUser' + storageSuffix);
         if (currentUser) {
@@ -788,24 +773,218 @@ function saveAnswersToLocal() {
 }
 
 // ============================================
-// SEND DATA TO GOOGLE SHEETS
+// تهيئة تاريخ التغييرات
 // ============================================
-function sendModule2DataToSheet() {
+function initializeHistoryTracking() {
+    if (!localStorage.getItem('module2_history_data' + storageSuffix)) {
+        const questionKeys = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9'];
+        const historyData = {};
+        questionKeys.forEach(key => {
+            historyData[key] = {
+                history: '',
+                changes: 0,
+                lastValue: ''
+            };
+        });
+        localStorage.setItem('module2_history_data' + storageSuffix, JSON.stringify(historyData));
+        console.log('✅ تم تهيئة تاريخ التغييرات لـ Module 2');
+    }
+}
+
+// ============================================
+// SEND DATA IMMEDIATELY - Like Module 1
+// ============================================
+function sendPartialModule2Data() {
     const userData = getUserData();
-    const answers = collectAllAnswers();
     
-    const payload = { 
-        module: 'Module 2', 
-        action: 'completed',
-        language: 'en', 
+    let flippedCards = [];
+    document.querySelectorAll('.mindset-card').forEach(card => {
+        if (card.classList.contains('flipped')) {
+            flippedCards.push(card.getAttribute('data-mindset') || 'unknown');
+        }
+    });
+    
+    const selMgr = document.querySelector('[data-q="manager"] .quiz-option.selected');
+    const selShift = document.querySelector('[data-q="shift"] .quiz-option.selected');
+    const selAcct = document.querySelector('[data-q="account"] .quiz-option.selected');
+    
+    const managerMindset = selMgr ? selMgr.getAttribute('data-val') : 'Not answered';
+    const mindsetShift = selShift ? selShift.getAttribute('data-val') : 'Not answered';
+    const accountability = selAcct ? selAcct.getAttribute('data-val') : 'Not answered';
+    
+    // Map answers to q1, q2, q3... format for consistency
+    const currentAnswers = {
+        q1: managerMindset,
+        q2: mindsetShift,
+        q3: accountability,
+        q4: flippedCards.includes('victim') ? 'Yes' : 'No',
+        q5: flippedCards.includes('scarcity') ? 'Yes' : 'No',
+        q6: flippedCards.includes('panic') ? 'Yes' : 'No',
+        q7: flippedCards.includes('fixed') ? 'Yes' : 'No',
+        q8: flippedCards.includes('expert') ? 'Yes' : 'No',
+        q9: flippedCards.join(', ') || 'None'
+    };
+    
+    let historyData = JSON.parse(localStorage.getItem('module2_history_data' + storageSuffix) || '{}');
+    
+    if (Object.keys(historyData).length === 0) {
+        const questionKeys = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9'];
+        questionKeys.forEach(key => {
+            historyData[key] = { history: '', changes: 0, lastValue: '' };
+        });
+    }
+    
+    let totalChanges = 0;
+    let hasAnyChange = false;
+    let changedFields = [];
+    
+    const questionMap = {
+        q1: 'Q1_ManagerMindset', q2: 'Q2_MindsetShift', q3: 'Q3_Accountability',
+        q4: 'Q4_VictimFlipped', q5: 'Q5_ScarcityFlipped', q6: 'Q6_PanicFlipped',
+        q7: 'Q7_FixedFlipped', q8: 'Q8_ExpertFlipped', q9: 'Q9_AllFlipped'
+    };
+    
+    for (let key in questionMap) {
+        const currentValue = currentAnswers[key] || '';
+        const lastValue = historyData[key]?.lastValue || '';
+        const currentHistory = historyData[key]?.history || '';
+        const currentChanges = historyData[key]?.changes || 0;
+        
+        if (currentValue && currentValue !== 'Not answered' && currentValue !== 'None') {
+            if (lastValue && lastValue !== currentValue) {
+                historyData[key] = {
+                    history: currentHistory ? currentHistory + '→' + currentValue : currentValue,
+                    changes: currentChanges + 1,
+                    lastValue: currentValue
+                };
+                hasAnyChange = true;
+                changedFields.push(questionMap[key]);
+                totalChanges += (currentChanges + 1);
+            } else if (!lastValue) {
+                historyData[key] = {
+                    history: currentValue,
+                    changes: 0,
+                    lastValue: currentValue
+                };
+                hasAnyChange = true;
+                changedFields.push(questionMap[key] + ' (NEW)');
+            }
+        }
+    }
+    
+    let totalChangesCount = 0;
+    for (let key in historyData) {
+        totalChangesCount += historyData[key]?.changes || 0;
+    }
+    
+    localStorage.setItem('module2_history_data' + storageSuffix, JSON.stringify(historyData));
+    
+    if (!hasAnyChange) {
+        console.log('⏭️ لا توجد تغييرات، تخطي الإرسال');
+        return;
+    }
+    
+    const payload = {
+        module: 'Module 2',
+        action: 'partial',
+        language: 'en',
         userName: userData.name,
         userEmail: userData.email,
         userPosition: userData.position,
-        timestamp: new Date().toISOString(), 
-        answers: answers 
+        timestamp: new Date().toISOString(),
+        answers: currentAnswers,
+        history: historyData,
+        changedFields: changedFields,
+        totalChanges: totalChangesCount,
+        isComplete: false
     };
     
-    console.log('📤 Sending Module 2 data:', payload);
+    console.log('📤 إرسال بيانات Module 2 (جزئي):', payload);
+    
+    fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('✅ تم إرسال بيانات Module 2 بنجاح:', data);
+        localStorage.setItem('module2_last_sent_answers' + storageSuffix, JSON.stringify(currentAnswers));
+        showToast(`✅ تم الحفظ - التغييرات: ${totalChangesCount}`);
+    })
+    .catch(error => {
+        console.warn('⚠️ خطأ في الإرسال:', error);
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+        xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+        xhr.send(JSON.stringify(payload));
+    });
+}
+
+// ============================================
+// SEND FINAL DATA - Completed
+// ============================================
+function sendModule2DataToSheet() {
+    const userData = getUserData();
+    
+    let flippedCards = [];
+    document.querySelectorAll('.mindset-card').forEach(card => {
+        if (card.classList.contains('flipped')) {
+            flippedCards.push(card.getAttribute('data-mindset') || 'unknown');
+        }
+    });
+    
+    const selMgr = document.querySelector('[data-q="manager"] .quiz-option.selected');
+    const selShift = document.querySelector('[data-q="shift"] .quiz-option.selected');
+    const selAcct = document.querySelector('[data-q="account"] .quiz-option.selected');
+    
+    const managerMindset = selMgr ? selMgr.getAttribute('data-val') : 'Not answered';
+    const mindsetShift = selShift ? selShift.getAttribute('data-val') : 'Not answered';
+    const accountability = selAcct ? selAcct.getAttribute('data-val') : 'Not answered';
+    
+    const currentAnswers = {
+        q1: managerMindset,
+        q2: mindsetShift,
+        q3: accountability,
+        q4: flippedCards.includes('victim') ? 'Yes' : 'No',
+        q5: flippedCards.includes('scarcity') ? 'Yes' : 'No',
+        q6: flippedCards.includes('panic') ? 'Yes' : 'No',
+        q7: flippedCards.includes('fixed') ? 'Yes' : 'No',
+        q8: flippedCards.includes('expert') ? 'Yes' : 'No',
+        q9: flippedCards.join(', ') || 'None'
+    };
+    
+    let historyData = JSON.parse(localStorage.getItem('module2_history_data' + storageSuffix) || '{}');
+    
+    let totalChangesCount = 0;
+    for (let key in historyData) {
+        totalChangesCount += historyData[key]?.changes || 0;
+    }
+    
+    let changedFields = [];
+    const lastSentAnswers = JSON.parse(localStorage.getItem('module2_last_sent_answers' + storageSuffix) || '{}');
+    for (let key in currentAnswers) {
+        if (lastSentAnswers[key] !== undefined && currentAnswers[key] !== lastSentAnswers[key]) {
+            changedFields.push(key);
+        }
+    }
+    
+    const payload = {
+        module: 'Module 2',
+        action: 'completed',
+        language: 'en',
+        userName: userData.name,
+        userEmail: userData.email,
+        userPosition: userData.position,
+        timestamp: new Date().toISOString(),
+        answers: currentAnswers,
+        history: historyData,
+        changedFields: changedFields,
+        totalChanges: totalChangesCount,
+        isComplete: true
+    };
+    
+    console.log('📤 Sending Module 2 data (Completed):', payload);
     
     return new Promise((resolve) => {
         fetch(GOOGLE_SCRIPT_URL, {
@@ -813,7 +992,11 @@ function sendModule2DataToSheet() {
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(payload)
         })
-        .then(() => { console.log('✅ Module 2 data sent'); resolve(true); })
+        .then(response => response.json())
+        .then(data => {
+            console.log('✅ Module 2 completed successfully:', data);
+            resolve(true);
+        })
         .catch(() => {
             const xhr = new XMLHttpRequest();
             xhr.open('POST', GOOGLE_SCRIPT_URL, true);
@@ -824,41 +1007,6 @@ function sendModule2DataToSheet() {
         });
         setTimeout(() => resolve(true), 3000);
     });
-}
-
-// ============================================
-// GO TO MODULE 3
-// ============================================
-async function goToModule3() {
-    const q1Answered = document.querySelector('[data-q="manager"] .quiz-option.selected') !== null;
-    const q2Answered = document.querySelector('[data-q="shift"] .quiz-option.selected') !== null;
-    const q3Answered = document.querySelector('[data-q="account"] .quiz-option.selected') !== null;
-    
-    if (!q1Answered || !q2Answered || !q3Answered) {
-        showToast('⚠️ Please answer all 3 questions before continuing to Module 3.', true);
-        return;
-    }
-    
-    saveAnswersToLocal();
-    showToast('💾 Saving your answers...');
-    
-    const saved = await sendModule2DataToSheet();
-    
-    if (saved) {
-        localStorage.setItem('module2_completed' + storageSuffix, 'true');
-        showToast('✅ Progress saved! Redirecting...');
-        
-        setTimeout(() => {
-            window.location.href = 'module3.html';
-        }, 800);
-    } else {
-        localStorage.setItem('module2_completed' + storageSuffix, 'true');
-        showToast('⚠️ Progress saved locally. Continuing...', true);
-        
-        setTimeout(() => {
-            window.location.href = 'module3.html';
-        }, 800);
-    }
 }
 
 function displayResultsSummary() {
@@ -923,6 +1071,7 @@ function bindEvents() {
                 fbDiv.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
                 fbDiv.innerHTML = isCorrect ? '✅ <strong>Correct!</strong> The manager is exhibiting the Victim mindset — focusing on what\'s impossible.' : '❌ <strong>Incorrect.</strong> The correct answer is "Victim". The statement reflects a victim frame.';
                 fbDiv.style.display = 'block';
+                sendPartialModule2Data();
             } else if (qParent && qParent.querySelector('[data-q="shift"]')) {
                 const selectedVal = opt.getAttribute('data-val');
                 const fbDiv = document.getElementById('managerFb2');
@@ -930,6 +1079,7 @@ function bindEvents() {
                 fbDiv.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
                 fbDiv.innerHTML = isCorrect ? '✅ <strong>Correct!</strong> Shift from Victim to Agent — asking "What actions remain possible?"' : '❌ <strong>Incorrect.</strong> The correct shift is "Victim → Agent".';
                 fbDiv.style.display = 'block';
+                sendPartialModule2Data();
             } else if (qParent && qParent.querySelector('[data-q="account"]')) {
                 const selectedVal = opt.getAttribute('data-val');
                 const correctVal = "I made an assumption. I was wrong. That is on me.";
@@ -938,6 +1088,7 @@ function bindEvents() {
                 fbDiv.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
                 fbDiv.innerHTML = isCorrect ? '✅ <strong>Correct!</strong> True accountability means owning the mistake.' : '❌ <strong>Incorrect.</strong> The correct answer is: "I made an assumption. I was wrong. That is on me."';
                 fbDiv.style.display = 'block';
+                sendPartialModule2Data();
             }
             
             saveAnswersToLocal();
@@ -958,6 +1109,7 @@ function bindEvents() {
                 if (back) back.classList.add('hidden-content'); 
             }
             saveAnswersToLocal();
+            sendPartialModule2Data();
         });
     });
 }
@@ -979,6 +1131,26 @@ function loadSavedAnswers() {
                 const opts = document.querySelectorAll('[data-q="account"] .quiz-option');
                 opts.forEach(opt => { if (opt.getAttribute('data-val') === data.accountability) { opt.classList.add('selected'); const m = opt.querySelector('.option-marker'); if (m) m.textContent = '●'; } });
             }
+            if (data.victim_flipped === 'Yes') {
+                const card = document.querySelector('.mindset-card[data-mindset="victim"]');
+                if (card) { card.classList.add('flipped'); const front = card.querySelector('.mindset-front'); const back = card.querySelector('.mindset-back'); if (front) front.classList.add('hidden-content'); if (back) back.classList.remove('hidden-content'); }
+            }
+            if (data.scarcity_flipped === 'Yes') {
+                const card = document.querySelector('.mindset-card[data-mindset="scarcity"]');
+                if (card) { card.classList.add('flipped'); const front = card.querySelector('.mindset-front'); const back = card.querySelector('.mindset-back'); if (front) front.classList.add('hidden-content'); if (back) back.classList.remove('hidden-content'); }
+            }
+            if (data.panic_flipped === 'Yes') {
+                const card = document.querySelector('.mindset-card[data-mindset="panic"]');
+                if (card) { card.classList.add('flipped'); const front = card.querySelector('.mindset-front'); const back = card.querySelector('.mindset-back'); if (front) front.classList.add('hidden-content'); if (back) back.classList.remove('hidden-content'); }
+            }
+            if (data.fixed_flipped === 'Yes') {
+                const card = document.querySelector('.mindset-card[data-mindset="fixed"]');
+                if (card) { card.classList.add('flipped'); const front = card.querySelector('.mindset-front'); const back = card.querySelector('.mindset-back'); if (front) front.classList.add('hidden-content'); if (back) back.classList.remove('hidden-content'); }
+            }
+            if (data.expert_flipped === 'Yes') {
+                const card = document.querySelector('.mindset-card[data-mindset="expert"]');
+                if (card) { card.classList.add('flipped'); const front = card.querySelector('.mindset-front'); const back = card.querySelector('.mindset-back'); if (front) front.classList.add('hidden-content'); if (back) back.classList.remove('hidden-content'); }
+            }
         } catch(e) { console.warn(e); }
     }
     updateQuizProgress();
@@ -996,7 +1168,43 @@ function setupModal() {
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
 }
 
+// ============================================
+// GO TO MODULE 3
+// ============================================
+async function goToModule3() {
+    const q1Answered = document.querySelector('[data-q="manager"] .quiz-option.selected') !== null;
+    const q2Answered = document.querySelector('[data-q="shift"] .quiz-option.selected') !== null;
+    const q3Answered = document.querySelector('[data-q="account"] .quiz-option.selected') !== null;
+    
+    if (!q1Answered || !q2Answered || !q3Answered) {
+        showToast('⚠️ Please answer all 3 questions before continuing to Module 3.', true);
+        return;
+    }
+    
+    saveAnswersToLocal();
+    showToast('💾 Saving your answers...');
+    
+    const saved = await sendModule2DataToSheet();
+    
+    if (saved) {
+        localStorage.setItem('module2_completed' + storageSuffix, 'true');
+        showToast('✅ Progress saved! Redirecting...');
+        
+        setTimeout(() => {
+            window.location.href = 'module3.html';
+        }, 800);
+    } else {
+        localStorage.setItem('module2_completed' + storageSuffix, 'true');
+        showToast('⚠️ Progress saved locally. Continuing...', true);
+        
+        setTimeout(() => {
+            window.location.href = 'module3.html';
+        }, 800);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    initializeHistoryTracking();
     loadSavedAnswers();
     bindEvents();
     setupModal();
@@ -1019,7 +1227,9 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault(); 
         if (confirm('Reset all module data? This cannot be undone.')) { 
             localStorage.removeItem('module2_answers' + storageSuffix); 
-            localStorage.removeItem('module2_completed' + storageSuffix); 
+            localStorage.removeItem('module2_completed' + storageSuffix);
+            localStorage.removeItem('module2_history_data' + storageSuffix);
+            localStorage.removeItem('module2_last_sent_answers' + storageSuffix);
             location.reload(); 
         } 
     });
