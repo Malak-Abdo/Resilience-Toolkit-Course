@@ -1148,9 +1148,11 @@ function setupModal() {
 }
 
 // ============================================
+// ============================================
 // GO TO MODULE 3
 // ============================================
 async function goToModule3() {
+    // ✅ التحقق من الأسئلة
     const q1Answered = document.querySelector('[data-q="manager"] .quiz-option.selected') !== null;
     const q2Answered = document.querySelector('[data-q="shift"] .quiz-option.selected') !== null;
     const q3Answered = document.querySelector('[data-q="account"] .quiz-option.selected') !== null;
@@ -1160,6 +1162,22 @@ async function goToModule3() {
         return;
     }
     
+    // ✅ التحقق من البطاقات المقلوبة (Module 2)
+    const allCards = document.querySelectorAll('.mindset-card');
+    let flippedCount = 0;
+    
+    allCards.forEach(card => {
+        if (card.classList.contains('flipped')) {
+            flippedCount++;
+        }
+    });
+    
+    if (flippedCount < allCards.length) {
+        showToast(`⚠️ Please flip all 5 mindset cards before continuing. (${flippedCount}/5 flipped)`, true);
+        return;
+    }
+    
+    // ✅ كل شيء مكتمل → المتابعة إلى Module 3
     saveAnswersToLocal();
     showToast('💾 Saving your answers...');
     
