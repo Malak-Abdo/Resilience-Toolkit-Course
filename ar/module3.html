@@ -17,7 +17,6 @@
             line-height: 1.45;
             padding: 0 0 2rem 0;
         }
-        /* ===== تحسينات النص ===== */
         p, li, .scenario-card, .framework-box, .step-card, .step-detail, 
         .sentence-box, .quiz-card, .quiz-option-text, .static-feedback,
         .message-box, .highlight-box, .warning-box {
@@ -40,7 +39,6 @@
                 border-radius: 28px;
             }
         }
-        /* ===== تحسينات الجوال ===== */
         @media (max-width: 480px) {
             body {
                 font-size: 0.9rem;
@@ -374,7 +372,7 @@
     </style>
 </head>
 <body>
-        <!-- ========== كود التحقق ========== -->
+    <!-- ========== كود التحقق ========== -->
     <script>
         const userLang = localStorage.getItem('userLanguage') || 'en';
         const messages = {
@@ -532,165 +530,54 @@ const storageSuffix = '_ar';
 // ============================================
 // GOOGLE SHEETS WEB APP URL
 // ============================================
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx1UoIkdhmaAq4yHyTxdSF6WFicN2SO_oszQlb0CJhwgf1-tutJwx8_1-7h_D-j0Kiqdw/exec';
 
 // ============================================
-// IMPROVED getUserData() - Looks for data WITHOUT suffix first (from registration)
+// IMPROVED getUserData()
 // ============================================
 function getUserData() {
-    let name = '';
-    let email = '';
-    let position = '';
+    let name = 'زائر';
+    let email = 'guest@example.com';
+    let position = 'غير محدد';
     
-    console.log('🔍 Searching for user data in module3.html...');
-    
-    // FIRST: Try to get user data WITHOUT suffix (from registration page)
-    
-    // 1. Check currentUser first - NO SUFFIX
     try {
         let currentUser = localStorage.getItem('currentUser');
         if (currentUser) {
             let user = JSON.parse(currentUser);
-            if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر' && user.name.trim() !== '') {
+            if (user && user.name && user.name !== 'Guest' && user.name.trim() !== '') {
                 name = user.name.trim();
-                email = (user.email || '').trim();
-                position = (user.position || '').trim();
-                console.log('✅ Found from currentUser (no suffix):', name);
-                
-                // Save with suffix for future use
+                email = (user.email || '').trim() || 'guest@example.com';
+                position = (user.position || '').trim() || 'غير محدد';
                 localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(user));
                 localStorage.setItem('course_user_name' + storageSuffix, name);
                 localStorage.setItem('course_user_email' + storageSuffix, email);
                 localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
-        }
-    } catch(e) { console.error('Error parsing currentUser:', e); }
-    
-    // 2. Check users array - NO SUFFIX
-    try {
-        let users = JSON.parse(localStorage.getItem('users') || '[]');
-        if (Array.isArray(users) && users.length > 0) {
-            let lastUser = users[users.length - 1];
-            if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name !== 'زائر' && lastUser.name.trim() !== '') {
-                name = lastUser.name.trim();
-                email = (lastUser.email || '').trim();
-                position = (lastUser.position || '').trim();
-                console.log('✅ Found from users array (no suffix):', name);
-                
-                // Save with suffix
-                localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(lastUser));
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
-        }
-    } catch(e) { console.error('Error parsing users:', e); }
-    
-    // 3. Check individual fields - NO SUFFIX
-    let n = localStorage.getItem('course_user_name');
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
-        name = n.trim();
-        email = (localStorage.getItem('course_user_email') || '').trim();
-        position = (localStorage.getItem('course_user_position') || '').trim();
-        console.log('✅ Found from individual fields (no suffix):', name);
-        
-        // Save with suffix
-        localStorage.setItem('course_user_name' + storageSuffix, name);
-        localStorage.setItem('course_user_email' + storageSuffix, email);
-        localStorage.setItem('course_user_position' + storageSuffix, position);
-        
-        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-    }
-    
-    // 4. Check course_user object - NO SUFFIX
-    let user = localStorage.getItem('course_user');
-    if (user) {
-        try { 
-            let p = JSON.parse(user); 
-            if (p && p.name && p.name !== 'Guest' && p.name !== 'زائر' && p.name.trim() !== '') {
-                name = p.name.trim();
-                email = (p.email || '').trim();
-                position = (p.position || '').trim();
-                console.log('✅ Found from course_user (no suffix):', name);
-                
-                // Save with suffix
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
-        } catch(e) {}
-    }
-    
-    // 5. Check resilience_users array - NO SUFFIX
-    let users = localStorage.getItem('resilience_users');
-    if (users) {
-        try { 
-            let p = JSON.parse(users); 
-            if (Array.isArray(p) && p.length > 0) {
-                for (let i = p.length - 1; i >= 0; i--) {
-                    if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'زائر' && p[i].name.trim() !== '') {
-                        name = p[i].name.trim();
-                        email = (p[i].email || '').trim();
-                        position = (p[i].position || '').trim();
-                        console.log('✅ Found from resilience_users (no suffix):', name);
-                        
-                        // Save with suffix
-                        localStorage.setItem('course_user_name' + storageSuffix, name);
-                        localStorage.setItem('course_user_email' + storageSuffix, email);
-                        localStorage.setItem('course_user_position' + storageSuffix, position);
-                        
-                        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-                    }
-                }
-            }
-        } catch(e) {}
-    }
-    
-    // 6. Finally, try WITH suffix (for returning users)
-    n = localStorage.getItem('course_user_name' + storageSuffix);
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
-        name = n.trim();
-        email = (localStorage.getItem('course_user_email' + storageSuffix) || '').trim();
-        position = (localStorage.getItem('course_user_position' + storageSuffix) || '').trim();
-        console.log('✅ Found from individual fields (with suffix):', name);
-        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-    }
-    
-    // 7. Try currentUser with suffix
-    try {
-        let currentUser = localStorage.getItem('currentUser' + storageSuffix);
-        if (currentUser) {
-            let user = JSON.parse(currentUser);
-            if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر' && user.name.trim() !== '') {
-                name = user.name.trim();
-                email = (user.email || '').trim();
-                position = (user.position || '').trim();
-                console.log('✅ Found from currentUser (with suffix):', name);
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
+                return { name, email, position };
             }
         }
     } catch(e) {}
     
-    console.log('⚠️ No user data found, using default');
+    let n = localStorage.getItem('course_user_name');
+    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
+        name = n.trim();
+        email = (localStorage.getItem('course_user_email') || '').trim() || 'guest@example.com';
+        position = (localStorage.getItem('course_user_position') || '').trim() || 'غير محدد';
+        localStorage.setItem('course_user_name' + storageSuffix, name);
+        localStorage.setItem('course_user_email' + storageSuffix, email);
+        localStorage.setItem('course_user_position' + storageSuffix, position);
+        return { name, email, position };
+    }
+    
     return { name: 'زائر', email: 'guest@example.com', position: 'غير محدد' };
 }
 
-// Display user name in badge
 const currentUser = getUserData();
 const userBadge = document.getElementById('userBadge');
 if (userBadge) {
     if (currentUser.name !== 'زائر') {
         userBadge.innerText = `👤 ${currentUser.name}`;
-        console.log('✅ User badge updated with:', currentUser.name);
     } else {
         userBadge.innerText = `👤 متعلم`;
-        console.log('⚠️ No user name found, showing default');
     }
 }
 
@@ -705,7 +592,7 @@ function showToast(message, isError = false) {
     setTimeout(() => { if (toast) toast.remove(); }, 3000);
 }
 
-// بطاقات الخطوات
+// Step cards
 const stepCards = document.querySelectorAll('.step-card');
 stepCards.forEach(card => {
     card.addEventListener('click', () => {
@@ -715,36 +602,52 @@ stepCards.forEach(card => {
     if (card.getAttribute('data-step') === '1') card.classList.add('active');
 });
 
-// حالة الاختبار
-let answers = { first: null, smallest: null, assess: null, shift: null };
+// ============================================
+// COLLECT ANSWERS
+// ============================================
+function collectAllAnswers() {
+    const selFirst = document.querySelector('[data-q="first"] .quiz-option-item.selected');
+    const selSmallest = document.querySelector('[data-q="smallest"] .quiz-option-item.selected');
+    const selAssess = document.querySelector('[data-q="assess"] .quiz-option-item.selected');
+    const selShift = document.querySelector('[data-q="shift"] .quiz-option-item.selected');
+    
+    const first = selFirst ? selFirst.getAttribute('data-val') : 'لم يجب';
+    const smallest = selSmallest ? selSmallest.getAttribute('data-val') : 'لم يجب';
+    const assess = selAssess ? selAssess.getAttribute('data-val') : 'لم يجب';
+    const shift = selShift ? selShift.getAttribute('data-val') : 'لم يجب';
+    
+    return { first, smallest, assess, shift };
+}
 
-function updateProgress() {
+function saveAnswersToLocal() {
+    const answers = collectAllAnswers();
+    localStorage.setItem('module3_answers' + storageSuffix, JSON.stringify({ ...answers, lastUpdated: new Date().toISOString() }));
+}
+
+function updateQuizProgress() {
+    const answers = collectAllAnswers();
     let answered = 0;
-    if (answers.first) answered++;
-    if (answers.smallest) answered++;
-    if (answers.assess) answered++;
-    if (answers.shift) answered++;
+    if (answers.first !== 'لم يجب') answered++;
+    if (answers.smallest !== 'لم يجب') answered++;
+    if (answers.assess !== 'لم يجب') answered++;
+    if (answers.shift !== 'لم يجب') answered++;
     
     const progressSpan = document.getElementById('quizProgress');
     if (progressSpan) {
         progressSpan.textContent = `${answered}/٤ تم الإجابة`;
-        if (answered === 4) {
-            progressSpan.className = 'progress-badge progress-complete';
-        } else {
-            progressSpan.className = 'progress-badge';
-        }
+        progressSpan.className = answered === 4 ? 'progress-badge progress-complete' : 'progress-badge';
     }
     return answered === 4;
 }
 
-// ربط النقر على الخيارات - فقط حفظ الإجابة، بدون تغذية راجعة تلقائية
-function bindOptionClick(selector, key) {
+// ============================================
+// BIND OPTION CLICKS
+// ============================================
+function bindOptionClick(selector) {
     const group = document.querySelector(selector);
     if (!group) return;
     group.querySelectorAll('.quiz-option-item').forEach(opt => {
         opt.addEventListener('click', () => {
-            const val = opt.getAttribute('data-val');
-            answers[key] = val;
             group.querySelectorAll('.quiz-option-item').forEach(o => {
                 o.classList.remove('selected');
                 const marker = o.querySelector('.quiz-option-marker');
@@ -754,18 +657,21 @@ function bindOptionClick(selector, key) {
             const marker = opt.querySelector('.quiz-option-marker');
             if (marker) marker.textContent = '●';
             
-            localStorage.setItem('module3_answers' + storageSuffix, JSON.stringify(answers));
-            updateProgress();
+            saveAnswersToLocal();
+            updateQuizProgress();
+            sendPartialModule3Data();
         });
     });
 }
 
-bindOptionClick('[data-q="first"]', 'first');
-bindOptionClick('[data-q="smallest"]', 'smallest');
-bindOptionClick('[data-q="assess"]', 'assess');
-bindOptionClick('[data-q="shift"]', 'shift');
+bindOptionClick('[data-q="first"]');
+bindOptionClick('[data-q="smallest"]');
+bindOptionClick('[data-q="assess"]');
+bindOptionClick('[data-q="shift"]');
 
-// عرض تغذية راجعة ثابتة عند النقر على زر التحقق
+// ============================================
+// SHOW STATIC FEEDBACK
+// ============================================
 function showStaticFeedback(fbId, isCorrect, message, hintText) {
     const fb = document.getElementById(fbId);
     if (fb) {
@@ -778,7 +684,9 @@ function showStaticFeedback(fbId, isCorrect, message, hintText) {
     }
 }
 
-// أزرار التحقق من الإجابات
+// ============================================
+// CHECK ANSWER BUTTONS
+// ============================================
 document.querySelectorAll('.check-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         const qNum = btn.getAttribute('data-q');
@@ -787,131 +695,332 @@ document.querySelectorAll('.check-btn').forEach(btn => {
             const selected = document.querySelector('[data-q="first"] .quiz-option-item.selected');
             const selectedVal = selected ? selected.getAttribute('data-val') : null;
             if (selectedVal === 'التوقف والتنفس') {
-                showStaticFeedback('fb1', true, 'التوقف والتنفس يقاطع استجابة الذعر ويعيد تنشيط قدرتك على التفكير المنطقي.', 'الخطوة الأولى هي مقاطعة استجابة الذعر. اللوزة الدماغية تختطف منطقك. توقف لمدة ١٠ ثوانٍ للتنفس يعيد الهدوء قبل أن تتصرف.');
+                showStaticFeedback('fb1', true, 'التوقف والتنفس يقاطع استجابة الذعر ويعيد تنشيط قدرتك على التفكير المنطقي.', 'الخطوة الأولى هي مقاطعة استجابة الذعر.');
             } else if (selectedVal) {
-                showStaticFeedback('fb1', false, 'الإجابة الصحيحة هي "التوقف والتنفس".', 'الخطوة الأولى هي مقاطعة استجابة الذعر. اللوزة الدماغية تختطف منطقك. توقف لمدة ١٠ ثوانٍ للتنفس يعيد الهدوء قبل أن تتصرف.');
+                showStaticFeedback('fb1', false, 'الإجابة الصحيحة هي "التوقف والتنفس".', 'الخطوة الأولى هي مقاطعة استجابة الذعر.');
             } else {
-                showStaticFeedback('fb1', false, 'الرجاء اختيار إجابة أولاً. الإجابة الصحيحة هي "التوقف والتنفس".', 'الخطوة الأولى هي مقاطعة استجابة الذعر. اللوزة الدماغية تختطف منطقك. توقف لمدة ١٠ ثوانٍ للتنفس يعيد الهدوء قبل أن تتصرف.');
+                showStaticFeedback('fb1', false, 'الرجاء اختيار إجابة أولاً.', 'الخطوة الأولى هي مقاطعة استجابة الذعر.');
             }
+            sendPartialModule3Data();
         }
         else if (qNum === '2') {
             const selected = document.querySelector('[data-q="smallest"] .quiz-option-item.selected');
             const selectedVal = selected ? selected.getAttribute('data-val') : null;
             if (selectedVal === 'الاتصال بشيوخ المنطقة المحليين للتفاوض على الوصول أو تحديد موقع بديل') {
-                showStaticFeedback('fb2', true, 'الاتصال بشيوخ المنطقة هو أصغر إجراء ممكن يفتح قنوات للتفاوض والحلول البديلة.', 'أصغر إجراء ممكن هو شيء يمكنك فعله الآن، ليس الانتظار أو الاستسلام. ما هي الخطوة الصغيرة التي تدفعك للأمام؟');
+                showStaticFeedback('fb2', true, 'الاتصال بشيوخ المنطقة هو أصغر إجراء ممكن يفتح قنوات للتفاوض والحلول البديلة.', 'أصغر إجراء ممكن هو شيء يمكنك فعله الآن.');
             } else if (selectedVal) {
-                showStaticFeedback('fb2', false, 'الإجابة الصحيحة هي "الاتصال بشيوخ المنطقة المحليين للتفاوض على الوصول أو تحديد موقع بديل".', 'أصغر إجراء ممكن هو شيء يمكنك فعله الآن، ليس الانتظار أو الاستسلام. ما هي الخطوة الصغيرة التي تدفعك للأمام؟');
+                showStaticFeedback('fb2', false, 'الإجابة الصحيحة هي "الاتصال بشيوخ المنطقة المحليين".', 'أصغر إجراء ممكن هو شيء يمكنك فعله الآن.');
             } else {
-                showStaticFeedback('fb2', false, 'الرجاء اختيار إجابة أولاً. الإجابة الصحيحة هي الاتصال بشيوخ المنطقة.', 'أصغر إجراء ممكن هو شيء يمكنك فعله الآن، ليس الانتظار أو الاستسلام. ما هي الخطوة الصغيرة التي تدفعك للأمام؟');
+                showStaticFeedback('fb2', false, 'الرجاء اختيار إجابة أولاً.', 'أصغر إجراء ممكن هو شيء يمكنك فعله الآن.');
             }
+            sendPartialModule3Data();
         }
         else if (qNum === '3') {
             const selected = document.querySelector('[data-q="assess"] .quiz-option-item.selected');
             const selectedVal = selected ? selected.getAttribute('data-val') : null;
             if (selectedVal === 'لأن أدمغة الأزمات تضخم التهديدات وتتجاهل الموارد المتاحة، والتقييم يصحح هذا التحريف') {
-                showStaticFeedback('fb3', true, 'أدمغة الأزمات تضخم التهديدات وتتجاهل الموارد المتاحة. التقييم الواقعي يصحح هذا التحريف.', 'في الأزمة، يضخم دماغك التهديدات ويتجاهل الموارد المتاحة تلقائياً. تقييم الواقع يفصل بين الحقائق والافتراضات المخيفة.');
+                showStaticFeedback('fb3', true, 'أدمغة الأزمات تضخم التهديدات وتتجاهل الموارد المتاحة. التقييم الواقعي يصحح هذا التحريف.', 'أدمغة الأزمات تضخم التهديدات وتتجاهل الموارد المتاحة.');
             } else if (selectedVal) {
-                showStaticFeedback('fb3', false, 'الإجابة الصحيحة هي: "لأن أدمغة الأزمات تضخم التهديدات وتتجاهل الموارد المتاحة، والتقييم يصحح هذا التحريف".', 'في الأزمة، يضخم دماغك التهديدات ويتجاهل الموارد المتاحة تلقائياً. تقييم الواقع يفصل بين الحقائق والافتراضات المخيفة.');
+                showStaticFeedback('fb3', false, 'الإجابة الصحيحة هي عن كيف تضخم أدمغة الأزمات التهديدات.', 'أدمغة الأزمات تضخم التهديدات وتتجاهل الموارد المتاحة.');
             } else {
-                showStaticFeedback('fb3', false, 'الرجاء اختيار إجابة أولاً. الإجابة الصحيحة هي عن كيف تضخم أدمغة الأزمات التهديدات.', 'في الأزمة، يضخم دماغك التهديدات ويتجاهل الموارد المتاحة تلقائياً. تقييم الواقع يفصل بين الحقائق والافتراضات المخيفة.');
+                showStaticFeedback('fb3', false, 'الرجاء اختيار إجابة أولاً.', 'أدمغة الأزمات تضخم التهديدات وتتجاهل الموارد المتاحة.');
             }
+            sendPartialModule3Data();
         }
         else if (qNum === '4') {
             const selected = document.querySelector('[data-q="shift"] .quiz-option-item.selected');
             const selectedVal = selected ? selected.getAttribute('data-val') : null;
             if (selectedVal === 'الذعر والجمود ← إجراءات صغيرة ومتعمدة ومنهجية') {
-                showStaticFeedback('fb4', true, 'إطار S.A.F.E. يحول الذعر والجمود إلى إجراءات صغيرة ومتعمدة، مما يعيد الشعور بالسيطرة.', 'يساعدك إطار S.A.F.E. على الانتقال من الذعر المتجمد إلى العمل المنهجي. يستهدف تحديداً عقلية الذعر والجمود.');
+                showStaticFeedback('fb4', true, 'إطار S.A.F.E. يحول الذعر والجمود إلى إجراءات صغيرة ومتعمدة، مما يعيد الشعور بالسيطرة.', 'إطار S.A.F.E. يستهدف عقلية الذعر والجمود.');
             } else if (selectedVal) {
-                showStaticFeedback('fb4', false, 'الإجابة الصحيحة هي: "الذعر والجمود ← إجراءات صغيرة ومتعمدة ومنهجية".', 'يساعدك إطار S.A.F.E. على الانتقال من الذعر المتجمد إلى العمل المنهجي. يستهدف تحديداً عقلية الذعر والجمود.');
+                showStaticFeedback('fb4', false, 'الإجابة الصحيحة هي "الذعر والجمود ← إجراءات صغيرة ومتعمدة ومنهجية".', 'إطار S.A.F.E. يستهدف عقلية الذعر والجمود.');
             } else {
-                showStaticFeedback('fb4', false, 'الرجاء اختيار إجابة أولاً. الإجابة الصحيحة هي عن تحويل الذعر إلى إجراءات منهجية.', 'يساعدك إطار S.A.F.E. على الانتقال من الذعر المتجمد إلى العمل المنهجي. يستهدف تحديداً عقلية الذعر والجمود.');
+                showStaticFeedback('fb4', false, 'الرجاء اختيار إجابة أولاً.', 'إطار S.A.F.E. يستهدف عقلية الذعر والجمود.');
             }
+            sendPartialModule3Data();
         }
     });
 });
 
-// تحميل الإجابات المحفوظة
-const savedAnswers = localStorage.getItem('module3_answers' + storageSuffix);
-if (savedAnswers) {
-    try {
-        const data = JSON.parse(savedAnswers);
-        answers = data;
-        for (let [key, val] of Object.entries(data)) {
-            if (val) {
-                let selector = '';
-                if (key === 'first') selector = '[data-q="first"]';
-                else if (key === 'smallest') selector = '[data-q="smallest"]';
-                else if (key === 'assess') selector = '[data-q="assess"]';
-                else if (key === 'shift') selector = '[data-q="shift"]';
-                const opt = document.querySelector(`${selector} .quiz-option-item[data-val="${val}"]`);
-                if (opt) {
-                    opt.classList.add('selected');
-                    const marker = opt.querySelector('.quiz-option-marker');
-                    if (marker) marker.textContent = '●';
+// ============================================
+// LOAD SAVED ANSWERS
+// ============================================
+function loadSavedAnswers() {
+    const saved = localStorage.getItem('module3_answers' + storageSuffix);
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            const mapping = {
+                first: '[data-q="first"]',
+                smallest: '[data-q="smallest"]',
+                assess: '[data-q="assess"]',
+                shift: '[data-q="shift"]'
+            };
+            for (let [key, selector] of Object.entries(mapping)) {
+                if (data[key] && data[key] !== 'لم يجب') {
+                    const opt = document.querySelector(`${selector} .quiz-option-item[data-val="${data[key]}"]`);
+                    if (opt) {
+                        opt.classList.add('selected');
+                        const marker = opt.querySelector('.quiz-option-marker');
+                        if (marker) marker.textContent = '●';
+                    }
                 }
             }
-        }
-        updateProgress();
-    } catch(e) {}
+        } catch(e) {}
+    }
+    updateQuizProgress();
 }
 
-function sendModule3DataToSheet() {
+// ============================================
+// تهيئة تاريخ التغييرات
+// ============================================
+function initializeHistoryTracking() {
+    if (!localStorage.getItem('module3_history_data' + storageSuffix)) {
+        const questionKeys = ['q1', 'q2', 'q3', 'q4'];
+        const historyData = {};
+        questionKeys.forEach(key => {
+            historyData[key] = {
+                history: '',
+                changes: 0,
+                lastValue: ''
+            };
+        });
+        localStorage.setItem('module3_history_data' + storageSuffix, JSON.stringify(historyData));
+        console.log('✅ تم تهيئة تاريخ التغييرات لـ Module 3');
+    }
+}
+
+// ============================================
+// SEND DATA IMMEDIATELY - Like Module 1 & 2
+// ============================================
+function sendPartialModule3Data() {
     const userData = getUserData();
+    const answers = collectAllAnswers();
+    
+    const currentAnswers = {
+        q1: answers.first,
+        q2: answers.smallest,
+        q3: answers.assess,
+        q4: answers.shift
+    };
+    
+    let historyData = JSON.parse(localStorage.getItem('module3_history_data' + storageSuffix) || '{}');
+    
+    if (Object.keys(historyData).length === 0) {
+        const questionKeys = ['q1', 'q2', 'q3', 'q4'];
+        questionKeys.forEach(key => {
+            historyData[key] = { history: '', changes: 0, lastValue: '' };
+        });
+    }
+    
+    let totalChanges = 0;
+    let hasAnyChange = false;
+    let changedFields = [];
+    
+    const questionMap = {
+        q1: 'س١_خطوة_SAFE_الأولى',
+        q2: 'س٢_أصغر_إجراء',
+        q3: 'س٣_تقييم_الواقع',
+        q4: 'س٤_تحول_العقلية'
+    };
+    
+    for (let key in questionMap) {
+        const currentValue = currentAnswers[key] || '';
+        const lastValue = historyData[key]?.lastValue || '';
+        const currentHistory = historyData[key]?.history || '';
+        const currentChanges = historyData[key]?.changes || 0;
+        
+        if (currentValue && currentValue !== 'لم يجب') {
+            if (lastValue && lastValue !== currentValue) {
+                historyData[key] = {
+                    history: currentHistory ? currentHistory + '→' + currentValue : currentValue,
+                    changes: currentChanges + 1,
+                    lastValue: currentValue
+                };
+                hasAnyChange = true;
+                changedFields.push(questionMap[key]);
+                totalChanges += (currentChanges + 1);
+            } else if (!lastValue) {
+                historyData[key] = {
+                    history: currentValue,
+                    changes: 0,
+                    lastValue: currentValue
+                };
+                hasAnyChange = true;
+                changedFields.push(questionMap[key] + ' (جديد)');
+            }
+        }
+    }
+    
+    let totalChangesCount = 0;
+    for (let key in historyData) {
+        totalChangesCount += historyData[key]?.changes || 0;
+    }
+    
+    localStorage.setItem('module3_history_data' + storageSuffix, JSON.stringify(historyData));
+    
+    if (!hasAnyChange) {
+        console.log('⏭️ لا توجد تغييرات، تخطي الإرسال');
+        return;
+    }
     
     const payload = {
         module: 'Module 3',
+        action: 'partial',
         language: 'ar',
         userName: userData.name,
         userEmail: userData.email,
         userPosition: userData.position,
         timestamp: new Date().toISOString(),
-        answers: {
-            q1_safe_first_step: answers.first || 'لم يجب',
-            q2_smallest_feasible_action: answers.smallest || 'لم يجب',
-            q3_assess_reality: answers.assess || 'لم يجب',
-            q4_mindset_shift: answers.shift || 'لم يجب'
-        }
+        answers: currentAnswers,
+        history: historyData,
+        changedFields: changedFields,
+        totalChanges: totalChangesCount,
+        isComplete: false
     };
     
-    console.log('📤 جاري إرسال بيانات الوحدة ٣ للمستخدم:', userData.name);
+    console.log('📤 إرسال بيانات Module 3 (جزئي):', payload);
     
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', GOOGLE_SCRIPT_URL, true);
-    xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
-    xhr.send(JSON.stringify(payload));
-    
-    showToast('✅ تم حفظ بيانات الوحدة ٣!');
+    fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('✅ تم إرسال بيانات Module 3 بنجاح:', data);
+        localStorage.setItem('module3_last_sent_answers' + storageSuffix, JSON.stringify(currentAnswers));
+        showToast(`✅ تم الحفظ - التغييرات: ${totalChangesCount}`);
+    })
+    .catch(error => {
+        console.warn('⚠️ خطأ في الإرسال:', error);
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+        xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+        xhr.send(JSON.stringify(payload));
+    });
 }
 
-function goToNextModule() {
-    const allAnswered = updateProgress();
+// ============================================
+// SEND FINAL DATA - Completed
+// ============================================
+function sendModule3DataToSheet() {
+    const userData = getUserData();
+    const answers = collectAllAnswers();
+    
+    const currentAnswers = {
+        q1: answers.first,
+        q2: answers.smallest,
+        q3: answers.assess,
+        q4: answers.shift
+    };
+    
+    let historyData = JSON.parse(localStorage.getItem('module3_history_data' + storageSuffix) || '{}');
+    
+    let totalChangesCount = 0;
+    for (let key in historyData) {
+        totalChangesCount += historyData[key]?.changes || 0;
+    }
+    
+    let changedFields = [];
+    const lastSentAnswers = JSON.parse(localStorage.getItem('module3_last_sent_answers' + storageSuffix) || '{}');
+    for (let key in currentAnswers) {
+        if (lastSentAnswers[key] !== undefined && currentAnswers[key] !== lastSentAnswers[key]) {
+            changedFields.push(key);
+        }
+    }
+    
+    const payload = {
+        module: 'Module 3',
+        action: 'completed',
+        language: 'ar',
+        userName: userData.name,
+        userEmail: userData.email,
+        userPosition: userData.position,
+        timestamp: new Date().toISOString(),
+        answers: currentAnswers,
+        history: historyData,
+        changedFields: changedFields,
+        totalChanges: totalChangesCount,
+        isComplete: true
+    };
+    
+    console.log('📤 إرسال بيانات Module 3 (مكتمل):', payload);
+    
+    return new Promise((resolve) => {
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('✅ Module 3 completed successfully:', data);
+            resolve(true);
+        })
+        .catch(() => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+            xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+            xhr.onload = () => resolve(true);
+            xhr.onerror = () => resolve(false);
+            xhr.send(JSON.stringify(payload));
+        });
+        setTimeout(() => resolve(true), 3000);
+    });
+}
+
+// ============================================
+// GO TO NEXT MODULE
+// ============================================
+async function goToNextModule() {
+    const allAnswered = updateQuizProgress();
     
     if (!allAnswered) {
         showToast('⚠️ الرجاء الإجابة على جميع الأسئلة الأربعة قبل الانتقال إلى الوحدة ٣.١.', true);
         return;
     }
     
-    localStorage.setItem('module3_answers' + storageSuffix, JSON.stringify(answers));
-    localStorage.setItem('module3_completed' + storageSuffix, 'true');
-    sendModule3DataToSheet();
-    showToast('جاري حفظ تقدمك...');
+    saveAnswersToLocal();
+    showToast('💾 جاري حفظ إجاباتك...');
     
-    setTimeout(() => {
-        window.location.href = 'module3.1.html';
-    }, 500);
+    const saved = await sendModule3DataToSheet();
+    
+    if (saved) {
+        localStorage.setItem('module3_completed' + storageSuffix, 'true');
+        showToast('✅ تم حفظ التقدم! جاري التحويل...');
+        setTimeout(() => { window.location.href = 'module3.1.html'; }, 800);
+    } else {
+        localStorage.setItem('module3_completed' + storageSuffix, 'true');
+        showToast('⚠️ تم حفظ التقدم محلياً. جاري الاستمرار...', true);
+        setTimeout(() => { window.location.href = 'module3.1.html'; }, 800);
+    }
 }
 
-document.getElementById('backToModule2Btn')?.addEventListener('click', () => window.location.href = 'module2.html');
+// ============================================
+// EVENT LISTENERS
+// ============================================
+document.getElementById('backToModule2Btn')?.addEventListener('click', () => {
+    window.location.href = 'module2.html';
+});
+
 document.getElementById('nextToModule4Btn')?.addEventListener('click', goToNextModule);
+
 document.getElementById('resetDataLink')?.addEventListener('click', () => { 
-    if(confirm('هل تريد إعادة ضبط تقدم الوحدة ٣؟')) { 
-        localStorage.removeItem('module3_answers' + storageSuffix); 
+    if(confirm('هل تريد إعادة ضبط تقدم الوحدة ٣؟ لا يمكن التراجع عن هذا.')) { 
+        localStorage.removeItem('module3_answers' + storageSuffix);
         localStorage.removeItem('module3_completed' + storageSuffix);
+        localStorage.removeItem('module3_history_data' + storageSuffix);
+        localStorage.removeItem('module3_last_sent_answers' + storageSuffix);
         location.reload(); 
     } 
 });
 
-updateProgress();
+// ============================================
+// INITIALIZE
+// ============================================
+loadSavedAnswers();
+initializeHistoryTracking();
 </script>
 </body>
 </html>
