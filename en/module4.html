@@ -249,7 +249,7 @@
         // STORAGE SUFFIX & GOOGLE SHEETS URL
         // ============================================
         const storageSuffix = '_en';
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyIaeToJYeuMJU9aOSZFTw7khOsQHT6ZahndLw7GpiBGSjbuETYcMdhuH8jmcuI4WWf/exec';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxNcTOZANhYyqtMl7-23zSo5k0RT9bHMBhXOb5PT4DSZmDiNzT-4ZtjfZWXaKqInF-zXg/exec';
 
         // ============================================
         // USER DATA
@@ -310,6 +310,7 @@
                 }
                 updateFlipProgress();
                 saveAnswers();
+                // Flip cards are excluded from change counting (noChangeKeys)
                 sendPartialData();
             });
         });
@@ -505,38 +506,53 @@
         }
 
         // ============================================
-        // EVENT BINDING
+        // EVENT BINDING (FIXED)
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
             loadSavedAnswers();
 
+            // ✅ Check Answer button - THIS should trigger changes
             document.querySelectorAll('.check-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     let s = this.getAttribute('data-scenario');
                     let val = document.getElementById('scenario' + s).value.trim();
-                    if (!val) { showToast('Please write your learning intention first.', true); return; }
+                    if (!val) { 
+                        showToast('Please write your learning intention first.', true); 
+                        return; 
+                    }
                     let correct = checkAnswer(parseInt(s), val);
                     showFeedback(parseInt(s), correct);
                     saveAnswers();
-                    sendPartialData();
+                    sendPartialData();  // ✅ Only send on Check Answer
                 });
             });
 
+            // ✅ Input event - ONLY save locally, don't send to Google Sheets
             ['scenario1','scenario2','scenario3','scenario4'].forEach(id => {
                 document.getElementById(id).addEventListener('input', function() {
-                    saveAnswers();
-                    sendPartialData();
+                    saveAnswers();  // ✅ Save to localStorage only
+                    // ❌ DO NOT call sendPartialData() here
                 });
             });
 
+            // ✅ Show Suggested Answers
             document.getElementById('showAnswersBtn').addEventListener('click', function() {
                 let div = document.getElementById('suggestedAnswers');
-                if (div.style.display === 'none') { div.style.display = 'block'; this.textContent = 'Hide Suggested Answers'; }
-                else { div.style.display = 'none'; this.textContent = 'Show Suggested Answers'; }
+                if (div.style.display === 'none') { 
+                    div.style.display = 'block'; 
+                    this.textContent = 'Hide Suggested Answers'; 
+                } else { 
+                    div.style.display = 'none'; 
+                    this.textContent = 'Show Suggested Answers'; 
+                }
             });
 
-            document.getElementById('backToModule3Btn').addEventListener('click', function() { window.location.href = 'module3.1.html'; });
+            // ✅ Back button
+            document.getElementById('backToModule3Btn').addEventListener('click', function() { 
+                window.location.href = 'module3.1.html'; 
+            });
 
+            // ✅ Continue button
             document.getElementById('continueToModule5Btn').addEventListener('click', function() {
                 let completed = updateProgress();
                 let allFlipped = updateFlipProgress();
@@ -559,6 +575,7 @@
                 });
             });
 
+            // ✅ Reset link
             document.getElementById('resetDataLink').addEventListener('click', function(e) {
                 e.preventDefault();
                 if (confirm('Reset all module data? This cannot be undone.')) {
