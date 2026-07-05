@@ -5,392 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
     <title>The Resilience Toolkit · Module 4: Learning Intentions vs. Performance Goals</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            background: #F4F7FC;
-            color: #1E2F3E;
-            line-height: 1.5;
-            padding: 2rem 1rem;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .card {
-            background: white;
-            border-radius: 32px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.02);
-            overflow: hidden;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-        }
-        @media (max-width: 600px) {
-            .card { padding: 1.5rem; }
-        }
-        .header-tag {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #1A6B5A;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .user-badge {
-            font-size: 0.7rem;
-            background: #E8F5E9;
-            padding: 0.2rem 0.6rem;
-            border-radius: 20px;
-            color: #1A6B5A;
-        }
-        .module-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-            border-bottom: 2px solid #E8A735;
-            padding-bottom: 0.5rem;
-            gap: 0.5rem;
-        }
-        .module-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #0C2E3B;
-        }
-        .module-time {
-            font-size: 0.8rem;
-            background: #F0F4F9;
-            padding: 0.2rem 0.8rem;
-            border-radius: 20px;
-            color: #2C5F7A;
-        }
-        h2 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #0C2E3B;
-            margin: 1.5rem 0 1rem 0;
-            border-left: 4px solid #E8A735;
-            padding-left: 0.8rem;
-        }
-        .presenter {
-            font-size: 0.85rem;
-            color: #2C5F7A;
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-        .duration-badge {
-            display: inline-block;
-            background: #EFF3F8;
-            padding: 0.2rem 0.9rem;
-            border-radius: 30px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: #1A6B5A;
-            margin-bottom: 1.5rem;
-        }
-        .highlight-box {
-            background: #F0F7F4;
-            border-radius: 20px;
-            padding: 1.2rem;
-            margin: 1rem 0;
-            border-left: 4px solid #E8A735;
-        }
-        .warning-box {
-            background: #FDF8F0;
-            border-radius: 20px;
-            padding: 1.2rem;
-            margin: 1rem 0;
-            border-left: 4px solid #E8A735;
-        }
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1rem 0;
-            font-size: 0.9rem;
-            display: block;
-            overflow-x: auto;
-        }
-        .comparison-table th, .comparison-table td {
-            border: 1px solid #E2E9F2;
-            padding: 0.75rem;
-            text-align: left;
-            vertical-align: top;
-        }
-        .comparison-table th {
-            background: #F0F7F4;
-            font-weight: 700;
-            color: #1A6B5A;
-        }
-        .comparison-table td:first-child {
-            background: #FFFFD7;
-            font-weight: 500;
-        }
-        .learning-bridge-note {
-            background: #E3F2FD;
-            border-radius: 20px;
-            padding: 1.2rem;
-            margin: 1rem 0;
-            border-left: 4px solid #1A6B5A;
-            font-weight: 500;
-            color: #0C2E3B;
-        }
-        .phase-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-        .phase-card {
-            background: white;
-            border-radius: 20px;
-            padding: 1.2rem;
-            border: 1px solid #E2E9F2;
-        }
-        .phase-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #E8A735;
-        }
-        .phase-example {
-            font-size: 0.85rem;
-            color: #1A6B5A;
-            margin: 0.5rem 0;
-            background: #F0F7F4;
-            padding: 0.3rem 0.6rem;
-            border-radius: 8px;
-            display: inline-block;
-        }
-        .exercise-box {
-            background: #F9FCFE;
-            border-radius: 20px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border: 1px solid #E2E9F2;
-        }
-        .scenario-card {
-            background: #FDF8F0;
-            border-radius: 16px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-left: 3px solid #1A6B5A;
-        }
-        .scenario-title {
-            font-weight: 700;
-            color: #1A6B5A;
-            margin-bottom: 0.5rem;
-        }
-        .goal-input {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ccc;
-            border-radius: 12px;
-            font-family: inherit;
-            font-size: 0.9rem;
-            margin: 0.5rem 0;
-            resize: vertical;
-        }
-        .feedback-badge {
-            margin-top: 0.5rem;
-            padding: 0.8rem;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            display: none;
-        }
-        .feedback-correct {
-            background: #E8F5E9;
-            color: #1A6B5A;
-            border-left: 3px solid #1A6B5A;
-        }
-        .feedback-incorrect {
-            background: #FFEBEE;
-            color: #B33A3A;
-            border-left: 3px solid #B33A3A;
-        }
-        .check-btn {
-            background: #6C86A0;
-            margin-right: 0.5rem;
-        }
-        .check-btn:hover {
-            background: #4a627a;
-        }
-        button {
-            background: #1A6B5A;
-            border: none;
-            color: white;
-            font-weight: 600;
-            padding: 0.7rem 1.5rem;
-            border-radius: 60px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            margin-top: 0.5rem;
-        }
-        button:hover {
-            background: #0e4d40;
-        }
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        .btn-secondary {
-            background: #E8A735;
-            color: #2E3A2A;
-        }
-        .btn-secondary:hover {
-            background: #d4951e;
-        }
-        .golden-rule {
-            background: linear-gradient(135deg, #E8A73520, #1A6B5A20);
-            border-radius: 20px;
-            padding: 1.2rem;
-            text-align: center;
-            margin: 1.5rem 0;
-            border: 1px solid #E8A735;
-        }
-        .badge-earned {
-            background: linear-gradient(135deg, #E8A735, #1A6B5A);
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            border-radius: 60px;
-            margin-top: 1.5rem;
-            font-weight: 700;
-        }
-        .module-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-        .footer-note {
-            font-size: 0.7rem;
-            text-align: center;
-            color: #8BA0B8;
-            margin-top: 1.5rem;
-        }
-        .reset-link {
-            text-align: center;
-            margin-top: 1rem;
-            font-size: 0.7rem;
-        }
-        .reset-link a {
-            color: #8BA0B8;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-        hr {
-            margin: 1.5rem 0;
-            border: none;
-            border-top: 1px solid #E2E9F2;
-        }
-        .toast-notification {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1A6B5A;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 60px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            animation: fadeInUp 0.3s ease;
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
-            to { opacity: 1; transform: translateX(-50%) translateY(0); }
-        }
-        .status-badge {
-            display: inline-block;
-            margin-left: 0.5rem;
-            font-size: 0.7rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 20px;
-        }
-        .status-pending {
-            background: #FFF3E0;
-            color: #E8A735;
-        }
-        .status-completed {
-            background: #E8F5E9;
-            color: #1A6B5A;
-        }
-
-        /* ========== MOBILE RESPONSIVE TEXT IMPROVEMENTS ========== */
-        p {
-            text-align: justify;
-            word-wrap: break-word;
-        }
-        li {
-            text-align: justify;
-            word-wrap: break-word;
-        }
-        .warning-box p, .highlight-box p, .learning-bridge-note p {
-            text-align: justify;
-        }
-        .golden-rule {
-            text-align: center;
-        }
-        .scenario-card p {
-            text-align: justify;
-        }
-        .comparison-table td, .comparison-table th {
-            text-align: left;
-        }
-        
-        @media (max-width: 480px) {
-            body {
-                padding: 0;
-            }
-            .card {
-                margin: 0.5rem;
-                padding: 1.2rem;
-            }
-            p, li, .scenario-card p, .warning-box p, .highlight-box p, .learning-bridge-note p {
-                font-size: 0.9rem;
-                line-height: 1.55;
-            }
-            .module-title {
-                font-size: 1.1rem;
-            }
-            h2 {
-                font-size: 1.1rem;
-            }
-            .scenario-card {
-                padding: 0.8rem;
-            }
-            button {
-                padding: 0.6rem 1rem;
-                font-size: 0.8rem;
-            }
-            .check-btn {
-                padding: 0.4rem 0.8rem;
-            }
-            .goal-input {
-                font-size: 0.85rem;
-                padding: 0.6rem;
-            }
-            .comparison-table td, .comparison-table th {
-                padding: 0.5rem;
-                font-size: 0.8rem;
-            }
-            .golden-rule {
-                padding: 0.8rem;
-                font-size: 0.85rem;
-            }
-        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:#F4F7FC;color:#1E2F3E;line-height:1.45;padding:0 0 2rem 0}
+        .course-card{max-width:720px;margin:1rem auto;background:white;border-radius:32px;box-shadow:0 8px 20px rgba(0,0,0,0.05);overflow:hidden;padding:1.8rem 1.5rem 2.2rem}
+        @media (max-width:550px){.course-card{margin:0.8rem;padding:1.5rem 1.2rem;border-radius:28px}}
+        .header-tag{font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:#1A6B5A;font-weight:600;margin-bottom:0.5rem;display:flex;justify-content:space-between;align-items:center}
+        .user-badge{font-size:0.7rem;background:#E8F5E9;padding:0.2rem 0.6rem;border-radius:20px;color:#1A6B5A}
+        .module-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1rem;flex-wrap:wrap;border-bottom:2px solid #E8A735;padding-bottom:0.5rem;gap:0.5rem}
+        .module-title{font-size:1.3rem;font-weight:700;color:#0C2E3B}
+        .module-time{font-size:0.8rem;background:#F0F4F9;padding:0.2rem 0.8rem;border-radius:20px;color:#2C5F7A}
+        h2{font-size:1.2rem;font-weight:600;color:#1A6B5A;margin:1.5rem 0 0.75rem 0;border-left:4px solid #E8A735;padding-left:0.8rem}
+        h3{font-size:1rem;font-weight:600;color:#1A6B5A;margin-bottom:0.75rem}
+        .scenario-card{background:#FDF8F0;border-left:5px solid #E8A735;padding:1rem;margin:1rem 0;border-radius:16px}
+        .mindset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin:1.5rem 0}
+        .mindset-card{background:white;border-radius:20px;padding:1rem;border:2px solid #E2E9F2;cursor:pointer;transition:all 0.2s;text-align:center;min-height:140px;display:flex;flex-direction:column;justify-content:center}
+        .mindset-card:hover{transform:translateY(-4px);border-color:#E8A735}
+        .mindset-card.flipped{background:#E8F5E9;border-color:#1A6B5A}
+        .hidden-content{display:none}
+        .mindset-front,.mindset-back{text-align:center}
+        .mindset-front .label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.5px;color:#C0392B;font-weight:600;margin-bottom:0.3rem}
+        .mindset-front .goal{font-weight:600;color:#1E2F3E;font-size:0.9rem}
+        .mindset-back .label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.5px;color:#1A6B5A;font-weight:600;margin-bottom:0.3rem}
+        .mindset-back .intention{font-weight:600;color:#1A6B5A;font-size:0.9rem}
+        .bridge-note{background:#E3F2FD;border-radius:16px;padding:1rem;margin:1rem 0;border-left:4px solid #1A6B5A;font-weight:500}
+        .golden-rule{background:linear-gradient(135deg,#E8A73520,#1A6B5A20);border-radius:20px;padding:1rem;text-align:center;margin:1.5rem 0;border:1px solid #E8A735}
+        .exercise-box{background:#F9FCFE;border-radius:20px;padding:1rem;margin:1.5rem 0;border:1px solid #E2E9F2}
+        .scenario-input{background:white;border-radius:12px;padding:0.8rem;margin:0.8rem 0;border-left:3px solid #1A6B5A}
+        .scenario-input label{font-weight:700;color:#1A6B5A;display:block;margin-bottom:0.3rem;font-size:0.85rem}
+        .scenario-input .hint{font-size:0.75rem;color:#8BA0B8;margin:0.2rem 0 0.3rem}
+        textarea{width:100%;padding:0.6rem;border:1px solid #E2E9F2;border-radius:12px;font-family:inherit;font-size:0.9rem;resize:vertical;min-height:60px}
+        textarea:focus{outline:none;border-color:#1A6B5A}
+        .check-btn{background:#6C86A0;border:none;color:white;font-weight:600;padding:0.4rem 1.2rem;border-radius:60px;font-size:0.8rem;cursor:pointer;margin-top:0.3rem}
+        .check-btn:hover{background:#4a627a}
+        .feedback-badge{padding:0.6rem;border-radius:12px;font-size:0.85rem;margin-top:0.5rem;display:none}
+        .feedback-correct{background:#E8F5E9;color:#1A6B5A;border-left:3px solid #1A6B5A}
+        .feedback-incorrect{background:#FFEBEE;color:#B33A3A;border-left:3px solid #B33A3A}
+        .hint-box{background:#FFF8E1;border-left:3px solid #E8A735;padding:0.75rem;margin-top:0.75rem;border-radius:12px;font-size:0.85rem;color:#2C5F7A;display:none}
+        button{background:#1A6B5A;border:none;color:white;font-weight:600;padding:0.7rem 1.5rem;border-radius:60px;font-size:0.9rem;cursor:pointer;margin-top:0.5rem}
+        button:hover{background:#0e4d40}
+        .secondary{background:#E8A735;color:#2E3A2A}
+        .secondary:hover{background:#d4951e}
+        .module-nav{display:flex;justify-content:space-between;gap:1rem;margin-top:1.5rem;flex-wrap:wrap}
+        .footer-note{font-size:0.7rem;text-align:center;color:#8BA0B8;margin-top:1.5rem}
+        .reset-link{text-align:center;margin-top:1rem;font-size:0.7rem}
+        .reset-link a{color:#8BA0B8;cursor:pointer;text-decoration:underline}
+        .progress-badge{display:inline-block;margin-left:0.5rem;font-size:0.7rem;padding:0.2rem 0.6rem;border-radius:20px;background:#FFF3E0;color:#E8A735}
+        .progress-complete{background:#E8F5E9;color:#1A6B5A}
+        .badge-earned{background:linear-gradient(135deg,#E8A735,#1A6B5A);color:white;text-align:center;padding:0.8rem;border-radius:60px;margin-top:1rem;font-weight:700;display:none}
+        .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.5rem}
+        .toast-notification{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1A6B5A;color:white;padding:12px 24px;border-radius:60px;font-size:0.85rem;z-index:1000;box-shadow:0 4px 12px rgba(0,0,0,0.15);animation:fadeInUp 0.3s ease}
+        @keyframes fadeInUp{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+        .tip-note{font-size:0.75rem;color:#E8A735;background:#FFF8E1;padding:0.5rem;border-radius:12px;margin-top:0.5rem;text-align:center}
+        .sentence-box{background:#E8F5E9;border-left:5px solid #1A6B5A;padding:1rem;margin:1rem 0;border-radius:16px;text-align:center}
+        p, li, .scenario-card p, .bridge-note p, .golden-rule p{text-align:justify;word-wrap:break-word}
+        @media (max-width:480px){.course-card{margin:0.5rem;padding:1.2rem} p, li{font-size:0.9rem;line-height:1.55} .module-title{font-size:1.1rem} h2{font-size:1.1rem} .scenario-input{padding:0.6rem} textarea{font-size:0.85rem}}
+        .warning-box{background:#FDF8F0;border-radius:20px;padding:1.2rem;margin:1rem 0;border-left:4px solid #E8A735}
+        .highlight-box{background:#F0F7F4;border-radius:20px;padding:1.2rem;margin:1rem 0;border-left:4px solid #E8A735}
+        .presenter{font-size:0.85rem;color:#2C5F7A;margin-bottom:1rem;font-weight:500}
+        .duration-badge{display:inline-block;background:#EFF3F8;padding:0.2rem 0.9rem;border-radius:30px;font-size:0.75rem;font-weight:500;color:#1A6B5A;margin-bottom:1.5rem}
+        .flip-progress{display:inline-block;margin-left:0.5rem;font-size:0.7rem;padding:0.2rem 0.6rem;border-radius:20px;background:#FFF3E0;color:#E8A735}
+        .flip-complete{background:#E8F5E9;color:#1A6B5A}
+        .click-hint{font-size:0.65rem;color:#8BA0B8;margin-top:0.5rem;display:block}
     </style>
 </head>
 <body>
-        <!-- ========== VERIFICATION CODE ========== -->
+    <!-- ========== VERIFICATION CODE ========== -->
     <script>
         const userLang = localStorage.getItem('userLanguage') || 'en';
         const messages = {
@@ -404,11 +83,10 @@
         }
     </script>
     <!-- ================================= -->
-<div class="container">
-    <div class="card">
+    <div class="course-card">
         <div class="header-tag">
-            <span>THE RESILIENCE TOOLKIT</span>
-            <span class="user-badge" id="userBadge">👤 Loading...</span>
+            <span>THE RESILIENCE TOOLKIT · MODULE 4</span>
+            <span class="user-badge" id="userBadge">Loading...</span>
         </div>
         
         <div class="module-header">
@@ -435,28 +113,51 @@
             <p style="font-size: 1.1rem; font-weight: 600; margin: 0.5rem 0;">"Learn how to deliver rations when the main road is closed."</p>
         </div>
 
-        <table class="comparison-table">
-            <thead>
-                <tr><th>Performance Goal</th><th>Learning Intention</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>"Deliver 10,000 rations by Friday"</div></td>
-                    <td>"Learn how to deliver rations when the main road is closed"</div></div></td>
-                </tr>
-                <tr>
-                    <td>"Fix the broken vehicle in 24 hours"</div></div></td>
-                    <td>"Learn how to borrow a vehicle from the community"</div></div></td>
-                </tr>
-                <tr>
-                    <td>"Find a new interpreter by the end of the day"</div></div></td>
-                    <td>"Learn how to communicate without an interpreter"</div></div></div></td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="section-header">
+            <h2 style="margin:0;border-left:none;padding-left:0;">Performance vs. Learning — Flip Cards</h2>
+            <span class="flip-progress" id="flipProgress">0/3 flipped</span>
+        </div>
+        <p style="margin-bottom:0.5rem;font-size:0.85rem;color:#2C5F7A;">Click each card to reveal the learning intention that transforms a rigid performance goal into an adaptive approach.</p>
+        
+        <div class="mindset-grid" id="flipGrid">
+            <div class="mindset-card" data-scenario="rations">
+                <div class="mindset-front">
+                    <div class="label">Performance Goal</div>
+                    <div class="goal">"Deliver 10,000 rations by Friday"</div>
+                    <span class="click-hint">Click to flip</span>
+                </div>
+                <div class="mindset-back hidden-content">
+                    <div class="label">Learning Intention</div>
+                    <div class="intention">"Learn how to deliver rations when the main road is closed"</div>
+                </div>
+            </div>
+            
+            <div class="mindset-card" data-scenario="vehicle">
+                <div class="mindset-front">
+                    <div class="label">Performance Goal</div>
+                    <div class="goal">"Fix the broken vehicle in 24 hours"</div>
+                    <span class="click-hint">Click to flip</span>
+                </div>
+                <div class="mindset-back hidden-content">
+                    <div class="label">Learning Intention</div>
+                    <div class="intention">"Learn how to borrow a vehicle from the community"</div>
+                </div>
+            </div>
+            
+            <div class="mindset-card" data-scenario="interpreter">
+                <div class="mindset-front">
+                    <div class="label">Performance Goal</div>
+                    <div class="goal">"Find a new interpreter by the end of the day"</div>
+                    <span class="click-hint">Click to flip</span>
+                </div>
+                <div class="mindset-back hidden-content">
+                    <div class="label">Learning Intention</div>
+                    <div class="intention">"Learn how to communicate without an interpreter"</div>
+                </div>
+            </div>
+        </div>
 
-        <div class="learning-bridge-note">
+        <div class="bridge-note">
             💡 <strong>Note:</strong> Learning intentions do not mean giving up on performance goals. They are the "bridge" to reach them. In conflict zones, clinging to rigid goals in a changing environment leads to complete operational shutdown; focusing on learning gives you the alternative path to achieve those goals. You are not abandoning your goal, you are finding the best way to reach it.
         </div>
 
@@ -464,52 +165,54 @@
             <strong>💡 First, learn how to measure the situation. Then, set the target.</strong>
         </div>
 
-        <h2>📝 Practice: Convert to Learning Intentions</h2>
-        <p><strong>Instructions:</strong> For each scenario, write a learning intention. <span class="status-badge status-pending" id="progressStatus">0/4 completed</span></p>
+        <div class="section-header">
+            <h2 style="margin:0;border-left:none;padding-left:0;">📝 Practice: Convert to Learning Intentions</h2>
+            <span class="progress-badge" id="progressStatus">0/4 completed</span>
+        </div>
         
         <div class="exercise-box">
             <!-- Scenario 1 -->
-            <div class="scenario-card" id="scenarioCard1">
-                <div class="scenario-title">📍 Scenario 1 (Flooding, Lebanon)</div>
-                <p>A bridge collapsed. Your team cannot reach the distribution point.</p>
-                <p><em>Performance Goal:</em> "Deliver food supplies by tomorrow."</p>
-                <input type="text" class="goal-input" id="scenario1" placeholder="Write a Learning Intention here...">
+            <div class="scenario-input" id="scenarioCard1">
+                <label>📍 Scenario 1 (Flooding, Lebanon)</label>
+                <p style="font-size:0.85rem;color:#2C5F7A;">A bridge collapsed. Your team cannot reach the distribution point.</p>
+                <p style="font-size:0.8rem;font-style:italic;color:#8BA0B8;">Performance Goal: "Deliver food supplies by tomorrow."</p>
+                <textarea id="scenario1" rows="2" placeholder="Write a Learning Intention here..."></textarea>
                 <button class="check-btn" data-scenario="1">Check Answer</button>
                 <div class="feedback-badge" id="feedback1"></div>
             </div>
 
             <!-- Scenario 2 -->
-            <div class="scenario-card" id="scenarioCard2">
-                <div class="scenario-title">📍 Scenario 2 (Internet shutdown, Syria)</div>
-                <p>All communication lines are down. You cannot contact HQ.</p>
-                <p><em>Performance Goal:</em> "Get HQ approval by noon."</p>
-                <input type="text" class="goal-input" id="scenario2" placeholder="Write a Learning Intention here...">
+            <div class="scenario-input" id="scenarioCard2">
+                <label>📍 Scenario 2 (Internet shutdown, Syria)</label>
+                <p style="font-size:0.85rem;color:#2C5F7A;">All communication lines are down. You cannot contact HQ.</p>
+                <p style="font-size:0.8rem;font-style:italic;color:#8BA0B8;">Performance Goal: "Get HQ approval by noon."</p>
+                <textarea id="scenario2" rows="2" placeholder="Write a Learning Intention here..."></textarea>
                 <button class="check-btn" data-scenario="2">Check Answer</button>
                 <div class="feedback-badge" id="feedback2"></div>
             </div>
 
             <!-- Scenario 3 -->
-            <div class="scenario-card" id="scenarioCard3">
-                <div class="scenario-title">📍 Scenario 3 (Staff arrest, Kyiv)</div>
-                <p>Your interpreter was arrested. You cannot communicate with partners.</p>
-                <p><em>Performance Goal:</em> "Find a new interpreter by the end of the day."</p>
-                <input type="text" class="goal-input" id="scenario3" placeholder="Write a Learning Intention here...">
+            <div class="scenario-input" id="scenarioCard3">
+                <label>📍 Scenario 3 (Staff arrest, Kyiv)</label>
+                <p style="font-size:0.85rem;color:#2C5F7A;">Your interpreter was arrested. You cannot communicate with partners.</p>
+                <p style="font-size:0.8rem;font-style:italic;color:#8BA0B8;">Performance Goal: "Find a new interpreter by the end of the day."</p>
+                <textarea id="scenario3" rows="2" placeholder="Write a Learning Intention here..."></textarea>
                 <button class="check-btn" data-scenario="3">Check Answer</button>
                 <div class="feedback-badge" id="feedback3"></div>
             </div>
 
             <!-- Scenario 4 -->
-            <div class="scenario-card" id="scenarioCard4">
-                <div class="scenario-title">📍 Scenario 4 (Vehicle breakdown, DRC)</div>
-                <p>Your only vehicle broke down. Team is waiting to go to the field.</p>
-                <p><em>Performance Goal:</em> "Fix the vehicle within 6 hours."</p>
-                <input type="text" class="goal-input" id="scenario4" placeholder="Write a Learning Intention here...">
+            <div class="scenario-input" id="scenarioCard4">
+                <label>📍 Scenario 4 (Vehicle breakdown, DRC)</label>
+                <p style="font-size:0.85rem;color:#2C5F7A;">Your only vehicle broke down. Team is waiting to go to the field.</p>
+                <p style="font-size:0.8rem;font-style:italic;color:#8BA0B8;">Performance Goal: "Fix the vehicle within 6 hours."</p>
+                <textarea id="scenario4" rows="2" placeholder="Write a Learning Intention here..."></textarea>
                 <button class="check-btn" data-scenario="4">Check Answer</button>
                 <div class="feedback-badge" id="feedback4"></div>
             </div>
         </div>
 
-        <button id="showAnswersBtn" class="btn-secondary">📖 Show Suggested Answers</button>
+        <button id="showAnswersBtn" class="secondary">📖 Show Suggested Answers</button>
         
         <div id="suggestedAnswers" style="display: none; margin-top: 1rem; background: #F0F7F4; padding: 1rem; border-radius: 16px;">
             <p><strong>Suggested Learning Intentions:</strong></p>
@@ -530,445 +233,345 @@
             <strong>In a crisis, start with learning. The performance will follow.</strong>
         </div>
 
-        <div id="badgeArea" style="display: none;" class="badge-earned">
-            🏅 Badge Earned: Learning Intentions Mastered!
-        </div>
+        <div id="badgeArea" class="badge-earned">🏅 Badge Earned: Learning Intentions Mastered!</div>
 
         <div class="module-nav">
-            <button class="btn-secondary" id="backToModule3Btn">← Back to Module 3.1</button>
+            <button class="secondary" id="backToModule3Btn">← Back to Module 3.1</button>
             <button id="continueToModule5Btn">Continue to Module 5 →</button>
         </div>
 
         <div class="footer-note">Module 4 of The Resilience Toolkit</div>
         <div class="reset-link"><a id="resetDataLink">↺ Reset Module Data</a></div>
     </div>
-</div>
 
-<script>
-// ============================================
-// LANGUAGE SUFFIX FOR LOCALSTORAGE
-// ============================================
-const storageSuffix = '_en';
+    <script>
+        // ============================================
+        // STORAGE SUFFIX & GOOGLE SHEETS URL
+        // ============================================
+        const storageSuffix = '_en';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
 
-// ============================================
-// GOOGLE SHEETS WEB APP URL
-// ============================================
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
+        // ============================================
+        // USER DATA
+        // ============================================
+        function getUserData() {
+            let name = 'Guest', email = 'guest@example.com', position = 'Not specified';
+            try {
+                let cu = localStorage.getItem('currentUser');
+                if (cu) { let u = JSON.parse(cu); if (u && u.name && u.name !== 'Guest' && u.name.trim()) { name = u.name.trim(); email = (u.email || '').trim() || 'guest@example.com'; position = (u.position || '').trim() || 'Not specified'; return { name, email, position }; } }
+                let users = JSON.parse(localStorage.getItem('users') || '[]');
+                if (users.length) { let u = users[users.length-1]; if (u && u.name && u.name.trim() && u.name !== 'Guest') { name = u.name.trim(); email = (u.email || '').trim() || 'guest@example.com'; position = (u.position || '').trim() || 'Not specified'; return { name, email, position }; } }
+                let n = localStorage.getItem('course_user_name');
+                if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim()) { name = n.trim(); email = localStorage.getItem('course_user_email') || 'guest@example.com'; position = localStorage.getItem('course_user_position') || 'Not specified'; return { name, email, position }; }
+                let saved = localStorage.getItem('course_user_name' + storageSuffix);
+                if (saved && saved !== 'null' && saved !== 'Guest' && saved.trim()) { name = saved.trim(); email = localStorage.getItem('course_user_email' + storageSuffix) || 'guest@example.com'; position = localStorage.getItem('course_user_position' + storageSuffix) || 'Not specified'; return { name, email, position }; }
+            } catch(e) {}
+            return { name: 'Guest', email: 'guest@example.com', position: 'Not specified' };
+        }
 
-// ============================================
-// IMPROVED getUserData() - Looks for data WITHOUT suffix first (from registration)
-// ============================================
-function getUserData() {
-    let name = 'Guest';
-    let email = 'guest@example.com';
-    let position = 'Not specified';
-    
-    console.log('🔍 Searching for user data in module4-en.html...');
-    
-    // FIRST: Try to get user data WITHOUT suffix (from registration page)
-    
-    // 1. Check currentUser first - NO SUFFIX
-    try {
-        let currentUser = localStorage.getItem('currentUser');
-        if (currentUser) {
-            let user = JSON.parse(currentUser);
-            if (user && user.name && user.name !== 'Guest' && user.name.trim() !== '') {
-                name = user.name.trim();
-                email = (user.email || '').trim() || 'guest@example.com';
-                position = (user.position || '').trim() || 'Not specified';
-                console.log('✅ Found from currentUser (no suffix):', name);
-                
-                // Save with suffix for future use
-                localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(user));
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name, email, position };
+        const currentUser = getUserData();
+        const badge = document.getElementById('userBadge');
+        if (badge) badge.innerText = currentUser.name !== 'Guest' ? '👤 ' + currentUser.name : '👤 Learner';
+
+        function showToast(msg, isError = false) {
+            let t = document.querySelector('.toast-notification'); if (t) t.remove();
+            let el = document.createElement('div'); el.className = 'toast-notification'; el.style.background = isError ? '#C0392B' : '#1A6B5A'; el.textContent = msg; document.body.appendChild(el); setTimeout(() => el.remove(), 3000);
+        }
+
+        // ============================================
+        // FLIP CARDS (like Module 3.1)
+        // ============================================
+        const flipCards = document.querySelectorAll('.mindset-card');
+        let flipCount = 0;
+
+        function updateFlipProgress() {
+            const flipped = document.querySelectorAll('.mindset-card.flipped').length;
+            const progressSpan = document.getElementById('flipProgress');
+            if (progressSpan) {
+                progressSpan.textContent = flipped + '/3 flipped';
+                progressSpan.className = flipped === 3 ? 'flip-progress flip-complete' : 'flip-progress';
+            }
+            flipCount = flipped;
+            return flipped === 3;
+        }
+
+        flipCards.forEach(function(card) {
+            card.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.classList.toggle('flipped');
+                var front = this.querySelector('.mindset-front');
+                var back = this.querySelector('.mindset-back');
+                if (this.classList.contains('flipped')) {
+                    if (front) front.classList.add('hidden-content');
+                    if (back) back.classList.remove('hidden-content');
+                } else {
+                    if (front) front.classList.remove('hidden-content');
+                    if (back) back.classList.add('hidden-content');
+                }
+                updateFlipProgress();
+                saveAnswers();
+                sendPartialData();
+            });
+        });
+
+        // ============================================
+        // SAMPLE ANSWERS (EXACTLY AS ORIGINAL)
+        // ============================================
+        const sampleAnswers = {
+            1: ["learn how to reach beneficiaries", "learn alternative routes", "learn local boats", "find alternative routes", "use local boats"],
+            2: ["learn how to make decisions without hq", "learn autonomous decisions", "learn to act without approval", "make decisions independently", "learn how to make autonomous decisions when can't reach hq approval"],
+            3: ["learn how to communicate without interpreter", "learn alternative communication", "learn gestures", "learn community volunteers", "learn to use drawings"],
+            4: ["learn who has a vehicle", "learn to borrow vehicle", "find community vehicles", "borrow a vehicle", "learn alternative transport"]
+        };
+
+        function checkAnswer(scenario, answer) {
+            let norm = answer.toLowerCase().trim();
+            if (!norm) return false;
+            if (norm.startsWith('learn')) return true;
+            for (let p of sampleAnswers[scenario]) if (norm.includes(p.toLowerCase())) return true;
+            return false;
+        }
+
+        function showFeedback(scenario, correct) {
+            let div = document.getElementById('feedback' + scenario);
+            if (correct) { div.innerHTML = '✅ Good! That is a learning intention focused on discovery.'; div.className = 'feedback-badge feedback-correct'; }
+            else { div.innerHTML = '❌ Try focusing on "Learn how to..." rather than demanding a specific outcome.'; div.className = 'feedback-badge feedback-incorrect'; }
+            div.style.display = 'block';
+        }
+
+        // ============================================
+        // COLLECT ANSWERS
+        // ============================================
+        function collectAnswers() {
+            // Get flipped card scenarios
+            let flipped = [];
+            document.querySelectorAll('.mindset-card.flipped').forEach(function(card) {
+                var scenario = card.getAttribute('data-scenario') || 'unknown';
+                flipped.push(scenario);
+            });
+
+            return {
+                q1: document.getElementById('scenario1').value.trim() || 'Not answered',
+                q2: document.getElementById('scenario2').value.trim() || 'Not answered',
+                q3: document.getElementById('scenario3').value.trim() || 'Not answered',
+                q4: document.getElementById('scenario4').value.trim() || 'Not answered',
+                q5: flipped.join(', ') || 'None'
+            };
+        }
+
+        function saveAnswers() {
+            let answers = collectAnswers();
+            localStorage.setItem('module4_answers' + storageSuffix, JSON.stringify({ ...answers, lastUpdated: new Date().toISOString() }));
+            updateProgress();
+        }
+
+        function loadSavedAnswers() {
+            let saved = localStorage.getItem('module4_answers' + storageSuffix);
+            if (saved) {
+                try {
+                    let data = JSON.parse(saved);
+                    if (data.q1 && data.q1 !== 'Not answered') document.getElementById('scenario1').value = data.q1;
+                    if (data.q2 && data.q2 !== 'Not answered') document.getElementById('scenario2').value = data.q2;
+                    if (data.q3 && data.q3 !== 'Not answered') document.getElementById('scenario3').value = data.q3;
+                    if (data.q4 && data.q4 !== 'Not answered') document.getElementById('scenario4').value = data.q4;
+                    
+                    // Load flipped cards
+                    if (data.q5 && data.q5 !== 'None') {
+                        var flippedScenarios = data.q5.split(', ');
+                        document.querySelectorAll('.mindset-card').forEach(function(card) {
+                            var scenario = card.getAttribute('data-scenario');
+                            if (flippedScenarios.includes(scenario)) {
+                                if (!card.classList.contains('flipped')) {
+                                    card.classList.add('flipped');
+                                    var front = card.querySelector('.mindset-front');
+                                    var back = card.querySelector('.mindset-back');
+                                    if (front) front.classList.add('hidden-content');
+                                    if (back) back.classList.remove('hidden-content');
+                                }
+                            }
+                        });
+                    }
+                } catch(e) {}
+            }
+            updateFlipProgress();
+            updateProgress();
+        }
+
+        function updateProgress() {
+            let completed = 0;
+            ['scenario1','scenario2','scenario3','scenario4'].forEach(id => { if (document.getElementById(id).value.trim()) completed++; });
+            let span = document.getElementById('progressStatus');
+            span.textContent = completed + '/4 completed';
+            span.className = completed === 4 ? 'progress-badge progress-complete' : 'progress-badge';
+            
+            let allFlipped = updateFlipProgress();
+            let allCompleted = completed === 4;
+            
+            if (allFlipped && allCompleted) {
+                document.getElementById('badgeArea').style.display = 'block';
+            } else {
+                document.getElementById('badgeArea').style.display = 'none';
+            }
+            return allCompleted;
+        }
+
+        // ============================================
+        // HISTORY TRACKING
+        // ============================================
+        function initHistory() {
+            if (!localStorage.getItem('module4_history_data' + storageSuffix)) {
+                let h = {};
+                ['q1','q2','q3','q4','q5'].forEach(k => { h[k] = { history: '', changes: 0, lastValue: '' }; });
+                localStorage.setItem('module4_history_data' + storageSuffix, JSON.stringify(h));
             }
         }
-    } catch(e) { console.error('Error parsing currentUser:', e); }
-    
-    // 2. Check users array - NO SUFFIX
-    try {
-        let users = JSON.parse(localStorage.getItem('users') || '[]');
-        if (Array.isArray(users) && users.length > 0) {
-            let lastUser = users[users.length - 1];
-            if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name.trim() !== '') {
-                name = lastUser.name.trim();
-                email = (lastUser.email || '').trim() || 'guest@example.com';
-                position = (lastUser.position || '').trim() || 'Not specified';
-                console.log('✅ Found from users array (no suffix):', name);
+        initHistory();
+
+        function sendPartialData() {
+            const user = getUserData();
+            const answers = collectAnswers();
+            let history = JSON.parse(localStorage.getItem('module4_history_data' + storageSuffix) || '{}');
+            let hasChange = false, changed = [];
+            let totalChanges = 0;
+            const questionMap = { q1: 'Q1_Lebanon', q2: 'Q2_Syria', q3: 'Q3_Kyiv', q4: 'Q4_DRC', q5: 'Q5_Flipped_Cards' };
+            
+            // No-change keys (like Module 3.1's q5)
+            const noChangeKeys = ['q5'];
+            
+            for (let key in questionMap) {
+                let val = answers[key] || '';
+                let last = history[key]?.lastValue || '';
+                let hist = history[key]?.history || '';
+                let changes = history[key]?.changes || 0;
+                const isNoChange = noChangeKeys.includes(key);
                 
-                // Save with suffix
-                localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(lastUser));
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name, email, position };
-            }
-        }
-    } catch(e) { console.error('Error parsing users:', e); }
-    
-    // 3. Check individual fields - NO SUFFIX
-    let n = localStorage.getItem('course_user_name');
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'Your Name' && n.trim() !== '') {
-        name = n.trim();
-        email = (localStorage.getItem('course_user_email') || 'guest@example.com').trim();
-        position = (localStorage.getItem('course_user_position') || 'Not specified').trim();
-        console.log('✅ Found from individual fields (no suffix):', name);
-        
-        // Save with suffix
-        localStorage.setItem('course_user_name' + storageSuffix, name);
-        localStorage.setItem('course_user_email' + storageSuffix, email);
-        localStorage.setItem('course_user_position' + storageSuffix, position);
-        
-        return { name, email, position };
-    }
-    
-    // 4. Check course_user object - NO SUFFIX
-    let user = localStorage.getItem('course_user');
-    if (user) {
-        try { 
-            let p = JSON.parse(user); 
-            if (p && p.name && p.name !== 'Guest' && p.name !== 'Your Name' && p.name.trim() !== '') {
-                name = p.name.trim();
-                email = (p.email || 'guest@example.com').trim();
-                position = (p.position || 'Not specified').trim();
-                console.log('✅ Found from course_user (no suffix):', name);
-                
-                // Save with suffix
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name, email, position };
-            }
-        } catch(e) {}
-    }
-    
-    // 5. Check resilience_users array - NO SUFFIX
-    let users = localStorage.getItem('resilience_users');
-    if (users) {
-        try { 
-            let p = JSON.parse(users); 
-            if (Array.isArray(p) && p.length > 0) {
-                for (let i = p.length - 1; i >= 0; i--) {
-                    if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name.trim() !== '') {
-                        name = p[i].name.trim();
-                        email = (p[i].email || 'guest@example.com').trim();
-                        position = (p[i].position || 'Not specified').trim();
-                        console.log('✅ Found from resilience_users (no suffix):', name);
-                        
-                        // Save with suffix
-                        localStorage.setItem('course_user_name' + storageSuffix, name);
-                        localStorage.setItem('course_user_email' + storageSuffix, email);
-                        localStorage.setItem('course_user_position' + storageSuffix, position);
-                        
-                        return { name, email, position };
+                if (val && val !== 'Not answered' && val !== 'None') {
+                    if (last && last !== val && !isNoChange) {
+                        history[key] = { history: hist ? hist + '→' + val : val, changes: changes + 1, lastValue: val };
+                        hasChange = true; changed.push(questionMap[key]); totalChanges = changes + 1;
+                    } else if (!last) {
+                        history[key] = { history: val, changes: 0, lastValue: val };
+                        if (!isNoChange) {
+                            hasChange = true; changed.push(questionMap[key] + ' (NEW)');
+                        }
                     }
                 }
             }
-        } catch(e) {}
-    }
-    
-    // 6. Finally, try WITH suffix (for returning users)
-    n = localStorage.getItem('course_user_name' + storageSuffix);
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim() !== '') {
-        name = n.trim();
-        email = (localStorage.getItem('course_user_email' + storageSuffix) || 'guest@example.com').trim();
-        position = (localStorage.getItem('course_user_position' + storageSuffix) || 'Not specified').trim();
-        console.log('✅ Found from individual fields (with suffix):', name);
-        return { name, email, position };
-    }
-    
-    // 7. Try currentUser with suffix
-    try {
-        let currentUser = localStorage.getItem('currentUser' + storageSuffix);
-        if (currentUser) {
-            let user = JSON.parse(currentUser);
-            if (user && user.name && user.name !== 'Guest' && user.name.trim() !== '') {
-                name = user.name.trim();
-                email = (user.email || '').trim() || 'guest@example.com';
-                position = (user.position || '').trim() || 'Not specified';
-                console.log('✅ Found from currentUser (with suffix):', name);
-                return { name, email, position };
-            }
+            
+            localStorage.setItem('module4_history_data' + storageSuffix, JSON.stringify(history));
+            if (!hasChange) return;
+
+            const payload = {
+                module: 'Module 4',
+                action: 'partial',
+                language: 'en',
+                userName: user.name,
+                userEmail: user.email,
+                userPosition: user.position,
+                timestamp: new Date().toISOString(),
+                answers: answers,
+                history: history,
+                changedFields: changed,
+                totalChanges: totalChanges,
+                isComplete: false
+            };
+            fetch(GOOGLE_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) })
+                .then(r => r.json()).then(d => console.log('✅ Module 4 partial sent', d)).catch(e => {
+                    let xhr = new XMLHttpRequest(); xhr.open('POST', GOOGLE_SCRIPT_URL, true); xhr.setRequestHeader('Content-Type','text/plain;charset=utf-8'); xhr.send(JSON.stringify(payload));
+                });
         }
-    } catch(e) {}
-    
-    console.log('⚠️ No user data found, using Guest');
-    return { name: 'Guest', email: 'guest@example.com', position: 'Not specified' };
-}
 
-// Display user name in badge (silently)
-const currentUser = getUserData();
-const userBadge = document.getElementById('userBadge');
-if (userBadge) {
-    if (currentUser.name !== 'Guest') {
-        userBadge.innerText = `👤 ${currentUser.name}`;
-    } else {
-        userBadge.innerText = '👤 Learner';
-    }
-}
-console.log('👤 User loaded for Module 4:', currentUser.name);
-
-function showToast(message, isError = false) {
-    const existing = document.querySelector('.toast-notification');
-    if (existing) existing.remove();
-    const toast = document.createElement('div');
-    toast.className = 'toast-notification';
-    toast.style.background = isError ? '#C0392B' : '#1A6B5A';
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    setTimeout(() => { if (toast) toast.remove(); }, 3000);
-}
-
-const sampleAnswers = {
-    1: ["learn how to reach beneficiaries", "learn alternative routes", "learn local boats", "find alternative routes", "use local boats"],
-    2: ["learn how to make decisions without hq", "learn autonomous decisions", "learn to act without approval", "make decisions independently", "learn how to make autonomous decisions when can't reach hq approval"],
-    3: ["learn how to communicate without interpreter", "learn alternative communication", "learn gestures", "learn community volunteers", "learn to use drawings"],
-    4: ["learn who has a vehicle", "learn to borrow vehicle", "find community vehicles", "borrow a vehicle", "learn alternative transport"]
-};
-
-function checkAnswer(scenarioNum, userAnswer) {
-    const normalized = userAnswer.toLowerCase().trim();
-    const patterns = sampleAnswers[scenarioNum];
-    if (!patterns) return false;
-    for (const pattern of patterns) {
-        if (normalized.includes(pattern.toLowerCase())) return true;
-    }
-    if (normalized.startsWith('learn')) return true;
-    return false;
-}
-
-function showFeedback(scenarioNum, isCorrect) {
-    const feedbackDiv = document.getElementById(`feedback${scenarioNum}`);
-    if (isCorrect) {
-        feedbackDiv.innerHTML = '✅ Good! That is a learning intention focused on discovery.';
-        feedbackDiv.className = 'feedback-badge feedback-correct';
-    } else {
-        feedbackDiv.innerHTML = '❌ Try focusing on "Learn how to..." rather than demanding a specific outcome.';
-        feedbackDiv.className = 'feedback-badge feedback-incorrect';
-    }
-    feedbackDiv.style.display = 'block';
-}
-
-function updateProgressStatus() {
-    const allInputs = ['scenario1', 'scenario2', 'scenario3', 'scenario4'];
-    let completedCount = 0;
-    for (const id of allInputs) {
-        const input = document.getElementById(id);
-        if (input && input.value.trim()) {
-            completedCount++;
+        function sendCompleteData() {
+            const user = getUserData();
+            const answers = collectAnswers();
+            let history = JSON.parse(localStorage.getItem('module4_history_data' + storageSuffix) || '{}');
+            let totalChanges = 0; for (let k in history) totalChanges += history[k]?.changes || 0;
+            const payload = {
+                module: 'Module 4',
+                action: 'completed',
+                language: 'en',
+                userName: user.name,
+                userEmail: user.email,
+                userPosition: user.position,
+                timestamp: new Date().toISOString(),
+                answers: answers,
+                history: history,
+                totalChanges: totalChanges,
+                isComplete: true
+            };
+            return fetch(GOOGLE_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) })
+                .then(r => r.json()).then(d => { console.log('✅ Module 4 completed', d); return true; })
+                .catch(() => { let xhr = new XMLHttpRequest(); xhr.open('POST', GOOGLE_SCRIPT_URL, true); xhr.setRequestHeader('Content-Type','text/plain;charset=utf-8'); xhr.send(JSON.stringify(payload)); return new Promise(r => setTimeout(()=>r(true), 2000)); });
         }
-    }
-    const progressSpan = document.getElementById('progressStatus');
-    if (progressSpan) {
-        progressSpan.textContent = `${completedCount}/4 completed`;
-        if (completedCount === 4) {
-            progressSpan.className = 'status-badge status-completed';
-        } else {
-            progressSpan.className = 'status-badge status-pending';
-        }
-    }
-    return completedCount;
-}
 
-function checkAllCompleted() {
-    const completedCount = updateProgressStatus();
-    if (completedCount === 4) {
-        document.getElementById('badgeArea').style.display = 'block';
-    } else {
-        document.getElementById('badgeArea').style.display = 'none';
-    }
-    return completedCount === 4;
-}
+        // ============================================
+        // EVENT BINDING
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedAnswers();
 
-function saveAnswersToLocal() {
-    const answers = {
-        scenario1: document.getElementById('scenario1').value.trim(),
-        scenario2: document.getElementById('scenario2').value.trim(),
-        scenario3: document.getElementById('scenario3').value.trim(),
-        scenario4: document.getElementById('scenario4').value.trim(),
-        lastUpdated: new Date().toISOString()
-    };
-    localStorage.setItem('module4_answers' + storageSuffix, JSON.stringify(answers));
-    updateProgressStatus();
-}
-
-function loadSavedAnswers() {
-    const saved = localStorage.getItem('module4_answers' + storageSuffix);
-    if (saved) {
-        try {
-            const data = JSON.parse(saved);
-            if (data.scenario1) document.getElementById('scenario1').value = data.scenario1;
-            if (data.scenario2) document.getElementById('scenario2').value = data.scenario2;
-            if (data.scenario3) document.getElementById('scenario3').value = data.scenario3;
-            if (data.scenario4) document.getElementById('scenario4').value = data.scenario4;
-            checkAllCompleted();
-        } catch(e) {}
-    }
-    updateProgressStatus();
-}
-
-// ============================================
-// SEND DATA TO GOOGLE SHEETS
-// ============================================
-function sendModule4DataToSheet() {
-    const userData = getUserData();
-    const scenario1 = document.getElementById('scenario1').value.trim();
-    const scenario2 = document.getElementById('scenario2').value.trim();
-    const scenario3 = document.getElementById('scenario3').value.trim();
-    const scenario4 = document.getElementById('scenario4').value.trim();
-    
-    if (!scenario1 || !scenario2 || !scenario3 || !scenario4) {
-        showToast('⚠️ Please complete all 4 scenarios before continuing.', true);
-        return Promise.resolve(false);
-    }
-    
-    const payload = {
-        module: 'Module 4',
-        language: 'en',
-        userName: userData.name,
-        userEmail: userData.email,
-        userPosition: userData.position,
-        timestamp: new Date().toISOString(),
-        answers: {
-            scenario1: scenario1,
-            scenario2: scenario2,
-            scenario3: scenario3,
-            scenario4: scenario4
-        }
-    };
-    
-    console.log('📤 Sending Module 4 data:', payload);
-    
-    return new Promise((resolve) => {
-        fetch(GOOGLE_SCRIPT_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(payload)
-        })
-        .then(() => { console.log('✅ Module 4 data sent'); resolve(true); })
-        .catch(() => {
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', GOOGLE_SCRIPT_URL, true);
-            xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
-            xhr.onload = () => resolve(true);
-            xhr.onerror = () => resolve(false);
-            xhr.send(JSON.stringify(payload));
-        });
-        setTimeout(() => resolve(true), 3000);
-    });
-}
-
-// ============================================
-// GO TO MODULE 5
-// ============================================
-async function goToModule5() {
-    const scenario1 = document.getElementById('scenario1').value.trim();
-    const scenario2 = document.getElementById('scenario2').value.trim();
-    const scenario3 = document.getElementById('scenario3').value.trim();
-    const scenario4 = document.getElementById('scenario4').value.trim();
-    
-    if (!scenario1 || !scenario2 || !scenario3 || !scenario4) {
-        showToast('⚠️ Please complete all 4 scenarios before moving to Module 5.', true);
-        return;
-    }
-    
-    saveAnswersToLocal();
-    
-    showToast('💾 Saving your answers...');
-    
-    const saved = await sendModule4DataToSheet();
-    
-    if (saved) {
-        localStorage.setItem('module4_completed' + storageSuffix, 'true');
-        showToast('✅ Progress saved! Redirecting...');
-        
-        setTimeout(() => {
-            window.location.href = 'module5.html';
-        }, 800);
-    } else {
-        localStorage.setItem('module4_completed' + storageSuffix, 'true');
-        showToast('⚠️ Progress saved locally. Continuing...', true);
-        
-        setTimeout(() => {
-            window.location.href = 'module5.html';
-        }, 800);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    loadSavedAnswers();
-    
-    document.querySelectorAll('.check-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const scenarioNum = btn.getAttribute('data-scenario');
-            const userAnswer = document.getElementById(`scenario${scenarioNum}`).value;
-            if (!userAnswer.trim()) { 
-                alert('Please write your learning intention first.'); 
-                return; 
-            }
-            const isCorrect = checkAnswer(parseInt(scenarioNum), userAnswer);
-            showFeedback(parseInt(scenarioNum), isCorrect);
-            saveAnswersToLocal();
-        });
-    });
-    
-    ['scenario1', 'scenario2', 'scenario3', 'scenario4'].forEach(id => {
-        const input = document.getElementById(id);
-        if (input) {
-            input.addEventListener('input', () => { 
-                saveAnswersToLocal(); 
-                checkAllCompleted();
+            document.querySelectorAll('.check-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    let s = this.getAttribute('data-scenario');
+                    let val = document.getElementById('scenario' + s).value.trim();
+                    if (!val) { showToast('Please write your learning intention first.', true); return; }
+                    let correct = checkAnswer(parseInt(s), val);
+                    showFeedback(parseInt(s), correct);
+                    saveAnswers();
+                    sendPartialData();
+                });
             });
-        }
-    });
-    
-    const showAnswersBtn = document.getElementById('showAnswersBtn');
-    if (showAnswersBtn) {
-        showAnswersBtn.addEventListener('click', () => {
-            const div = document.getElementById('suggestedAnswers');
-            if (div.style.display === 'none') {
-                div.style.display = 'block';
-                showAnswersBtn.textContent = 'Hide Suggested Answers';
-            } else {
-                div.style.display = 'none';
-                showAnswersBtn.textContent = 'Show Suggested Answers';
-            }
+
+            ['scenario1','scenario2','scenario3','scenario4'].forEach(id => {
+                document.getElementById(id).addEventListener('input', function() {
+                    saveAnswers();
+                    sendPartialData();
+                });
+            });
+
+            document.getElementById('showAnswersBtn').addEventListener('click', function() {
+                let div = document.getElementById('suggestedAnswers');
+                if (div.style.display === 'none') { div.style.display = 'block'; this.textContent = 'Hide Suggested Answers'; }
+                else { div.style.display = 'none'; this.textContent = 'Show Suggested Answers'; }
+            });
+
+            document.getElementById('backToModule3Btn').addEventListener('click', function() { window.location.href = 'module3.1.html'; });
+
+            document.getElementById('continueToModule5Btn').addEventListener('click', function() {
+                let completed = updateProgress();
+                let allFlipped = updateFlipProgress();
+                
+                if (!allFlipped) {
+                    showToast('⚠️ Please flip and review all 3 comparison cards before continuing.', true);
+                    return;
+                }
+                if (!completed) {
+                    showToast('⚠️ Please complete all 4 scenarios before continuing.', true);
+                    return;
+                }
+                
+                saveAnswers();
+                showToast('💾 Saving your answers...');
+                sendCompleteData().then(() => {
+                    localStorage.setItem('module4_completed' + storageSuffix, 'true');
+                    showToast('✅ Progress saved! Redirecting...');
+                    setTimeout(() => { window.location.href = 'module5.html'; }, 800);
+                });
+            });
+
+            document.getElementById('resetDataLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Reset all module data? This cannot be undone.')) {
+                    localStorage.removeItem('module4_answers' + storageSuffix);
+                    localStorage.removeItem('module4_completed' + storageSuffix);
+                    localStorage.removeItem('module4_history_data' + storageSuffix);
+                    location.reload();
+                }
+            });
+
+            updateFlipProgress();
+            updateProgress();
         });
-    }
-    
-    const continueBtn = document.getElementById('continueToModule5Btn');
-    if (continueBtn) {
-        continueBtn.addEventListener('click', goToModule5);
-    }
-    
-    const backBtn = document.getElementById('backToModule3Btn');
-    if (backBtn) {
-        backBtn.addEventListener('click', () => { 
-            window.location.href = 'module3.1.html'; 
-        });
-    }
-    
-    const resetLink = document.getElementById('resetDataLink');
-    if (resetLink) {
-        resetLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (confirm('Reset all module data? This cannot be undone.')) {
-                localStorage.removeItem('module4_answers' + storageSuffix);
-                localStorage.removeItem('module4_completed' + storageSuffix);
-                location.reload();
-            }
-        });
-    }
-    
-    updateProgressStatus();
-    checkAllCompleted();
-});
-</script>
+    </script>
 </body>
 </html>
