@@ -593,7 +593,6 @@ function updateQuizProgress() {
     return answeredCount === 3;
 }
 
-// ✅ collectAllAnswers - نفس تنسيق الإنجليزية (q1, q2, q3...)
 function collectAllAnswers() {
     let managerMindset = '', mindsetShift = '', accountability = '';
     let flippedCards = [];
@@ -623,9 +622,6 @@ function saveAnswersToLocal() {
     localStorage.setItem('module2_answers' + storageSuffix, JSON.stringify({ ...collectAllAnswers(), lastUpdated: new Date().toISOString() })); 
 }
 
-// ============================================
-// تهيئة تاريخ التغييرات
-// ============================================
 function initializeHistoryTracking() {
     if (!localStorage.getItem('module2_history_data' + storageSuffix)) {
         const questionKeys = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9'];
@@ -638,10 +634,8 @@ function initializeHistoryTracking() {
     }
 }
 
-// ============================================
-// SEND DATA IMMEDIATELY - Like Module 1
-// ============================================
-function sendPartialModule2Data() {
+// ✅ دالة الإرسال - تُستدعى فقط عند الضغط على "عرض نتيجتي"
+function sendModule2DataToSheet(actionType = 'partial') {
     const userData = getUserData();
     
     let flippedCards = [];
@@ -730,14 +724,11 @@ function sendPartialModule2Data() {
     
     localStorage.setItem('module2_history_data' + storageSuffix, JSON.stringify(historyData));
     
-    if (!hasAnyChange) {
-        console.log('⏭️ لا توجد تغييرات، تخطي الإرسال');
-        return;
-    }
+    const isComplete = (actionType === 'completed');
     
     const payload = {
         module: 'Module 2',
-        action: 'partial',
+        action: actionType,
         language: 'ar',
         userName: userData.name,
         userEmail: userData.email,
@@ -747,95 +738,10 @@ function sendPartialModule2Data() {
         history: historyData,
         changedFields: changedFields,
         totalChanges: totalChangesCount,
-        isComplete: false
+        isComplete: isComplete
     };
     
-    console.log('📤 إرسال بيانات Module 2 (جزئي):', payload);
-    
-    fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(payload)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('✅ تم إرسال بيانات Module 2 بنجاح:', data);
-        localStorage.setItem('module2_last_sent_answers' + storageSuffix, JSON.stringify(currentAnswers));
-        showToast(`✅ تم الحفظ - التغييرات: ${totalChangesCount}`);
-    })
-    .catch(error => {
-        console.warn('⚠️ خطأ في الإرسال:', error);
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', GOOGLE_SCRIPT_URL, true);
-        xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
-        xhr.send(JSON.stringify(payload));
-    });
-}
-
-// ============================================
-// SEND FINAL DATA - Completed
-// ============================================
-function sendModule2DataToSheet() {
-    const userData = getUserData();
-    
-    let flippedCards = [];
-    document.querySelectorAll('.mindset-card').forEach(card => {
-        if (card.classList.contains('flipped')) {
-            flippedCards.push(card.getAttribute('data-mindset') || 'unknown');
-        }
-    });
-    
-    const selMgr = document.querySelector('[data-q="manager"] .quiz-option.selected');
-    const selShift = document.querySelector('[data-q="shift"] .quiz-option.selected');
-    const selAcct = document.querySelector('[data-q="account"] .quiz-option.selected');
-    
-    const managerMindset = selMgr ? selMgr.getAttribute('data-val') : 'لم يجب';
-    const mindsetShift = selShift ? selShift.getAttribute('data-val') : 'لم يجب';
-    const accountability = selAcct ? selAcct.getAttribute('data-val') : 'لم يجب';
-    
-    const currentAnswers = {
-        q1: managerMindset,
-        q2: mindsetShift,
-        q3: accountability,
-        q4: flippedCards.includes('victim') ? 'Yes' : 'No',
-        q5: flippedCards.includes('scarcity') ? 'Yes' : 'No',
-        q6: flippedCards.includes('panic') ? 'Yes' : 'No',
-        q7: flippedCards.includes('fixed') ? 'Yes' : 'No',
-        q8: flippedCards.includes('expert') ? 'Yes' : 'No',
-        q9: flippedCards.join(', ') || 'None'
-    };
-    
-    let historyData = JSON.parse(localStorage.getItem('module2_history_data' + storageSuffix) || '{}');
-    
-    let totalChangesCount = 0;
-    for (let key in historyData) {
-        totalChangesCount += historyData[key]?.changes || 0;
-    }
-    
-    let changedFields = [];
-    const lastSentAnswers = JSON.parse(localStorage.getItem('module2_last_sent_answers' + storageSuffix) || '{}');
-    for (let key in currentAnswers) {
-        if (lastSentAnswers[key] !== undefined && currentAnswers[key] !== lastSentAnswers[key]) {
-            changedFields.push(key);
-        }
-    }
-    
-    const payload = {
-        module: 'Module 2',
-        action: 'completed',
-        language: 'ar',
-        userName: userData.name,
-        userEmail: userData.email,
-        userPosition: userData.position,
-        timestamp: new Date().toISOString(),
-        answers: currentAnswers,
-        history: historyData,
-        changedFields: changedFields,
-        totalChanges: totalChangesCount,
-        isComplete: true
-    };
-    
-    console.log('📤 Sending Module 2 data (Completed):', payload);
+    console.log('📤 إرسال بيانات Module 2:', payload);
     
     return new Promise((resolve) => {
         fetch(GOOGLE_SCRIPT_URL, {
@@ -845,10 +751,12 @@ function sendModule2DataToSheet() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('✅ Module 2 completed successfully:', data);
+            console.log('✅ تم إرسال بيانات Module 2 بنجاح:', data);
+            localStorage.setItem('module2_last_sent_answers' + storageSuffix, JSON.stringify(currentAnswers));
             resolve(true);
         })
-        .catch(() => {
+        .catch(error => {
+            console.warn('⚠️ خطأ في الإرسال:', error);
             const xhr = new XMLHttpRequest();
             xhr.open('POST', GOOGLE_SCRIPT_URL, true);
             xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
@@ -916,7 +824,7 @@ function bindEvents() {
             
             saveAnswersToLocal();
             updateQuizProgress();
-            sendPartialModule2Data();
+            // ❌ لا نرسل إلى Google Sheets هنا
         });
     });
     
@@ -933,12 +841,11 @@ function bindEvents() {
                 if (back) back.classList.add('hidden-content'); 
             }
             saveAnswersToLocal();
-            sendPartialModule2Data();
+            // ❌ لا نرسل إلى Google Sheets هنا
         });
     });
 }
 
-// ✅ loadSavedAnswers - نفس تنسيق الإنجليزية (q1, q2, q3...)
 function loadSavedAnswers() {
     const saved = localStorage.getItem('module2_answers' + storageSuffix);
     if (saved) {
@@ -1022,7 +929,7 @@ async function goToModule3() {
     saveAnswersToLocal();
     showToast('💾 جاري حفظ إجاباتك...');
     
-    const saved = await sendModule2DataToSheet();
+    const saved = await sendModule2DataToSheet('completed');
     
     if (saved) {
         localStorage.setItem('module2_completed' + storageSuffix, 'true');
@@ -1041,9 +948,14 @@ document.addEventListener('DOMContentLoaded', () => {
     bindEvents();
     setupModal();
     
+    // ✅ زر "عرض نتيجتي" - هذا هو المكان الوحيد الذي يتم فيه إرسال البيانات إلى Google Sheets
     const checkBtn = document.getElementById('checkResultsBtn');
     if (checkBtn) {
-        checkBtn.addEventListener('click', () => { displayResultsSummary(); });
+        checkBtn.addEventListener('click', () => {
+            // ✅ إرسال البيانات إلى Google Sheets عند عرض النتائج
+            sendModule2DataToSheet('partial');
+            displayResultsSummary();
+        });
     }
     
     const continueBtn = document.getElementById('continueToModule3Btn');
