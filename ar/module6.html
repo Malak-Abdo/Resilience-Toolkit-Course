@@ -5,340 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
     <title>الوحدة ٦ · حزمة أدوات المرونة: بروتوكول الساعة السابعة صباحاً</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif;
-            background: #F4F7FC;
-            color: #1E2F3E;
-            line-height: 1.45;
-            padding: 0 0 2rem 0;
-        }
-        .course-card {
-            max-width: 680px;
-            margin: 1rem auto;
-            background: white;
-            border-radius: 32px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.02);
-            overflow: hidden;
-            padding: 1.8rem 1.5rem 2.2rem;
-        }
-        @media (max-width: 550px) {
-            .course-card {
-                margin: 0.8rem;
-                padding: 1.5rem 1.2rem;
-                border-radius: 28px;
-            }
-        }
-        .header-tag {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #1A6B5A;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .user-badge {
-            font-size: 0.7rem;
-            background: #E8F5E9;
-            padding: 0.2rem 0.6rem;
-            border-radius: 20px;
-            color: #1A6B5A;
-        }
-        .module-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-            border-bottom: 2px solid #E8A735;
-            padding-bottom: 0.5rem;
-            gap: 0.5rem;
-        }
-        .module-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #0C2E3B;
-        }
-        .module-time {
-            font-size: 0.8rem;
-            background: #F0F4F9;
-            padding: 0.2rem 0.8rem;
-            border-radius: 20px;
-            color: #2C5F7A;
-        }
-        h2 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #1A6B5A;
-            margin: 1.5rem 0 0.75rem 0;
-            border-right: 4px solid #E8A735;
-            padding-right: 0.8rem;
-        }
-        .scenario-card {
-            background: #FDF8F0;
-            border-right: 5px solid #E8A735;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 16px;
-        }
-        .logistics-card {
-            background: #FDF8F0;
-            border-right: 5px solid #1A6B5A;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 16px;
-        }
-        button {
-            background: #1A6B5A;
-            border: none;
-            color: white;
-            font-weight: 600;
-            padding: 0.7rem 1.5rem;
-            border-radius: 60px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            margin-top: 0.5rem;
-            transition: 0.15s;
-        }
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        .secondary {
-            background: #E8A735;
-            color: #2E3A2A;
-        }
-        .module-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-        .footer-note {
-            font-size: 0.7rem;
-            text-align: center;
-            color: #8BA0B8;
-            margin-top: 1.5rem;
-        }
-        .reset-link {
-            text-align: center;
-            margin-top: 1rem;
-            font-size: 0.7rem;
-        }
-        .reset-link a {
-            color: #8BA0B8;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-        .feedback {
-            background: #EFF9F5;
-            padding: 0.8rem;
-            border-radius: 16px;
-            margin-top: 0.5rem;
-            display: none;
-        }
-        .crisis-card {
-            background: #F9FCFE;
-            border-radius: 20px;
-            padding: 1.2rem;
-            margin: 1rem 0;
-            border: 1px solid #E2E9F2;
-        }
-        .crisis-title {
-            font-weight: 700;
-            color: #1A6B5A;
-            margin-bottom: 0.5rem;
-        }
-        .option-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            padding: 0.5rem;
-            margin: 0.3rem 0;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            background: white;
-            border: 1px solid #E2E9F2;
-        }
-        .option-row:hover {
-            background: #F0F7F4;
-            border-color: #E8A735;
-        }
-        .option-row.selected {
-            background: #E8F5E9;
-            border-color: #1A6B5A;
-        }
-        .option-radio {
-            margin-top: 0.2rem;
-        }
-        .form-group {
-            margin-bottom: 1rem;
-        }
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            color: #1A6B5A;
-            margin-bottom: 0.3rem;
-        }
-        textarea, input[type="text"], input[type="email"] {
-            width: 100%;
-            padding: 0.8rem;
-            border-radius: 16px;
-            border: 1px solid #ccc;
-            font-family: inherit;
-            margin: 0.5rem 0;
-            resize: vertical;
-            font-size: 0.9rem;
-        }
-        .pocket-card {
-            background: linear-gradient(135deg, #1A6B5A, #0e4d40);
-            color: white;
-            border-radius: 20px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            text-align: center;
-        }
-        .pocket-card h3 {
-            color: #E8A735;
-            margin-bottom: 0.5rem;
-        }
-        .download-btn {
-            background: #E8A735;
-            color: #2E3A2A;
-            margin-top: 0.5rem;
-        }
-        .growth-reflection {
-            background: linear-gradient(135deg, #1A6B5A, #0e4d40);
-            border-radius: 24px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            color: white;
-        }
-        .growth-reflection h2 {
-            color: #E8A735;
-            border-right-color: #E8A735;
-        }
-        .growth-reflection textarea {
-            background: white;
-            border: none;
-        }
-        .progress-badge {
-            display: inline-block;
-            margin-right: 1rem;
-            font-size: 0.7rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 20px;
-            background: #FFF3E0;
-            color: #E8A735;
-        }
-        .progress-complete {
-            background: #E8F5E9;
-            color: #1A6B5A;
-        }
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        .toast-notification {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1A6B5A;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 60px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            animation: fadeInUp 0.3s ease;
-        }
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-        }
-        .protocol-tip {
-            background: #FFF3E0;
-            border-right: 3px solid #E8A735;
-            padding: 0.5rem;
-            border-radius: 8px;
-            margin-top: 0.5rem;
-            font-size: 0.75rem;
-            color: #B33A3A;
-            text-align: center;
-        }
-
-        /* ===== التغييرات المطلوبة فقط ===== */
-        p, li, .scenario-card, .logistics-card, .crisis-card, .option-text, 
-        .pocket-card, .growth-reflection, .feedback, .protocol-tip {
-            text-align: justify;
-            word-wrap: break-word;
-        }
-
-        /* ===== تحسينات الجوال ===== */
-        @media (max-width: 480px) {
-            .option-row {
-                flex-wrap: wrap;
-            }
-            .course-card {
-                padding: 1rem;
-                margin: 0.5rem;
-            }
-            .module-title {
-                font-size: 1.1rem;
-            }
-            h2 {
-                font-size: 1rem;
-            }
-            p, li, .scenario-card p, .logistics-card p {
-                font-size: 0.9rem;
-                line-height: 1.5;
-            }
-            button {
-                padding: 0.5rem 1rem;
-                font-size: 0.8rem;
-            }
-            textarea, input {
-                font-size: 0.85rem;
-                padding: 0.6rem;
-            }
-            .crisis-card {
-                padding: 0.8rem;
-            }
-            .option-row {
-                padding: 0.4rem;
-            }
-        }
-        
-        input::placeholder, textarea::placeholder {
-            color: #aaa;
-            font-style: italic;
-            font-size: 0.85rem;
-        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:system-ui,-apple-system,'Segoe UI',Tahoma,sans-serif;background:#F4F7FC;color:#1E2F3E;line-height:1.45;padding:0 0 2rem 0}
+        .course-card{max-width:720px;margin:1rem auto;background:white;border-radius:32px;box-shadow:0 8px 20px rgba(0,0,0,0.05);overflow:hidden;padding:1.8rem 1.5rem 2.2rem}
+        @media (max-width:550px){.course-card{margin:0.8rem;padding:1.5rem 1.2rem;border-radius:28px}}
+        .header-tag{font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:#1A6B5A;font-weight:600;margin-bottom:0.5rem;display:flex;justify-content:space-between;align-items:center}
+        .user-badge{font-size:0.7rem;background:#E8F5E9;padding:0.2rem 0.6rem;border-radius:20px;color:#1A6B5A}
+        .module-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1rem;flex-wrap:wrap;border-bottom:2px solid #E8A735;padding-bottom:0.5rem;gap:0.5rem}
+        .module-title{font-size:1.3rem;font-weight:700;color:#0C2E3B}
+        .module-time{font-size:0.8rem;background:#F0F4F9;padding:0.2rem 0.8rem;border-radius:20px;color:#2C5F7A}
+        h2{font-size:1.2rem;font-weight:600;color:#1A6B5A;margin:1.5rem 0 0.75rem 0;border-right:4px solid #E8A735;padding-right:0.8rem}
+        .scenario-card{background:#FDF8F0;border-right:5px solid #E8A735;padding:1rem;margin:1rem 0;border-radius:16px}
+        .logistics-card{background:#FDF8F0;border-right:5px solid #1A6B5A;padding:1rem;margin:1rem 0;border-radius:16px}
+        .crisis-card{background:#F9FCFE;border-radius:20px;padding:1.2rem;margin:1rem 0;border:1px solid #E2E9F2}
+        .crisis-title{font-weight:700;color:#1A6B5A;margin-bottom:0.5rem}
+        .option-row{display:flex;align-items:flex-start;gap:0.75rem;padding:0.5rem;margin:0.3rem 0;border-radius:12px;cursor:pointer;transition:all 0.2s;background:white;border:1px solid #E2E9F2}
+        .option-row:hover{background:#F0F7F4;border-color:#E8A735}
+        .option-row.selected{background:#E8F5E9;border-color:#1A6B5A}
+        .option-radio{margin-top:0.2rem}
+        button{background:#1A6B5A;border:none;color:white;font-weight:600;padding:0.7rem 1.5rem;border-radius:60px;font-size:0.9rem;cursor:pointer;margin-top:0.5rem}
+        button:hover{background:#0e4d40}
+        .secondary{background:#E8A735;color:#2E3A2A}
+        .secondary:hover{background:#d4951e}
+        .module-nav{display:flex;justify-content:space-between;gap:1rem;margin-top:1.5rem;flex-wrap:wrap}
+        .footer-note{font-size:0.7rem;text-align:center;color:#8BA0B8;margin-top:1.5rem}
+        .reset-link{text-align:center;margin-top:1rem;font-size:0.7rem}
+        .reset-link a{color:#8BA0B8;cursor:pointer;text-decoration:underline}
+        .form-group{margin-bottom:1rem}
+        .form-group label{display:block;font-weight:600;color:#1A6B5A;margin-bottom:0.3rem;font-size:0.85rem}
+        textarea,input[type="text"]{width:100%;padding:0.6rem;border:1px solid #E2E9F2;border-radius:12px;font-family:inherit;font-size:0.9rem;resize:vertical}
+        textarea:focus,input:focus{outline:none;border-color:#1A6B5A}
+        textarea{min-height:60px}
+        .feedback{padding:0.8rem;border-radius:12px;margin-top:0.5rem;display:none}
+        .feedback-success{background:#E8F5E9;color:#1A6B5A;border-right:3px solid #1A6B5A}
+        .feedback-incorrect{background:#FFEBEE;color:#B33A3A;border-right:3px solid #B33A3A}
+        .pocket-card{background:linear-gradient(135deg,#1A6B5A,#0e4d40);color:white;border-radius:20px;padding:1.5rem;margin:1.5rem 0;text-align:center}
+        .pocket-card h3{color:#E8A735;margin-bottom:0.5rem}
+        .download-btn{background:#E8A735;color:#2E3A2A;margin-top:0.5rem}
+        .growth-reflection{background:linear-gradient(135deg,#1A6B5A,#0e4d40);border-radius:24px;padding:1.5rem;margin:1.5rem 0;color:white}
+        .growth-reflection h2{color:#E8A735;border-right-color:#E8A735}
+        .growth-reflection textarea{background:white;border:none}
+        .progress-badge{display:inline-block;margin-right:0.5rem;font-size:0.7rem;padding:0.2rem 0.6rem;border-radius:20px;background:#FFF3E0;color:#E8A735}
+        .progress-complete{background:#E8F5E9;color:#1A6B5A}
+        .badge-earned{background:linear-gradient(135deg,#E8A735,#1A6B5A);color:white;text-align:center;padding:0.8rem;border-radius:60px;margin-top:1rem;font-weight:700;display:none}
+        .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.5rem}
+        .toast-notification{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1A6B5A;color:white;padding:12px 24px;border-radius:60px;font-size:0.85rem;z-index:1000;box-shadow:0 4px 12px rgba(0,0,0,0.15);animation:fadeInUp 0.3s ease}
+        @keyframes fadeInUp{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+        .presenter{font-size:0.85rem;color:#2C5F7A;margin-bottom:1rem;font-weight:500}
+        .duration-badge{display:inline-block;background:#EFF3F8;padding:0.2rem 0.9rem;border-radius:30px;font-size:0.75rem;font-weight:500;color:#1A6B5A;margin-bottom:1.5rem}
+        .protocol-tip{background:#FFF3E0;border-right:3px solid #E8A735;padding:0.5rem;border-radius:8px;margin-top:0.5rem;font-size:0.75rem;color:#B33A3A;text-align:center}
+        p,li,.scenario-card,.logistics-card,.crisis-card,.option-text,.pocket-card,.growth-reflection,.feedback,.protocol-tip{text-align:justify;word-wrap:break-word}
+        @media (max-width:480px){.course-card{margin:0.5rem;padding:1.2rem} p,li{font-size:0.9rem;line-height:1.55} .module-title{font-size:1.1rem} h2{font-size:1.1rem} .option-row{flex-wrap:wrap} .crisis-card{padding:0.8rem} textarea,input{font-size:0.85rem;padding:0.5rem}}
     </style>
 </head>
 <body>
-        <!-- ========== كود التحقق ========== -->
+    <!-- ========== كود التحقق ========== -->
     <script>
         const userLang = localStorage.getItem('userLanguage') || 'en';
         const messages = {
@@ -352,734 +73,678 @@
         }
     </script>
     <!-- ================================= -->
-<div class="course-card">
-    <div class="header-tag">
-        <span>حزمة أدوات المرونة</span>
-        <span class="user-badge" id="userBadge">👤 جار التحميل...</span>
-    </div>
-    
-    <div class="module-header">
-        <span class="module-title">⏰ الوحدة ٦: بروتوكول الساعة السابعة صباحاً</span>
-        <span class="module-time">⏱️ ٧ دقائق</span>
-    </div>
-    
-    <h2>بروتوكول الساعة السابعة صباحاً - نصوص القرارات الاستراتيجية</h2>
-    <div class="scenario-card">
-        <p><strong>عندما تقع الأزمة، لا ينبغي لفريقك أن ينتظرك حتى تستيقظ أو تنتهي من اجتماع.</strong></p>
-        <p>يجب أن يكون لديهم <strong>نص مسموح به مسبقاً</strong> لبدء "التحول التكيفي".</p>
-    </div>
-    
-    <h2>في حالة تأخر الخدمات اللوجستية (مثل وصول الشحنة الغذائية)</h2>
-    <div class="logistics-card">
-        <p><strong>📌 استخدم هذا عندما:</strong> تتأخر الشاحنات ولكن المستفيدين قد بدأوا بالفعل بالتحرك إلى موقع التوزيع.</p>
-        <p style="margin-top: 0.8rem;"><strong>🔄 إعادة الصياغة:</strong> الانتقال من "انتظر الشاحنة" إلى "إدارة التوقع".</p>
-        <p style="margin-top: 0.8rem;"><strong>⏰ إذا تأخرت سلسلة التوريد بمقدار ٧٢ ساعة:</strong></p>
-        <p style="margin-top: 0.5rem; font-style: italic; background: #FFF3E0; padding: 0.8rem; border-radius: 12px;">
-            "مهمتنا اليوم ليست توزيع الغذاء؛ مهمتنا اليوم هي إيصال المعلومات للمستفيدين وإشعارهم. ابدأ بالاتصال بقادة المجتمع الآن."
-        </p>
-    </div>
-    
-    <div class="section-header">
-        <h2 style="margin: 0; border-right: none; padding-right: 0;">📋 بروتوكول الساعة السابعة صباحاً - البطاقة الجيبية</h2>
-        <span class="progress-badge" id="crisisProgress">٠/٤ تم الإجابة</span>
-    </div>
-    <p>تتلقى أربع رسائل متتالية. لكل منها، اختر نص السابعة صباحاً الصحيح.</p>
-    
-    <!-- الأزمة 1 -->
-    <div class="crisis-card" id="crisis1">
-        <div class="crisis-title">⚠️ الأزمة ١ من ٤ - فيضان مفاجئ</div>
-        <p><em>"فيضان مفاجئ. المكتب تحت متر واحد من الماء. السجلات الورقية دمرت."</em></p>
-        <div class="option-group">
-            <div class="option-row" data-crisis="1" data-option="A">
-                <div class="option-radio">○</div>
-                <div class="option-text">"أغلق المكتب إلى أجل غير مسمى. الجميع يذهبون إلى المنزل."</div>
-            </div>
-            <div class="option-row" data-crisis="1" data-option="B">
-                <div class="option-radio">○</div>
-                <div class="option-text">"السجلات ذهبت. الناس نجت. ما السجلات الموجودة في مكان آخر؟"</div>
-            </div>
-            <div class="option-row" data-crisis="1" data-option="C">
-                <div class="option-radio">○</div>
-                <div class="option-text">"لوم فريق الصيانة. طلب تحقيق."</div>
-            </div>
+    <div class="course-card">
+        <div class="header-tag">
+            <span>حزمة أدوات المرونة · الوحدة ٦</span>
+            <span class="user-badge" id="userBadge">جاري التحميل...</span>
         </div>
-        <div class="feedback" id="feedback1"></div>
-    </div>
-    
-    <!-- الأزمة 2 -->
-    <div class="crisis-card" id="crisis2">
-        <div class="crisis-title">📋 الأزمة ٢ من ٤ - تهديد التدقيق</div>
-        <p><em>"وجد التدقيق الأولي تناقضات. ليس خطأك. لديك ٤٨ ساعة للرد."</em></p>
-        <div class="option-group">
-            <div class="option-row" data-crisis="2" data-option="A">
-                <div class="option-radio">○</div>
-                <div class="option-text">"الذعر. اتصل بمحام. اتصل بالمكتب الرئيسي . اتصل بالجميع."</div>
-            </div>
-            <div class="option-row" data-crisis="2" data-option="B">
-                <div class="option-radio">○</div>
-                <div class="option-text">"اللوم غير مفيد. الأدلة مفيدة. الجميع يحضر المستندات الثبوتية في غضون ساعتين."</div>
-            </div>
-            <div class="option-row" data-crisis="2" data-option="C">
-                <div class="option-radio">○</div>
-                <div class="option-text">"تجاهلها. أمل أن تختفي."</div>
-            </div>
-        </div>
-        <div class="feedback" id="feedback2"></div>
-    </div>
-    
-    <!-- الأزمة 3 -->
-    <div class="crisis-card" id="crisis3">
-        <div class="crisis-title">⚠️ الأزمة ٣ من ٤ - خرق بيانات المستفيدين</div>
-        <p><em>"سُرِق حاسوب محمول يحتوي على بيانات حساسة للمستفيدين من سيارة أحد الموظفين، والموظف في حالة ذعر خوفاً من أن يتم فصله من العمل. ما هو الإجراء الأفضل في هذه الحالة؟"</em></p>
-        <div class="option-group">
-            <div class="option-row" data-crisis="3" data-option="A">
-                <div class="option-radio">○</div>
-                <div class="option-text">أ: فصل الموظف فوراً؛ فقد خالف قواعد الأمن والسلامة.</div>
-            </div>
-            <div class="option-row" data-crisis="3" data-option="B">
-                <div class="option-radio">○</div>
-                <div class="option-text">ب: إبلاغ قسم الأمن والجهة المانحة فوراً بالحادثة، وتأمين كافة الحسابات، وإخطار المستفيدين المتضررين إذا لزم الأمر، مع دعم الموظف والتركيز على معالجة المشكلة بدلاً من معاقبته على صدقه.</div>
-            </div>
-            <div class="option-row" data-crisis="3" data-option="C">
-                <div class="option-radio">○</div>
-                <div class="option-text">ج: التكتم على الحادثة، وعدم إبلاغ أي شخص، والأمل بأن لا يتم الوصول إلى البيانات المسروقة.</div>
-            </div>
-        </div>
-        <div class="feedback" id="feedback3"></div>
-    </div>
-    
-    <!-- الأزمة 4 -->
-    <div class="crisis-card" id="crisis4">
-        <div class="crisis-title">📡 الأزمة ٤ من ٤ - انقطاع الاتصالات</div>
-        <p><em>"لا هاتف، لا إنترنت، لا يوجد وسيلة تواصل لمدة ٤٨ ساعة. لا اتصال بالمكتب الرئيسي أو الأمن أو الفرق الأخرى."</em></p>
-        <div class="option-group">
-            <div class="option-row" data-crisis="4" data-option="A">
-                <div class="option-radio">○</div>
-                <div class="option-text">"انتظر عودة الاتصالات. لا تفعل شيئاً."</div>
-            </div>
-            <div class="option-row" data-crisis="4" data-option="B">
-                <div class="option-radio">○</div>
-                <div class="option-text">"لا اتصال مع الخارج. نتخذ القرارات معاً. ما هي المشكلة الأكثر إلحاحاً؟"</div>
-            </div>
-            <div class="option-row" data-crisis="4" data-option="C">
-                <div class="option-radio">○</div>
-                <div class="option-text">"أرسل ساعياً على طريق خطير."</div>
-            </div>
-        </div>
-        <div class="feedback" id="feedback4"></div>
-    </div>
-    
-    <!-- ========== CREATE YOUR OWN PROTOCOL - WITH EXAMPLES ========== -->
-    <div class="section-header">
-        <h2 style="margin: 0; border-right: none; padding-right: 0;">📝 أنشئ بروتوكولك الخاص</h2>
-        <span class="progress-badge" id="protocolProgress">٠/٣ مكتمل</span>
-    </div>
-    <div class="scenario-card">
-        <div class="form-group">
-            <label>الخطوة ١: الصدمة (ماذا حدث؟)</label>
-            <input type="text" id="shockInput" placeholder="مثال: 'إغلاق مفاجئ لنقطة التفتيش. لا يمكن للمركبات المرور لمدة ٣ أيام.'">
-        </div>
-        <div class="form-group">
-            <label>الخطوة ٢: العقلية المحدودة التي يجب تجنبها (ماذا لا تفعل؟)</label>
-            <input type="text" id="limitingFrameInput" placeholder="مثال: 'لا تفزع ولا تلغي جميع التوزيعات. لا تنتظر موافقة المكتب الرئيسي التي قد لا تأتي أبداً.'">
-        </div>
-        <div class="form-group">
-            <label>الخطوة ٣: نص بروتوكول الساعة السابعة صباحاً الخاص بك (ماذا تفعل بدلاً من ذلك؟)</label>
-            <textarea id="protocolScript" rows="4" placeholder="مثال: 'توقف. تنفس. اجمع فريق الخدمات اللوجستية. اسأل: ما المجتمعات التي يمكننا الوصول إليها سيراً على الأقدام أو بالدراجات النارية؟ ابدأ بأقرب ٣ قرى اليوم.'"></textarea>
-        </div>
-        <div class="protocol-tip">
-            ✨ نصيحة: اجعل بروتوكولك قصيراً جداً، جملة واحدة يفهمها السائق والموظف الميداني فوراً.
-        </div>
-        <button id="saveProtocolBtn">💾 حفظ بروتوكولي</button>
-        <div id="protocolFeedback" class="feedback"></div>
-    </div>
-    
-    <div class="pocket-card" id="pocketCard" style="display: block;">
-        <h3>📋 بروتوكول الساعة السابعة صباحاً</h3>
-        <hr>
-        <p><strong>🌊 فيضان مفاجئ:</strong><br>"السجلات ذهبت. الناس نجت. ما السجلات الموجودة في مكان آخر؟"</p>
-        <p><strong>📋 تهديد التدقيق:</strong><br>"اللوم غير مفيد. الأدلة مفيدة. الجميع يحضر المستندات الثبوتية في غضون ساعتين."</p>
-        <p><strong>⚠️ خرق بيانات المستفيدين:</strong><br>"إبلاغ قسم الأمن والجهة المانحة فوراً، تأمين الحسابات، إخطار المستفيدين، دعم الموظف والتركيز على الحل."</p>
-        <p><strong>📡 انقطاع الاتصالات:</strong><br>"لا اتصال مع الخارج. نتخذ القرارات معاً. ما هي المشكلة الأكثر إلحاحاً؟"</p>
-        <hr>
-        <p><strong>📌 بروتوكولي الخاص:</strong><br><span id="myProtocolDisplay"></span></p>
-        <button id="downloadCardBtn" class="download-btn">📥 تحميل البطاقة الجيبية</button>
-    </div>
-    
-    <div class="section-header">
-        <h2 style="margin: 0; border-right: none; padding-right: 0;">🌱 تأمل النمو</h2>
-        <span class="progress-badge" id="reflectionProgress">٠/٢ مكتمل</span>
-    </div>
-    <div class="growth-reflection" id="growthReflection">
-        <div class="form-group">
-            <label style="color:#E8A735;">"ما هو أهم شيء تعلمته عن نفسك كقائد؟"</label>
-            <textarea id="leadershipLearning" rows="4" placeholder="خذ لحظة للتأمل..."></textarea>
-        </div>
-        <div class="form-group">
-            <label style="color:#E8A735;">"ما الذي ستفعله بشكل مختلف غداً الساعة ٧ صباحاً؟"</label>
-            <textarea id="tomorrowAction" rows="4" placeholder="كن محدداً بشأن أول تغيير صغير لك..."></textarea>
-        </div>
-        <button id="saveReflectionBtn" style="background:#E8A735; color:#2E3A2A;">💾 حفظ التأمل</button>
-        <div id="reflectionFeedback" class="feedback"></div>
-    </div>
-    
-    <div class="module-nav">
-        <button class="secondary" id="backToModule5Btn">← العودة إلى الوحدة ٥</button>
-        <button id="nextToCertificateBtn">🎓 الحصول على الشهادة →</button>
-    </div>
-    
-    <div class="footer-note">الوحدة ٦ من حزمة أدوات المرونة</div>
-    <div class="reset-link"><a id="resetDataLink">↺ إعادة ضبط بيانات الوحدة ٦</a></div>
-</div>
-
-<script>
-// ============================================
-// LANGUAGE SUFFIX FOR LOCALSTORAGE
-// ============================================
-const storageSuffix = '_ar';
-
-// ============================================
-// GOOGLE SHEETS WEB APP URL
-// ============================================
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
-
-// ============================================
-// IMPROVED getUserData() - Looks for data WITHOUT suffix first (from registration)
-// ============================================
-function getUserData() {
-    let name = '', email = '', position = '';
-    
-    console.log('🔍 Searching for user data in module6.html...');
-    
-    // FIRST: Try to get user data WITHOUT suffix (from registration page)
-    
-    // 1. Check currentUser first - NO SUFFIX
-    try {
-        let currentUser = localStorage.getItem('currentUser');
-        if (currentUser) {
-            let user = JSON.parse(currentUser);
-            if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر' && user.name.trim() !== '') {
-                name = user.name.trim();
-                email = (user.email || '').trim();
-                position = (user.position || '').trim();
-                console.log('✅ Found from currentUser (no suffix):', name);
-                
-                // Save with suffix for future use
-                localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(user));
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
-        }
-    } catch(e) { console.error('Error parsing currentUser:', e); }
-    
-    // 2. Check users array - NO SUFFIX
-    try {
-        let users = JSON.parse(localStorage.getItem('users') || '[]');
-        if (Array.isArray(users) && users.length > 0) {
-            let lastUser = users[users.length - 1];
-            if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name !== 'زائر' && lastUser.name.trim() !== '') {
-                name = lastUser.name.trim();
-                email = (lastUser.email || '').trim();
-                position = (lastUser.position || '').trim();
-                console.log('✅ Found from users array (no suffix):', name);
-                
-                // Save with suffix
-                localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(lastUser));
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
-        }
-    } catch(e) { console.error('Error parsing users:', e); }
-    
-    // 3. Check individual fields - NO SUFFIX
-    let n = localStorage.getItem('course_user_name');
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
-        name = n.trim();
-        email = (localStorage.getItem('course_user_email') || '').trim();
-        position = (localStorage.getItem('course_user_position') || '').trim();
-        console.log('✅ Found from individual fields (no suffix):', name);
         
-        // Save with suffix
-        localStorage.setItem('course_user_name' + storageSuffix, name);
-        localStorage.setItem('course_user_email' + storageSuffix, email);
-        localStorage.setItem('course_user_position' + storageSuffix, position);
+        <div class="module-header">
+            <span class="module-title">⏰ الوحدة ٦: بروتوكول الساعة السابعة صباحاً</span>
+            <span class="module-time">⏱️ ٧ دقائق • تفاعلي</span>
+        </div>
         
-        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-    }
-    
-    // 4. Check course_user object - NO SUFFIX
-    let user = localStorage.getItem('course_user');
-    if (user) {
-        try { 
-            let p = JSON.parse(user); 
-            if (p && p.name && p.name !== 'Guest' && p.name !== 'زائر' && p.name.trim() !== '') {
-                name = p.name.trim();
-                email = (p.email || '').trim();
-                position = (p.position || '').trim();
-                console.log('✅ Found from course_user (no suffix):', name);
-                
-                // Save with suffix
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
+        <div class="presenter">تقديم: ملاك عبده</div>
+        <div class="duration-badge">٧ دقائق • وفق وتيرتك الخاصة</div>
+
+        <h2>بروتوكول الساعة السابعة صباحاً - نصوص القرارات الاستراتيجية</h2>
+        <div class="scenario-card">
+            <p><strong>عندما تقع الأزمة، لا ينبغي لفريقك أن ينتظرك حتى تستيقظ أو تنتهي من اجتماع.</strong></p>
+            <p>يجب أن يكون لديهم <strong>نص مسموح به مسبقاً</strong> لبدء "التحول التكيفي".</p>
+        </div>
+        
+        <h2>في حالة تأخر الخدمات اللوجستية (مثل وصول الشحنة الغذائية)</h2>
+        <div class="logistics-card">
+            <p><strong>📌 استخدم هذا عندما:</strong> تتأخر الشاحنات ولكن المستفيدين قد بدأوا بالفعل بالتحرك إلى موقع التوزيع.</p>
+            <p style="margin-top: 0.8rem;"><strong>🔄 إعادة الصياغة:</strong> الانتقال من "انتظر الشاحنة" إلى "إدارة التوقع".</p>
+            <p style="margin-top: 0.8rem;"><strong>⏰ إذا تأخرت سلسلة التوريد بمقدار ٧٢ ساعة:</strong></p>
+            <p style="margin-top: 0.5rem; font-style: italic; background: #FFF3E0; padding: 0.8rem; border-radius: 12px;">
+                "مهمتنا اليوم ليست توزيع الغذاء؛ مهمتنا اليوم هي إيصال المعلومات للمستفيدين وإشعارهم. ابدأ بالاتصال بقادة المجتمع الآن."
+            </p>
+        </div>
+        
+        <div class="section-header">
+            <h2 style="margin:0;border-right:none;padding-right:0;">📋 بروتوكول الساعة السابعة صباحاً - البطاقة الجيبية</h2>
+            <span class="progress-badge" id="crisisProgress">٠/٤ تم الإجابة</span>
+        </div>
+        <p>تتلقى أربع رسائل متتالية. لكل منها، اختر نص السابعة صباحاً الصحيح.</p>
+        
+        <!-- الأزمة 1 -->
+        <div class="crisis-card" id="crisis1">
+            <div class="crisis-title">⚠️ الأزمة ١ من ٤ - فيضان مفاجئ</div>
+            <p><em>"فيضان مفاجئ. المكتب تحت متر واحد من الماء. السجلات الورقية دمرت."</em></p>
+            <div class="option-group">
+                <div class="option-row" data-crisis="1" data-option="A">
+                    <div class="option-radio">○</div>
+                    <div class="option-text">"أغلق المكتب إلى أجل غير مسمى. الجميع يذهبون إلى المنزل."</div>
+                </div>
+                <div class="option-row" data-crisis="1" data-option="B">
+                    <div class="option-radio">○</div>
+                    <div class="option-text">"السجلات ذهبت. الناس نجت. ما السجلات الموجودة في مكان آخر؟"</div>
+                </div>
+                <div class="option-row" data-crisis="1" data-option="C">
+                    <div class="option-radio">○</div>
+                    <div class="option-text">"لوم فريق الصيانة. طلب تحقيق."</div>
+                </div>
+            </div>
+            <div class="feedback" id="feedback1"></div>
+        </div>
+        
+        <!-- الأزمة 2 -->
+        <div class="crisis-card" id="crisis2">
+            <div class="crisis-title">📋 الأزمة ٢ من ٤ - تهديد التدقيق</div>
+            <p><em>"وجد التدقيق الأولي تناقضات. ليس خطأك. لديك ٤٨ ساعة للرد."</em></p>
+            <div class="option-group">
+                <div class="option-row" data-crisis="2" data-option="A">
+                    <div class="option-radio">○</div>
+                    <div class="option-text">"الذعر. اتصل بمحام. اتصل بالمكتب الرئيسي. اتصل بالجميع."</div>
+                </div>
+                <div class="option-row" data-crisis="2" data-option="B">
+                    <div class="option-radio">○</div>
+                    <div class="option-text">"اللوم غير مفيد. الأدلة مفيدة. الجميع يحضر المستندات الثبوتية في غضون ساعتين."</div>
+                </div>
+                <div class="option-row" data-crisis="2" data-option="C">
+                    <div class="option-radio">○</div>
+                    <div class="option-text">"تجاهلها. أمل أن تختفي."</div>
+                </div>
+            </div>
+            <div class="feedback" id="feedback2"></div>
+        </div>
+        
+        <!-- الأزمة 3 -->
+        <div class="crisis-card" id="crisis3">
+            <div class="crisis-title">⚠️ الأزمة ٣ من ٤ - خرق بيانات المستفيدين</div>
+            <p><em>"سُرِق حاسوب محمول يحتوي على بيانات حساسة للمستفيدين من سيارة أحد الموظفين، والموظف في حالة ذعر خوفاً من أن يتم فصله من العمل. ما هو الإجراء الأفضل في هذه الحالة؟"</em></p>
+            <div class="option-group">
+                <div class="option-row" data-crisis="3" data-option="A">
+                    <div class="option-radio">○</div>
+                    <div class="option-text">أ: فصل الموظف فوراً؛ فقد خالف قواعد الأمن والسلامة.</div>
+                </div>
+                <div class="option-row" data-crisis="3" data-option="B">
+                    <div class="option-radio">○</div>
+                    <div class="option-text">ب: إبلاغ قسم الأمن والجهة المانحة فوراً بالحادثة، وتأمين كافة الحسابات، وإخطار المستفيدين المتضررين إذا لزم الأمر، مع دعم الموظف والتركيز على معالجة المشكلة بدلاً من معاقبته على صدقه.</div>
+                </div>
+                <div class="option-row" data-crisis="3" data-option="C">
+                    <div class="option-radio">○</div>
+                    <div class="option-text">ج: التكتم على الحادثة، وعدم إبلاغ أي شخص، والأمل بأن لا يتم الوصول إلى البيانات المسروقة.</div>
+                </div>
+            </div>
+            <div class="feedback" id="feedback3"></div>
+        </div>
+        
+        <!-- الأزمة 4 -->
+        <div class="crisis-card" id="crisis4">
+            <div class="crisis-title">📡 الأزمة ٤ من ٤ - انقطاع الاتصالات</div>
+            <p><em>"لا هاتف، لا إنترنت، لا يوجد وسيلة تواصل لمدة ٤٨ ساعة. لا اتصال بالمكتب الرئيسي أو الأمن أو الفرق الأخرى."</em></p>
+            <div class="option-group">
+                <div class="option-row" data-crisis="4" data-option="A">
+                    <div class="option-radio">○</div>
+                    <div class="option-text">"انتظر عودة الاتصالات. لا تفعل شيئاً."</div>
+                </div>
+                <div class="option-row" data-crisis="4" data-option="B">
+                    <div class="option-radio">○</div>
+                    <div class="option-text">"لا اتصال مع الخارج. نتخذ القرارات معاً. ما هي المشكلة الأكثر إلحاحاً؟"</div>
+                </div>
+                <div class="option-row" data-crisis="4" data-option="C">
+                    <div class="option-radio">○</div>
+                    <div class="option-text">"أرسل ساعياً على طريق خطير."</div>
+                </div>
+            </div>
+            <div class="feedback" id="feedback4"></div>
+        </div>
+        
+        <!-- ========== CREATE YOUR OWN PROTOCOL ========== -->
+        <div class="section-header">
+            <h2 style="margin:0;border-right:none;padding-right:0;">📝 أنشئ بروتوكولك الخاص</h2>
+            <span class="progress-badge" id="protocolProgress">٠/٣ مكتمل</span>
+        </div>
+        <div class="scenario-card">
+            <div class="form-group">
+                <label>الخطوة ١: الصدمة (ماذا حدث؟)</label>
+                <input type="text" id="shockInput" placeholder="مثال: 'إغلاق مفاجئ لنقطة التفتيش. لا يمكن للمركبات المرور لمدة ٣ أيام.'">
+            </div>
+            <div class="form-group">
+                <label>الخطوة ٢: العقلية المحدودة التي يجب تجنبها (ماذا لا تفعل؟)</label>
+                <input type="text" id="limitingFrameInput" placeholder="مثال: 'لا تفزع ولا تلغي جميع التوزيعات. لا تنتظر موافقة المكتب الرئيسي التي قد لا تأتي أبداً.'">
+            </div>
+            <div class="form-group">
+                <label>الخطوة ٣: نص بروتوكول الساعة السابعة صباحاً الخاص بك (ماذا تفعل بدلاً من ذلك؟)</label>
+                <textarea id="protocolScript" rows="4" placeholder="مثال: 'توقف. تنفس. اجمع فريق الخدمات اللوجستية. اسأل: ما المجتمعات التي يمكننا الوصول إليها سيراً على الأقدام أو بالدراجات النارية؟ ابدأ بأقرب ٣ قرى اليوم.'"></textarea>
+            </div>
+            <div class="protocol-tip">
+                ✨ نصيحة: اجعل بروتوكولك قصيراً جداً، جملة واحدة يفهمها السائق والموظف الميداني فوراً.
+            </div>
+            <button id="saveProtocolBtn">💾 حفظ بروتوكولي</button>
+            <div id="protocolFeedback" class="feedback"></div>
+        </div>
+        
+        <div class="pocket-card" id="pocketCard">
+            <h3>📋 بروتوكول الساعة السابعة صباحاً</h3>
+            <hr>
+            <p><strong>🌊 فيضان مفاجئ:</strong><br>"السجلات ذهبت. الناس نجت. ما السجلات الموجودة في مكان آخر؟"</p>
+            <p><strong>📋 تهديد التدقيق:</strong><br>"اللوم غير مفيد. الأدلة مفيدة. الجميع يحضر المستندات الثبوتية في غضون ساعتين."</p>
+            <p><strong>⚠️ خرق بيانات المستفيدين:</strong><br>"إبلاغ قسم الأمن والجهة المانحة فوراً، تأمين الحسابات، إخطار المستفيدين، دعم الموظف والتركيز على الحل."</p>
+            <p><strong>📡 انقطاع الاتصالات:</strong><br>"لا اتصال مع الخارج. نتخذ القرارات معاً. ما هي المشكلة الأكثر إلحاحاً؟"</p>
+            <hr>
+            <p><strong>📌 بروتوكولي الخاص:</strong><br><span id="myProtocolDisplay"></span></p>
+            <button id="downloadCardBtn" class="download-btn">📥 تحميل البطاقة الجيبية</button>
+        </div>
+        
+        <div class="section-header">
+            <h2 style="margin:0;border-right:none;padding-right:0;">🌱 تأمل النمو</h2>
+            <span class="progress-badge" id="reflectionProgress">٠/٢ مكتمل</span>
+        </div>
+        <div class="growth-reflection" id="growthReflection">
+            <div class="form-group">
+                <label style="color:#E8A735;">"ما هو أهم شيء تعلمته عن نفسك كقائد؟"</label>
+                <textarea id="leadershipLearning" rows="4" placeholder="خذ لحظة للتأمل..."></textarea>
+            </div>
+            <div class="form-group">
+                <label style="color:#E8A735;">"ما الذي ستفعله بشكل مختلف غداً الساعة ٧ صباحاً؟"</label>
+                <textarea id="tomorrowAction" rows="4" placeholder="كن محدداً بشأن أول تغيير صغير لك..."></textarea>
+            </div>
+            <button id="saveReflectionBtn" style="background:#E8A735; color:#2E3A2A;">💾 حفظ التأمل</button>
+            <div id="reflectionFeedback" class="feedback"></div>
+        </div>
+        
+        <div id="badgeArea" class="badge-earned">🏅 تم الحصول على الشارة: إتقان بروتوكول الساعة السابعة صباحاً!</div>
+        
+        <div class="module-nav">
+            <button class="secondary" id="backToModule5Btn">← العودة إلى الوحدة ٥</button>
+            <button id="continueToCertificateBtn">🎓 الحصول على الشهادة →</button>
+        </div>
+        
+        <div class="footer-note">الوحدة ٦ من حزمة أدوات المرونة</div>
+        <div class="reset-link"><a id="resetDataLink">↺ إعادة ضبط بيانات الوحدة</a></div>
+    </div>
+
+    <script>
+        // ============================================
+        // STORAGE SUFFIX & GOOGLE SHEETS URL
+        // ============================================
+        const storageSuffix = '_ar';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
+
+        // ============================================
+        // USER DATA
+        // ============================================
+        function getUserData() {
+            let name = 'زائر', email = 'guest@example.com', position = 'غير محدد';
+            try {
+                let cu = localStorage.getItem('currentUser');
+                if (cu) { let u = JSON.parse(cu); if (u && u.name && u.name !== 'Guest' && u.name.trim()) { name = u.name.trim(); email = (u.email || '').trim() || 'guest@example.com'; position = (u.position || '').trim() || 'غير محدد'; return { name, email, position }; } }
+                let users = JSON.parse(localStorage.getItem('users') || '[]');
+                if (users.length) { let u = users[users.length-1]; if (u && u.name && u.name.trim() && u.name !== 'Guest') { name = u.name.trim(); email = (u.email || '').trim() || 'guest@example.com'; position = (u.position || '').trim() || 'غير محدد'; return { name, email, position }; } }
+                let n = localStorage.getItem('course_user_name');
+                if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim()) { name = n.trim(); email = localStorage.getItem('course_user_email') || 'guest@example.com'; position = localStorage.getItem('course_user_position') || 'غير محدد'; return { name, email, position }; }
+                let saved = localStorage.getItem('course_user_name' + storageSuffix);
+                if (saved && saved !== 'null' && saved !== 'Guest' && saved.trim()) { name = saved.trim(); email = localStorage.getItem('course_user_email' + storageSuffix) || 'guest@example.com'; position = localStorage.getItem('course_user_position' + storageSuffix) || 'غير محدد'; return { name, email, position }; }
+            } catch(e) {}
+            return { name: 'زائر', email: 'guest@example.com', position: 'غير محدد' };
+        }
+
+        const currentUser = getUserData();
+        const badge = document.getElementById('userBadge');
+        if (badge) badge.innerText = currentUser.name !== 'زائر' ? '👤 ' + currentUser.name : '👤 متعلم';
+
+        function showToast(msg, isError = false) {
+            let t = document.querySelector('.toast-notification'); if (t) t.remove();
+            let el = document.createElement('div'); el.className = 'toast-notification'; el.style.background = isError ? '#C0392B' : '#1A6B5A'; el.textContent = msg; document.body.appendChild(el); setTimeout(() => el.remove(), 3000);
+        }
+
+        // ============================================
+        // CORRECT ANSWERS
+        // ============================================
+        const correctAnswers = { 1: 'B', 2: 'B', 3: 'B', 4: 'B' };
+        const feedbackMessages = {
+            1: '✅ صحيح. يمكن إعادة إنشاء السجلات. الناس لا يمكن استبدالهم.',
+            2: '✅ صحيح. اللوم يوقف التعلم. الأدلة تبدأ الحلول.',
+            3: '✅ إجابة صحيحة. الشفافية تبني الثقة. ركّز على إيجاد الحلول لا على العقاب.',
+            4: '✅ صحيح. العزلة ليست شللاً. فريقك هو موردك.'
+        };
+        const incorrectMessages = {
+            1: '❌ الإجابة الصحيحة: "السجلات ذهبت. الناس هنا. ما السجلات الموجودة في مكان آخر؟"',
+            2: '❌ الإجابة الصحيحة: "اللوم غير مفيد. الأدلة مفيدة. الجميع يحضر الحقائق في غضون ساعتين."',
+            3: '❌ إجابة خاطئة. الإجراء الصحيح هو الإبلاغ عن الحادثة فوراً، وتأمين الحسابات، ودعم الموظف.',
+            4: '❌ الإجابة الصحيحة: "لا اتصال مع الخارج. نتخذ القرارات معاً."'
+        };
+
+        let selectedAnswers = { 1: null, 2: null, 3: null, 4: null };
+
+        // ============================================
+        // PROGRESS TRACKING
+        // ============================================
+        function updateCrisisProgress() {
+            let answered = 0;
+            for (let i = 1; i <= 4; i++) {
+                if (selectedAnswers[i]) answered++;
             }
-        } catch(e) {}
-    }
-    
-    // 5. Check resilience_users array - NO SUFFIX
-    let users = localStorage.getItem('resilience_users');
-    if (users) {
-        try { 
-            let p = JSON.parse(users); 
-            if (Array.isArray(p) && p.length > 0) {
-                for (let i = p.length - 1; i >= 0; i--) {
-                    if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'زائر' && p[i].name.trim() !== '') {
-                        name = p[i].name.trim();
-                        email = (p[i].email || '').trim();
-                        position = (p[i].position || '').trim();
-                        console.log('✅ Found from resilience_users (no suffix):', name);
-                        
-                        // Save with suffix
-                        localStorage.setItem('course_user_name' + storageSuffix, name);
-                        localStorage.setItem('course_user_email' + storageSuffix, email);
-                        localStorage.setItem('course_user_position' + storageSuffix, position);
-                        
-                        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-                    }
-                }
+            const progressSpan = document.getElementById('crisisProgress');
+            if (progressSpan) {
+                progressSpan.textContent = answered + '/٤ تم الإجابة';
+                progressSpan.className = answered === 4 ? 'progress-badge progress-complete' : 'progress-badge';
             }
-        } catch(e) {}
-    }
-    
-    // 6. Finally, try WITH suffix (for returning users)
-    n = localStorage.getItem('course_user_name' + storageSuffix);
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
-        name = n.trim();
-        email = (localStorage.getItem('course_user_email' + storageSuffix) || '').trim();
-        position = (localStorage.getItem('course_user_position' + storageSuffix) || '').trim();
-        console.log('✅ Found from individual fields (with suffix):', name);
-        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-    }
-    
-    // 7. Try currentUser with suffix
-    try {
-        let currentUser = localStorage.getItem('currentUser' + storageSuffix);
-        if (currentUser) {
-            let user = JSON.parse(currentUser);
-            if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر' && user.name.trim() !== '') {
-                name = user.name.trim();
-                email = (user.email || '').trim();
-                position = (user.position || '').trim();
-                console.log('✅ Found from currentUser (with suffix):', name);
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
+            return answered === 4;
         }
-    } catch(e) {}
-    
-    console.log('⚠️ No user data found, using default');
-    return { name: 'زائر', email: 'guest@example.com', position: 'غير محدد' };
-}
 
-// Display user name in badge
-const currentUser = getUserData();
-const userBadge = document.getElementById('userBadge');
-if (userBadge) {
-    if (currentUser.name !== 'زائر') {
-        userBadge.innerText = `👤 ${currentUser.name}`;
-        console.log('✅ User badge updated with:', currentUser.name);
-    } else {
-        userBadge.innerText = `👤 متعلم`;
-        console.log('⚠️ No user name found, showing default');
-    }
-}
-console.log('👤 User loaded for Module 6:', currentUser.name);
-
-function showToast(message, isError = false) {
-    const existing = document.querySelector('.toast-notification');
-    if (existing) existing.remove();
-    const toast = document.createElement('div');
-    toast.className = 'toast-notification';
-    toast.style.background = isError ? '#C0392B' : '#1A6B5A';
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    setTimeout(() => { if (toast) toast.remove(); }, 3000);
-}
-
-// ============================================
-// MODULE 6 JAVASCRIPT - WITH PROGRESS TRACKING
-// ============================================
-// التصحيح: الإجابة الصحيحة للأزمة 3 هي B
-var correctAnswers = { 1: 'B', 2: 'B', 3: 'B', 4: 'B' };
-var feedbackMessages = {
-    1: '✅ صحيح. يمكن إعادة إنشاء السجلات. الناس لا يمكن استبدالهم.',
-    2: '✅ صحيح. اللوم يوقف التعلم. الأدلة تبدأ الحلول.',
-    3: '✅ إجابة صحيحة. الشفافية تبني الثقة. ركّز على إيجاد الحلول لا على العقاب. دعم الموظفين الصادقين يشجعهم على الإبلاغ السريع في المستقبل.\n\n💡 نصيحة إضافية: "الخطأ التقني يمكن إصلاحه، ولكن ثقافة الخوف والسرية قد تدمر المؤسسة."',
-    4: '✅ صحيح. العزلة ليست شللاً. فريقك هو موردك.'
-};
-var incorrectMessages = {
-    1: '❌ الإجابة الصحيحة: "السجلات ذهبت. الناس هنا. ما السجلات الموجودة في مكان آخر؟"',
-    2: '❌ الإجابة الصحيحة: "اللوم غير مفيد. الأدلة مفيدة. الجميع يحضر الحقائق في غضون ساعتين."',
-    3: '❌ إجابة خاطئة. الإجراء الصحيح هو الإبلاغ عن الحادثة فوراً، وتأمين الحسابات، ودعم الموظف، والتركيز على معالجة المشكلة الأمنية بدلاً من العقاب.',
-    4: '❌ الإجابة الصحيحة: "لا اتصال مع الخارج. نتخذ القرارات معاً."'
-};
-
-var selectedAnswers = { 1: null, 2: null, 3: null, 4: null };
-var protocolSaved = false;
-var reflectionSaved = false;
-
-// Progress tracking functions
-function updateCrisisProgress() {
-    let answered = 0;
-    for (let i = 1; i <= 4; i++) {
-        if (selectedAnswers[i]) answered++;
-    }
-    const progressSpan = document.getElementById('crisisProgress');
-    if (progressSpan) {
-        progressSpan.textContent = `${answered}/٤ تم الإجابة`;
-        if (answered === 4) {
-            progressSpan.className = 'progress-badge progress-complete';
-        } else {
-            progressSpan.className = 'progress-badge';
-        }
-    }
-    return answered === 4;
-}
-
-function updateProtocolProgress() {
-    const shock = document.getElementById('shockInput')?.value.trim() || '';
-    const limitingFrame = document.getElementById('limitingFrameInput')?.value.trim() || '';
-    const protocolScript = document.getElementById('protocolScript')?.value.trim() || '';
-    
-    let completed = 0;
-    if (shock) completed++;
-    if (limitingFrame) completed++;
-    if (protocolScript) completed++;
-    
-    const progressSpan = document.getElementById('protocolProgress');
-    if (progressSpan) {
-        progressSpan.textContent = `${completed}/٣ مكتمل`;
-        if (completed === 3) {
-            progressSpan.className = 'progress-badge progress-complete';
-        } else {
-            progressSpan.className = 'progress-badge';
-        }
-    }
-    return completed === 3;
-}
-
-function updateReflectionProgress() {
-    const leadershipLearning = document.getElementById('leadershipLearning')?.value.trim() || '';
-    const tomorrowAction = document.getElementById('tomorrowAction')?.value.trim() || '';
-    
-    let completed = 0;
-    if (leadershipLearning) completed++;
-    if (tomorrowAction) completed++;
-    
-    const progressSpan = document.getElementById('reflectionProgress');
-    if (progressSpan) {
-        progressSpan.textContent = `${completed}/٢ مكتمل`;
-        if (completed === 2) {
-            progressSpan.className = 'progress-badge progress-complete';
-        } else {
-            progressSpan.className = 'progress-badge';
-        }
-    }
-    return completed === 2;
-}
-
-// Crisis selection handlers
-document.querySelectorAll('.option-row').forEach(function(row) {
-    row.addEventListener('click', function() {
-        var crisisId = this.getAttribute('data-crisis');
-        var option = this.getAttribute('data-option');
-        selectedAnswers[crisisId] = option;
-        var parentGroup = this.parentElement;
-        parentGroup.querySelectorAll('.option-row').forEach(function(r) {
-            r.classList.remove('selected');
-            var radio = r.querySelector('.option-radio');
-            if (radio) radio.textContent = '○';
-        });
-        this.classList.add('selected');
-        var radioSpan = this.querySelector('.option-radio');
-        if (radioSpan) radioSpan.textContent = '●';
-        localStorage.setItem('module6_crisis_' + crisisId + '_answer' + storageSuffix, option);
-        var feedbackDiv = document.getElementById('feedback' + crisisId);
-        var isCorrect = (option === correctAnswers[crisisId]);
-        feedbackDiv.innerHTML = isCorrect ? feedbackMessages[crisisId] : incorrectMessages[crisisId];
-        feedbackDiv.style.color = isCorrect ? '#1A6B5A' : '#B33A3A';
-        feedbackDiv.style.background = isCorrect ? '#E8F5E9' : '#FFEBEE';
-        feedbackDiv.style.display = 'block';
-        saveModule6Data();
-        updateCrisisProgress();
-    });
-});
-
-function saveModule6Data() {
-    var data = {
-        crisis1: selectedAnswers[1],
-        crisis2: selectedAnswers[2],
-        crisis3: selectedAnswers[3],
-        crisis4: selectedAnswers[4],
-        shock: document.getElementById('shockInput')?.value || '',
-        limitingFrame: document.getElementById('limitingFrameInput')?.value || '',
-        protocolScript: document.getElementById('protocolScript')?.value || '',
-        leadershipLearning: document.getElementById('leadershipLearning')?.value || '',
-        tomorrowAction: document.getElementById('tomorrowAction')?.value || '',
-        protocolSaved: protocolSaved,
-        reflectionSaved: reflectionSaved,
-        lastUpdated: new Date().toISOString()
-    };
-    localStorage.setItem('module6_data' + storageSuffix, JSON.stringify(data));
-}
-
-function loadModule6Data() {
-    var saved = localStorage.getItem('module6_data' + storageSuffix);
-    if (saved) {
-        try {
-            var data = JSON.parse(saved);
-            if (data.crisis1) selectedAnswers[1] = data.crisis1;
-            if (data.crisis2) selectedAnswers[2] = data.crisis2;
-            if (data.crisis3) selectedAnswers[3] = data.crisis3;
-            if (data.crisis4) selectedAnswers[4] = data.crisis4;
-            if (data.shock) document.getElementById('shockInput').value = data.shock;
-            if (data.limitingFrame) document.getElementById('limitingFrameInput').value = data.limitingFrame;
-            if (data.protocolScript) document.getElementById('protocolScript').value = data.protocolScript;
-            if (data.leadershipLearning) document.getElementById('leadershipLearning').value = data.leadershipLearning;
-            if (data.tomorrowAction) document.getElementById('tomorrowAction').value = data.tomorrowAction;
-            if (data.protocolSaved) protocolSaved = data.protocolSaved;
-            if (data.reflectionSaved) reflectionSaved = data.reflectionSaved;
+        function updateProtocolProgress() {
+            const shock = document.getElementById('shockInput')?.value.trim() || '';
+            const limitingFrame = document.getElementById('limitingFrameInput')?.value.trim() || '';
+            const protocolScript = document.getElementById('protocolScript')?.value.trim() || '';
             
-            for (var i = 1; i <= 4; i++) {
-                if (selectedAnswers[i]) {
-                    var selectedRow = document.querySelector('.option-row[data-crisis="' + i + '"][data-option="' + selectedAnswers[i] + '"]');
-                    if (selectedRow) {
-                        selectedRow.classList.add('selected');
-                        var radioSpan = selectedRow.querySelector('.option-radio');
-                        if (radioSpan) radioSpan.textContent = '●';
+            let completed = 0;
+            if (shock) completed++;
+            if (limitingFrame) completed++;
+            if (protocolScript) completed++;
+            
+            const progressSpan = document.getElementById('protocolProgress');
+            if (progressSpan) {
+                progressSpan.textContent = completed + '/٣ مكتمل';
+                progressSpan.className = completed === 3 ? 'progress-badge progress-complete' : 'progress-badge';
+            }
+            return completed === 3;
+        }
+
+        function updateReflectionProgress() {
+            const leadershipLearning = document.getElementById('leadershipLearning')?.value.trim() || '';
+            const tomorrowAction = document.getElementById('tomorrowAction')?.value.trim() || '';
+            
+            let completed = 0;
+            if (leadershipLearning) completed++;
+            if (tomorrowAction) completed++;
+            
+            const progressSpan = document.getElementById('reflectionProgress');
+            if (progressSpan) {
+                progressSpan.textContent = completed + '/٢ مكتمل';
+                progressSpan.className = completed === 2 ? 'progress-badge progress-complete' : 'progress-badge';
+            }
+            return completed === 2;
+        }
+
+        function checkAllComplete() {
+            const crisisComplete = updateCrisisProgress();
+            const protocolComplete = updateProtocolProgress();
+            const reflectionComplete = updateReflectionProgress();
+            
+            if (crisisComplete && protocolComplete && reflectionComplete) {
+                document.getElementById('badgeArea').style.display = 'block';
+            } else {
+                document.getElementById('badgeArea').style.display = 'none';
+            }
+            return crisisComplete && protocolComplete && reflectionComplete;
+        }
+
+        // ============================================
+        // COLLECT ANSWERS
+        // ============================================
+        function collectAnswers() {
+            return {
+                q1: selectedAnswers[1] || 'Not answered',
+                q2: selectedAnswers[2] || 'Not answered',
+                q3: selectedAnswers[3] || 'Not answered',
+                q4: selectedAnswers[4] || 'Not answered',
+                q5: document.getElementById('shockInput')?.value.trim() || 'Not answered',
+                q6: document.getElementById('limitingFrameInput')?.value.trim() || 'Not answered',
+                q7: document.getElementById('protocolScript')?.value.trim() || 'Not answered',
+                q8: document.getElementById('leadershipLearning')?.value.trim() || 'Not answered',
+                q9: document.getElementById('tomorrowAction')?.value.trim() || 'Not answered'
+            };
+        }
+
+        function saveModule6DataToLocal() {
+            let answers = collectAnswers();
+            localStorage.setItem('module6_answers' + storageSuffix, JSON.stringify({ ...answers, lastUpdated: new Date().toISOString() }));
+            updateCrisisProgress();
+            updateProtocolProgress();
+            updateReflectionProgress();
+            checkAllComplete();
+        }
+
+        function loadSavedAnswers() {
+            let saved = localStorage.getItem('module6_answers' + storageSuffix);
+            if (saved) {
+                try {
+                    let data = JSON.parse(saved);
+                    
+                    if (data.q1 && data.q1 !== 'Not answered') {
+                        selectedAnswers[1] = data.q1;
+                    }
+                    if (data.q2 && data.q2 !== 'Not answered') {
+                        selectedAnswers[2] = data.q2;
+                    }
+                    if (data.q3 && data.q3 !== 'Not answered') {
+                        selectedAnswers[3] = data.q3;
+                    }
+                    if (data.q4 && data.q4 !== 'Not answered') {
+                        selectedAnswers[4] = data.q4;
+                    }
+                    if (data.q5 && data.q5 !== 'Not answered') document.getElementById('shockInput').value = data.q5;
+                    if (data.q6 && data.q6 !== 'Not answered') document.getElementById('limitingFrameInput').value = data.q6;
+                    if (data.q7 && data.q7 !== 'Not answered') document.getElementById('protocolScript').value = data.q7;
+                    if (data.q8 && data.q8 !== 'Not answered') document.getElementById('leadershipLearning').value = data.q8;
+                    if (data.q9 && data.q9 !== 'Not answered') document.getElementById('tomorrowAction').value = data.q9;
+                    
+                    // Restore selected options
+                    for (let i = 1; i <= 4; i++) {
+                        if (selectedAnswers[i]) {
+                            let selectedRow = document.querySelector('.option-row[data-crisis="' + i + '"][data-option="' + selectedAnswers[i] + '"]');
+                            if (selectedRow) {
+                                selectedRow.classList.add('selected');
+                                let radioSpan = selectedRow.querySelector('.option-radio');
+                                if (radioSpan) radioSpan.textContent = '●';
+                            }
+                        }
+                    }
+                } catch(e) {}
+            }
+            updateCrisisProgress();
+            updateProtocolProgress();
+            updateReflectionProgress();
+            checkAllComplete();
+        }
+
+        // ============================================
+        // HISTORY TRACKING
+        // ============================================
+        function initHistory() {
+            if (!localStorage.getItem('module6_history_data' + storageSuffix)) {
+                let h = {};
+                ['q1','q2','q3','q4','q5','q6','q7','q8','q9'].forEach(k => { h[k] = { history: '', changes: 0, lastValue: '' }; });
+                localStorage.setItem('module6_history_data' + storageSuffix, JSON.stringify(h));
+            }
+        }
+        initHistory();
+
+        function sendPartialData() {
+            const user = getUserData();
+            const answers = collectAnswers();
+            let history = JSON.parse(localStorage.getItem('module6_history_data' + storageSuffix) || '{}');
+            let hasChange = false, changed = [];
+            let totalChanges = 0;
+            const questionMap = { 
+                q1: 'Q1_Crisis1', q2: 'Q2_Crisis2', q3: 'Q3_Crisis3', q4: 'Q4_Crisis4',
+                q5: 'Q5_Shock', q6: 'Q6_LimitingFrame', q7: 'Q7_ProtocolScript',
+                q8: 'Q8_LeadershipLearning', q9: 'Q9_TomorrowAction'
+            };
+            
+            const noChangeKeys = [];
+            
+            for (let key in questionMap) {
+                let val = answers[key] || '';
+                let last = history[key]?.lastValue || '';
+                let hist = history[key]?.history || '';
+                let changes = history[key]?.changes || 0;
+                
+                if (val && val !== 'Not answered') {
+                    if (last && last !== val) {
+                        history[key] = { history: hist ? hist + '→' + val : val, changes: changes + 1, lastValue: val };
+                        hasChange = true; changed.push(questionMap[key]); totalChanges = changes + 1;
+                    } else if (!last) {
+                        history[key] = { history: val, changes: 0, lastValue: val };
+                        hasChange = true; changed.push(questionMap[key] + ' (NEW)');
                     }
                 }
             }
-        } catch(e) {}
-    }
-    updateCrisisProgress();
-    updateProtocolProgress();
-    updateReflectionProgress();
-}
+            
+            localStorage.setItem('module6_history_data' + storageSuffix, JSON.stringify(history));
+            if (!hasChange) return;
 
-document.getElementById('saveProtocolBtn').addEventListener('click', function() {
-    var shock = document.getElementById('shockInput').value.trim();
-    var limitingFrame = document.getElementById('limitingFrameInput').value.trim();
-    var protocolScript = document.getElementById('protocolScript').value.trim();
-    if (!shock || !limitingFrame || !protocolScript) { 
-        showToast('الرجاء إكمال جميع الحقول الثلاثة.', true);
-        return; 
-    }
-    protocolSaved = true;
-    saveModule6Data();
-    document.getElementById('myProtocolDisplay').innerHTML = '<strong>' + escapeHtml(shock) + '</strong><br>' + escapeHtml(protocolScript);
-    var feedbackDiv = document.getElementById('protocolFeedback');
-    feedbackDiv.innerHTML = '✅ تم حفظ البروتوكول!';
-    feedbackDiv.style.display = 'block';
-    updateProtocolProgress();
-    setTimeout(function() { feedbackDiv.style.display = 'none'; }, 2000);
-});
-
-document.getElementById('saveReflectionBtn').addEventListener('click', function() {
-    var leadershipLearning = document.getElementById('leadershipLearning').value.trim();
-    var tomorrowAction = document.getElementById('tomorrowAction').value.trim();
-    if (!leadershipLearning || !tomorrowAction) { 
-        showToast('الرجاء إكمال سؤالي التأمل.', true);
-        return; 
-    }
-    reflectionSaved = true;
-    saveModule6Data();
-    var feedbackDiv = document.getElementById('reflectionFeedback');
-    feedbackDiv.innerHTML = '✅ تم حفظ التأمل!';
-    feedbackDiv.style.display = 'block';
-    updateReflectionProgress();
-    setTimeout(function() { feedbackDiv.style.display = 'none'; }, 2000);
-});
-
-function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>]/g, function(m) {
-        if (m === '&') return '&amp;';
-        if (m === '<') return '&lt;';
-        if (m === '>') return '&gt;';
-        return m;
-    });
-}
-
-// ============================================
-// FIXED downloadCardBtn - WITH BOM AND WINDOWS LINE BREAKS
-// ============================================
-document.getElementById('downloadCardBtn').addEventListener('click', function() {
-    // Prepare plain text content for TXT file
-    var content = "========================================\r\n";
-    content += "   بروتوكول الساعة السابعة صباحاً\r\n";
-    content += "   البطاقة الجيبية للقائد\r\n";
-    content += "========================================\r\n\r\n";
-    
-    content += "[فيضان مفاجئ]\r\n";
-    content += "\"السجلات ذهبت. الناس هنا. ما السجلات الموجودة في مكان آخر؟\"\r\n\r\n";
-    
-    content += "[تهديد التدقيق]\r\n";
-    content += "\"اللوم غير مفيد. الأدلة مفيدة. الجميع يحضر الحقائق في غضون ساعتين.\"\r\n\r\n";
-    
-    content += "[خرق بيانات المستفيدين]\r\n";
-    content += "\"إبلاغ قسم الأمن والجهة المانحة فوراً، تأمين الحسابات، إخطار المستفيدين، دعم الموظف والتركيز على الحل.\"\r\n\r\n";
-    
-    content += "[انقطاع الاتصالات]\r\n";
-    content += "\"لا اتصال مع الخارج. نتخذ القرارات معاً. ما هي المشكلة الأكثر إلحاحاً؟\"\r\n\r\n";
-    
-    var protocolScript = document.getElementById('protocolScript').value.trim();
-    if (protocolScript) {
-        content += "========================================\r\n";
-        content += "[بروتوكولي الخاص]\r\n";
-        content += protocolScript + "\r\n";
-        content += "========================================\r\n";
-    }
-    
-    content += "\r\n--- تذكر: اجمع المعرفة المحلية أولاً دائماً! ---\r\n";
-    
-    // --- FIX: Add BOM (Byte Order Mark) and use UTF-8 encoding to prevent garbled text ---
-    var blob = new Blob(["\uFEFF" + content], { type: "text/plain;charset=utf-8" });
-    
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url;
-    a.download = 'protocol_7am.txt';
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast('📥 تم تحميل البطاقة الجيبية بنجاح!');
-});
-
-// Input listeners for progress updates
-document.getElementById('shockInput').addEventListener('input', function() { updateProtocolProgress(); saveModule6Data(); });
-document.getElementById('limitingFrameInput').addEventListener('input', function() { updateProtocolProgress(); saveModule6Data(); });
-document.getElementById('protocolScript').addEventListener('input', function() { updateProtocolProgress(); saveModule6Data(); });
-document.getElementById('leadershipLearning').addEventListener('input', function() { updateReflectionProgress(); saveModule6Data(); });
-document.getElementById('tomorrowAction').addEventListener('input', function() { updateReflectionProgress(); saveModule6Data(); });
-
-// ============================================
-// SEND DATA TO GOOGLE SHEETS
-// ============================================
-function sendModule6DataToSheet(callback) {
-    const userData = getUserData();
-    const payload = {
-        module: 'Module 6',
-        language: 'ar',
-        userName: userData.name,
-        userEmail: userData.email,
-        userPosition: userData.position,
-        timestamp: new Date().toISOString(),
-        answers: {
-            crisis1: selectedAnswers[1] || 'لم يجب',
-            crisis2: selectedAnswers[2] || 'لم يجب',
-            crisis3: selectedAnswers[3] || 'لم يجب',
-            crisis4: selectedAnswers[4] || 'لم يجب',
-            shock: document.getElementById('shockInput')?.value.trim() || 'لم يجب',
-            limitingFrame: document.getElementById('limitingFrameInput')?.value.trim() || 'لم يجب',
-            protocolScript: document.getElementById('protocolScript')?.value.trim() || 'لم يجب',
-            leadershipLearning: document.getElementById('leadershipLearning')?.value.trim() || 'لم يجب',
-            tomorrowAction: document.getElementById('tomorrowAction')?.value.trim() || 'لم يجب'
+            const payload = {
+                module: 'Module 6',
+                action: 'partial',
+                language: 'ar',
+                userName: user.name,
+                userEmail: user.email,
+                userPosition: user.position,
+                timestamp: new Date().toISOString(),
+                answers: answers,
+                history: history,
+                changedFields: changed,
+                totalChanges: totalChanges,
+                isComplete: false
+            };
+            fetch(GOOGLE_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) })
+                .then(r => r.json()).then(d => console.log('✅ Module 6 partial sent', d)).catch(e => {
+                    let xhr = new XMLHttpRequest(); xhr.open('POST', GOOGLE_SCRIPT_URL, true); xhr.setRequestHeader('Content-Type','text/plain;charset=utf-8'); xhr.send(JSON.stringify(payload));
+                });
         }
-    };
-    
-    console.log('📤 Sending Module 6 data for user:', userData.name);
-    
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', GOOGLE_SCRIPT_URL, true);
-    xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                console.log('✅ Module 6 data sent successfully');
-                if (callback) callback(true);
+
+        function sendCompleteData() {
+            const user = getUserData();
+            const answers = collectAnswers();
+            let history = JSON.parse(localStorage.getItem('module6_history_data' + storageSuffix) || '{}');
+            let totalChanges = 0; for (let k in history) totalChanges += history[k]?.changes || 0;
+            const payload = {
+                module: 'Module 6',
+                action: 'completed',
+                language: 'ar',
+                userName: user.name,
+                userEmail: user.email,
+                userPosition: user.position,
+                timestamp: new Date().toISOString(),
+                answers: answers,
+                history: history,
+                totalChanges: totalChanges,
+                isComplete: true
+            };
+            return fetch(GOOGLE_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) })
+                .then(r => r.json()).then(d => { console.log('✅ Module 6 completed', d); return true; })
+                .catch(() => { let xhr = new XMLHttpRequest(); xhr.open('POST', GOOGLE_SCRIPT_URL, true); xhr.setRequestHeader('Content-Type','text/plain;charset=utf-8'); xhr.send(JSON.stringify(payload)); return new Promise(r => setTimeout(()=>r(true), 2000)); });
+        }
+
+        // ============================================
+        // CRISIS SELECTION HANDLER
+        // ============================================
+        document.querySelectorAll('.option-row').forEach(function(row) {
+            row.addEventListener('click', function() {
+                var crisisId = this.getAttribute('data-crisis');
+                var option = this.getAttribute('data-option');
+                selectedAnswers[crisisId] = option;
+                var parentGroup = this.parentElement;
+                parentGroup.querySelectorAll('.option-row').forEach(function(r) {
+                    r.classList.remove('selected');
+                    var radio = r.querySelector('.option-radio');
+                    if (radio) radio.textContent = '○';
+                });
+                this.classList.add('selected');
+                var radioSpan = this.querySelector('.option-radio');
+                if (radioSpan) radioSpan.textContent = '●';
+                
+                var feedbackDiv = document.getElementById('feedback' + crisisId);
+                var isCorrect = (option === correctAnswers[crisisId]);
+                feedbackDiv.innerHTML = isCorrect ? feedbackMessages[crisisId] : incorrectMessages[crisisId];
+                feedbackDiv.className = 'feedback ' + (isCorrect ? 'feedback-success' : 'feedback-incorrect');
+                feedbackDiv.style.display = 'block';
+                
+                saveModule6DataToLocal();
+                sendPartialData();
+                updateCrisisProgress();
+                checkAllComplete();
+            });
+        });
+
+        // ============================================
+        // SAVE PROTOCOL
+        // ============================================
+        document.getElementById('saveProtocolBtn').addEventListener('click', function() {
+            var shock = document.getElementById('shockInput').value.trim();
+            var limitingFrame = document.getElementById('limitingFrameInput').value.trim();
+            var protocolScript = document.getElementById('protocolScript').value.trim();
+            if (!shock || !limitingFrame || !protocolScript) { 
+                showToast('الرجاء إكمال جميع الحقول الثلاثة.', true);
+                return; 
+            }
+            
+            saveModule6DataToLocal();
+            sendPartialData();
+            
+            document.getElementById('myProtocolDisplay').innerHTML = '<strong>' + escapeHtml(shock) + '</strong><br>' + escapeHtml(protocolScript);
+            var feedbackDiv = document.getElementById('protocolFeedback');
+            feedbackDiv.innerHTML = '✅ تم حفظ البروتوكول!';
+            feedbackDiv.className = 'feedback feedback-success';
+            feedbackDiv.style.display = 'block';
+            updateProtocolProgress();
+            checkAllComplete();
+            setTimeout(function() { feedbackDiv.style.display = 'none'; }, 3000);
+        });
+
+        // ============================================
+        // SAVE REFLECTION
+        // ============================================
+        document.getElementById('saveReflectionBtn').addEventListener('click', function() {
+            var leadershipLearning = document.getElementById('leadershipLearning').value.trim();
+            var tomorrowAction = document.getElementById('tomorrowAction').value.trim();
+            if (!leadershipLearning || !tomorrowAction) { 
+                showToast('الرجاء إكمال سؤالي التأمل.', true);
+                return; 
+            }
+            
+            saveModule6DataToLocal();
+            sendPartialData();
+            
+            var feedbackDiv = document.getElementById('reflectionFeedback');
+            feedbackDiv.innerHTML = '✅ تم حفظ التأمل!';
+            feedbackDiv.className = 'feedback feedback-success';
+            feedbackDiv.style.display = 'block';
+            updateReflectionProgress();
+            checkAllComplete();
+            setTimeout(function() { feedbackDiv.style.display = 'none'; }, 3000);
+        });
+
+        // ============================================
+        // INPUT LISTENERS - Save locally only
+        // ============================================
+        ['shockInput', 'limitingFrameInput', 'protocolScript', 'leadershipLearning', 'tomorrowAction'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('input', function() {
+                    saveModule6DataToLocal();
+                });
+            }
+        });
+
+        // ============================================
+        // DOWNLOAD CARD
+        // ============================================
+        document.getElementById('downloadCardBtn').addEventListener('click', function() {
+            var content = "========================================\r\n";
+            content += "   بروتوكول الساعة السابعة صباحاً\r\n";
+            content += "   البطاقة الجيبية للقائد\r\n";
+            content += "========================================\r\n\r\n";
+            
+            content += "[فيضان مفاجئ]\r\n";
+            content += "\"السجلات ذهبت. الناس هنا. ما السجلات الموجودة في مكان آخر؟\"\r\n\r\n";
+            
+            content += "[تهديد التدقيق]\r\n";
+            content += "\"اللوم غير مفيد. الأدلة مفيدة. الجميع يحضر الحقائق في غضون ساعتين.\"\r\n\r\n";
+            
+            content += "[خرق بيانات المستفيدين]\r\n";
+            content += "\"إبلاغ قسم الأمن والجهة المانحة فوراً، تأمين الحسابات، إخطار المستفيدين، دعم الموظف والتركيز على الحل.\"\r\n\r\n";
+            
+            content += "[انقطاع الاتصالات]\r\n";
+            content += "\"لا اتصال مع الخارج. نتخذ القرارات معاً. ما هي المشكلة الأكثر إلحاحاً؟\"\r\n\r\n";
+            
+            var protocolScript = document.getElementById('protocolScript').value.trim();
+            if (protocolScript) {
+                content += "========================================\r\n";
+                content += "[بروتوكولي الخاص]\r\n";
+                content += protocolScript + "\r\n";
+                content += "========================================\r\n";
+            }
+            
+            content += "\r\n--- تذكر: اجمع المعرفة المحلية أولاً دائماً! ---\r\n";
+            
+            var blob = new Blob(["\uFEFF" + content], { type: "text/plain;charset=utf-8" });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'protocol_7am.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('📥 تم تحميل البطاقة الجيبية بنجاح!');
+        });
+
+        // ============================================
+        // ESCAPE HTML
+        // ============================================
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        // ============================================
+        // GO TO CERTIFICATE
+        // ============================================
+        async function goToCertificate() {
+            const crisisComplete = updateCrisisProgress();
+            const protocolComplete = updateProtocolProgress();
+            const reflectionComplete = updateReflectionProgress();
+            
+            if (!crisisComplete) {
+                showToast('⚠️ الرجاء الإجابة على جميع سيناريوهات الأزمة الأربعة قبل المتابعة.', true);
+                return;
+            }
+            
+            if (!protocolComplete) {
+                showToast('⚠️ الرجاء إكمال بروتوكول الساعة السابعة صباحاً الخاص بك (جميع الحقول الثلاثة) قبل المتابعة.', true);
+                return;
+            }
+            
+            if (!reflectionComplete) {
+                showToast('⚠️ الرجاء إكمال سؤالي تأمل النمو قبل المتابعة.', true);
+                return;
+            }
+            
+            saveModule6DataToLocal();
+            showToast('💾 جاري حفظ إجاباتك...');
+            
+            const saved = await sendCompleteData();
+            
+            if (saved) {
+                localStorage.setItem('module6_completed' + storageSuffix, 'true');
+                localStorage.setItem('course_completed' + storageSuffix, 'true');
+                showToast('✅ تم حفظ التقدم! جاري التحويل...');
+                setTimeout(() => { window.location.href = 'certificate.html'; }, 800);
             } else {
-                console.log('⚠️ Failed to send data - status:', xhr.status);
-                if (callback) callback(false);
+                localStorage.setItem('module6_completed' + storageSuffix, 'true');
+                localStorage.setItem('course_completed' + storageSuffix, 'true');
+                showToast('⚠️ تم حفظ التقدم محلياً. جاري الاستمرار...', true);
+                setTimeout(() => { window.location.href = 'certificate.html'; }, 800);
             }
         }
-    };
-    xhr.onerror = function() {
-        console.log('⚠️ Network error while sending');
-        if (callback) callback(false);
-    };
-    xhr.send(JSON.stringify(payload));
-}
 
-// ============================================
-// GO TO CERTIFICATE
-// ============================================
-function goToCertificate() {
-    const crisisComplete = updateCrisisProgress();
-    const protocolComplete = updateProtocolProgress();
-    const reflectionComplete = updateReflectionProgress();
-    
-    if (!crisisComplete) {
-        showToast('⚠️ الرجاء الإجابة على جميع سيناريوهات الأزمة الأربعة قبل المتابعة.', true);
-        return;
-    }
-    
-    if (!protocolComplete) {
-        showToast('⚠️ الرجاء إكمال بروتوكول الساعة السابعة صباحاً الخاص بك (جميع الحقول الثلاثة) قبل المتابعة.', true);
-        return;
-    }
-    
-    if (!reflectionComplete) {
-        showToast('⚠️ الرجاء إكمال سؤالي تأمل النمو قبل المتابعة.', true);
-        return;
-    }
-    
-    saveModule6Data();
-    showToast('جاري حفظ تقدمك وإرسال البيانات...');
-    
-    sendModule6DataToSheet(function(success) {
-        if (success) {
-            console.log('✅ Module 6 data saved to Google Sheets');
-        } else {
-            console.log('⚠️ Could not save to Google Sheets, but local data is saved');
-        }
-        
-        localStorage.setItem('module6_completed' + storageSuffix, 'true');
-        localStorage.setItem('course_completed' + storageSuffix, 'true');
-        
-        setTimeout(() => {
-            window.location.href = 'certificate.html';
-        }, 500);
-    });
-}
+        // ============================================
+        // EVENT BINDING
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedAnswers();
 
-// Navigation
-document.getElementById('backToModule5Btn')?.addEventListener('click', function() {
-    window.location.href = 'module5.html';
-});
+            document.getElementById('backToModule5Btn').addEventListener('click', function() {
+                window.location.href = 'module5.html';
+            });
 
-document.getElementById('nextToCertificateBtn')?.addEventListener('click', goToCertificate);
+            document.getElementById('continueToCertificateBtn').addEventListener('click', goToCertificate);
 
-document.getElementById('resetDataLink')?.addEventListener('click', function(e) {
-    e.preventDefault();
-    if (confirm('هل تريد إعادة ضبط جميع بيانات الوحدة ٦؟ لا يمكن التراجع عن هذا.')) {
-        localStorage.removeItem('module6_data' + storageSuffix);
-        localStorage.removeItem('module6_completed' + storageSuffix);
-        for (var i = 1; i <= 4; i++) {
-            localStorage.removeItem('module6_crisis_' + i + '_answer' + storageSuffix);
-        }
-        location.reload();
-    }
-});
+            document.getElementById('resetDataLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('هل تريد إعادة ضبط جميع بيانات الوحدة؟ لا يمكن التراجع عن هذا.')) {
+                    localStorage.removeItem('module6_answers' + storageSuffix);
+                    localStorage.removeItem('module6_completed' + storageSuffix);
+                    localStorage.removeItem('module6_history_data' + storageSuffix);
+                    location.reload();
+                }
+            });
 
-// Load saved data on page load
-loadModule6Data();
-</script>
+            updateCrisisProgress();
+            updateProtocolProgress();
+            updateReflectionProgress();
+            checkAllComplete();
+        });
+    </script>
 </body>
 </html>
