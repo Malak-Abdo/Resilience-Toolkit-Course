@@ -5,347 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
     <title>الوحدة ٤ · حزمة أدوات المرونة: نوايا التعلم مقابل أهداف الأداء</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif;
-            background: #F4F7FC;
-            color: #1E2F3E;
-            line-height: 1.5;
-            padding: 2rem 1rem;
-        }
-        /* ===== تحسينات النص ===== */
-        p, li, .scenario-card, .highlight-box, .warning-box, 
-        .learning-bridge-note, .golden-rule, .exercise-box {
-            text-align: justify;
-            word-wrap: break-word;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .card {
-            background: white;
-            border-radius: 32px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.02);
-            overflow: hidden;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-        }
-        @media (max-width: 600px) {
-            .card { padding: 1.5rem; }
-        }
-        /* ===== تحسينات الجوال ===== */
-        @media (max-width: 480px) {
-            body {
-                font-size: 0.9rem;
-                padding: 1rem 0.8rem;
-            }
-            .card {
-                padding: 1.2rem;
-            }
-            .module-title {
-                font-size: 1.1rem;
-            }
-            h2 {
-                font-size: 1.1rem;
-            }
-            .goal-input {
-                font-size: 0.85rem;
-                padding: 0.6rem;
-            }
-            .check-btn {
-                padding: 0.4rem 1rem;
-                font-size: 0.75rem;
-            }
-            .comparison-table {
-                font-size: 0.8rem;
-            }
-            .comparison-table th, .comparison-table td {
-                padding: 0.5rem;
-            }
-        }
-        .header-tag {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #1A6B5A;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        .user-badge {
-            font-size: 0.7rem;
-            background: #E8F5E9;
-            padding: 0.2rem 0.6rem;
-            border-radius: 20px;
-            color: #1A6B5A;
-        }
-        .module-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-            border-bottom: 2px solid #E8A735;
-            padding-bottom: 0.5rem;
-            gap: 0.5rem;
-        }
-        .module-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #0C2E3B;
-        }
-        .module-time {
-            font-size: 0.8rem;
-            background: #F0F4F9;
-            padding: 0.2rem 0.8rem;
-            border-radius: 20px;
-            color: #2C5F7A;
-        }
-        h2 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #0C2E3B;
-            margin: 1.5rem 0 1rem 0;
-            border-right: 4px solid #E8A735;
-            padding-right: 0.8rem;
-        }
-        .presenter {
-            font-size: 0.85rem;
-            color: #2C5F7A;
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-        .duration-badge {
-            display: inline-block;
-            background: #EFF3F8;
-            padding: 0.2rem 0.9rem;
-            border-radius: 30px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: #1A6B5A;
-            margin-bottom: 1.5rem;
-        }
-        .highlight-box {
-            background: #F0F7F4;
-            border-radius: 20px;
-            padding: 1.2rem;
-            margin: 1rem 0;
-            border-right: 4px solid #E8A735;
-        }
-        .warning-box {
-            background: #FDF8F0;
-            border-radius: 20px;
-            padding: 1.2rem;
-            margin: 1rem 0;
-            border-right: 4px solid #E8A735;
-        }
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1rem 0;
-            font-size: 0.9rem;
-            display: block;
-            overflow-x: auto;
-        }
-        .comparison-table th, .comparison-table td {
-            border: 1px solid #E2E9F2;
-            padding: 0.75rem;
-            text-align: right;
-            vertical-align: top;
-        }
-        .comparison-table th {
-            background: #F0F7F4;
-            font-weight: 700;
-            color: #1A6B5A;
-        }
-        .comparison-table td:first-child {
-            background: #FFFFD7;
-            font-weight: 500;
-        }
-        .learning-bridge-note {
-            background: #E3F2FD;
-            border-radius: 20px;
-            padding: 1.2rem;
-            margin: 1rem 0;
-            border-right: 4px solid #1A6B5A;
-            font-weight: 500;
-            color: #0C2E3B;
-        }
-        .golden-rule {
-            background: linear-gradient(135deg, #E8A73520, #1A6B5A20);
-            border-radius: 20px;
-            padding: 1.2rem;
-            text-align: center;
-            margin: 1.5rem 0;
-            border: 1px solid #E8A735;
-        }
-        .exercise-box {
-            background: #F9FCFE;
-            border-radius: 20px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border: 1px solid #E2E9F2;
-        }
-        .scenario-card {
-            background: #FDF8F0;
-            border-radius: 16px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-right: 3px solid #1A6B5A;
-        }
-        .scenario-title {
-            font-weight: 700;
-            color: #1A6B5A;
-            margin-bottom: 0.5rem;
-        }
-        .goal-input {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ccc;
-            border-radius: 12px;
-            font-family: inherit;
-            font-size: 0.9rem;
-            margin: 0.5rem 0;
-            resize: vertical;
-        }
-        .feedback-badge {
-            margin-top: 0.5rem;
-            padding: 0.8rem;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            display: none;
-        }
-        .feedback-correct {
-            background: #E8F5E9;
-            color: #1A6B5A;
-            border-right: 3px solid #1A6B5A;
-        }
-        .feedback-incorrect {
-            background: #FFEBEE;
-            color: #B33A3A;
-            border-right: 3px solid #B33A3A;
-        }
-        .check-btn {
-            background: #6C86A0;
-            margin-left: 0.5rem;
-        }
-        .check-btn:hover {
-            background: #4a627a;
-        }
-        button {
-            background: #1A6B5A;
-            border: none;
-            color: white;
-            font-weight: 600;
-            padding: 0.7rem 1.5rem;
-            border-radius: 60px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            margin-top: 0.5rem;
-        }
-        button:hover {
-            background: #0e4d40;
-        }
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        .btn-secondary {
-            background: #E8A735;
-            color: #2E3A2A;
-        }
-        .btn-secondary:hover {
-            background: #d4951e;
-        }
-        .module-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-        .module-nav button {
-            flex: 1;
-            min-width: 120px;
-        }
-        @media (max-width: 550px) {
-            .module-nav button {
-                width: 100%;
-            }
-        }
-        .footer-note {
-            font-size: 0.7rem;
-            text-align: center;
-            color: #8BA0B8;
-            margin-top: 1.5rem;
-        }
-        .reset-link {
-            text-align: center;
-            margin-top: 1rem;
-            font-size: 0.7rem;
-        }
-        .reset-link a {
-            color: #8BA0B8;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-        hr {
-            margin: 1.5rem 0;
-            border: none;
-            border-top: 1px solid #E2E9F2;
-        }
-        .toast-notification {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1A6B5A;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 60px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            animation: fadeInUp 0.3s ease;
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
-            to { opacity: 1; transform: translateX(-50%) translateY(0); }
-        }
-        .status-badge {
-            display: inline-block;
-            margin-right: 0.5rem;
-            font-size: 0.7rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 20px;
-        }
-        .status-pending {
-            background: #FFF3E0;
-            color: #E8A735;
-        }
-        .status-completed {
-            background: #E8F5E9;
-            color: #1A6B5A;
-        }
-        .badge-earned {
-            background: linear-gradient(135deg, #E8A735, #1A6B5A);
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            border-radius: 60px;
-            margin-top: 1.5rem;
-            font-weight: 700;
-        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:system-ui,-apple-system,'Segoe UI',Tahoma,sans-serif;background:#F4F7FC;color:#1E2F3E;line-height:1.45;padding:0 0 2rem 0}
+        .course-card{max-width:720px;margin:1rem auto;background:white;border-radius:32px;box-shadow:0 8px 20px rgba(0,0,0,0.05);overflow:hidden;padding:1.8rem 1.5rem 2.2rem}
+        @media (max-width:550px){.course-card{margin:0.8rem;padding:1.5rem 1.2rem;border-radius:28px}}
+        .header-tag{font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:#1A6B5A;font-weight:600;margin-bottom:0.5rem;display:flex;justify-content:space-between;align-items:center}
+        .user-badge{font-size:0.7rem;background:#E8F5E9;padding:0.2rem 0.6rem;border-radius:20px;color:#1A6B5A}
+        .module-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1rem;flex-wrap:wrap;border-bottom:2px solid #E8A735;padding-bottom:0.5rem;gap:0.5rem}
+        .module-title{font-size:1.3rem;font-weight:700;color:#0C2E3B}
+        .module-time{font-size:0.8rem;background:#F0F4F9;padding:0.2rem 0.8rem;border-radius:20px;color:#2C5F7A}
+        h2{font-size:1.2rem;font-weight:600;color:#1A6B5A;margin:1.5rem 0 0.75rem 0;border-right:4px solid #E8A735;padding-right:0.8rem}
+        h3{font-size:1rem;font-weight:600;color:#1A6B5A;margin-bottom:0.75rem}
+        .scenario-card{background:#FDF8F0;border-right:5px solid #E8A735;padding:1rem;margin:1rem 0;border-radius:16px}
+        .mindset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin:1.5rem 0}
+        .mindset-card{background:white;border-radius:20px;padding:1rem;border:2px solid #E2E9F2;cursor:pointer;transition:all 0.2s;text-align:center;min-height:140px;display:flex;flex-direction:column;justify-content:center}
+        .mindset-card:hover{transform:translateY(-4px);border-color:#E8A735}
+        .mindset-card.flipped{background:#E8F5E9;border-color:#1A6B5A}
+        .hidden-content{display:none}
+        .mindset-front,.mindset-back{text-align:center}
+        .mindset-front .label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.5px;color:#C0392B;font-weight:600;margin-bottom:0.3rem}
+        .mindset-front .goal{font-weight:600;color:#1E2F3E;font-size:0.9rem}
+        .mindset-back .label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.5px;color:#1A6B5A;font-weight:600;margin-bottom:0.3rem}
+        .mindset-back .intention{font-weight:600;color:#1A6B5A;font-size:0.9rem}
+        .bridge-note{background:#E3F2FD;border-radius:16px;padding:1rem;margin:1rem 0;border-right:4px solid #1A6B5A;font-weight:500}
+        .golden-rule{background:linear-gradient(135deg,#E8A73520,#1A6B5A20);border-radius:20px;padding:1rem;text-align:center;margin:1.5rem 0;border:1px solid #E8A735}
+        .exercise-box{background:#F9FCFE;border-radius:20px;padding:1rem;margin:1.5rem 0;border:1px solid #E2E9F2}
+        .scenario-input{background:white;border-radius:12px;padding:0.8rem;margin:0.8rem 0;border-right:3px solid #1A6B5A}
+        .scenario-input label{font-weight:700;color:#1A6B5A;display:block;margin-bottom:0.3rem;font-size:0.85rem}
+        .scenario-input .hint{font-size:0.75rem;color:#8BA0B8;margin:0.2rem 0 0.3rem}
+        textarea{width:100%;padding:0.6rem;border:1px solid #E2E9F2;border-radius:12px;font-family:inherit;font-size:0.9rem;resize:vertical;min-height:60px}
+        textarea:focus{outline:none;border-color:#1A6B5A}
+        .check-btn{background:#6C86A0;border:none;color:white;font-weight:600;padding:0.4rem 1.2rem;border-radius:60px;font-size:0.8rem;cursor:pointer;margin-top:0.3rem}
+        .check-btn:hover{background:#4a627a}
+        .feedback-badge{padding:0.6rem;border-radius:12px;font-size:0.85rem;margin-top:0.5rem;display:none}
+        .feedback-correct{background:#E8F5E9;color:#1A6B5A;border-right:3px solid #1A6B5A}
+        .feedback-incorrect{background:#FFEBEE;color:#B33A3A;border-right:3px solid #B33A3A}
+        .hint-box{background:#FFF8E1;border-right:3px solid #E8A735;padding:0.75rem;margin-top:0.75rem;border-radius:12px;font-size:0.85rem;color:#2C5F7A;display:none}
+        button{background:#1A6B5A;border:none;color:white;font-weight:600;padding:0.7rem 1.5rem;border-radius:60px;font-size:0.9rem;cursor:pointer;margin-top:0.5rem}
+        button:hover{background:#0e4d40}
+        .secondary{background:#E8A735;color:#2E3A2A}
+        .secondary:hover{background:#d4951e}
+        .module-nav{display:flex;justify-content:space-between;gap:1rem;margin-top:1.5rem;flex-wrap:wrap}
+        .footer-note{font-size:0.7rem;text-align:center;color:#8BA0B8;margin-top:1.5rem}
+        .reset-link{text-align:center;margin-top:1rem;font-size:0.7rem}
+        .reset-link a{color:#8BA0B8;cursor:pointer;text-decoration:underline}
+        .progress-badge{display:inline-block;margin-right:0.5rem;font-size:0.7rem;padding:0.2rem 0.6rem;border-radius:20px;background:#FFF3E0;color:#E8A735}
+        .progress-complete{background:#E8F5E9;color:#1A6B5A}
+        .badge-earned{background:linear-gradient(135deg,#E8A735,#1A6B5A);color:white;text-align:center;padding:0.8rem;border-radius:60px;margin-top:1rem;font-weight:700;display:none}
+        .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.5rem}
+        .toast-notification{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1A6B5A;color:white;padding:12px 24px;border-radius:60px;font-size:0.85rem;z-index:1000;box-shadow:0 4px 12px rgba(0,0,0,0.15);animation:fadeInUp 0.3s ease}
+        @keyframes fadeInUp{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+        .tip-note{font-size:0.75rem;color:#E8A735;background:#FFF8E1;padding:0.5rem;border-radius:12px;margin-top:0.5rem;text-align:center}
+        .sentence-box{background:#E8F5E9;border-right:5px solid #1A6B5A;padding:1rem;margin:1rem 0;border-radius:16px;text-align:center}
+        p, li, .scenario-card p, .bridge-note p, .golden-rule p{text-align:justify;word-wrap:break-word}
+        @media (max-width:480px){.course-card{margin:0.5rem;padding:1.2rem} p, li{font-size:0.9rem;line-height:1.55} .module-title{font-size:1.1rem} h2{font-size:1.1rem} .scenario-input{padding:0.6rem} textarea{font-size:0.85rem}}
+        .warning-box{background:#FDF8F0;border-radius:20px;padding:1.2rem;margin:1rem 0;border-right:4px solid #E8A735}
+        .highlight-box{background:#F0F7F4;border-radius:20px;padding:1.2rem;margin:1rem 0;border-right:4px solid #E8A735}
+        .presenter{font-size:0.85rem;color:#2C5F7A;margin-bottom:1rem;font-weight:500}
+        .duration-badge{display:inline-block;background:#EFF3F8;padding:0.2rem 0.9rem;border-radius:30px;font-size:0.75rem;font-weight:500;color:#1A6B5A;margin-bottom:1.5rem}
+        .flip-progress{display:inline-block;margin-right:0.5rem;font-size:0.7rem;padding:0.2rem 0.6rem;border-radius:20px;background:#FFF3E0;color:#E8A735}
+        .flip-complete{background:#E8F5E9;color:#1A6B5A}
+        .click-hint{font-size:0.65rem;color:#8BA0B8;margin-top:0.5rem;display:block}
     </style>
 </head>
 <body>
-        <!-- ========== كود التحقق ========== -->
+    <!-- ========== كود التحقق ========== -->
     <script>
         const userLang = localStorage.getItem('userLanguage') || 'en';
         const messages = {
@@ -359,11 +83,10 @@
         }
     </script>
     <!-- ================================= -->
-<div class="container">
-    <div class="card">
+    <div class="course-card">
         <div class="header-tag">
-            <span>حزمة أدوات المرونة</span>
-            <span class="user-badge" id="userBadge">👤 جار التحميل...</span>
+            <span>حزمة أدوات المرونة · الوحدة ٤</span>
+            <span class="user-badge" id="userBadge">جاري التحميل...</span>
         </div>
         
         <div class="module-header">
@@ -390,16 +113,51 @@
             <p style="font-size: 1.1rem; font-weight: 600; margin: 0.5rem 0;">"تعلم كيفية توصيل الحصص الغذائية عندما يكون الطريق الرئيسي مغلقاً."</p>
         </div>
 
-        <table class="comparison-table">
-            <thead><tr><th>هدف الأداء</th><th>نية التعلم</th></tr></thead>
-            <tbody>
-                <tr><td>"توصيل ١٠,٠٠٠ حصة غذائية بحلول يوم الجمعة"</td><td>"تعلم كيفية توصيل الحصص الغذائية عندما يكون الطريق الرئيسي مغلقاً"</td></tr>
-                <tr><td>"إصلاح المركبة المعطلة في ٢٤ ساعة"</td><td>"تعلم كيفية استعارة مركبة من المجتمع"</td></tr>
-                <tr><td>"إيجاد مترجم جديد بنهاية اليوم"</td><td>"تعلم كيفية التواصل بدون مترجم"</td></tr>
-            </tbody>
-        </table>
+        <div class="section-header">
+            <h2 style="margin:0;border-right:none;padding-right:0;">أداء مقابل تعلم — بطاقات التقليب</h2>
+            <span class="flip-progress" id="flipProgress">٠/٣ تم التقليب</span>
+        </div>
+        <p style="margin-bottom:0.5rem;font-size:0.85rem;color:#2C5F7A;">انقر على كل بطاقة لتكشف عن نية التعلم التي تحول هدف الأداء الجامد إلى نهج تكيفي.</p>
+        
+        <div class="mindset-grid" id="flipGrid">
+            <div class="mindset-card" data-scenario="rations">
+                <div class="mindset-front">
+                    <div class="label">هدف الأداء</div>
+                    <div class="goal">"توصيل ١٠,٠٠٠ حصة غذائية بحلول يوم الجمعة"</div>
+                    <span class="click-hint">انقر للتقليب</span>
+                </div>
+                <div class="mindset-back hidden-content">
+                    <div class="label">نية التعلم</div>
+                    <div class="intention">"تعلم كيفية توصيل الحصص الغذائية عندما يكون الطريق الرئيسي مغلقاً"</div>
+                </div>
+            </div>
+            
+            <div class="mindset-card" data-scenario="vehicle">
+                <div class="mindset-front">
+                    <div class="label">هدف الأداء</div>
+                    <div class="goal">"إصلاح المركبة المعطلة في ٢٤ ساعة"</div>
+                    <span class="click-hint">انقر للتقليب</span>
+                </div>
+                <div class="mindset-back hidden-content">
+                    <div class="label">نية التعلم</div>
+                    <div class="intention">"تعلم كيفية استعارة مركبة من المجتمع"</div>
+                </div>
+            </div>
+            
+            <div class="mindset-card" data-scenario="interpreter">
+                <div class="mindset-front">
+                    <div class="label">هدف الأداء</div>
+                    <div class="goal">"إيجاد مترجم جديد بنهاية اليوم"</div>
+                    <span class="click-hint">انقر للتقليب</span>
+                </div>
+                <div class="mindset-back hidden-content">
+                    <div class="label">نية التعلم</div>
+                    <div class="intention">"تعلم كيفية التواصل بدون مترجم"</div>
+                </div>
+            </div>
+        </div>
 
-        <div class="learning-bridge-note">
+        <div class="bridge-note">
             💡 <strong>ملاحظة:</strong> نوايا التعلم لا تعني التخلي عن أهداف الأداء. إنها "الجسر" للوصول إليها. في مناطق النزاع، التمسك بأهداف جامدة في بيئة متغيرة يؤدي إلى التوقف الكامل للعمل؛ التركيز على التعلم يمنحك المسار البديل لتحقيق تلك الأهداف.
         </div>
 
@@ -407,48 +165,54 @@
             <strong>💡 أولاً، تعلم كيف تقيس الوضع. ثم، حدد الهدف.</strong>
         </div>
 
-        <h2>📝 تدريب: تحويل إلى نوايا تعلم</h2>
-        <p><strong>التعليمات:</strong> لكل سيناريو، اكتب نية تعلم. <span class="status-badge status-pending" id="progressStatus">٠/٤ مكتمل</span></p>
+        <div class="section-header">
+            <h2 style="margin:0;border-right:none;padding-right:0;">📝 تدريب: تحويل إلى نوايا تعلم</h2>
+            <span class="progress-badge" id="progressStatus">٠/٤ مكتمل</span>
+        </div>
         
         <div class="exercise-box">
-            <div class="scenario-card" id="scenarioCard1">
-                <div class="scenario-title">📍 السيناريو ١ (فيضان، لبنان)</div>
-                <p>جسر انهار. فريقك لا يستطيع الوصول إلى نقطة التوزيع.</p>
-                <p><em>هدف الأداء:</em> "توصيل المواد الغذائية بحلول الغد."</p>
-                <input type="text" class="goal-input" id="scenario1" placeholder="اكتب نية تعلم هنا...">
+            <!-- Scenario 1 -->
+            <div class="scenario-input" id="scenarioCard1">
+                <label>📍 السيناريو ١ (فيضان، لبنان)</label>
+                <p style="font-size:0.85rem;color:#2C5F7A;">جسر انهار. فريقك لا يستطيع الوصول إلى نقطة التوزيع.</p>
+                <p style="font-size:0.8rem;font-style:italic;color:#8BA0B8;">هدف الأداء: "توصيل المواد الغذائية بحلول الغد."</p>
+                <textarea id="scenario1" rows="2" placeholder="اكتب نية تعلم هنا..."></textarea>
                 <button class="check-btn" data-scenario="1">تحقق من الإجابة</button>
                 <div class="feedback-badge" id="feedback1"></div>
             </div>
 
-            <div class="scenario-card" id="scenarioCard2">
-                <div class="scenario-title">📍 السيناريو ٢ (انقطاع الإنترنت، سوريا)</div>
-                <p>جميع خطوط الاتصال معطلة. لا يمكنك الاتصال بالمكتب الرئيسي.</p>
-                <p><em>هدف الأداء:</em> "الحصول على موافقة المكتب الرئيسي بحلول الظهر."</p>
-                <input type="text" class="goal-input" id="scenario2" placeholder="اكتب نية تعلم هنا...">
+            <!-- Scenario 2 -->
+            <div class="scenario-input" id="scenarioCard2">
+                <label>📍 السيناريو ٢ (انقطاع الإنترنت، سوريا)</label>
+                <p style="font-size:0.85rem;color:#2C5F7A;">جميع خطوط الاتصال معطلة. لا يمكنك الاتصال بالمكتب الرئيسي.</p>
+                <p style="font-size:0.8rem;font-style:italic;color:#8BA0B8;">هدف الأداء: "الحصول على موافقة المكتب الرئيسي بحلول الظهر."</p>
+                <textarea id="scenario2" rows="2" placeholder="اكتب نية تعلم هنا..."></textarea>
                 <button class="check-btn" data-scenario="2">تحقق من الإجابة</button>
                 <div class="feedback-badge" id="feedback2"></div>
             </div>
 
-            <div class="scenario-card" id="scenarioCard3">
-                <div class="scenario-title">📍 السيناريو ٣ (اعتقال موظف، كييف)</div>
-                <p>تم اعتقال مترجمك. لا يمكنك التواصل مع الشركاء.</p>
-                <p><em>هدف الأداء:</em> "إيجاد مترجم جديد بنهاية اليوم."</p>
-                <input type="text" class="goal-input" id="scenario3" placeholder="اكتب نية تعلم هنا...">
+            <!-- Scenario 3 -->
+            <div class="scenario-input" id="scenarioCard3">
+                <label>📍 السيناريو ٣ (اعتقال موظف، كييف)</label>
+                <p style="font-size:0.85rem;color:#2C5F7A;">تم اعتقال مترجمك. لا يمكنك التواصل مع الشركاء.</p>
+                <p style="font-size:0.8rem;font-style:italic;color:#8BA0B8;">هدف الأداء: "إيجاد مترجم جديد بنهاية اليوم."</p>
+                <textarea id="scenario3" rows="2" placeholder="اكتب نية تعلم هنا..."></textarea>
                 <button class="check-btn" data-scenario="3">تحقق من الإجابة</button>
                 <div class="feedback-badge" id="feedback3"></div>
             </div>
 
-            <div class="scenario-card" id="scenarioCard4">
-                <div class="scenario-title">📍 السيناريو ٤ (تعطل مركبة، الكونغو)</div>
-                <p>تعطلت مركبتك الوحيدة. الفريق ينتظر للذهاب إلى الميدان.</p>
-                <p><em>هدف الأداء:</em> "إصلاح المركبة في غضون ٦ ساعات."</p>
-                <input type="text" class="goal-input" id="scenario4" placeholder="اكتب نية تعلم هنا...">
+            <!-- Scenario 4 -->
+            <div class="scenario-input" id="scenarioCard4">
+                <label>📍 السيناريو ٤ (تعطل مركبة، الكونغو)</label>
+                <p style="font-size:0.85rem;color:#2C5F7A;">تعطلت مركبتك الوحيدة. الفريق ينتظر للذهاب إلى الميدان.</p>
+                <p style="font-size:0.8rem;font-style:italic;color:#8BA0B8;">هدف الأداء: "إصلاح المركبة في غضون ٦ ساعات."</p>
+                <textarea id="scenario4" rows="2" placeholder="اكتب نية تعلم هنا..."></textarea>
                 <button class="check-btn" data-scenario="4">تحقق من الإجابة</button>
                 <div class="feedback-badge" id="feedback4"></div>
             </div>
         </div>
 
-        <button id="showAnswersBtn" class="btn-secondary">📖 عرض الإجابات المقترحة</button>
+        <button id="showAnswersBtn" class="secondary">📖 عرض الإجابات المقترحة</button>
         
         <div id="suggestedAnswers" style="display: none; margin-top: 1rem; background: #F0F7F4; padding: 1rem; border-radius: 16px;">
             <p><strong>نوايا التعلم المقترحة:</strong></p>
@@ -469,384 +233,359 @@
             <strong>في الأزمة، ابدأ بالتعلم. الأداء سيتبع.</strong>
         </div>
 
-        <div id="badgeArea" style="display: none;" class="badge-earned">
-            🏅 تم الحصول على الشارة: إتقان نوايا التعلم!
-        </div>
+        <div id="badgeArea" class="badge-earned">🏅 تم الحصول على الشارة: إتقان نوايا التعلم!</div>
 
         <div class="module-nav">
-            <button class="btn-secondary" id="backToModule3Btn">← العودة إلى الوحدة ٣.١</button>
+            <button class="secondary" id="backToModule3Btn">← العودة إلى الوحدة ٣.١</button>
             <button id="continueToModule5Btn">الانتقال إلى الوحدة ٥ →</button>
         </div>
 
         <div class="footer-note">الوحدة ٤ من حزمة أدوات المرونة</div>
         <div class="reset-link"><a id="resetDataLink">↺ إعادة ضبط بيانات الوحدة</a></div>
     </div>
-</div>
 
-<script>
-// ============================================
-// LANGUAGE SUFFIX FOR LOCALSTORAGE
-// ============================================
-const storageSuffix = '_ar';
+    <script>
+        // ============================================
+        // STORAGE SUFFIX & GOOGLE SHEETS URL
+        // ============================================
+        const storageSuffix = '_ar';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxNcTOZANhYyqtMl7-23zSo5k0RT9bHMBhXOb5PT4DSZmDiNzT-4ZtjfZWXaKqInF-zXg/exec';
 
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJuM41O8iSLkClmQTivhV93s3O8QSJtH6IhPG429xvIKlb6Rqi9WrK0sV2wLD_UocRDw/exec';
+        // ============================================
+        // USER DATA
+        // ============================================
+        function getUserData() {
+            let name = 'Guest', email = 'guest@example.com', position = 'Not specified';
+            try {
+                let cu = localStorage.getItem('currentUser');
+                if (cu) { let u = JSON.parse(cu); if (u && u.name && u.name !== 'Guest' && u.name.trim()) { name = u.name.trim(); email = (u.email || '').trim() || 'guest@example.com'; position = (u.position || '').trim() || 'Not specified'; return { name, email, position }; } }
+                let users = JSON.parse(localStorage.getItem('users') || '[]');
+                if (users.length) { let u = users[users.length-1]; if (u && u.name && u.name.trim() && u.name !== 'Guest') { name = u.name.trim(); email = (u.email || '').trim() || 'guest@example.com'; position = (u.position || '').trim() || 'Not specified'; return { name, email, position }; } }
+                let n = localStorage.getItem('course_user_name');
+                if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n.trim()) { name = n.trim(); email = localStorage.getItem('course_user_email') || 'guest@example.com'; position = localStorage.getItem('course_user_position') || 'Not specified'; return { name, email, position }; }
+                let saved = localStorage.getItem('course_user_name' + storageSuffix);
+                if (saved && saved !== 'null' && saved !== 'Guest' && saved.trim()) { name = saved.trim(); email = localStorage.getItem('course_user_email' + storageSuffix) || 'guest@example.com'; position = localStorage.getItem('course_user_position' + storageSuffix) || 'Not specified'; return { name, email, position }; }
+            } catch(e) {}
+            return { name: 'Guest', email: 'guest@example.com', position: 'Not specified' };
+        }
 
-// ============================================
-// IMPROVED getUserData()
-// ============================================
-function getUserData() {
-    let name = '';
-    let email = '';
-    let position = '';
-    
-    console.log('🔍 Searching for user data in module4.html...');
-    
-    try {
-        let currentUser = localStorage.getItem('currentUser');
-        if (currentUser) {
-            let user = JSON.parse(currentUser);
-            if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر' && user.name.trim() !== '') {
-                name = user.name.trim();
-                email = (user.email || '').trim();
-                position = (user.position || '').trim();
-                console.log('✅ Found from currentUser (no suffix):', name);
-                
-                localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(user));
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
+        const currentUser = getUserData();
+        const badge = document.getElementById('userBadge');
+        if (badge) badge.innerText = currentUser.name !== 'Guest' ? '👤 ' + currentUser.name : '👤 متعلم';
+
+        function showToast(msg, isError = false) {
+            let t = document.querySelector('.toast-notification'); if (t) t.remove();
+            let el = document.createElement('div'); el.className = 'toast-notification'; el.style.background = isError ? '#C0392B' : '#1A6B5A'; el.textContent = msg; document.body.appendChild(el); setTimeout(() => el.remove(), 3000);
+        }
+
+        // ============================================
+        // FLIP CARDS
+        // ============================================
+        const flipCards = document.querySelectorAll('.mindset-card');
+        let flipCount = 0;
+
+        function updateFlipProgress() {
+            const flipped = document.querySelectorAll('.mindset-card.flipped').length;
+            const progressSpan = document.getElementById('flipProgress');
+            if (progressSpan) {
+                progressSpan.textContent = flipped + '/٣ تم التقليب';
+                progressSpan.className = flipped === 3 ? 'flip-progress flip-complete' : 'flip-progress';
+            }
+            flipCount = flipped;
+            return flipped === 3;
+        }
+
+        flipCards.forEach(function(card) {
+            card.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.classList.toggle('flipped');
+                var front = this.querySelector('.mindset-front');
+                var back = this.querySelector('.mindset-back');
+                if (this.classList.contains('flipped')) {
+                    if (front) front.classList.add('hidden-content');
+                    if (back) back.classList.remove('hidden-content');
+                } else {
+                    if (front) front.classList.remove('hidden-content');
+                    if (back) back.classList.add('hidden-content');
+                }
+                updateFlipProgress();
+                saveAnswers();
+                // Flip cards are excluded from change counting (noChangeKeys)
+                sendPartialData();
+            });
+        });
+
+        // ============================================
+        // SAMPLE ANSWERS (ARABIC)
+        // ============================================
+        const sampleAnswers = {
+            1: ["تعلم كيفية الوصول إلى المستفيدين", "تعلم طرق بديلة", "تعلم القوارب المحلية", "طرق بديلة", "قوارب محلية"],
+            2: ["تعلم كيفية اتخاذ قرارات بدون المكتب الرئيسي", "تعلم القرارات المستقلة", "اتخاذ قرارات عندما لا تستطيع التواصل", "تعلم كيفية اتخاذ قرارات مستقلة", "قرارات مستقلة"],
+            3: ["تعلم كيفية التواصل بدون مترجم", "تعلم تواصل بديل", "تعلم الإيماءات", "متطوعين من المجتمع", "تواصل بدون مترجم"],
+            4: ["تعلم من لديه مركبة", "تعلم استعارة مركبة", "مركبة من المجتمع", "استعارة مركبة", "بديل للنقل"]
+        };
+
+        function checkAnswer(scenario, answer) {
+            let norm = answer.toLowerCase().trim();
+            if (!norm) return false;
+            if (norm.startsWith('تعلم')) return true;
+            for (let p of sampleAnswers[scenario]) if (norm.includes(p.toLowerCase())) return true;
+            return false;
+        }
+
+        function showFeedback(scenario, correct) {
+            let div = document.getElementById('feedback' + scenario);
+            if (correct) { div.innerHTML = '✅ جيد! هذه نية تعلم تركز على الاكتشاف.'; div.className = 'feedback-badge feedback-correct'; }
+            else { div.innerHTML = '❌ حاول التركيز على "تعلم كيفية..." بدلاً من المطالبة بنتيجة محددة.'; div.className = 'feedback-badge feedback-incorrect'; }
+            div.style.display = 'block';
+        }
+
+        // ============================================
+        // COLLECT ANSWERS
+        // ============================================
+        function collectAnswers() {
+            let flipped = [];
+            document.querySelectorAll('.mindset-card.flipped').forEach(function(card) {
+                var scenario = card.getAttribute('data-scenario') || 'unknown';
+                flipped.push(scenario);
+            });
+
+            return {
+                q1: document.getElementById('scenario1').value.trim() || 'Not answered',
+                q2: document.getElementById('scenario2').value.trim() || 'Not answered',
+                q3: document.getElementById('scenario3').value.trim() || 'Not answered',
+                q4: document.getElementById('scenario4').value.trim() || 'Not answered',
+                q5: flipped.join(', ') || 'None'
+            };
+        }
+
+        function saveAnswers() {
+            let answers = collectAnswers();
+            localStorage.setItem('module4_answers' + storageSuffix, JSON.stringify({ ...answers, lastUpdated: new Date().toISOString() }));
+            updateProgress();
+        }
+
+        function loadSavedAnswers() {
+            let saved = localStorage.getItem('module4_answers' + storageSuffix);
+            if (saved) {
+                try {
+                    let data = JSON.parse(saved);
+                    if (data.q1 && data.q1 !== 'Not answered') document.getElementById('scenario1').value = data.q1;
+                    if (data.q2 && data.q2 !== 'Not answered') document.getElementById('scenario2').value = data.q2;
+                    if (data.q3 && data.q3 !== 'Not answered') document.getElementById('scenario3').value = data.q3;
+                    if (data.q4 && data.q4 !== 'Not answered') document.getElementById('scenario4').value = data.q4;
+                    
+                    if (data.q5 && data.q5 !== 'None') {
+                        var flippedScenarios = data.q5.split(', ');
+                        document.querySelectorAll('.mindset-card').forEach(function(card) {
+                            var scenario = card.getAttribute('data-scenario');
+                            if (flippedScenarios.includes(scenario)) {
+                                if (!card.classList.contains('flipped')) {
+                                    card.classList.add('flipped');
+                                    var front = card.querySelector('.mindset-front');
+                                    var back = card.querySelector('.mindset-back');
+                                    if (front) front.classList.add('hidden-content');
+                                    if (back) back.classList.remove('hidden-content');
+                                }
+                            }
+                        });
+                    }
+                } catch(e) {}
+            }
+            updateFlipProgress();
+            updateProgress();
+        }
+
+        function updateProgress() {
+            let completed = 0;
+            ['scenario1','scenario2','scenario3','scenario4'].forEach(id => { if (document.getElementById(id).value.trim()) completed++; });
+            let span = document.getElementById('progressStatus');
+            span.textContent = completed + '/٤ مكتمل';
+            span.className = completed === 4 ? 'progress-badge progress-complete' : 'progress-badge';
+            
+            let allFlipped = updateFlipProgress();
+            let allCompleted = completed === 4;
+            
+            if (allFlipped && allCompleted) {
+                document.getElementById('badgeArea').style.display = 'block';
+            } else {
+                document.getElementById('badgeArea').style.display = 'none';
+            }
+            return allCompleted;
+        }
+
+        // ============================================
+        // HISTORY TRACKING
+        // ============================================
+        function initHistory() {
+            if (!localStorage.getItem('module4_history_data' + storageSuffix)) {
+                let h = {};
+                ['q1','q2','q3','q4','q5'].forEach(k => { h[k] = { history: '', changes: 0, lastValue: '' }; });
+                localStorage.setItem('module4_history_data' + storageSuffix, JSON.stringify(h));
             }
         }
-    } catch(e) { console.error('Error parsing currentUser:', e); }
-    
-    try {
-        let users = JSON.parse(localStorage.getItem('users') || '[]');
-        if (Array.isArray(users) && users.length > 0) {
-            let lastUser = users[users.length - 1];
-            if (lastUser && lastUser.name && lastUser.name !== 'Guest' && lastUser.name !== 'زائر' && lastUser.name.trim() !== '') {
-                name = lastUser.name.trim();
-                email = (lastUser.email || '').trim();
-                position = (lastUser.position || '').trim();
-                console.log('✅ Found from users array (no suffix):', name);
+        initHistory();
+
+        function sendPartialData() {
+            const user = getUserData();
+            const answers = collectAnswers();
+            let history = JSON.parse(localStorage.getItem('module4_history_data' + storageSuffix) || '{}');
+            let hasChange = false, changed = [];
+            let totalChanges = 0;
+            const questionMap = { q1: 'Q1_Lebanon', q2: 'Q2_Syria', q3: 'Q3_Kyiv', q4: 'Q4_DRC', q5: 'Q5_Flipped_Cards' };
+            
+            const noChangeKeys = ['q5'];
+            
+            for (let key in questionMap) {
+                let val = answers[key] || '';
+                let last = history[key]?.lastValue || '';
+                let hist = history[key]?.history || '';
+                let changes = history[key]?.changes || 0;
+                const isNoChange = noChangeKeys.includes(key);
                 
-                localStorage.setItem('currentUser' + storageSuffix, JSON.stringify(lastUser));
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
-        }
-    } catch(e) { console.error('Error parsing users:', e); }
-    
-    let n = localStorage.getItem('course_user_name');
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
-        name = n.trim();
-        email = (localStorage.getItem('course_user_email') || '').trim();
-        position = (localStorage.getItem('course_user_position') || '').trim();
-        console.log('✅ Found from individual fields (no suffix):', name);
-        
-        localStorage.setItem('course_user_name' + storageSuffix, name);
-        localStorage.setItem('course_user_email' + storageSuffix, email);
-        localStorage.setItem('course_user_position' + storageSuffix, position);
-        
-        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-    }
-    
-    let user = localStorage.getItem('course_user');
-    if (user) {
-        try { 
-            let p = JSON.parse(user); 
-            if (p && p.name && p.name !== 'Guest' && p.name !== 'زائر' && p.name.trim() !== '') {
-                name = p.name.trim();
-                email = (p.email || '').trim();
-                position = (p.position || '').trim();
-                console.log('✅ Found from course_user (no suffix):', name);
-                
-                localStorage.setItem('course_user_name' + storageSuffix, name);
-                localStorage.setItem('course_user_email' + storageSuffix, email);
-                localStorage.setItem('course_user_position' + storageSuffix, position);
-                
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
-        } catch(e) {}
-    }
-    
-    let users = localStorage.getItem('resilience_users');
-    if (users) {
-        try { 
-            let p = JSON.parse(users); 
-            if (Array.isArray(p) && p.length > 0) {
-                for (let i = p.length - 1; i >= 0; i--) {
-                    if (p[i] && p[i].name && p[i].name !== 'Guest' && p[i].name !== 'زائر' && p[i].name.trim() !== '') {
-                        name = p[i].name.trim();
-                        email = (p[i].email || '').trim();
-                        position = (p[i].position || '').trim();
-                        console.log('✅ Found from resilience_users (no suffix):', name);
-                        
-                        localStorage.setItem('course_user_name' + storageSuffix, name);
-                        localStorage.setItem('course_user_email' + storageSuffix, email);
-                        localStorage.setItem('course_user_position' + storageSuffix, position);
-                        
-                        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
+                if (val && val !== 'Not answered' && val !== 'None') {
+                    if (last && last !== val && !isNoChange) {
+                        history[key] = { history: hist ? hist + '→' + val : val, changes: changes + 1, lastValue: val };
+                        hasChange = true; changed.push(questionMap[key]); totalChanges = changes + 1;
+                    } else if (!last) {
+                        history[key] = { history: val, changes: 0, lastValue: val };
+                        if (!isNoChange) {
+                            hasChange = true; changed.push(questionMap[key] + ' (NEW)');
+                        }
                     }
                 }
             }
-        } catch(e) {}
-    }
-    
-    n = localStorage.getItem('course_user_name' + storageSuffix);
-    if (n && n !== 'null' && n !== 'undefined' && n !== 'Guest' && n !== 'زائر' && n.trim() !== '') {
-        name = n.trim();
-        email = (localStorage.getItem('course_user_email' + storageSuffix) || '').trim();
-        position = (localStorage.getItem('course_user_position' + storageSuffix) || '').trim();
-        console.log('✅ Found from individual fields (with suffix):', name);
-        return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-    }
-    
-    try {
-        let currentUser = localStorage.getItem('currentUser' + storageSuffix);
-        if (currentUser) {
-            let user = JSON.parse(currentUser);
-            if (user && user.name && user.name !== 'Guest' && user.name !== 'زائر' && user.name.trim() !== '') {
-                name = user.name.trim();
-                email = (user.email || '').trim();
-                position = (user.position || '').trim();
-                console.log('✅ Found from currentUser (with suffix):', name);
-                return { name: name || 'زائر', email: email || 'guest@example.com', position: position || 'غير محدد' };
-            }
+            
+            localStorage.setItem('module4_history_data' + storageSuffix, JSON.stringify(history));
+            if (!hasChange) return;
+
+            const payload = {
+                module: 'Module 4',
+                action: 'partial',
+                language: 'ar',
+                userName: user.name,
+                userEmail: user.email,
+                userPosition: user.position,
+                timestamp: new Date().toISOString(),
+                answers: answers,
+                history: history,
+                changedFields: changed,
+                totalChanges: totalChanges,
+                isComplete: false
+            };
+            fetch(GOOGLE_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) })
+                .then(r => r.json()).then(d => console.log('✅ Module 4 partial sent', d)).catch(e => {
+                    let xhr = new XMLHttpRequest(); xhr.open('POST', GOOGLE_SCRIPT_URL, true); xhr.setRequestHeader('Content-Type','text/plain;charset=utf-8'); xhr.send(JSON.stringify(payload));
+                });
         }
-    } catch(e) {}
-    
-    console.log('⚠️ No user data found, using default');
-    return { name: 'زائر', email: 'guest@example.com', position: 'غير محدد' };
-}
 
-const currentUser = getUserData();
-const userBadge = document.getElementById('userBadge');
-if (userBadge) {
-    if (currentUser.name !== 'زائر') {
-        userBadge.innerText = `👤 ${currentUser.name}`;
-        console.log('✅ User badge updated with:', currentUser.name);
-    } else {
-        userBadge.innerText = `👤 متعلم`;
-        console.log('⚠️ No user name found, showing default');
-    }
-}
-
-function showToast(message, isError = false) {
-    const existing = document.querySelector('.toast-notification');
-    if (existing) existing.remove();
-    const toast = document.createElement('div');
-    toast.className = 'toast-notification';
-    toast.style.background = isError ? '#C0392B' : '#1A6B5A';
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    setTimeout(() => { if (toast) toast.remove(); }, 3000);
-}
-
-const sampleAnswers = {
-    1: ["تعلم كيفية الوصول إلى المستفيدين", "تعلم طرق بديلة", "تعلم القوارب المحلية"],
-    2: ["تعلم كيفية اتخاذ قرارات بدون المكتب الرئيسي", "تعلم القرارات المستقلة", "اتخاذ قرارات عندما لا تستطيع التواصل", "تعلم كيفية اتخاذ قرارات مستقلة"],
-    3: ["تعلم كيفية التواصل بدون مترجم", "تعلم تواصل بديل", "تعلم الإيماءات", "متطوعين من المجتمع"],
-    4: ["تعلم من لديه مركبة", "تعلم استعارة مركبة", "مركبة من المجتمع", "استعارة مركبة"]
-};
-
-function checkAnswer(scenarioNum, userAnswer) {
-    const normalized = userAnswer.toLowerCase().trim();
-    const patterns = sampleAnswers[scenarioNum];
-    if (!patterns) return false;
-    for (const pattern of patterns) {
-        if (normalized.includes(pattern.toLowerCase())) return true;
-    }
-    if (normalized.startsWith('تعلم')) return true;
-    return false;
-}
-
-function showFeedback(scenarioNum, isCorrect) {
-    const feedbackDiv = document.getElementById(`feedback${scenarioNum}`);
-    if (isCorrect) {
-        feedbackDiv.innerHTML = '✅ جيد! هذه نية تعلم تركز على الاكتشاف.';
-        feedbackDiv.className = 'feedback-badge feedback-correct';
-    } else {
-        feedbackDiv.innerHTML = '❌ حاول التركيز على "تعلم كيفية..." بدلاً من المطالبة بنتيجة محددة.';
-        feedbackDiv.className = 'feedback-badge feedback-incorrect';
-    }
-    feedbackDiv.style.display = 'block';
-}
-
-function updateProgressStatus() {
-    const allInputs = ['scenario1', 'scenario2', 'scenario3', 'scenario4'];
-    let completedCount = 0;
-    for (const id of allInputs) {
-        const input = document.getElementById(id);
-        if (input && input.value.trim()) {
-            completedCount++;
+        function sendCompleteData() {
+            const user = getUserData();
+            const answers = collectAnswers();
+            let history = JSON.parse(localStorage.getItem('module4_history_data' + storageSuffix) || '{}');
+            let totalChanges = 0; for (let k in history) totalChanges += history[k]?.changes || 0;
+            const payload = {
+                module: 'Module 4',
+                action: 'completed',
+                language: 'ar',
+                userName: user.name,
+                userEmail: user.email,
+                userPosition: user.position,
+                timestamp: new Date().toISOString(),
+                answers: answers,
+                history: history,
+                totalChanges: totalChanges,
+                isComplete: true
+            };
+            return fetch(GOOGLE_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) })
+                .then(r => r.json()).then(d => { console.log('✅ Module 4 completed', d); return true; })
+                .catch(() => { let xhr = new XMLHttpRequest(); xhr.open('POST', GOOGLE_SCRIPT_URL, true); xhr.setRequestHeader('Content-Type','text/plain;charset=utf-8'); xhr.send(JSON.stringify(payload)); return new Promise(r => setTimeout(()=>r(true), 2000)); });
         }
-    }
-    const progressSpan = document.getElementById('progressStatus');
-    if (progressSpan) {
-        progressSpan.textContent = `${completedCount}/٤ مكتمل`;
-        if (completedCount === 4) {
-            progressSpan.className = 'status-badge status-completed';
-        } else {
-            progressSpan.className = 'status-badge status-pending';
-        }
-    }
-    return completedCount;
-}
 
-function checkAllCompleted() {
-    const completedCount = updateProgressStatus();
-    if (completedCount === 4) {
-        document.getElementById('badgeArea').style.display = 'block';
-    } else {
-        document.getElementById('badgeArea').style.display = 'none';
-    }
-    return completedCount === 4;
-}
+        // ============================================
+        // EVENT BINDING (FIXED)
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedAnswers();
 
-function saveAnswersToLocal() {
-    const answers = {
-        scenario1: document.getElementById('scenario1').value.trim(),
-        scenario2: document.getElementById('scenario2').value.trim(),
-        scenario3: document.getElementById('scenario3').value.trim(),
-        scenario4: document.getElementById('scenario4').value.trim(),
-        lastUpdated: new Date().toISOString()
-    };
-    localStorage.setItem('module4_answers' + storageSuffix, JSON.stringify(answers));
-    updateProgressStatus();
-}
-
-function loadSavedAnswers() {
-    const saved = localStorage.getItem('module4_answers' + storageSuffix);
-    if (saved) {
-        try {
-            const data = JSON.parse(saved);
-            if (data.scenario1) document.getElementById('scenario1').value = data.scenario1;
-            if (data.scenario2) document.getElementById('scenario2').value = data.scenario2;
-            if (data.scenario3) document.getElementById('scenario3').value = data.scenario3;
-            if (data.scenario4) document.getElementById('scenario4').value = data.scenario4;
-            checkAllCompleted();
-        } catch(e) {}
-    }
-    updateProgressStatus();
-}
-
-function sendModule4DataToSheet() {
-    const userData = getUserData();
-    const payload = {
-        module: 'Module 4',
-        language: 'ar',
-        userName: userData.name,
-        userEmail: userData.email,
-        userPosition: userData.position,
-        timestamp: new Date().toISOString(),
-        answers: {
-            scenario1: document.getElementById('scenario1').value.trim() || 'لم يجب',
-            scenario2: document.getElementById('scenario2').value.trim() || 'لم يجب',
-            scenario3: document.getElementById('scenario3').value.trim() || 'لم يجب',
-            scenario4: document.getElementById('scenario4').value.trim() || 'لم يجب'
-        }
-    };
-    console.log('📤 جاري إرسال بيانات الوحدة ٤ للمستخدم:', userData.name);
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', GOOGLE_SCRIPT_URL, true);
-    xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
-    xhr.send(JSON.stringify(payload));
-}
-
-function goToModule5() {
-    const scenario1 = document.getElementById('scenario1').value.trim();
-    const scenario2 = document.getElementById('scenario2').value.trim();
-    const scenario3 = document.getElementById('scenario3').value.trim();
-    const scenario4 = document.getElementById('scenario4').value.trim();
-    
-    if (!scenario1 || !scenario2 || !scenario3 || !scenario4) {
-        showToast('⚠️ الرجاء إكمال جميع السيناريوهات الأربعة قبل الانتقال إلى الوحدة ٥.', true);
-        return;
-    }
-    
-    saveAnswersToLocal();
-    sendModule4DataToSheet();
-    localStorage.setItem('module4_completed' + storageSuffix, 'true');
-    showToast('جاري حفظ تقدمك...');
-    
-    setTimeout(() => {
-        window.location.href = 'module5.html';
-    }, 500);
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    loadSavedAnswers();
-    
-    document.querySelectorAll('.check-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const scenarioNum = btn.getAttribute('data-scenario');
-            const userAnswer = document.getElementById(`scenario${scenarioNum}`).value;
-            if (!userAnswer.trim()) { 
-                alert('الرجاء كتابة نية التعلم أولاً.'); 
-                return; 
-            }
-            const isCorrect = checkAnswer(parseInt(scenarioNum), userAnswer);
-            showFeedback(parseInt(scenarioNum), isCorrect);
-            saveAnswersToLocal();
-        });
-    });
-    
-    ['scenario1', 'scenario2', 'scenario3', 'scenario4'].forEach(id => {
-        const input = document.getElementById(id);
-        if (input) {
-            input.addEventListener('input', () => { 
-                saveAnswersToLocal(); 
-                checkAllCompleted();
+            // ✅ Check Answer button - THIS should trigger changes
+            document.querySelectorAll('.check-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    let s = this.getAttribute('data-scenario');
+                    let val = document.getElementById('scenario' + s).value.trim();
+                    if (!val) { 
+                        showToast('الرجاء كتابة نية التعلم أولاً.', true); 
+                        return; 
+                    }
+                    let correct = checkAnswer(parseInt(s), val);
+                    showFeedback(parseInt(s), correct);
+                    saveAnswers();
+                    sendPartialData();  // ✅ Only send on Check Answer
+                });
             });
-        }
-    });
-    
-    const showAnswersBtn = document.getElementById('showAnswersBtn');
-    if (showAnswersBtn) {
-        showAnswersBtn.addEventListener('click', () => {
-            const div = document.getElementById('suggestedAnswers');
-            if (div.style.display === 'none') {
-                div.style.display = 'block';
-                showAnswersBtn.textContent = 'إخفاء الإجابات المقترحة';
-            } else {
-                div.style.display = 'none';
-                showAnswersBtn.textContent = 'عرض الإجابات المقترحة';
-            }
+
+            // ✅ Input event - ONLY save locally, don't send to Google Sheets
+            ['scenario1','scenario2','scenario3','scenario4'].forEach(id => {
+                document.getElementById(id).addEventListener('input', function() {
+                    saveAnswers();  // ✅ Save to localStorage only
+                    // ❌ DO NOT call sendPartialData() here
+                });
+            });
+
+            // ✅ Show Suggested Answers
+            document.getElementById('showAnswersBtn').addEventListener('click', function() {
+                let div = document.getElementById('suggestedAnswers');
+                if (div.style.display === 'none') { 
+                    div.style.display = 'block'; 
+                    this.textContent = 'إخفاء الإجابات المقترحة'; 
+                } else { 
+                    div.style.display = 'none'; 
+                    this.textContent = 'عرض الإجابات المقترحة'; 
+                }
+            });
+
+            // ✅ Back button
+            document.getElementById('backToModule3Btn').addEventListener('click', function() { 
+                window.location.href = 'module3.1.html'; 
+            });
+
+            // ✅ Continue button
+            document.getElementById('continueToModule5Btn').addEventListener('click', function() {
+                let completed = updateProgress();
+                let allFlipped = updateFlipProgress();
+                
+                if (!allFlipped) {
+                    showToast('⚠️ الرجاء تقليب ومراجعة جميع البطاقات الثلاث قبل المتابعة.', true);
+                    return;
+                }
+                if (!completed) {
+                    showToast('⚠️ الرجاء إكمال جميع السيناريوهات الأربعة قبل المتابعة.', true);
+                    return;
+                }
+                
+                saveAnswers();
+                showToast('💾 جاري حفظ إجاباتك...');
+                sendCompleteData().then(() => {
+                    localStorage.setItem('module4_completed' + storageSuffix, 'true');
+                    showToast('✅ تم حفظ التقدم! جاري التحويل...');
+                    setTimeout(() => { window.location.href = 'module5.html'; }, 800);
+                });
+            });
+
+            // ✅ Reset link
+            document.getElementById('resetDataLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('هل تريد إعادة ضبط جميع بيانات الوحدة؟ لا يمكن التراجع عن هذا.')) {
+                    localStorage.removeItem('module4_answers' + storageSuffix);
+                    localStorage.removeItem('module4_completed' + storageSuffix);
+                    localStorage.removeItem('module4_history_data' + storageSuffix);
+                    location.reload();
+                }
+            });
+
+            updateFlipProgress();
+            updateProgress();
         });
-    }
-    
-    const continueBtn = document.getElementById('continueToModule5Btn');
-    if (continueBtn) {
-        continueBtn.addEventListener('click', goToModule5);
-    }
-    
-    const backBtn = document.getElementById('backToModule3Btn');
-    if (backBtn) {
-        backBtn.addEventListener('click', () => { 
-            window.location.href = 'module3.1.html'; 
-        });
-    }
-    
-    const resetLink = document.getElementById('resetDataLink');
-    if (resetLink) {
-        resetLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (confirm('هل تريد إعادة ضبط جميع بيانات الوحدة؟ لا يمكن التراجع عن هذا.')) {
-                localStorage.removeItem('module4_answers' + storageSuffix);
-                localStorage.removeItem('module4_completed' + storageSuffix);
-                location.reload();
-            }
-        });
-    }
-    
-    updateProgressStatus();
-    checkAllCompleted();
-});
-</script>
+    </script>
 </body>
 </html>
