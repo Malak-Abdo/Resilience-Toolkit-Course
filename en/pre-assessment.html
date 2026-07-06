@@ -141,7 +141,7 @@
             background: linear-gradient(135deg, #E8A735, #d4951e);
             color: #2E3A2A;
         }
-        .results-optional {
+        .results-on-the-path {
             background: #F0F4F9;
             color: #4A627A;
             border: 2px solid #8BA0B8;
@@ -154,7 +154,7 @@
             border-top: 2px solid rgba(255,255,255,0.3);
             line-height: 1.6;
         }
-        .results-optional .motivation-message { border-top-color: #8BA0B8; }
+        .results-on-the-path .motivation-message { border-top-color: #8BA0B8; }
         .welcome-message {
             background: #F0F7F4;
             border-radius: 20px;
@@ -574,7 +574,7 @@ function calculatePreScore(a) {
     return Math.max(0, Math.min(8, s));
 }
 
-function getCategory(s) { return s>=6?'ESSENTIAL':s>=3?'VALUABLE':'OPTIONAL'; }
+function getCategory(s) { return s>=6?'READY FOR THE CHALLENGE':s>=3?'READY TO LEAD':'READY TO GROW'; }
 
 const questions = [
     { 
@@ -803,27 +803,27 @@ function finishAssessment() {
     
     let resultClass, badgeIcon, badgeText, titleText, quoteText, callText;
     
-    if (category==='ESSENTIAL') {
+    if (category==='READY FOR THE CHALLENGE') {
         resultClass='results-essential';
         badgeIcon='🔥';
-        badgeText='ESSENTIAL · This course was written for you';
-        titleText='You are standing in the fire. And that is exactly where leaders are forged.';
+        badgeText='🔥 Ready for the Challenge';
+        titleText='You are standing in the heart of the crisis. And that is exactly where leaders are forged.';
         quoteText='"The most resilient leaders are not those who never break. They are those who know how to rebuild — stronger, faster, and wiser."';
         callText='Every tool you need is waiting for you in the next modules. Take them. Use them. Transform how you lead.';
-    } else if (category==='VALUABLE') {
+    } else if (category==='READY TO LEAD') {
         resultClass='results-valuable';
         badgeIcon='🌟';
-        badgeText='VALUABLE · Sharpen your adaptive instincts';
-        titleText='You already have the instincts. Now you need the system.';
+        badgeText='🌟 Ready to Lead';
+        titleText='You already have the skills, but you need to refine them with the right tools, and this is the right time.';
         quoteText='"Adaptive leadership is not about being perfect. It is about being able to deal with unpredictable change."';
-        callText='The difference between good and exceptional is not talent. It is the right frameworks applied at the right time.';
+        callText='Every tool you need is waiting for you in the next modules. Take them. Use them. They are yours now.';
     } else {
-        resultClass='results-optional';
+        resultClass='results-on-the-path';
         badgeIcon='📚';
-        badgeText='OPTIONAL · Growth awaits you';
+        badgeText='📚 Ready to Grow';
         titleText='You are here because you want to grow. That is the most important step.';
         quoteText='"Comfort is a dangerous place. Growth happens when we step into the unknown."';
-        callText='The best time to build resilience was yesterday. The second best time is now.';
+        callText='This is the best time to build resilience. Maybe yesterday was the right time to build resilience, but today is the perfect time — don\'t waste it like yesterday. Every tool you need is waiting for you in the next modules. Take them. Use them. Make a difference.';
     }
     
     let resultHtml = `<div class="results-box ${resultClass}">
