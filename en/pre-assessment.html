@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -239,9 +239,9 @@
 const storageSuffix = '_en';
 
 // ============================================
-// GOOGLE SHEETS WEB APP URL
+// GOOGLE SHEETS WEB APP URL - UPDATE THIS WITH YOUR URL
 // ============================================
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwYMoIpgXzgEZxzxhDg4iElOH1gzpV_ZufTiynaIPzO0iblKJYcOHYu6bhs_bvPbZ0Y-A/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbybBb_2m0V4OufQAJI7vml5jBRJvGGrdEyhmwzJQFoduXFtaNSRZNrU7AzMbYJICRO0cQ/exec';
 
 // ============================================
 // QUESTION TEXT CONSTANTS - For column headers
@@ -530,7 +530,7 @@ function sendPreAssessmentData(action) {
             q5_text: QUESTION_TEXTS[5]
         },
         history: history,
-        totalChanges: totalChanges  // ✅ Added Total Changes like Module 1
+        totalChanges: totalChanges
     };
     
     console.log('📤 Sending Pre-Assessment data (action: ' + action + '):', payload);
@@ -766,7 +766,7 @@ function handleNext() {
         }
         finishAssessment();
     } else {
-        // Not last question - send as 'partial' (In Progress) - ✅ WITHOUT score
+        // Not last question - send as 'partial' (In Progress)
         sendPreAssessmentData('partial');
         currentIndex++; 
         renderCurrentQuestion(); 
