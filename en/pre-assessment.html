@@ -241,7 +241,7 @@ const storageSuffix = '_en';
 // ============================================
 // GOOGLE SHEETS WEB APP URL
 // ============================================
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxFR8wpsfMFqYr6IHClV18sRCMfpu0F1Y1oZ0Ib3ATSiswQNnnOCz9HbqHWEBK4uOv-jg/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxTnok-k7IHKaLXHrdQ4dmhlKJ55YnKFfxNA4_aqp8DV1iWlTxjTDmxpv8NecaZuGoqtw/exec';
 
 // ============================================
 // QUESTION TEXT CONSTANTS - For column headers
@@ -412,26 +412,97 @@ function showToast(message, isError = false) {
 }
 
 // ============================================
+// TRACK ANSWER CHANGES - Store previous answers
+// ============================================
+let previousAnswers = { 1: null, 2: null, 3: null, 4: null, 5: [] };
+let totalChanges = 0;
+
+function loadPreviousAnswers() {
+    const saved = localStorage.getItem('pre_assessment_previous_answers' + storageSuffix);
+    if (saved) {
+        try {
+            previousAnswers = JSON.parse(saved);
+        } catch(e) {}
+    }
+}
+
+function savePreviousAnswers() {
+    localStorage.setItem('pre_assessment_previous_answers' + storageSuffix, JSON.stringify(previousAnswers));
+}
+
+function getChangesCount(questionId, currentValue) {
+    const prevValue = previousAnswers[questionId];
+    
+    // If no previous answer, return 0 (first time)
+    if (prevValue === null || prevValue === undefined || prevValue === '') {
+        return 0;
+    }
+    
+    // Compare arrays for Q5 (multi-select)
+    if (Array.isArray(prevValue) && Array.isArray(currentValue)) {
+        const prevStr = prevValue.slice().sort().join(',');
+        const currStr = currentValue.slice().sort().join(',');
+        if (prevStr !== currStr) {
+            return 1;
+        }
+        return 0;
+    }
+    
+    // Compare strings for other questions
+    if (String(prevValue) !== String(currentValue)) {
+        return 1;
+    }
+    return 0;
+}
+
+function updatePreviousAnswers() {
+    // Save current answers as previous for next comparison
+    for (let i = 1; i <= 5; i++) {
+        if (i === 5) {
+            previousAnswers[5] = answers[5] ? [...answers[5]] : [];
+        } else {
+            previousAnswers[i] = answers[i];
+        }
+    }
+    savePreviousAnswers();
+}
+
+// ============================================
 // SEND DATA - Called on every Next click
 // ============================================
 function sendPreAssessmentData(action) {
     const user = getUserData();
-    const score = calculatePreScore(answers);
-    const category = getCategory(score);
     
-    // Build history data for each question
+    // ✅ ONLY calculate score when ALL questions are answered (action === 'completed')
+    let score = 0;
+    let category = '';
+    if (action === 'completed') {
+        score = calculatePreScore(answers);
+        category = getCategory(score);
+    }
+    
+    // Build history data for each question with proper change tracking
+    const q1Changes = getChangesCount(1, answers[1]);
+    const q2Changes = getChangesCount(2, answers[2]);
+    const q3Changes = getChangesCount(3, answers[3]);
+    const q4Changes = getChangesCount(4, answers[4]);
+    const q5Changes = getChangesCount(5, answers[5] || []);
+    
     const history = {
         q1_history: answers[1] ? getQ1(answers[1]) : '',
-        q1_changes: answers[1] ? 1 : 0,
+        q1_changes: q1Changes,
         q2_history: answers[2] ? getQ2(answers[2]) : '',
-        q2_changes: answers[2] ? 1 : 0,
+        q2_changes: q2Changes,
         q3_history: answers[3] ? getQ3(answers[3]) : '',
-        q3_changes: answers[3] ? 1 : 0,
+        q3_changes: q3Changes,
         q4_history: answers[4] ? answers[4].toString() : '',
-        q4_changes: answers[4] ? 1 : 0,
+        q4_changes: q4Changes,
         q5_history: answers[5] ? answers[5].join(', ') : '',
-        q5_changes: answers[5] && answers[5].length > 0 ? 1 : 0
+        q5_changes: q5Changes
     };
+    
+    // Calculate total changes
+    totalChanges = q1Changes + q2Changes + q3Changes + q4Changes + q5Changes;
     
     const payload = {
         module: 'Pre-Assessment',
@@ -458,7 +529,8 @@ function sendPreAssessmentData(action) {
             q4_text: QUESTION_TEXTS[4],
             q5_text: QUESTION_TEXTS[5]
         },
-        history: history
+        history: history,
+        totalChanges: totalChanges  // ✅ Added Total Changes like Module 1
     };
     
     console.log('📤 Sending Pre-Assessment data (action: ' + action + '):', payload);
@@ -591,11 +663,22 @@ function updateNextButtonState() {
     nextBtn.disabled = q.type==='multi' ? !(answers[5]&&answers[5].length>0) : !(answers[q.id]!==null&&answers[q.id]!=='');
 }
 
-function persistAnswers() { localStorage.setItem('pre_assessment_answers' + storageSuffix, JSON.stringify(answers)); }
+function persistAnswers() { 
+    localStorage.setItem('pre_assessment_answers' + storageSuffix, JSON.stringify(answers)); 
+    updatePreviousAnswers();
+}
 
 function loadStoredAnswers() {
     const s = localStorage.getItem('pre_assessment_answers' + storageSuffix);
-    if (s) { try { const p = JSON.parse(s); for (let k in p) { if (answers.hasOwnProperty(k)) answers[k]=p[k]; } } catch(e) {} }
+    if (s) { 
+        try { 
+            const p = JSON.parse(s); 
+            for (let k in p) { 
+                if (answers.hasOwnProperty(k)) answers[k]=p[k]; 
+            } 
+        } catch(e) {} 
+    }
+    loadPreviousAnswers();
     updateProgressBar();
 }
 
@@ -636,7 +719,8 @@ function attachEvents() {
                 document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
                 opt.classList.add('selected');
                 answers[q.id]=opt.getAttribute('data-value');
-                persistAnswers(); updateProgressBar();
+                persistAnswers(); 
+                updateProgressBar();
             });
         });
     } else if (q.type==='scale') {
@@ -645,7 +729,8 @@ function attachEvents() {
                 document.querySelectorAll('.scale-item').forEach(i=>i.classList.remove('selected'));
                 item.classList.add('selected');
                 answers[q.id]=parseInt(item.getAttribute('data-scale'));
-                persistAnswers(); updateProgressBar();
+                persistAnswers(); 
+                updateProgressBar();
             });
         });
     } else if (q.type==='multi') {
@@ -655,7 +740,8 @@ function attachEvents() {
                 const idx = answers[5].indexOf(v);
                 if (idx===-1) { answers[5].push(v); opt.classList.add('selected'); }
                 else { answers[5].splice(idx,1); opt.classList.remove('selected'); }
-                persistAnswers(); updateProgressBar();
+                persistAnswers(); 
+                updateProgressBar();
             });
         });
     }
@@ -669,6 +755,9 @@ function handleNext() {
     const answered = q.type==='multi' ? (answers[5]&&answers[5].length>0) : (answers[q.id]!==null&&answers[q.id]!=='');
     if (!answered) { showToast("Please answer the question before moving forward.", true); return; }
     
+    // ✅ Update previous answers before sending
+    updatePreviousAnswers();
+    
     if (currentIndex === questions.length - 1) {
         // Last question - send as 'completed' ONLY ONCE
         if (!hasSentCompleted) {
@@ -677,7 +766,7 @@ function handleNext() {
         }
         finishAssessment();
     } else {
-        // Not last question - send as 'partial' (In Progress)
+        // Not last question - send as 'partial' (In Progress) - ✅ WITHOUT score
         sendPreAssessmentData('partial');
         currentIndex++; 
         renderCurrentQuestion(); 
@@ -775,8 +864,11 @@ function resetAssessment() {
     assessmentCompleted = false;
     currentIndex = 0;
     hasSentCompleted = false;
+    totalChanges = 0;
+    previousAnswers = { 1: null, 2: null, 3: null, 4: null, 5: [] };
     localStorage.removeItem('pre_assessment_answers' + storageSuffix);
     localStorage.removeItem('pre_assessment_completed' + storageSuffix);
+    localStorage.removeItem('pre_assessment_previous_answers' + storageSuffix);
     resultsArea.classList.add('hidden');
     welcomeBlock.classList.add('hidden');
     container.classList.remove('hidden');
@@ -792,6 +884,7 @@ function resetCourse() {
         localStorage.removeItem('pre_assessment_score' + storageSuffix);
         localStorage.removeItem('pre_assessment_category' + storageSuffix);
         localStorage.removeItem('pre_assessment_completed' + storageSuffix);
+        localStorage.removeItem('pre_assessment_previous_answers' + storageSuffix);
         location.reload();
     }
 }
