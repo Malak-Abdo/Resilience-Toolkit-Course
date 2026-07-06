@@ -144,7 +144,7 @@
             background: linear-gradient(135deg, #E8A735, #d4951e);
             color: #2E3A2A;
         }
-        .results-optional {
+        .results-on-the-path {
             background: #F0F4F9;
             color: #4A627A;
             border: 2px solid #8BA0B8;
@@ -157,7 +157,7 @@
             border-top: 2px solid rgba(255,255,255,0.3);
             line-height: 1.6;
         }
-        .results-optional .motivation-message { border-top-color: #8BA0B8; }
+        .results-on-the-path .motivation-message { border-top-color: #8BA0B8; }
         .welcome-message {
             background: #F0F7F4;
             border-radius: 20px;
@@ -656,7 +656,7 @@ function calculatePreScore(a) {
     return Math.max(0, Math.min(8, s));
 }
 
-function getCategory(s) { return s>=6?'أساسي':s>=3?'قيّم':'اختياري'; }
+function getCategory(s) { return s>=6?'أساسي':s>=3?'قيّم':'على الطريق'; }
 
 const questions = [
     { 
@@ -888,24 +888,24 @@ function finishAssessment() {
     if (category==='أساسي') {
         resultClass='results-essential';
         badgeIcon='🔥';
-        badgeText='أساسي · هذه الدورة كُتبت من أجلك';
+        badgeText='🔥 أساسي · جاهز للقيادة';
         titleText='أنت تقف في قلب النار. وهذا هو بالضبط المكان الذي يُصنع فيه القادة.';
         quoteText='"القادة الأكثر مرونة ليسوا أولئك الذين لا ينكسرون أبداً. إنهم أولئك الذين يعرفون كيف يعيدون البناء — أقوى وأسرع وأحكم."';
         callText='كل أداة تحتاجها في انتظارك في الوحدات القادمة. خذها. استخدمها. غيّر طريقة قيادتك.';
     } else if (category==='قيّم') {
         resultClass='results-valuable';
         badgeIcon='🌟';
-        badgeText='قيّم · صقل مهاراتك التكيفية';
+        badgeText='🌟 قيّم · جاهز للنمو';
         titleText='لديك بالفعل المهارات. الآن تحتاج إلى النظام.';
         quoteText='"القيادة التكيفية لا تعني أن تكون مثالياً. إنها تعني أن تكون قادراً على التعامل مع التغيير غير المتوقع."';
         callText='الفرق بين الجيد والاستثنائي ليس الموهبة. إنه الأطر الصحيحة المطبقة في الوقت المناسب.';
     } else {
-        resultClass='results-optional';
+        resultClass='results-on-the-path';
         badgeIcon='📚';
-        badgeText='اختياري · النمو في انتظارك';
+        badgeText='📚 على الطريق · جاهز للتحول';
         titleText='أنت هنا لأنك تريد أن تنمو. هذه هي الخطوة الأهم.';
         quoteText='"الراحة مكان خطير. النمو يحدث عندما نخطو إلى المجهول."';
-        callText='أفضل وقت لبناء المرونة كان أمس. ثاني أفضل وقت هو الآن.';
+        callText='أفضل وقت لبناء المرونة كان أمس. ثاني أفضل وقت هو الآن. هذه الدورة ستساعدك على إطلاق إمكاناتك الكاملة.';
     }
     
     let resultHtml = `<div class="results-box ${resultClass}">
