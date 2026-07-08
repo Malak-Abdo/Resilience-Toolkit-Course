@@ -1024,8 +1024,8 @@ function displayResultsSummary() {
     const q2Answer = q2Selected ? q2Selected.getAttribute('data-val') : null;
     const q3Answer = q3Selected ? q3Selected.getAttribute('data-val') : null;
     
-    const isQ1Correct = (q1Answer === 'Victim');
-    const isQ2Correct = (q2Answer === 'Victim → Agent');
+    const isQ1Correct = (q1Answer === 'Fixed');
+    const isQ2Correct = (q2Answer === 'Fixed → Growth');
     const isQ3Correct = (q3Answer === 'I made an assumption. I was wrong. That is on me.');
     
     const totalCorrect = (isQ1Correct ? 1 : 0) + (isQ2Correct ? 1 : 0) + (isQ3Correct ? 1 : 0);
