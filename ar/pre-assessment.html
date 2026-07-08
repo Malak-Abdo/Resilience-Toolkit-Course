@@ -657,7 +657,7 @@ function calculatePreScore(a) {
 }
 
 // ============================================
-// GET CATEGORY - NEW VALUES (Only change here)
+// GET CATEGORY - NEW VALUES
 // ============================================
 function getCategory(s) { 
     if (s >= 6) return 'جاهز للتحدي';
@@ -979,24 +979,19 @@ function resetCourse() {
 }
 
 // ============================================
-// INIT - Original function (no changes)
+// INIT - Fixed: No automatic completion check
 // ============================================
 function init() {
     const user = getUserData();
     console.log('👤 Detected user:', user);
     
-    // Check if already completed
-    if (localStorage.getItem('pre_assessment_completed' + storageSuffix) === 'true') {
-        loadStoredAnswers();
-        hasSentCompleted = true;
-        finishAssessment();
-        return;
-    }
-    
+    // ✅ Load answers and render questions normally
     loadStoredAnswers();
     renderCurrentQuestion();
     updateNavButtons();
     updateProgressBar();
+    
+    // ✅ Add event listeners
     prevBtn.addEventListener('click', handlePrev);
     nextBtn.addEventListener('click', handleNext);
     document.getElementById('resetDataLink').addEventListener('click', resetCourse);
