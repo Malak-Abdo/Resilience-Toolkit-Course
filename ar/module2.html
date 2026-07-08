@@ -485,7 +485,10 @@
                 <button id="closeModalBtnTop" class="close-icon">✕</button>
             </div>
             <div><p><strong>🔑 الحقيقة الأساسية:</strong> في البيئات المستقرة، المساءلة تعني تحقيق الأهداف. في بيئات الأزمات، المساءلة تعني <strong>الاعتراف بالخطأ</strong> قبل إيجاد الحل.</p></div>
-            <div><p><strong>💡 لماذا هذا مهم؟</strong> عندما يقول القائد "لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي"، يحدث ثلاثة أشياء: ✅ تُحفظ الثقة — يشعر الفريق بالأمان، ✅ التعلم يحل محل اللوم، ✅ تزداد السلامة النفسية.</p></div>
+            <div><p><strong>💡 لماذا هذا مهم؟</strong> عندما يقول القائد "لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي"، يحدث ثلاثة أشياء: 
+                ✅ تُحفظ الثقة — يشعر الفريق بالأمان،
+                ✅ التعلم يحل محل اللوم،
+                ✅ تزداد السلامة النفسية.</p></div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;"><p><strong>🌟 تطبيق واقعي:</strong> في مناطق النزاع، القادة الذين يعترفون بعدم اليقين يبنون فرقاً أقوى.</p><button id="closeModalBtnBeside" class="close-beside">✕ إغلاق</button></div>
             <button class="modal-close-btn" id="closeModalBtn">فهمت → إغلاق</button>
         </div>
@@ -777,8 +780,8 @@ function displayResultsSummary() {
     const q2Answer = q2Selected ? q2Selected.getAttribute('data-val') : null;
     const q3Answer = q3Selected ? q3Selected.getAttribute('data-val') : null;
     
-    const isQ1Correct = (q1Answer === 'الضحية');
-    const isQ2Correct = (q2Answer === 'الضحية ← المبادر');
+    const isQ1Correct = (q1Answer === 'الخبير');
+    const isQ2Correct = (q2Answer === '  الخبير ← المبتدئ');
     const isQ3Correct = (q3Answer === 'لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي.');
     
     const totalCorrect = (isQ1Correct ? 1 : 0) + (isQ2Correct ? 1 : 0) + (isQ3Correct ? 1 : 0);
@@ -794,7 +797,7 @@ function displayResultsSummary() {
         <div class="result-item"><span class="result-badge">س١: العقلية</span> <span>${escapeHtml(q1Display)}</span> <span class="result-status ${isQ1Correct ? 'status-correct' : 'status-incorrect'}">${isQ1Correct ? '✓ صحيح' : '✗ خطأ'}</span></div>
         <div class="result-item"><span class="result-badge">س٢: التحول</span> <span>${escapeHtml(q2Display)}</span> <span class="result-status ${isQ2Correct ? 'status-correct' : 'status-incorrect'}">${isQ2Correct ? '✓ صحيح' : '✗ خطأ'}</span></div>
         <div class="result-item"><span class="result-badge">س٣: المساءلة</span> <span>${escapeHtml(q3Display)}</span> <span class="result-status ${isQ3Correct ? 'status-correct' : 'status-incorrect'}">${isQ3Correct ? '✓ صحيح' : '✗ خطأ'}</span></div>
-        <div style="margin-top: 12px; font-size:0.75rem;">💡 الإجابات الصحيحة: الضحية | الضحية ← المبادر | "لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي."</div>
+        <div style="margin-top: 12px; font-size:0.75rem;">💡 الإجابات الصحيحة: الخبير| ا الخبير ← المبتدئ | "لقد افترضت شيئاً. كنت مخطئاً. هذا يقع على عاتقي."</div>
     `;
     container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
