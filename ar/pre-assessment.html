@@ -656,7 +656,14 @@ function calculatePreScore(a) {
     return Math.max(0, Math.min(8, s));
 }
 
-function getCategory(s) { return s>=6?'أساسي':s>=3?'قيّم':'على الطريق'; }
+// ============================================
+// GET CATEGORY - NEW VALUES
+// ============================================
+function getCategory(s) { 
+    if (s >= 6) return 'جاهز للتحدي';
+    if (s >= 3) return 'جاهز للقيادة';
+    return 'جاهز للنمو';
+}
 
 const questions = [
     { 
@@ -885,21 +892,21 @@ function finishAssessment() {
     
     let resultClass, badgeIcon, badgeText, titleText, quoteText, callText;
     
-    if (category==='أساسي') {
+    if (category === 'جاهز للتحدي') {
         resultClass='results-essential';
         badgeIcon='🔥';
         badgeText='🔥 جاهز للتحدي';
         titleText='انت تقف في قلب الازمة وهذا هو بالضبط المكان الذي يصنع فيه القادة';
         quoteText='"القادة الأكثر مرونة ليسوا أولئك الذين لا ينكسرون أبداً. إنهم أولئك الذين يعرفون كيف يعيدون البناء — أقوى وأسرع وأحكم."';
         callText='كل أداة تحتاجها في انتظارك في الوحدات القادمة. خذها. استخدمها. غيّر طريقة قيادتك.';
-    } else if (category==='قيّم') {
+    } else if (category === 'جاهز للقيادة') {
         resultClass='results-valuable';
         badgeIcon='🌟';
         badgeText='🌟 جاهز للقيادة';
         titleText='لديك بالفعل المهارات لكنك تحتاج إلى صقلها بالأدوات الصحيحة وهذا هو الوقت المناسب.';
         quoteText='"القيادة التكيفية لا تعني أن تكون مثالياً. إنها تعني أن تكون قادراً على التعامل مع التغيير غير المتوقع."';
         callText='كل أداة تحتاجها في انتظارك في الوحدات القادمة، خذها استخدمها هي ملكك الآن';
-    } else {
+    } else { // جاهز للنمو
         resultClass='results-on-the-path';
         badgeIcon='📚';
         badgeText='📚 جاهز للنمو';
